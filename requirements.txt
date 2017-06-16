@@ -1,0 +1,4 @@
+crate
+crate-docs-theme
+sphinx-autobuild
+Sphinx
