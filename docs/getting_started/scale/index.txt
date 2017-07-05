@@ -27,7 +27,8 @@ starting your first. For example:
 
 .. code-block:: bash
 
-    docker run -P -d crate
+    docker run -P -d crate \
+      crate -Cnetwork.host=_site_
 
 **Ubuntu**
 
