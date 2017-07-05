@@ -56,9 +56,12 @@ Start Crate Instances.
 
 .. code-block:: bash
 
-    docker run -P -d crate
-    docker run -P -d crate
-    docker run -d -p 4200:4200 -p 4300:4300 crate
+    docker run -P -d crate \
+      crate -Cnetwork.host=_site_
+    docker run -P -d crate \
+      crate -Cnetwork.host=_site_
+    docker run -d -p 4200:4200 -p 4300:4300 -p 5432:5432 crate \
+      crate -Cnetwork.host=_site_
 
 In this example we create three instances. The first two let Docker set the
 port allocation between Docker and the host automatically and one sets ports
@@ -76,7 +79,7 @@ should set some other parameters.
       -v <data-dir>:/data crate
       crate -Cpath.conf=/path/to/crate/conf
             -Ccluster.name=cluster
-            -Cnetwork.bind_host=_site_
+            -Cnetwork.host=_site_
 
 This starts a Crate Docker instance that maps the data storage path to a
 location shared between the Docker container and the host system (The value of
@@ -113,7 +116,7 @@ instance Crate cluster.
         - /mnt/data/crate:/data
       environment:
         CRATE_HEAP_SIZE: 16g
-      command: crate -Cpath.conf=/path/to/crate/conf -Ccluster.name=cluster -Cnetwork.bind_host=_site_
+      command: crate -Cpath.conf=/path/to/crate/conf -Ccluster.name=cluster -Cnetwork.host=_site_
     crate2:
       image: crate
       volumes:
