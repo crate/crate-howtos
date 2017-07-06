@@ -1,0 +1,8 @@
+===========
+Comparisons
+===========
+
+.. toctree::
+   :maxdepth: 1
+
+   elasticsearch
