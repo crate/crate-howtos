@@ -1,34 +1,34 @@
-=============================================
-Getting started with Crate on Microsoft Azure
-=============================================
+==============================
+Run CrateDB on Microsoft Azure
+==============================
 
 Microsoft Azure is the second largest and fastest growing provider of Cloud
 Services in the world. It offers a wide variety of options including Windows
 servers, containers, application images and much more.
 
-Getting Crate working on Azure with Linux or Windows is a simple process. You
+Getting CrateDB working on Azure with Linux or Windows is a simple process. You
 can use Azure's management console or CLI interface (`Learn how to install here
 <https://azure.microsoft.com/en-us/documentation/articles/xplat-cli-install/>`_).
 
-Azure & Linux
--------------
+Azure and Linux
+===============
 
 Create a Resource Group
-~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------
 
 Azure uses 'Resource Groups' to group together related services and resources
 for easier management.
 
-Create a resource group for the Crate cluster by selecting *Resource groups*
+Create a resource group for the CrateDB cluster by selecting *Resource groups*
 under the *new* left hand panel of the Azure portal.
 
 .. image:: azure_new_resource_group.png
    :alt: Create Virtual Network
 
 Create a Network Security Group
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-------------------------------
 
-Crate uses two ports, one for inter-node communication (``4300``) and one for
+CrateDB uses two ports, one for inter-node communication (``4300``) and one for
 it's http endpoint (``4200``), so access to these needs to be opened.
 
 Create a *New Security Group*, giving it a name and assigning it to the
@@ -49,9 +49,9 @@ Add a rule for each port:
    :alt: Create New Security Group
 
 Create a Virtual Network
-~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------
 
-To create a cluster of Crate nodes on some cloud hosting providers, Crate
+To create a cluster of CrateDB nodes on some cloud hosting providers, CrateDB
 relies on unicast for inter-node communication.
 
 The easiest way to get Unicast communication working with Azure is to create a
@@ -71,29 +71,29 @@ earlier to the subnet.
    :alt: Add Security Group
 
 Create Virtual Machines
-~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------
 
-Next create virtual machines to act as your Crate nodes. In this tutorial, I
+Next create virtual machines to act as your CrateDB nodes. In this tutorial, I
 chose two low-specification Ubuntu 14.04 servers, but you likely have your own
 preferred configurations.
 
 Most importantly, make sure you select the Virtual Network created earlier.
 
-Install Crate
-~~~~~~~~~~~~~
+Install CrateDB
+---------------
 
 *Note that these instructions should be followed on each VM in your cluster.*
 
-To Install Crate, ssh into your VMs and follow :doc:`the standard process for
+To Install CrateDB, ssh into your VMs and follow :doc:`the standard process for
 Linux installation <../local/linux>`, this will automatically start an instance
-of Crate, which we will need to restart after the next step.
+of CrateDB, which we will need to restart after the next step.
 
-Configure Crate
-~~~~~~~~~~~~~~~
+Configure CrateDB
+-----------------
 
 *Note that these instructions should be followed on each VM in your cluster.*
 
-To set the Unicast hosts for the Crate cluster we change the default
+To set the Unicast hosts for the CrateDB cluster we change the default
 configuration file at */etc/crate/crate.yml*.
 
 Uncomment / add these lines:
@@ -115,57 +115,56 @@ Uncomment and set the cluster name
 
     cluster.name: crate
 
-Restart Crate ``service crate restart``.
+Restart CrateDB ``service crate restart``.
 
-Azure & Windows
----------------
+Azure and Windows
+=================
 
 Initial Setup
-~~~~~~~~~~~~~
+-------------
 
 To create a Resource Group, Network security group and virtual network, follow
 the same steps as for Azure and Linux.
 
 Create Virtual Machines
-~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------
 
 Similar steps to creating Virtual Machines for Azure and Linux, but create the
 VM based on the 'Windows Server 2012 R2 Datacenter' image.
 
-Install Crate
-~~~~~~~~~~~~~
+Install CrateDB
+---------------
 
 *Note that these instructions should be followed on each VM in your cluster.*
 
-To install Crate on Windows Server, you will need a `Java JDK installed
+To install CrateDB on Windows Server, you will need a `Java JDK installed
 <http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html>`_.
 Ensure that the ``JAVA*HOME`` environment variable is set.
 
 .. image:: azure_envvar.png
    :alt: Environment Variables
 
-Next :doc:`download the Crate Tarball <../local/tarball>`, expand it and move
+Next :doc:`download the CrateDB Tarball <../local/tarball>`, expand it and move
 to a convenient location.
 
-Configure Crate and Windows
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Configure CrateDB and Windows
+-----------------------------
 
 *Note that these instructions need to be followed on each VM in your cluster.*
 
 Edit the *config/crate.yml* configuration file in the expanded directory to
-make the same changes noted above in running Crate on Azure & Linux.
+make the same changes noted above in running CrateDB on Azure & Linux.
 
-We need to allow the ports Crate uses through the Windows Firewall
+We need to allow the ports CrateDB uses through the Windows Firewall
 
 .. image:: azure_port.gif
    :alt: Firewall configuration
 
 Start crate by running ``bin/crate``.
 
-Next Steps
-----------
+.. rubric:: Next Steps
 
-- :doc:`Connect to Crate Cluster <../../connect/index>`
+- :doc:`Connect <../../connect/index>`
 - :doc:`Import Data <../../import/index>`
 - :doc:`Client Libraries <../../clients/index>`
-- :doc:`Scale a Cluster <../../scale/index>`
+- :doc:`Scale <../../scale/index>`

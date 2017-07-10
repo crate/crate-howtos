@@ -1,11 +1,11 @@
-==================
-Install on Windows
-==================
+====================================
+Install CrateDB on Microsoft Windows
+====================================
 
 Configure Windows
------------------
+=================
 
-To install Crate on Windows, you will need a `Java JDK installed
+To install CrateDB on Windows, you will need a `Java JDK installed
 <http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html>`_.
 
 Set the ``JAVA_HOME`` environment variable:
@@ -15,24 +15,23 @@ Set the ``JAVA_HOME`` environment variable:
 
 |
 
-Allow the ports Crate uses through the Windows Firewall:
+Allow the ports CrateDB uses through the Windows Firewall:
 
 .. image:: windows-port.gif
    :alt: Windows Firewall ports
 
-Install Crate
--------------
+Install CrateDB
+===============
 
-:doc:`Download the Crate Tarball <tarball>`, expand it and move to a convenient
-location.
+:doc:`Download the CrateDB Tarball <tarball>`, expand it and move to a
+convenient location.
 
-Start Crate by running ``.\bin\crate``, to create a cluster, run the command
+Start CrateDB by running ``.\bin\crate``, to create a cluster, run the command
 multiple times.
 
-Next Steps
-----------
+.. rubric:: Next Steps
 
--  :doc:`Connect to Crate Cluster <../../connect/index>`
--  :doc:`Import Data <../../import/index>`
--  :doc:`Client Libraries <../../clients/index>`
--  :doc:`Scale a Cluster <../../scale/index>`
+- :doc:`Connect <../../connect/index>`
+- :doc:`Import Data <../../import/index>`
+- :doc:`Client Libraries <../../clients/index>`
+- :doc:`Scale <../../scale/index>`

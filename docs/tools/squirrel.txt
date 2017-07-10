@@ -1,21 +1,21 @@
-=============================
-Using Crate with SQuirreL SQL
-=============================
+===============================
+Using CrateDB with SQuirreL SQL
+===============================
 
 `SQuirreL <http://www.squirrelsql.org/>`_ is a graphical SQL client application
 that can be used to browse and query a JDBC compliant database.
 
-As Crate supports JDBC with its Crate JDBC driver, it can easily be used with
-SQUirreL.
+As CrateDB supports JDBC with its CrateDB JDBC driver, it can easily be used
+with SQUirreL.
 
 Setup
------
+=====
 
-`SQuirreL <http://www.squirrelsql.org/>`_ does not provide a Crate driver with
-its distribution, so an extra setup step is required to run Crate with
+`SQuirreL <http://www.squirrelsql.org/>`_ does not provide a CrateDB driver
+with its distribution, so an extra setup step is required to run CrateDB with
 `SQuirreL <http://www.squirrelsql.org/>`_:
 
-1. Copy the `Crate JDBC standalone
+1. Copy the `CrateDB JDBC standalone
    <https://bintray.com/crate/crate/crate-jdbc/view/files/io/crate/crate-jdbc-standalone>`_
    jar to the SQuirreL lib folder. On OS X, when installing SQuirreL with the
    MaxOS X installer, this is
@@ -36,12 +36,12 @@ its distribution, so an extra setup step is required to run Crate with
    .. image:: squirrel_add_alias.png
       :alt: squirrel add alias dialogue
 
-5. Connect your alias to your crate instance.
+5. Connect your alias to your CrateDB instance.
 
 Usage
------
+=====
 
-You can browse Crate using the Object Tree Worksheet, that is the usual view
+You can browse CrateDB using the Object Tree Worksheet, that is the usual view
 you use for browsing your tables and get information about their schema.
 
 .. image:: squirrel_view.png

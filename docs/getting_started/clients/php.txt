@@ -1,16 +1,16 @@
-==============================
-Connecting to CrateDB with PHP
-==============================
+===============
+CrateDB and PHP
+===============
 
 CrateDB supports integration with the `PDO
 <http://php.net/manual/en/intro.pdo.php>`_ and `DBAL
 <http://www.doctrine-project.org/projects/dbal.html>`_ data abstraction layers.
 
 PDO
----
+===
 
 Install Driver
-~~~~~~~~~~~~~~
+--------------
 
 Install the driver by adding a dependency to your *composer.json* file:
 
@@ -25,9 +25,9 @@ Install the driver by adding a dependency to your *composer.json* file:
 And install with ``composer intall``.
 
 Connect to CrateDB
-~~~~~~~~~~~~~~~~~~
+------------------
 
-To connect to your cluster, Crate follows standard PDO syntax to form a data
+To connect to your cluster, CrateDB follows standard PDO syntax to form a data
 source name string (`dsn <https://en.wikipedia.org/wiki/Data_source_name>`_)
 and then connect to it.
 
@@ -43,10 +43,10 @@ As CrateDB doesn't support authentication, the other parameters can be left
 null.
 
 DBAL
-----
+====
 
 Install Driver
-~~~~~~~~~~~~~~
+--------------
 
 Install the driver by adding a dependency to your *composer.json* file:
 
@@ -60,10 +60,10 @@ Install the driver by adding a dependency to your *composer.json* file:
 
 And install with ``composer install``.
 
-Connect to Crate
-~~~~~~~~~~~~~~~~
+Connect to CrateDB
+------------------
 
-To connect to your cluster, Crate follows standard `DBAL syntax
+To connect to your cluster, CrateDB follows standard `DBAL syntax
 <http://doctrine-orm.readthedocs.org/projects/doctrine-dbal/en/latest/reference/configuration.html>`_
 to create an array of parameters and then create a connection.
 
@@ -79,7 +79,7 @@ to create an array of parameters and then create a connection.
     $schemaManager = $connection->getSchemaManager();
 
 ORM
-~~~
+---
 
 If you are using Doctrine's ORM features, then an extra dependency is needed in
 your *composer.json* file.
@@ -122,21 +122,20 @@ Setting up the Doctrine ORM requires some extra steps, and we suggest reading
 <http://doctrine-orm.readthedocs.org/en/latest/index.html>`_ to get started.
 
 Want to Know More?
-------------------
+==================
 
-- More detailed documentation on the Crate PDO client is available `here
+- More detailed documentation on the CrateDB PDO client is available `here
   <https://crate.io/docs/reference/pdo/>`__.
 
-- More detailed documentation on the Crate DBAL client is available `here
+- More detailed documentation on the CrateDB DBAL client is available `here
   <https://crate.io/docs/reference/dbal>`__.
 
-- The **Crate Sample App** demonstrates features of Crate and `how to use them
-  in a PHP based application
+- The **CrateDB Sample App** demonstrates features of CrateDB and `how to use
+  them in a PHP based application
   <https://github.com/crate/crate-sample-apps/tree/master/php>`_ with an
   explanation of how the library is used `here
   <https://github.com/crate/crate-sample-apps/blob/master/php/documentation.md>`__.
 
-Next Steps
-----------
+.. rubric:: Next Steps
 
-- :doc:`Scale a Cluster <../scale/index>`
+- :doc:`Scale <../scale/index>`

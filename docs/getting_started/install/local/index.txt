@@ -1,9 +1,11 @@
-=============
-Local Install
-=============
+===========
+Local Setup
+===========
 
-Crate provides packages and executables that will work on any operating systems
-capable of running Java.
+CrateDB provides packages and executables that will work on any operating
+systems capable of running Java.
+
+.. rubric:: Table of Contents
 
 .. toctree::
    :maxdepth: 1

@@ -1,43 +1,39 @@
-======================
-Install from a Tarball
-======================
+==============================
+Install CrateDB From a Tarball
+==============================
 
 Latest Stable Release
----------------------
-
-.. Version {{ CONFIG.stable\_version }}
-   Released on {{ CONFIG.stable\_version\_date }}
+=====================
 
 `Download latest stable release`_.
 
-Start Crate by extracting the downloaded archive, move into the *bin* folder
+Start CrateDB by extracting the downloaded archive, move into the *bin* folder
 and run:
 
-.. code-block:: bash
+.. code-block:: sh
 
     ./crate
 
-To create a cluster of Crate instances, run the command multiple times.
+To create a cluster of CrateDB instances, run the command multiple times.
 
 Testing Releases
-----------------
+================
 
 .. TODO: should be updated to fetch version from version.json for now we just
    link to the tarball archive
 
-Test builds of Crate should only be used for testing upcoming new features not
-in production. `Browse all releases`_.
+Test builds of CrateDB should only be used for testing upcoming new features
+not in production. `Browse all releases`_.
 
-Nightly builds of Crate are provided for testing purposes only. You can
+Nightly builds of CrateDB are provided for testing purposes only. You can
 `download the latest builds here`_.
 
-Next Steps
-----------
+.. rubric:: Next Steps
 
--  :doc:`Connect to Crate Cluster <../../connect/index>`
--  :doc:`Import Data <../../import/index>`
--  :doc:`Client Libraries <../../clients/index>`
--  :doc:`Scale a Cluster <../../scale/index>`
+- :doc:`Connect <../../connect/index>`
+- :doc:`Import Data <../../import/index>`
+- :doc:`Client Libraries <../../clients/index>`
+- :doc:`Scale <../../scale/index>`
 
 .. _Download latest stable release: https://crate.io/download/
 .. _Browse all releases: https://cdn.crate.io/downloads/releases/

@@ -1,6 +1,6 @@
-=======================================
-Getting Started with Crate on Softlayer
-=======================================
+========================
+Run CrateDB on Softlayer
+========================
 
 `SoftLayer <http://softlayer.com/>`_, IBM's cloud platform, has a slightly
 different take on "the cloud". They are focusing on high performance (physical)
@@ -9,18 +9,18 @@ doesn't come out of the sky". However, besides their strong physical hardware
 that you can choose from, SoftLayer also offers virtual machines with a wide
 range of configuration possibilities.
 
-This combination makes SoftLayer an ideal hosting provider for your own Crate
+This combination makes SoftLayer an ideal hosting provider for your own CrateDB
 cluster, no matter if you just need a small cluster to play around or run your
 production cluster even across data centres.
 
 We at Crate.IO have been using `bare metal servers
 <https://www.softlayer.com/bare-metal-servers>`_ to perform benchmarks on
-Crate. When using bare metal you have the advantage that you can mix and match
-hardware. On the other hand the setup/provisioning is more conventional (like
-on-premise-hosting), since it is not possible to launch/terminate instances in
-real-time.
+CrateDB. When using bare metal you have the advantage that you can mix and
+match hardware. On the other hand the setup/provisioning is more conventional
+(like on-premise-hosting), since it is not possible to launch/terminate
+instances in real-time.
 
-A balanced instance configuration for a production Crate host could look
+A balanced instance configuration for a production CrateDB host could look
 similar like that:
 
 8x 2.0GHz cores = 32 GB memory = 100 GB local SSD storage 1000 Mbps
@@ -33,7 +33,7 @@ multiple cloud hosting providers, also for `SoftLayer
 <http://docs.saltstack.com/en/latest/topics/cloud/softlayer.html>`__.
 
 Server Provisioning With Salt Cloud
------------------------------------
+===================================
 
 Example of ``/etc/salt/cloud.profiles``:
 
@@ -68,7 +68,7 @@ Example of ``/etc/salt/cloud.map``:
 Launching the instances defined in the cloud.map file is as easy as this
 command:
 
-.. code-block:: bash
+.. code-block:: sh
 
     $ salt-cloud -m /etc/salt/cloud.map -P
 
@@ -76,7 +76,7 @@ And once the instances are running you will be able to provision them by
 running the ``highstate`` on the crate\_softlayer role that the instances are
 associated with.
 
-.. code-block:: bash
+.. code-block:: sh
 
     $ salt -G 'role:crate_softlayer' state.highstate
 
@@ -119,8 +119,6 @@ example of our init.sls:
 
 Example of ``crate.yml``:
 
-.. TODO: switch this to yaml and fix autogen stuff
-
 .. code-block:: text
 
     name: {{ grains['host'] }}
@@ -134,13 +132,12 @@ Example of ``crate.yml``:
         connect_timeout: 60s
     discovery.zen.minimum_master_nodes: 2
     discovery.zen.ping.unicast.hosts:
-    {%- for server, addrs in salt['mine.get']('*', 'network.ip_addrs').items() %}
-    {% if server.startswith("sl") %}  - {{ addrs[0] }}:4300{% endif -%}{% endfor %}
+      {%- for server, addrs in salt['mine.get']('*', 'network.ip_addrs').items() %}
+      {% if server.startswith("sl") %}  - {{ addrs[0] }}:4300{% endif -%}{% endfor %}
 
-Next Steps
-----------
+.. rubric:: Next Steps
 
-- :doc:`Connect to Crate Cluster <../../connect/index>`
+- :doc:`Connect <../../connect/index>`
 - :doc:`Import Data <../../import/index>`
 - :doc:`Client Libraries <../../clients/index>`
-- :doc:`Scale a Cluster <../../scale/index>`
+- :doc:`Scale <../../scale/index>`

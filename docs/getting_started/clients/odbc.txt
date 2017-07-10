@@ -1,23 +1,23 @@
-=============================
-Connecting to Crate with ODBC
-=============================
+================
+CrateDB and ODBC
+================
 
 The ODBC driver package is not open source but requires a proprietary license
 for production use. For evaluation purposes however, we offer a free trial
 license that you can `sign here <https://www.hellosign.com/s/313c319f>`_.
 Afterwards our team provides you with the ODBC driver package.
 
-Crate's ODBC driver is ready to use after three simple steps.
+CrateDB's ODBC driver is ready to use after three simple steps.
 
 Install ODBC Driver
--------------------
+===================
 
 Download and run the installer on your local machine. When the assistant opens,
 follow the instructions to install the ODBC driver.
 
 Open the *ODBC Data Source Administrator (32/64-bit)* application to change the
-Crate connection settings in the *System DSN* tab. After selecting *Crate ODBC
-Driver * and clicking *Configure...*, enter the address(es) of your Crate
+CrateDB connection settings in the *System DSN* tab. After selecting *Crate
+ODBC Driver * and clicking *Configure...*, enter the address(es) of your Crate
 cluster.
 
 **Note**: By default, the host configuration is empty. Make sure to set this
@@ -26,20 +26,20 @@ before using the driver.
 .. image:: DSNCrateODBC.png
    :alt: ODBC Data Source Administrator
 
-The Crate ODBC Driver installation is now ready to use. If you want to change
+The CrateDB ODBC Driver installation is now ready to use. If you want to change
 the host, you have to edit the host configuration setting in *ODBC Data Source
 Administrator (32/64-bit)*.
 
 Usage
------
+=====
 
-The Crate ODBC driver is designed for use with the C programming language. Read
-the `Microsoft ODBC Programmers Reference
+The CrateDB ODBC driver is designed for use with the C programming language.
+Read the `Microsoft ODBC Programmers Reference
 <https://msdn.microsoft.com/en-us/library/ms714562(v=vs.85).aspx>`_ for
 detailed information about the ODBC API.
 
 ODBC Include Files
-~~~~~~~~~~~~~~~~~~
+------------------
 
 The required C definitions are added with the following header files:
 
@@ -50,9 +50,9 @@ The required C definitions are added with the following header files:
     #include <sqlext.h>
 
 Allocating a Statement Handle
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------------
 
-There are three handle types useful for using Crate with ODBC:
+There are three handle types useful for using CrateDB with ODBC:
 
 - ``SQLHENV``, **environment handle**: The first handle you must assign
   before any other to initialize the ODBC environment. Once allocated you can
@@ -79,7 +79,7 @@ handle as follows:
     SQLAllocHandle(SQL_HANDLE_STMT, hdlDbc, &hdlStmt);
 
 Setup a Connection
-~~~~~~~~~~~~~~~~~~
+------------------
 
 .. code-block:: c
 
@@ -97,7 +97,7 @@ Setup a Connection
     SQLConnect(hdlDbc, (SQLCHAR*)dsnName, SQL_NTS, NULL, 0, NULL, 0);
 
 Execute Queries
-~~~~~~~~~~~~~~~
+---------------
 
 The following query creates a table called ``customers``.
 
@@ -111,7 +111,7 @@ The following query creates a table called ``customers``.
       PrintError(SQL_HANDLE_STMT, hdlStmt);
 
 Bulk Inserts
-~~~~~~~~~~~~
+------------
 
 Using the ``SQLBindParameter`` function allows you to specify and issue bulk
 operations. Similar to prepared statement these operations are executed as one
@@ -147,7 +147,7 @@ statement.
       PrintError(SQL_HANDLE_STMT, hdlStmt);
 
 Debugging
-~~~~~~~~~
+---------
 
 For debugging, printing the SQL statements is often useful. ``SQLGetDiagRec``
 returns the current values of multiple fields in a diagnostic record that
@@ -165,12 +165,11 @@ contains error, warning, and status information.
     }
 
 Want to Know More?
-~~~~~~~~~~~~~~~~~~
+==================
 
-`Contact us </contact>`_ for further information, or read more about the `Crate
-enterprise offering <https://crate.io/enterprise/odbc>`_.
+`Contact us </contact>`_ for further information, or read more about the
+`CrateDB enterprise offering <https://crate.io/enterprise/odbc>`_.
 
-Next Steps
-~~~~~~~~~~
+.. rubric:: Next Steps
 
-- :doc:`Scale a Cluster <../scale/index>`
+- :doc:`Scale <../scale/index>`

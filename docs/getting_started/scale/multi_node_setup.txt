@@ -1,27 +1,27 @@
-================
-Multi Node Setup
-================
+========================
+CrateDB Multi Node Setup
+========================
 
-Crate is a distributed datastore and so in production, a cluster will typically
-consist of 3 or more nodes. Crate makes cluster setup as easy as possible, but
-there are things to note when building a new cluster.
+CrateDB is a distributed datastore and so in production, a cluster will
+typically consist of 3 or more nodes. CrateDB makes cluster setup as easy as
+possible, but there are things to note when building a new cluster.
 
-Crate is designed in a shared nothing architecture, in which all nodes are
+CrateDB is designed in a shared nothing architecture, in which all nodes are
 equal and each node is self-sufficient. This means that nodes work on their
 own, and all nodes in a cluster are configured equally, the same as with a
 single-node instance.
 
 Node Settings
--------------
+=============
 
 Set node specific settings in the configuration file named *crate.yaml* shipped
-with Crate.
+with CrateDB.
 
 Cluster Name
-~~~~~~~~~~~~
+------------
 
-Crate nodes with the same cluster name will join the cluster. The simplest way
-to prevent other nodes from joining a cluster is to give it a different and
+CrateDB nodes with the same cluster name will join the cluster. The simplest
+way to prevent other nodes from joining a cluster is to give it a different and
 unique name.
 
 .. code-block:: yaml
@@ -29,7 +29,7 @@ unique name.
     cluster.name: my_cluster
 
 Node Name
-~~~~~~~~~
+---------
 
 To name a node:
 
@@ -40,30 +40,30 @@ To name a node:
 If the node name is omitted, then it's generated dynamically on startup.
 
 Inter-Node Communication
-------------------------
+========================
 
-The default port Crate uses communicate between nodes is *4300*. Crate calls it
-the *transport port* and it must be accessible from every node.
+The default port CrateDB uses communicate between nodes is *4300*. CrateDB
+calls it the *transport port* and it must be accessible from every node.
 
 It's possible to change the port range bound to the transport service:
 
-.. code-block:: bash
+.. code-block:: sh
 
     transport.tcp.port: 4350-4360
 
 Want to Know More?
-~~~~~~~~~~~~~~~~~~
+------------------
 
 `More information on port settings
 <https://crate.io/docs/reference/configuration.html#conf-ports>`_ can be found
-in Crate's reference guide.
+in CrateDB's reference guide.
 
-Crate binds to a second port, *4200*, that is only used for HTTP communication.
-Clients connecting to the Crate cluster are using this HTTP port, except the
-native Java client, which uses the transport port.
+CrateDB binds to a second port, *4200*, that is only used for HTTP
+communication. Clients connecting to the CrateDB cluster are using this HTTP
+port, except the native Java client, which uses the transport port.
 
 Node Discovery
---------------
+==============
 
 The simplest way to do node discovery is to provide a list of expected hosts,
 using the FQDN and transport port:
@@ -97,17 +97,19 @@ clusters running on *Amazon Web Services* (AWS) or Microsoft Azure. See `the
 documentation <https://crate.io/docs/reference/configuration.html#discovery>`_
 for more information.
 
+.. _master-node-election:
+
 Master Node Election
---------------------
+====================
 
-Although all Crate nodes in a cluster are equal, one node is elected as master
-for managing cluster meta data. Like any other peer-to-peer system, nodes
-communicate with each other directly. The master node is responsible for making
-changes to, publishing the global cluster state, and delegating redistribution
-of shards when nodes join or leave the cluster. All nodes are eligible to
-become master.
+Although all CrateDB nodes in a cluster are equal, one node is elected as
+master for managing cluster meta data. Like any other peer-to-peer system,
+nodes communicate with each other directly. The master node is responsible for
+making changes to, publishing the global cluster state, and delegating
+redistribution of shards when nodes join or leave the cluster. All nodes are
+eligible to become master.
 
-There may only be one master per cluster. To ensure this, Crate sets a quorum
+There may only be one master per cluster. To ensure this, CrateDB sets a quorum
 which needs to be present to elect a master and for the cluster to be
 operational.
 
@@ -134,7 +136,7 @@ reach less than half the available nodes, but also to allow for unavailable
 nodes.
 
 Example
-~~~~~~~
+-------
 
 In a 3 node cluster, at least 2 nodes need to be aware of each other before
 they can elect a master. Add the following line to the configuration file:
@@ -146,7 +148,7 @@ they can elect a master. Add the following line to the configuration file:
 On an already running cluster it's possible to set using the following
 statement:
 
-.. code-block:: sql
+.. code-block:: psql
 
     SET GLOBAL PERSISTENT discovery.zen.minimum_master_nodes = 2;
 
@@ -158,7 +160,7 @@ statement:
    fault-tolerant multi-node setup requires at least 3 nodes.
 
 Gateway Configuration
----------------------
+=====================
 
 The gateway persists cluster meta data on disk every time it changes. This data
 is stored persistently across full cluster restarts and recovered after nodes
@@ -195,13 +197,13 @@ set in the configuration file, e.g.:
 Or as command line options, ``-Cgateway.recover_after_nodes=3``.
 
 Publish Host and Port
----------------------
+=====================
 
-In certain cases the address of the node that runs Crate differs from the
+In certain cases the address of the node that runs CrateDB differs from the
 address where the transport endpoint can be accessed by other nodes. For
-example, when running Crate inside a Docker container.
+example, when running CrateDB inside a Docker container.
 
-To solve this, Crate can publish the host and port for discovery. These
+To solve this, CrateDB can publish the host and port for discovery. These
 published settings can differ from the address of the actual host:
 
 .. code-block:: yaml
@@ -211,8 +213,7 @@ published settings can differ from the address of the actual host:
     # port accessible from outside
     transport.publish_port: 4321
 
-Related
--------
+.. rubric:: Related Links
 
-- `Host settings for Nodes <https://crate.io/docs/reference/configuration.html#conf-hosts>`_
-- `Host settings for Ports <https://crate.io/docs/reference/configuration.html#conf-ports>`_
+- `Host settings for Nodes <https://crate.io/docs/crate/reference/configuration.html#conf-hosts>`_
+- `Host settings for Ports <https://crate.io/docs/crate/reference/configuration.html#conf-ports>`_
