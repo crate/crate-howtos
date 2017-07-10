@@ -1,17 +1,17 @@
-=============================
-Connecting to Crate with JDBC
-=============================
+================
+CrateDB and JDBC
+================
 
 Compatibility
--------------
+=============
 
-To find out which drivers are compatible to your Crate version, please consult
-the `reference documentation <https://crate.io/docs/reference/jdbc/>`_.
+To find out which drivers are compatible to your CrateDB version, please
+consult the `reference documentation <https://crate.io/docs/reference/jdbc/>`_.
 
-Add Crate to your Project
--------------------------
+Add CrateDB to Your Project
+===========================
 
-A simple way to configure your project to connect to a Crate cluster is to
+A simple way to configure your project to connect to a CrateDB cluster is to
 visit the JDBC driver page on `Bintray
 <https://bintray.com/crate/crate/crate-jdbc/view>`_ and click the *Set Me Up*
 button. This will give you a Maven or Gradle configuration that can be pasted
@@ -21,7 +21,7 @@ For manual configuration follow these steps depending on your build system of
 choice.
 
 Maven
-~~~~~
+-----
 
 Add the following to your *pom.xml* file:
 
@@ -51,9 +51,9 @@ Add the following to your *pom.xml* file:
     ...
 
 Gradle
-~~~~~~
+------
 
-Add Crate as a dependency to your Gradle file:
+Add CrateDB as a dependency to your Gradle file:
 
 .. code-block:: groovy
 
@@ -67,28 +67,27 @@ Add Crate as a dependency to your Gradle file:
             ...
         }
 
-Connect to Crate
-----------------
+Connect to CrateDB
+==================
 
-Connect to Crate Cluster with the Java DriverManager:
+Connect to CrateDB Cluster with the Java DriverManager:
 
 .. code-block:: java
 
     Connection conn = DriverManager.getConnection("crate://SERVER_IP:5432/");
 
 Want to Know More?
-------------------
+==================
 
-- More detailed documentation on the Crate JDBC client is available `here
+- More detailed documentation on the CrateDB JDBC client is available `here
   <https://crate.io/docs/reference/jdbc/>`__.
 
-- The **Crate Sample App** demonstrates features of Crate and `how to use them
-  in a JDBC based application
+- The **CrateDB Sample App** demonstrates features of CrateDB and `how to use
+  them in a JDBC based application
   <https://github.com/crate/crate-sample-apps/tree/master/java>`_ with an
   explanation of how the library is used `here
   <https://github.com/crate/crate-sample-apps/blob/master/java/documentation.md>`__.
 
-Next Steps
-----------
+.. rubric:: Next Steps
 
-- :doc:`Scale a Cluster <../scale/index>`
+- :doc:`Scale <../scale/index>`

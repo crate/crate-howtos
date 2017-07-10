@@ -1,21 +1,21 @@
-=============================
-Connecting to Crate with Java
-=============================
+================
+CrateDB and Java
+================
 
 Java Client
------------
+===========
 
 Deprecation Notice
-~~~~~~~~~~~~~~~~~~
+------------------
 
-The Java client is deprecated in versions of Crate 0.57.0 and will be removed
-by 0.58.0 and later. Instead the recommended way to access Crate from Java is
+The Java client is deprecated in versions of CrateDB 0.57.0 and will be removed
+by 0.58.0 and later. Instead the recommended way to access CrateDB from Java is
 via our :doc:`JDBC driver <jdbc>`.
 
-Add Crate to you Project
-~~~~~~~~~~~~~~~~~~~~~~~~
+Add CrateDB to Your Project
+---------------------------
 
-A simple way to configure your project to connect to a Crate cluster is to
+A simple way to configure your project to connect to a CrateDB cluster is to
 visit the Java client page on `Bintray
 <https://bintray.com/crate/crate/crate-client/view>`_ and click the *Set Me Up*
 button. This will give you a Maven or Gradle configuration that can be pasted
@@ -25,7 +25,7 @@ For manual configuration follow these steps depending on your build system of
 choice.
 
 Maven
-^^^^^
+~~~~~
 
 Add the following to your *pom.xml* file:
 
@@ -55,9 +55,9 @@ Add the following to your *pom.xml* file:
     ...
 
 Gradle
-^^^^^^
+~~~~~~
 
-Add Crate as a dependency to your Gradle file:
+Add CrateDB as a dependency to your Gradle file:
 
 .. code-block:: groovy
 
@@ -71,10 +71,10 @@ Add Crate as a dependency to your Gradle file:
       ...
     }
 
-Connect to Crate
-~~~~~~~~~~~~~~~~
+Connect to CrateDB
+------------------
 
-Import the Crate client and create a new client object:
+Import the CrateDB client and create a new client object:
 
 .. code-block:: java
 
@@ -91,12 +91,11 @@ specifying all nodes to allow for automatic routing to another node if one
 becomes available.
 
 Want to Know More?
-------------------
+==================
 
-- More detailed documentation on the Crate Java client is available `here
+- More detailed documentation on the CrateDB Java client is available `here
   <https://crate.io/docs/reference/java>`_.
 
-Next Steps
-----------
+.. rubric:: Next Steps
 
-- :doc:`Scale a Cluster <../scale/index>`
+- :doc:`Scale <../scale/index>`

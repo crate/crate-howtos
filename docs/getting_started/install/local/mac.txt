@@ -1,21 +1,20 @@
-==============
-Install on Mac
-==============
+===========================
+Install CrateDB on Mac OS X
+===========================
 
-You can install and run Crate on a Mac with one simple command in your terminal
-application:
+You can install and run CrateDB on a Mac with one simple command in your
+terminal application:
 
-.. code-block:: bash
+.. code-block:: sh
 
     bash -c "$(curl -L try.crate.io)"
 
 To create a cluster, run the command multiple times to create new instances
 that will discover each when running on the same machine.
 
-Next Steps
-----------
+.. rubric:: Next Steps
 
--  :doc:`Connect to Crate Cluster <../../connect/index>`
--  :doc:`Import Data <../../import/index>`
--  :doc:`Client Libraries <../../clients/index>`
--  :doc:`Scale a Cluster <../../scale/index>`
+- :doc:`Connect <../../connect/index>`
+- :doc:`Import Data <../../import/index>`
+- :doc:`Client Libraries <../../clients/index>`
+- :doc:`Scale <../../scale/index>`

@@ -1,20 +1,20 @@
-====================================
-Getting Started with Crate on Docker
-====================================
+=====================
+Run CrateDB on Docker
+=====================
 
 Docker allows developers to package applications and dependencies into
 standard, shippable units, great for easy deployments across platforms and
-constantly changing needs. Crate is available as a Docker image and is a
+constantly changing needs. CrateDB is available as a Docker image and is a
 perfect data store for Docker based applications.
 
 if you don't have Docker setup yet, find `instructions for all platforms here
 <https://docs.docker.com/engine/installation/>`_.
 
 Kitematic
----------
+=========
 
 Kitematic is Docker's visual interface for creating Docker instances on Windows
-and Mac. Crate can be found in the list of default images in Kitematic.
+and Mac. CrateDB can be found in the list of default images in Kitematic.
 
 Click the *Create* button and Kitematic will download the image file from
 Docker hub and by default set port allocation between Docker and the host
@@ -37,24 +37,24 @@ the local machine, make the following changes:
    :alt: Assign Volumes
 
 Command Line
-------------
+============
 
-Fetch Crate Image
-~~~~~~~~~~~~~~~~~
+Fetch CrateDB Image
+-------------------
 
-To use the command line to create Crate instances, first fetch the latest Crate
-image.
+To use the command line to create CrateDB instances, first fetch the latest
+CrateDB image.
 
-.. code-block:: bash
+.. code-block:: sh
 
     docker pull crate
 
 Specify versions of the image by applying the ``:version*number`` tag.
 
-Start Crate Instances.
-~~~~~~~~~~~~~~~~~~~~~~
+Start CrateDB Instances
+-----------------------
 
-.. code-block:: bash
+.. code-block:: sh
 
     docker run -P -d crate \
       crate -Cnetwork.host=_site_
@@ -70,10 +70,10 @@ manually. These three instances will discover each other automatically.
 Then visit your Docker IP address on port 4200, e.g.
 *http://DOCKER_IP:4200/admin*
 
-The above is a simple example, to make better use of Crate with Docker, we
+The above is a simple example, to make better use of CrateDB with Docker, we
 should set some other parameters.
 
-.. code-block:: bash
+.. code-block:: sh
 
     docker run -d -p 4200:4200 -p 4300:4300
       -v <data-dir>:/data crate
@@ -81,21 +81,21 @@ should set some other parameters.
             -Ccluster.name=cluster
             -Cnetwork.host=_site_
 
-This starts a Crate Docker instance that maps the data storage path to a
+This starts a CrateDB Docker instance that maps the data storage path to a
 location shared between the Docker container and the host system (The value of
 ``<data-dir>``). This helps data remain consistent and persistent as container
 instances come and go on a local machine.
 
-We also set a path to the Crate config file for fine grained settings changes,
-and give the cluster a name.
+We also set a path to the CrateDB config file for fine grained settings
+changes, and give the cluster a name.
 
-Docker has more configuration options Crate can leverage, `read about them here
-<https://docs.docker.com/engine/reference/run/>`_. Any `Crate specific settings
-<https://crate.io/docs/stable/configuration.html>`_ are set using the ``crate
--C`` prefix.
+Docker has more configuration options CrateDB can leverage, `read about them
+here <https://docs.docker.com/engine/reference/run/>`_. Any `CrateDB specific
+settings <https://crate.io/docs/stable/configuration.html>`_ are set using the
+``crate -C`` prefix.
 
 Docker Compose
---------------
+==============
 
 Docker's `Compose <https://docs.docker.com/compose/>`_ tool allows developers
 to configure complex Docker-based applications that can then be started with
@@ -103,7 +103,7 @@ one ``docker-compose up`` command.
 
 Read about Docker Compose specifics `here <https://docs.docker.com/compose/>`_.
 In this example we will start a node.js container that connects to a two
-instance Crate cluster.
+instance CrateDB cluster.
 
 .. code-block:: yaml
 
@@ -128,28 +128,25 @@ instance Crate cluster.
       links:
         - crate
 
-Here we create one Crate instance with the ports manually allocated, a shared
+Here we create one CrateDB instance with the ports manually allocated, a shared
 file system volume, an environment variable set for the heap size and override
-the default Crate command to give the cluster a name and a config file. We then
-create another instance that joins the other in a cluster and a node.js
-instance that links to a Crate instance.
+the default CrateDB command to give the cluster a name and a config file. We
+then create another instance that joins the other in a cluster and a node.js
+instance that links to a CrateDB instance.
 
 Docker Machine and Swarm
-------------------------
+========================
 
-Crate works with any Docker instances created with the `Machine
+CrateDB works with any Docker instances created with the `Machine
 <https://docs.docker.com/machine/>`_ tool. Combined with Docker's cluster tool,
-`Swarm <https://www.docker.com/docker-swarm>`_, Crate becomes a powerful
-companion to Docker. Setting up Crate as part of a Docker Swarm is a little
+`Swarm <https://www.docker.com/docker-swarm>`_, CrateDB becomes a powerful
+companion to Docker. Setting up CrateDB as part of a Docker Swarm is a little
 more complicated, but we have :doc:`a guide <../../scale/docker_swarm>` to get
 you started.
 
-Next Steps
-----------
+.. rubric:: Next Steps
 
-- :doc:`Connect to Crate Cluster <../../connect/index>`
+- :doc:`Connect <../../connect/index>`
 - :doc:`Import Data <../../import/index>`
 - :doc:`Client Libraries <../../clients/index>`
-- `CrateDB and Docker Best
-  Practices <https://crate.io/docs/reference/best_practice/docker.html>`_
-- :doc:`Scale a Cluster <../../scale/index>`
+- :doc:`Scale <../../scale/index>`

@@ -1,22 +1,22 @@
-====================================
-Getting started with Crate on CoreOS
-====================================
+=====================
+Run CrateDB on CoreOS
+=====================
 
 As a Linux distribution targetted at cloud and cluster based environments,
-CoreOS is a perfect fit for a Crate cluster.
+CoreOS is a perfect fit for a CrateDB cluster.
 
-Pre-requisites
---------------
+Prerequisites
+=============
 
 We assume you have a CoreOS cluster running and can access the ``fleetctl``
 tool installed on your local system or on a node in the CoreOS cluster.
 
-Create the Crate Service
-------------------------
+Create the CrateDB Service
+==========================
 
 Create a service file called *crate@.service* with the following contents:
 
-.. code-block:: bash
+.. code-block:: sh
 
     [Unit]
     Description=crate
@@ -53,13 +53,13 @@ difference is the ``[X-Fleet]`` section that ensures only one service named
 
 Submit it to the cluster using fleet (assuming a 3 node cluster):
 
-.. code-block:: bash
+.. code-block:: sh
 
     fleetctl submit crate@{1,2,3}.service
 
 Start the service across the cluster (assuming a 3 node cluster):
 
-.. code-block:: bash
+.. code-block:: sh
 
     fleetctl start crate@{1,2,3}.service
 
@@ -69,14 +69,13 @@ container launches.
 
 Check Status:
 
-.. code-block:: bash
+.. code-block:: sh
 
     fleetctl list-units
 
-Next Steps
-----------
+.. rubric:: Next Steps
 
-- :doc:`Connect to Crate Cluster <../../connect/index>`
+- :doc:`Connect <../../connect/index>`
 - :doc:`Import Data <../../import/index>`
 - :doc:`Client Libraries <../../clients/index>`
-- :doc:`Scale a Cluster <../../scale/index>`
+- :doc:`Scale <../../scale/index>`

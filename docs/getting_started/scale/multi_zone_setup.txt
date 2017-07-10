@@ -1,11 +1,11 @@
-================
-Multi Zone Setup
-================
+========================
+CrateDB Multi Zone Setup
+========================
 
-If possible, we recommend running all Crate nodes of a cluster inside the same
-physical space (e.g. data center) to minimize network latency and maximize
+If possible, we recommend running all CrateDB nodes of a cluster inside the
+same physical space (e.g. data center) to minimize network latency and maximize
 speed between the nodes. These factors can have a significant impact on the
-performance of Crate clusters.
+performance of CrateDB clusters.
 
 This is because replicas are written *synchronously* and making a write task
 wait for the replicas to write somewhere in a data center hundreds of miles
@@ -14,11 +14,11 @@ away can lead to noticeable latency and cause the cluster to slow down.
 In certain scenarios it may be necessary to run a cluster across multiple data
 centers or availability zones. We'll call these **zones** from now on.
 
-For a multi zone setup, Crate clusters need to fulfill the following 3
+For a multi zone setup, CrateDB clusters need to fulfill the following 3
 requirements:
 
 Requirements
-------------
+============
 
 1. When inserting data, it should be replicated in a way so that at least one
    full replica is present inside each zone.
@@ -27,11 +27,11 @@ Requirements
    inside the same zone as the initial request.
 
 To achieve these requirements, make use of **shard allocation awareness**. If
-you are new to setting up a multi-node Crate cluster you should read our
+you are new to setting up a multi-node CrateDB cluster you should read our
 :doc:`multi node setup <multi_node_setup>` guide first.
 
 Assigning Tags
---------------
+==============
 
 First, assign a tag containing the zone to the cluster nodes. This enables
 shard allocation awareness.
@@ -39,7 +39,7 @@ shard allocation awareness.
 It's possible to assign arbitrary tags to nodes using the *crate.yaml* settings
 file or the ``-C`` option on startup. `Read our in-depth guide
 <https://crate.io/docs/reference/configuration.html>`_ for more details on
-Crate configuration options.
+CrateDB configuration options.
 
 In *crate.yaml* a zone tag looks like:
 
@@ -56,7 +56,7 @@ zone of a cloud computing provider.
    set on startup.
 
 Allocation Awareness
---------------------
+====================
 
 Now tags can be set as attributes for the shard allocation awareness. We use
 the tag ``zone`` that we just assigned to the node as an attribute:
@@ -65,9 +65,9 @@ the tag ``zone`` that we just assigned to the node as an attribute:
 
     cluster.routing.allocation.awareness.attributes: zone
 
-This means that Crate will try to allocate shards and their replicas according
-to the ``zone`` tags, so that a shard and its replica are not on a node with
-the same ``zone`` value.
+This means that CrateDB will try to allocate shards and their replicas
+according to the ``zone`` tags, so that a shard and its replica are not on a
+node with the same ``zone`` value.
 
 Let's add a second and a third node in a different zone (``us-west-1``) and tag
 them accordingly.
@@ -82,17 +82,17 @@ replica. The 6 shards will be distributed evenly across the nodes (2 shards on
 each node) and the replicas allocated on nodes with a different ``zone`` value
 to its primary shard.
 
-If that isn't possible (e.g. ``num replicas > num zones - 1``) Crate will still
-allocate the replicas on nodes with the same ``zone`` value to avoid unassigned
-shards.
+If that isn't possible (e.g. ``num replicas > num zones - 1``) CrateDB will
+still allocate the replicas on nodes with the same ``zone`` value to avoid
+unassigned shards.
 
 .. NOTE::
 
-   Allocation awareness only means that Crate tries to conform to the awareness
-   attributes, to avoid such allocations, force the awareness.
+   Allocation awareness only means that CrateDB tries to conform to the
+   awareness attributes, to avoid such allocations, force the awareness.
 
 Force Awareness
----------------
+===============
 
 To fulfill the 3rd requirement you need to ensure that when running a query on
 a node with a certain ``zone`` value it only executes the request on shards
@@ -109,8 +109,6 @@ You can force awareness on certain attributes, for example, the ``zone``:
 
 When set, no more replicas than needed are allocated on a specific group of
 nodes.
-
-.. TODO: turn this into a side bar
 
 .. TIP::
 

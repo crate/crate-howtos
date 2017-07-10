@@ -1,15 +1,15 @@
-====================================
-Getting started with Crate on Packet
-====================================
+=====================
+Run CrateDB on Packet
+=====================
 
 `Packet <https://www.packet.net>`_ is a bare metal provider built for the next
 generation of production workloads. Their emphasis on API-centered cloud
 deployment, fast networking, and container-ready hardware make them a good
-choice for developers and production workloads - and perfect for Crate
+choice for developers and production workloads - and perfect for CrateDB
 clusters!
 
-Create your Crate Project
--------------------------
+Create Your CrateDB Project
+===========================
 
 Packet organizes machines as projects which bundle together several types of
 deployments:
@@ -34,13 +34,12 @@ ready, Packet's IaaS machines behave just like any other machine. Make sure to
 deploy an SSH key to access the server and after the machines are ready, SSH
 access can be obtained by logging in with ``ssh root@<public-ip>``. From there
 it's just as any other Linux machine and there are several ways to install
-Crate on the machine(s). Check out our guide :doc:`for installing Crate on
+CrateDB on the machine(s). Check out our guide :doc:`for installing CrateDB on
 Linux. <../local/linux>`.
 
-Next Steps
-----------
+.. rubric:: Next Steps
 
-- :doc:`Connect to Crate Cluster <../../connect/index>`
+- :doc:`Connect <../../connect/index>`
 - :doc:`Import Data <../../import/index>`
 - :doc:`Client Libraries <../../clients/index>`
-- :doc:`Scale a Cluster <../../scale/index>`
+- :doc:`Scale <../../scale/index>`

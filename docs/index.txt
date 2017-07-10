@@ -2,12 +2,13 @@
 CrateDB Guide
 =============
 
-Contents
-========
+.. rubric:: Table of Contents
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
+   :titlesonly:
 
-   getting_started/index
    comparisons/index
+   getting_started/index
+   best_practices/index
    tools/index

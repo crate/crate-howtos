@@ -1,10 +1,11 @@
-===========
-Comparisons
-===========
+==============
+Best Practices
+==============
 
 .. rubric:: Table of Contents
 
 .. toctree::
    :maxdepth: 1
 
-   elasticsearch
+   resilience
+
