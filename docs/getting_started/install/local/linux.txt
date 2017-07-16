@@ -2,51 +2,15 @@
 Install on Linux
 ================
 
-Crate maintains official packages for Arch Linux, Debian, RedHat Enterprise
-Linux and Ubuntu. We recommend you use our 1-step installer that will configure
-the appropriate package repository and install Crate for you.
+Crate maintains official packages for Debian, RedHat Enterprise Linux and
+Ubuntu. We recommend you use our 1-step installer that will configure the
+appropriate package repository and install Crate for you.
 
 .. code-block:: bash
 
     bash -c "$(curl -L install.crate.io)"
 
 If you like to do things manually, here's how.
-
-Arch Linux
-----------
-
-Crate publishes build files to `Arch Linux AUR
-<https://aur4.archlinux.org/packages/crate/>`_. If you have any problems
-installing packages from the AUR, full instructions are available on the Arch
-Linux `Wiki <https://wiki.archlinux.org/index.php/AUR_User_Guidelines>`_). Make
-sure you have installed ``build base-devel`` with the ``pacman -S --needed
-base-devel`` command.
-
-Download the package
-~~~~~~~~~~~~~~~~~~~~
-
-.. code-block:: bash
-
-    mkdir ~/builds
-    cd ~/builds
-    curl -O https://aur4.archlinux.org/cgit/aur.git/snapshot/crate.tar.gz
-    tar xzvf crate.tar.gz
-
-Build and install the package
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. code-block:: bash
-
-    cd crate
-    makepkg -si
-
-Start Crate
-~~~~~~~~~~~
-
-.. code-block:: bash
-
-    sudo systemctl enable crate.service
-    sudo systemctl start crate.service
 
 Debian
 ------
