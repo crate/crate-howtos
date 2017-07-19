@@ -15,10 +15,10 @@ If you like to do things manually, here's how.
 Debian
 ======
 
-We provide Debian packages for the Wheezy (7.x) and Jessie (8.x) distributions.
+We provide Debian packages for Wheezy (7.x), Jessie (8.x) and Stretch (9.x).
 To install CrateDB from our repository requires a couple of steps.
 
-The first two steps are identical for both distributions.
+The first three steps are identical for all distributions.
 
 1. Install HTTPS Support for Apt
 --------------------------------
@@ -35,11 +35,37 @@ The first two steps are identical for both distributions.
     wget https://cdn.crate.io/downloads/apt/DEB-GPG-KEY-crate
     sudo apt-key add DEB-GPG-KEY-crate
 
-Debian Wheezy
--------------
+3. Add APT repository to sources list
+-------------------------------------
 
-3. Install Java 8
-~~~~~~~~~~~~~~~~~
+Next, add a file for the CrateDB repository in ``/etc/apt/sources.list.d/``
+and name it for example ``crate-testing.list`` (for testing repository) or
+``crate-stable.list`` (for stable repository).
+
+Add the following contents to the file and replace ``<codename>`` with the
+actual codename of your distribution (``wheezy``, ``jessie``, or ``stretch``).
+
+Stable Releases
+~~~~~~~~~~~~~~~
+
+.. code-block:: sh
+
+    deb https://cdn.crate.io/downloads/apt/stable/ <codename> main
+    deb-src https://cdn.crate.io/downloads/apt/stable/ <codename> main
+
+Testing Releases
+~~~~~~~~~~~~~~~~
+
+.. code-block:: sh
+
+    deb https://cdn.crate.io/downloads/apt/testing/ <codename> main
+    deb-src https://cdn.crate.io/downloads/apt/testing/ <codename> main
+
+4. Additional Requirements
+--------------------------
+
+Debian Wheezy
+~~~~~~~~~~~~~
 
 Wheezy does not officially ship with Java 8, so you have to install it via a
 3rd party repository, e.g. provided by **webupd8team**:
@@ -52,85 +78,31 @@ Wheezy does not officially ship with Java 8, so you have to install it via a
     sudo apt-get update
     sudo apt-get install oracle-java8-installer
 
-4. Add CrateDB Repository to Sources List
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Next, add the CrateDB repository to */etc/apt/sources.list*.
-
-Stable Releases
-'''''''''''''''
-
-.. code-block:: sh
-
-    deb https://cdn.crate.io/downloads/apt/stable/ wheezy main
-    deb-src https://cdn.crate.io/downloads/apt/stable/ wheezy main
-
-Testing Releases
-''''''''''''''''
-
-.. code-block:: sh
-
-    deb https://cdn.crate.io/downloads/apt/testing/ wheezy main
-    deb-src https://cdn.crate.io/downloads/apt/testing/ wheezy main
-
-5. Fetch New Sources and Install CrateDB
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. code-block:: sh
-
-    sudo apt-get update
-    sudo apt-get install crate
-
-Verify that you have installed CrateDB and it's running:
-
-.. code-block:: sh
-
-    sudo service crate status
-
 Debian Jessie
--------------
+~~~~~~~~~~~~~
 
-3. Add Backports and CrateDB Repository to Sources List
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Next, add the CrateDB repository to */etc/apt/sources.list*. Also add the
-``jessie-backports`` repository to sources so that the Java 8 dependency can be
-resolved automatically.
+Jessie provides Java 8 via the backports repository. If you haven't added it
+yet, you can do so by adding the following line to the ``/etc/apt/sources.list``
+file:
 
 .. code-block:: sh
 
     deb http://http.debian.net/debian jessie-backports main
 
-Stable Releases
-'''''''''''''''
+Debian Stretch
+~~~~~~~~~~~~~~
 
-.. code-block:: sh
+There are no additional requirements.
 
-    deb-src https://cdn.crate.io/downloads/apt/stable/ jessie main
-    deb https://cdn.crate.io/downloads/apt/stable/ jessie main
-
-Testing Releases
-''''''''''''''''
-
-.. code-block:: sh
-
-    deb https://cdn.crate.io/downloads/apt/testing/ jessie main
-    deb-src https://cdn.crate.io/downloads/apt/testing/ jessie main
-
-4. Fetch New Sources and Install CrateDB
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+5. Fetch New Sources and Install CrateDB
+----------------------------------------
 
 .. code-block:: sh
 
     sudo apt-get update
     sudo apt-get install crate
-    sudo systemctl enable crate
 
-Verify that you have installed CrateDB and it's running:
-
-.. code-block:: sh
-
-    sudo systemctl status crate
+After the installation is finished the ``crate`` service should be running.
 
 Red Hat
 =======
