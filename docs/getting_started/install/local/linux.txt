@@ -186,20 +186,30 @@ Start CrateDB
 Ubuntu
 ======
 
-We build packages for the Ubuntu versions Yakkety Yak (16.10), Xenial Xerus
-(16.04), Trusty Tahr (14.04) and Precise Pangolin (12.04). They are available
-on our `Launchpad page <https://launchpad.net/~crate>`_. Adding the repository
-and installing CrateDB requires the following commands:
+We build packages for the Ubuntu versions Zesty Zapus (17.04), Yakkety Yak
+(16.10), Xenial Xerus (16.04), and Trusty Tahr (14.04). CrateDB versions prior
+to 2.1.0 are available on our `Launchpad page <https://launchpad.net/~crate>`_.
+Adding the repository and installing CrateDB requires the following commands.
 
-Install Java 8
---------------
+Notes on Java 8 on Ubuntu
+-------------------------
 
-Ubuntu 12.04 and 14.04 do not officially ship with Java 8, so you have to
-`install it via a 3rd party repository
+CrateDB requires Java 8u20 or higher. To run Crate on Ubuntu releases older
+than 14.10 you will need to install Java 8 manually. Ubuntu 14.04 does not
+provide Java 8 in any of their official repos, so you have to `install it via a
+3rd party repository
 <https://crate.io/docs/install/local/linux/#debian-wheezy>`_
 
-Install CrateDB
----------------
+Install CrateDB From PPA
+------------------------
+
+.. NOTE::
+
+   The Crate PPA on Launchpad is deprecated and only contains CrateDB versions
+   prior to and including 2.0.x. Please read :ref:`install_from_deb_repo` for
+   instructions how to install CrateDB >= 2.1.0 from our CrateDB Ubuntu
+   repository.
+
 
 Adding a PPA repository requires ``python-software-properties`` to be
 installed:
@@ -223,38 +233,63 @@ and install CrateDB:
     sudo apt-get update
     sudo apt-get install crate
 
+If you want to install testing releases, you can simply replace
+``ppa:crate/stable`` with ``ppa:crate/testing`` and run ``apt-get update``
+again.
+
+.. _install_from_deb_repo:
+
+Install CrateDB from DEB repository
+-----------------------------------
+
+.. NOTE::
+
+   This repository contains only CrateDB versions greater than and equal to
+   2.1.0.
+
+First, you need to download and install the GPG key with which the packages are
+verified.
+
+.. code-block:: sh
+
+    wget https://cdn.crate.io/downloads/deb/DEB-GPG-KEY-crate
+    sudo apt-key add DEB-GPG-KEY-crate
+
+Then add the testing or stable repo to your apt sources by adding a new file in
+the ``/etc/apt/sources.list.d/`` directory with the following content:
+
+.. code-block:: sh
+
+    deb https://cdn.crate.io/downloads/deb/<repo>/ <codename> main
+    deb-src https://cdn.crate.io/downloads/deb/<repo>/ <codename> main
+
+Replace ``<repo>`` with ``testing`` or ``stable`` depending which repo you want
+to use, and replace codename with the code name of your Ubuntu distribution.
+Use ``source /etc/os-release && echo $UBUNTU_CODENAME`` if you don't know the
+code name of your distro.
+
 Start CrateDB
 -------------
 
-CrateDB should have been started automatically by upstart and you can stop or
-restart it with:
+CrateDB should have been started automatically. You can stop or restart the
+``crate`` service with upstart or systemd.
 
 .. code-block:: sh
 
+    # with upstart/sysvinit
     sudo service crate stop
     sudo service crate restart
+    # with systemd
+    sudo systemctl stop crate
+    sudo systemctl restart crate
 
-Testing and Unstable Releases
------------------------------
+Testing Releases
+================
 
-The CrateDB Testing repository is disabled by default, it contains development
-builds and is frequently updated. The packages are waiting for feedback from
-testers on functionality and stability. Packages in this repository will change
-during development, so it should be disabled on production systems. If you want
-to enable the Testing repo on your server. To enable the Testing Repository on
-your machine add the PPA:
-
-.. code-block:: sh
-
-    sudo apt-get install python-software-properties
-    sudo add-apt-repository ppa:crate/testing
-    sudo apt-get update
-    sudo apt-get install crate
-
-**Important:** CrateDB requires the latest Java 8 (at least u20 or higher). To
-run CrateDB on Ubuntu releases older than 14.10 you would need to install Java
-8 from the `Ubuntu Backports
-<https://help.ubuntu.com/community/UbuntuBackports>`_ repository.
+The CrateDB testing repositories contain releases that have not been declared
+as stable. They are usually more frequently updated than the stable repos.
+Packages in the testing repos are still waiting for feedback from testers on
+functionality and stability, so they should not be used on production systems.
 
 Setting Environment Variables
 =============================
