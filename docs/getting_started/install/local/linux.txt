@@ -38,8 +38,8 @@ The first three steps are identical for all distributions.
 3. Add APT repository to sources list
 -------------------------------------
 
-Next, add a file for the CrateDB repository in ``/etc/apt/sources.list.d/``
-and name it for example ``crate-testing.list`` (for testing repository) or
+Next, add a file for the CrateDB repository in ``/etc/apt/sources.list.d/`` and
+name it for example ``crate-testing.list`` (for testing repository) or
 ``crate-stable.list`` (for stable repository).
 
 Add the following contents to the file and replace ``<codename>`` with the
@@ -82,8 +82,8 @@ Debian Jessie
 ~~~~~~~~~~~~~
 
 Jessie provides Java 8 via the backports repository. If you haven't added it
-yet, you can do so by adding the following line to the ``/etc/apt/sources.list``
-file:
+yet, you can do so by adding the following line to the
+``/etc/apt/sources.list`` file:
 
 .. code-block:: sh
 
