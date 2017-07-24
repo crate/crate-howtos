@@ -102,7 +102,7 @@ There are no additional requirements.
     sudo apt-get update
     sudo apt-get install crate
 
-After the installation is finished the ``crate`` service should be running.
+After the installation is finished, the ``crate`` service should be running.
 
 Red Hat
 =======
