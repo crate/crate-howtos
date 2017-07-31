@@ -1,6 +1,6 @@
-===========
-Comparisons
-===========
+===================
+Product Comparisons
+===================
 
 .. rubric:: Table of Contents
 
