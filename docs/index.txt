@@ -10,5 +10,6 @@ CrateDB Guide
 
    comparisons/index
    getting_started/index
+   tutorials/index
    best_practices/index
    tools/index
