@@ -1,6 +1,6 @@
-===========================
-Clusters and Shared Nothing
-===========================
+==========
+Clustering
+==========
 
 The aim of this document is to describe, on a high level, how the distributed
 SQL database CrateDB uses a shared nothing architecture to form

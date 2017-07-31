@@ -8,8 +8,7 @@ CrateDB Guide
    :maxdepth: 2
    :titlesonly:
 
-   architecture/index
-   comparisons/index
+   overview/index
    getting_started/index
    tutorials/index
    best_practices/index
