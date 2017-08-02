@@ -20,8 +20,8 @@ Create Nodes
 ============
 
 Visit the *Nodes* section of the `dashboard
-<https://cloud.docker.com/node/cluster/list/>`_ and click the large green
-*Launch your first Node* button.
+<https://cloud.docker.com/app/nslater/nodecluster/list/1?page_size=10>`_ and
+click the large green *Launch your first Node* button.
 
 Give the cluster a name, select the details of your cloud provider and give the
 cluster a tag that we use to group and target services.
