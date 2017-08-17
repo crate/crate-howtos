@@ -2,29 +2,26 @@
 CrateDB vs Elasticsearch
 ========================
 
-CrateDB uses Elasticsearch as a library for cluster management, node discovery,
-communication, and so on. However, CrateDB is a fully-featured distributed SQL
+CrateDB uses Elasticsearch as a library for cluster management, node discovery
+and communication. However, CrateDB is a fully-featured distributed SQL
 database with its own unique featurset and has completely replaced the
 Elasticsearch query engine with its own advanced distributed SQL query engine.
 
 This post covers some of the differences between CrateDB and Elasticsearch on
 its own.
 
-*This page was updated with new information on 21.12.2015.*
-
 Joins
 =====
 
-CrateDB supports cross joins, inner joins, left outer joins, right outer joins,
-and full outer joins.
+CrateDB supports all join variants, including cross joins, inner joins,
+left outer joins, right outer joins and full outer joins.
 
 Elasticsearch does not support joins.
 
 Blob Storage
 ============
 
-`CrateDB <https://crate.io/download/>`__ is more than just a database, and
-offers a complete solution for distributed `blob storage
+CrateDB also offers a complete solution for distributed `blob storage
 <https://crate.io/a/using-crate-as-a-blobstore/>`__ that comes with replication
 and rebalancing. This offers you the opportunity to replace expensive network
 or cloud storage solutions with cheap commodity hardware.
@@ -79,7 +76,7 @@ Elasticsearch does not offer an import or export feature.
 Array Support
 =============
 
-Since version 0.46, CrateDB fully supports array types.
+CrateDB fully supports array types.
 
 Elasticsearch does not strictly distinguish between `arrays
 <https://www.elastic.co/guide/en/elasticsearch/reference/1.4/mapping-array-type
