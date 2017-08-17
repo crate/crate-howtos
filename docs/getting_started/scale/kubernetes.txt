@@ -87,9 +87,8 @@ version:
               value: "my-crate-cluster"
           volumes:
             - name: data
-              hostPath:
-                emptyDir:
-                  medium: "Memory"
+              emptyDir:
+                medium: "Memory"
 
 Start CrateDB
 -------------
