@@ -1,3 +1,5 @@
+.. _getting_started_docker_cloud:
+
 ===========================
 Run CrateDB on Docker Cloud
 ===========================
