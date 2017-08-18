@@ -1,3 +1,5 @@
+.. _getting_started_docker:
+
 =====================
 Run CrateDB on Docker
 =====================
@@ -39,9 +41,6 @@ the local machine, make the following changes:
 Command Line
 ============
 
-Fetch CrateDB Image
--------------------
-
 To use the command line to create CrateDB instances, first fetch the latest
 CrateDB image.
 
@@ -51,48 +50,24 @@ CrateDB image.
 
 Specify versions of the image by applying the ``:version*number`` tag.
 
-Start CrateDB Instances
------------------------
+Then start the image, like so:
 
 .. code-block:: sh
 
-    docker run -P -d crate \
-      crate -Cnetwork.host=_site_
-    docker run -P -d crate \
-      crate -Cnetwork.host=_site_
-    docker run -d -p 4200:4200 -p 4300:4300 -p 5432:5432 crate \
-      crate -Cnetwork.host=_site_
+  docker run -d -p 4200:4200 -p 4300:4300 -p 5432:5432 crate \
+    crate -Cnetwork.host=_site_
 
-In this example we create three instances. The first two let Docker set the
-port allocation between Docker and the host automatically and one sets ports
-manually. These three instances will discover each other automatically.
+This maps all three CrateDB ports you might want to use (4200, 4300, and 5432)
+to the same port on your Docker host machine.
 
-Then visit your Docker IP address on port 4200, e.g.
-*http://DOCKER_IP:4200/admin*
+Then visit the :ref:`CrateDB admin UI <admin_ui>` in your browser::
 
-The above is a simple example, to make better use of CrateDB with Docker, we
-should set some other parameters.
+  http://DOCKER_HOST_IP:4200/admin
 
-.. code-block:: sh
+Here, replace ``DOCKER_HOST_IP`` with the IP address of your Docker host.
 
-    docker run -d -p 4200:4200 -p 4300:4300
-      -v <data-dir>:/data crate
-      crate -Cpath.conf=/path/to/crate/conf
-            -Ccluster.name=cluster
-            -Cnetwork.host=_site_
-
-This starts a CrateDB Docker instance that maps the data storage path to a
-location shared between the Docker container and the host system (The value of
-``<data-dir>``). This helps data remain consistent and persistent as container
-instances come and go on a local machine.
-
-We also set a path to the CrateDB config file for fine grained settings
-changes, and give the cluster a name.
-
-Docker has more configuration options CrateDB can leverage, `read about them
-here <https://docs.docker.com/engine/reference/run/>`_. Any `CrateDB specific
-settings <https://crate.io/docs/stable/configuration.html>`_ are set using the
-``crate -C`` prefix.
+For more information, consult the :ref:`CrateDB Docker best practices
+<cratedb_docker>`.
 
 Docker Compose
 ==============

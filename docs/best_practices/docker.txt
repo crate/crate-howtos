@@ -15,7 +15,9 @@ official `CrateDB Docker image`_.
 .. NOTE::
 
    If you're just getting started with CrateDB and Docker, check out our
-   introductory guides for `running Docker locally`_ or `Docker Cloud`_.
+   introductory guides for :ref:`running Docker locally
+   <getting_started_docker>` or :ref:`Docker Cloud
+   <getting_started_docker_cloud>`.
 
 Quick Start
 ===========
@@ -108,6 +110,15 @@ You can now add subsequent nodes, like so::
    in the admin UI. For a cluster that you intend to use seriously, you should,
    at the very least, configure the `Metadata Gateway`_ and `Discovery`_
    mechanisms.
+
+Taking it Further
+-----------------
+
+`CrateDB settings <https://crate.io/docs/stable/configuration.html>`_ are set
+using the ``-C`` flag, per the above examples.
+
+Check out the `Docker docs <https://docs.docker.com/engine/reference/run/>`_
+for more Docker specific features CrateDB can leverage.
 
 CrateDB Shell
 -------------
