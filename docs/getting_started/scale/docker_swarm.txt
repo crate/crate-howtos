@@ -2,10 +2,18 @@
 Scaling CrateDB With Docker Swarm
 =================================
 
-Docker Swarm is a great cluster orchestration tool that has been
-integrated into the Docker engine starting with their 1.12 release.
-Since this tooling is perfect for creating CrateDB clusters, we want to
-show you how to get three nodes of our SQL database working together.
+.. CAUTION::
+
+   This page is out-of-date. Please check back later.
+
+`Docker Swarm`_ is a great cluster orchestration tool that has been integrated
+into the Docker engine starting with their 1.12 release. Docker Swarm is
+perfect for creating CrateDB clusters.
+
+In this tutorial, we'll show you how to create a three node CrateDB cluster
+with Docker Swarm.
+
+.. _Docker Swarm: https://docs.docker.com/engine/swarm/key-concepts/
 
 Prerequisites
 =============
