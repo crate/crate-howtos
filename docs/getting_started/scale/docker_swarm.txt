@@ -6,6 +6,11 @@ Scaling CrateDB With Docker Swarm
 
    This page is out-of-date. Please check back later.
 
+   For a more up-to-date guide to scaling CrateDB with Docker, check out our
+   `recent webinar`_ on the topic.
+
+.. _recent webinar: http://go.cratedb.com/wb-2017-docker.html
+
 `Docker Swarm`_ is a great cluster orchestration tool that has been integrated
 into the Docker engine starting with their 1.12 release. Docker Swarm is
 perfect for creating CrateDB clusters.
@@ -130,13 +135,19 @@ Finally we are able to run CrateDB on top of the Docker cluster! For this, a
         --update-parallelism 1 \
         --update-delay 60s \
         --mount type=bind,source=/tmp,target=/data \
-      crate:latest \
+      crate:2.0.6 \
         crate \
         -Cdiscovery.zen.ping.unicast.hosts=crate \
         -Cgateway.expected_nodes=3 \
         -Cdiscovery.zen.minimum_master_nodes=2 \
         -Cgateway.recover_after_nodes=2 \
         -Cnetwork.bind=_site_
+
+.. CAUTION::
+
+   This approach only works in CrateDB 2.0.6 or earlier, which is why the
+   command pins this version. This document will be updated to work for CrateDB
+   2.0 and later.
 
 There are several things that need explanation in there:
 
@@ -167,7 +178,7 @@ restarting*).
 
 .. code-block:: sh
 
-      crate:latest \
+      crate:2.0.6 \
         crate \
         -Cdiscovery.zen.ping.unicast.hosts=crate \
         -Cgateway.expected_nodes=3 \
