@@ -11,6 +11,11 @@ optimization and configuration to get CrateDB running as quickly and
 efficiently as possible. Using the AMI is our recommended method for running
 CrateDB clusters on AWS.
 
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+
 With the AWS Command Line Interface
 ===================================
 

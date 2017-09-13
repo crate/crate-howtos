@@ -2,6 +2,14 @@
 Run CrateDB on Packet
 =====================
 
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+
+Introduction
+============
+
 `Packet <https://www.packet.net>`_ is a bare metal provider built for the next
 generation of production workloads. Their emphasis on API-centered cloud
 deployment, fast networking, and container-ready hardware make them a good

@@ -6,6 +6,14 @@
 Bootstrap Checks
 ================
 
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+
+Introduction
+============
+
 If you are binding to a network reachable IP address, CrateDB performs a number
 of bootstrap checks during startup. These checks examine your setup and will
 prevent startup if a problem is detected.

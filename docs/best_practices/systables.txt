@@ -13,6 +13,11 @@ documentation about each single table
 <https://crate.io/docs/reference/sql/system.html>`__, this guide runs you
 through the most common situations.
 
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+
 Step 1: Health Check
 ====================
 

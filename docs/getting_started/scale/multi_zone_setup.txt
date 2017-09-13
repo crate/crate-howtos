@@ -14,11 +14,15 @@ away can lead to noticeable latency and cause the cluster to slow down.
 In certain scenarios it may be necessary to run a cluster across multiple data
 centers or availability zones. We'll call these **zones** from now on.
 
-For a multi zone setup, CrateDB clusters need to fulfill the following 3
-requirements:
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
 
 Requirements
 ============
+
+For a multi zone setup, CrateDB clusters need to fulfill the following:
 
 1. When inserting data, it should be replicated in a way so that at least one
    full replica is present inside each zone.

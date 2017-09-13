@@ -10,6 +10,11 @@ Insert Performance
    inserts in batches, you should switch from `Single Inserts`_ to `Bulk
    Inserts`_.
 
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+
 .. _single_inserts:
 
 Single Inserts

@@ -2,6 +2,14 @@
 Building Data Stream pipelines with CrateDB and StreamSets Data Collector
 =========================================================================
 
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+
+Introduction
+============
+
 `CrateDB <https://crate.io>`_ can be integrated with `StreamSets
 <https://streamsets.com/>`_ using its `JDBC driver
 <https://github.com/crate/crate-jdbc>`_ (>= 1.12.1).

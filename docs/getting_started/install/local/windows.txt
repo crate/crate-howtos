@@ -2,6 +2,11 @@
 Install CrateDB on Microsoft Windows
 ====================================
 
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+
 Configure Windows
 =================
 

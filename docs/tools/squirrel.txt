@@ -8,6 +8,11 @@ that can be used to browse and query a JDBC compliant database.
 As CrateDB supports JDBC with its CrateDB JDBC driver, it can easily be used
 with SQUirreL.
 
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+
 Setup
 =====
 

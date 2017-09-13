@@ -18,6 +18,11 @@ wrong.
 Thankfully, for most use-cases, if you follow best practices, you are extremely
 unlikely to experience resiliency issues with CrateDB.
 
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+
 Overview
 ========
 
@@ -161,8 +166,7 @@ Repeated Cluster Partitions Can Cause Lost Cluster Updates
    </tr>
    </table>
 
-Scenario
-~~~~~~~~
+.. rubric:: Scenario
 
 A cluster is partitioned and a new master is elected on the side that has
 quorum. The cluster is repaired and simultaneously a change is made to the
@@ -170,8 +174,7 @@ cluster state. The cluster is partitioned again before the new master node has
 a chance to publish the new cluster state and the partition the master lands on
 does not have quorum.
 
-Consequence
-~~~~~~~~~~~
+.. rubric:: Consequence
 
 The node steps down as master and the uncommunicated state changes are lost.
 
@@ -209,16 +212,14 @@ Retry of Updates Causes Double Execution
    </tr>
    </table>
 
-Scenario
-~~~~~~~~
+.. rubric:: Scenario
 
 A node with a primary shard receives an update, writes it to disk, but goes
 offline before having sent a confirmation back to the executing node. When the
 node comes back online, it receives an update retry and executes the update
 again.
 
-Consequence
-~~~~~~~~~~~
+.. rubric:: Consequence
 
 Incorrect data for non-idempotent writes.
 
@@ -259,8 +260,7 @@ Version Number Representing Ambiguous Row Versions
    </tr>
    </table>
 
-Scenario
-~~~~~~~~
+.. rubric:: Scenario
 
 A client is writing to a primary shard. The node holding the primary shard is
 partitioned from the cluster. It usually takes between 30 and 60 seconds
@@ -270,8 +270,7 @@ before the master node notices the partition. During this time, the same row is
 updated on both the primary shard (partitioned) and a replica shard (not
 partitioned).
 
-Consequence
-~~~~~~~~~~~
+.. rubric:: Consequence
 
 There are two different versions of the same row using the same version number.
 When the primary shard rejoins the cluster and its data is replicated, the
@@ -310,16 +309,14 @@ Loss of Rows Due to Network Partition
    </tr>
    </table>
 
-Scenario
-~~~~~~~~
+.. rubric:: Scenario
 
 A node with a primary shard is partitioned from the cluster. The node continues
 to accept writes until it notices the network partition. In the meantime,
 another shard has been elected as the primary. Eventually, the partitioned node
 rejoins the cluster.
 
-Consequence
-~~~~~~~~~~~
+.. rubric:: Consequence
 
 Data that was written to the original primary shard on the partitioned node is
 lost as data from the newly elected primary shard replaces it when it rejoins
@@ -362,8 +359,7 @@ Dirty Reads Caused by Bad Primary Handover
    </tr>
    </table>
 
-Scenario
-~~~~~~~~
+.. rubric:: Scenario
 
 During a primary handover, there is a small risk window when a shard can find
 out it has been elected as the new primary before the old primary shard notices
@@ -378,8 +374,7 @@ A primary handover can happen in the following scenarios:
 - An existing replica shard gets promoted to primary because the primary shard
   was partitioned from the cluster.
 
-Consequence
-~~~~~~~~~~~
+.. rubric:: Consequence
 
 Writes that occur on the new primary during the risk window will not be
 replicated to the old shard (which still believes it is the primary) so any
@@ -415,13 +410,11 @@ Changes Are Overwritten by Old Data in Danger of Lost Data
    </tr>
    </table>
 
-Scenario
-~~~~~~~~
+.. rubric:: Scenario
 
 A node with a primary that contains new data is partitioned from the cluster.
 
-Consequence
-~~~~~~~~~~~
+.. rubric:: Consequence
 
 CrateDB prefers old data over no data, and so promotes an a shard with stale
 data as a new primary. The data on the original primary shard is lost. Even if
@@ -459,8 +452,7 @@ Unaware Master Accepts Cluster Updates
    </tr>
    </table>
 
-Scenario
-~~~~~~~~
+.. rubric:: Scenario
 
 If a master has lost quorum (i.e. the number of nodes it is in communication
 with has fallen below the configured minimum) it should step down as master and
@@ -469,8 +461,7 @@ window between losing quorum and noticing that quorum has been lost, depending
 on your `ping configuration
 <https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-discovery-zen.html>`_.
 
-Consequence
-~~~~~~~~~~~
+.. rubric:: Consequence
 
 If a cluster update request is made to the node between losing quorum and
 noticing the loss of quorum, that request will be confirmed. However, those

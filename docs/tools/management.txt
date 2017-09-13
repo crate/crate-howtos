@@ -2,6 +2,11 @@
 Management Utilities
 ====================
 
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+
 SQuirreL SQL
 ============
 

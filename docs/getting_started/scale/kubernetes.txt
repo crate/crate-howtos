@@ -15,6 +15,11 @@ This guide will assume that you already have `kubectl
 go. All of the commands/templates/etc. provided should be customized to meet
 your personal requirements!
 
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+
 The CrateDB Template
 ====================
 

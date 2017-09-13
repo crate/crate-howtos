@@ -6,6 +6,14 @@
 Full Restart Upgrade
 ====================
 
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+
+Introduction
+============
+
 The preferred way to upgrade a running CrateDB cluster is via the
 :ref:`rolling_upgrade` method. But this is not always an option (for example,
 when you are upgrading from one feature version to the next).

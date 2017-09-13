@@ -2,6 +2,14 @@
 Run CrateDB on Softlayer
 ========================
 
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+
+Introduction
+============
+
 `SoftLayer <http://softlayer.com/>`_, IBM's cloud platform, has a slightly
 different take on "the cloud". They are focusing on high performance (physical)
 hardware embedded in the best possible infrastructure, because "computing

@@ -5,6 +5,14 @@
 Importing Huge Datasets into CrateDB
 ====================================
 
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+
+Introduction
+============
+
 Usually projects do not start from scratch, most of the time there is
 pre-existing data that needs to be imported and sometimes the amount of data is
 significant.

@@ -5,6 +5,14 @@
 Launching EC2 Instances with the CrateDB AMI
 =============================================
 
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+
+Introduction
+============
+
 CrateDB provides custom public `AMI`_ s that can be launched by every EC2 user
 by using the AWS Management Console or `AWS CLI`_. The naming convention is as
 follows::

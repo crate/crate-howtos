@@ -4,6 +4,11 @@
 Migrating from MongoDB
 ======================
 
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+
 Exporting Data from MongoDB
 ===========================
 
