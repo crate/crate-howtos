@@ -2,6 +2,11 @@
 CrateDB and JDBC
 ================
 
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+
 Compatibility
 =============
 

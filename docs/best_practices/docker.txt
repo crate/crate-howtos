@@ -19,6 +19,11 @@ official `CrateDB Docker image`_.
    <getting_started_docker>` or :ref:`Docker Cloud
    <getting_started_docker_cloud>`.
 
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+
 Quick Start
 ===========
 

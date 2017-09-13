@@ -6,9 +6,6 @@ You can connect to the CrateDB HTTP endpoint with any standard tool, such as
 `curl <http://curl.haxx.se/>`_ or `httpie <https://github.com/jkbrzt/httpie>`_,
 we will be using curl.
 
-Connect to Crate
-================
-
 The endpoint expects a SQL statement sent as a value associated with the key
 ``stmt``, i.e.
 

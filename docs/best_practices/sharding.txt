@@ -6,6 +6,14 @@
 Sharding Guide
 ==============
 
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+
+Introduction
+============
+
 This document is a sharding best practice guide for CrateDB.
 
 A brief recap: CrateDB tables are split into a configured number of shards, and

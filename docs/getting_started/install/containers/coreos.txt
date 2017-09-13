@@ -5,6 +5,11 @@ Run CrateDB on CoreOS
 As a Linux distribution targetted at cloud and cluster based environments,
 CoreOS is a perfect fit for a CrateDB cluster.
 
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+
 Prerequisites
 =============
 

@@ -6,6 +6,11 @@ The CrateDB Erlang client is built using `rebar3
 <https://github.com/rebar/rebar3>`_ and we recommend you use it in your project
 for compiling and testing.
 
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+
 Add CrateDB to Your Project
 ===========================
 

@@ -10,6 +10,11 @@ Getting CrateDB working on Azure with Linux or Windows is a simple process. You
 can use Azure's management console or CLI interface (`Learn how to install here
 <https://azure.microsoft.com/en-us/documentation/articles/xplat-cli-install/>`_).
 
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+
 Azure and Linux
 ===============
 

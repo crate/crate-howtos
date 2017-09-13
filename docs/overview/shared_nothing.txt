@@ -12,6 +12,11 @@ CrateDB cluster can perform every operation - hence all nodes are equal in
 terms of functionality (see :ref:`shared_nothing_components`) and are
 configured the same.
 
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+
 .. _shared_nothing_components:
 
 Components of a CrateDB Node

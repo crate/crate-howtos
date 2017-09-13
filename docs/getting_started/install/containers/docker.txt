@@ -12,6 +12,11 @@ perfect data store for Docker based applications.
 if you don't have Docker setup yet, find `instructions for all platforms here
 <https://docs.docker.com/engine/installation/>`_.
 
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+
 Kitematic
 =========
 

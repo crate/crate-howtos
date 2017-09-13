@@ -3,14 +3,19 @@ Install CrateDB on Linux
 ========================
 
 Crate maintains official packages for Debian, RedHat Enterprise Linux and
-Ubuntu. We recommend you use our 1-step installer that will configure the
+Ubuntu. We recommend you use our one-step installer that will configure the
 appropriate package repository and install Crate for you.
 
 .. code-block:: sh
 
     bash -c "$(curl -L install.crate.io)"
 
-If you like to do things manually, here's how.
+If you like to do things manually, this document will show you how.
+
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
 
 Debian
 ======

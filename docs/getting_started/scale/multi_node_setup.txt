@@ -11,6 +11,11 @@ equal and each node is self-sufficient. This means that nodes work on their
 own, and all nodes in a cluster are configured equally, the same as with a
 single-node instance.
 
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+
 Node Settings
 =============
 

@@ -2,6 +2,11 @@
 CrateDB and Python
 ==================
 
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+
 Install
 =======
 

@@ -9,6 +9,11 @@ Afterwards our team provides you with the ODBC driver package.
 
 CrateDB's ODBC driver is ready to use after three simple steps.
 
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+
 Install ODBC Driver
 ===================
 

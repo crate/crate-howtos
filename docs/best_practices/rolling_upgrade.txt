@@ -5,6 +5,14 @@
 Rolling Upgrade
 ===============
 
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+
+Introduction
+============
+
 CrateDB provides an easy way to perform a rolling cluster upgrade with zero
 downtime.
 

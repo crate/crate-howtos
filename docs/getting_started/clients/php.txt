@@ -6,6 +6,11 @@ CrateDB supports integration with the `PDO
 <http://php.net/manual/en/intro.pdo.php>`_ and `DBAL
 <http://www.doctrine-project.org/projects/dbal.html>`_ data abstraction layers.
 
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+
 PDO
 ===
 

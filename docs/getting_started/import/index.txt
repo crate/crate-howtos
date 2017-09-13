@@ -6,6 +6,11 @@ It's hard to see what a database is capable of without a real world dataset.
 Fortunately CrateDB ships with an easy method of obtaining data to experiment
 with.
 
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+
 Import Sample Data
 ==================
 

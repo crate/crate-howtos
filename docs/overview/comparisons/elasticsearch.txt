@@ -10,6 +10,11 @@ Elasticsearch query engine with its own advanced distributed SQL query engine.
 This post covers some of the differences between CrateDB and Elasticsearch on
 its own.
 
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+
 Joins
 =====
 

@@ -8,6 +8,11 @@ third party integrations. Effortlessly manage, deploy, and scale across any
 number of providers. Detach a cluster from our service at any time and use the
 open source core system on your own.
 
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+
 Connect Hosting
 ===============
 

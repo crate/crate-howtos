@@ -5,6 +5,14 @@
 CrateDB Setup on Amazon EC2
 ===========================
 
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+
+Introduction
+============
+
 When running CrateDB in a cloud environment such as `Amazon EC2`_ (Elastic
 Cloud Compute) you usually face the problem that CrateDB's default discovery
 mechanism does not work out of the box.

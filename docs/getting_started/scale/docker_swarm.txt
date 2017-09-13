@@ -15,6 +15,11 @@ with Docker Swarm.
 
 .. _Docker Swarm: https://docs.docker.com/engine/swarm/key-concepts/
 
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+
 Prerequisites
 =============
 

@@ -2,6 +2,11 @@
 Community Maintained Clients
 ============================
 
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+
 Ruby
 ====
 
