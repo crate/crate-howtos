@@ -2,12 +2,12 @@
 CrateDB and ODBC
 ================
 
-The ODBC driver package is not open source but requires a proprietary license
-for production use. For evaluation purposes however, we offer a free trial
-license that you can `sign here <https://www.hellosign.com/s/313c319f>`_.
-Afterwards our team provides you with the ODBC driver package.
+.. NOTE::
 
-CrateDB's ODBC driver is ready to use after three simple steps.
+   The ODBC driver package is not open source and requires a paid license.
+
+   Get started by requesting `a free trial
+   <https://crate.io/enterprise/odbc/>`_.
 
 .. rubric:: Table of Contents
 
