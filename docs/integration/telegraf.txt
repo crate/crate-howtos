@@ -1,0 +1,82 @@
+===============================
+Using Telegraf with CrateDB
+===============================
+
+`Telegraf <https://github.com/influxdata/telegraf>`_ is a plugin-driven server
+agent for collecting, processing, aggregating, and writing metrics.
+
+This document will show you how to connect Telegraf to CrateDB, so that you can
+take advantage of the many things that CrateDB has to offer.
+
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+
+Install
+=======
+
+There is an `open pull request`_ for adding the CrateDB output plugin to
+Telegraf.
+
+Until this pull request is merged, we are providing binaries for:
+
+- `linux 368 <https://cdn.crate.io/downloads/dist/telegraf/telegraf_0.1-170921123755.linux.386.tar.gz>`_
+- `linux amd64 <https://cdn.crate.io/downloads/dist/telegraf/telegraf_0.1-170921123755.linux.amd64.tar.gz>`_
+- `darwin amd64 <https://cdn.crate.io/downloads/dist/telegraf/telegraf_0.1-170921123755.darwin.amd64.tar.gz>`_
+- `windows amd64 <https://cdn.crate.io/downloads/dist/telegraf/telegraf_0.1-170921123755.windows.amd64.tar.gz>`_
+
+Or, you can build it by yourself `from the source <https://github.com/tomsvogel/telegraf#from-source>`_.
+
+Once Telegraf is installed, continue to the next section.
+
+Configure
+=========
+
+Create the default config:
+
+.. code-block:: bash
+
+  ./telegraf config > telegraf.conf
+
+Now, configure CrateDB instead of InfluxDB (which is the default output
+destination).
+
+Do this by finding and removing the InfluxDB config from the ``telegraf.conf``
+file, and then adding your CrateDB config.
+
+Your CrateDB config should look something like this:
+
+.. code-block:: bash
+
+  [[outputs.cratedb]]
+
+  # A lib/pq connection string.
+  # See http://godoc.org/github.com/lib/pq#hdr-Connection_String_Parameters
+  url = "postgres://crate@localhost/doc?sslmode=disable"
+  # Timeout for all CrateDB queries.
+  timeout = "5s"
+  # Name of the table to store metrics in.
+  table = "metrics"
+  # If true, and the metrics table does not exist, create it automatically.
+  table_create = true
+
+Run
+===
+
+Once Telegraf has been configured, you can start it, like so:
+
+.. code-block:: bash
+
+  ./telegraf --config telegraf.conf
+
+
+When Telegraf starts, the ``metrics`` table will be created in the default
+``doc`` schema.
+
+If you want to use a different schema, you can specify it using
+the standard syntax, i.e. by specifying ``my_schema.metrics`` for ``table``.
+
+A few seconds later, you will see Telegraf metrics being written to this table.
+
+.. _open pull request: https://github.com/influxdata/telegraf/pull/3210
