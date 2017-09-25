@@ -49,7 +49,7 @@ In *crate.yaml* a zone tag looks like:
 
 .. code-block:: yaml
 
-    node.zone: us-east-1
+    node.attr.zone: us-east-1
 
 The node is tagged with a ``zone`` of the value ``us-east-1``, an availability
 zone of a cloud computing provider.
@@ -78,7 +78,7 @@ them accordingly.
 
 .. code-block:: yaml
 
-    node.zone: us-west-1
+    node.attr.zone: us-west-1
     cluster.routing.allocation.awareness.attributes: zone
 
 When the cluster is started, we will create a table with 6 shards and 1
