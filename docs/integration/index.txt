@@ -1,0 +1,12 @@
+===========
+Integration
+===========
+
+This section of the docs will show you how to integrate CrateDB with
+third-party software.
+
+.. rubric:: Table of Contents
+
+.. toctree::
+
+   telegraf.txt

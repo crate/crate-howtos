@@ -21,7 +21,6 @@ please `get in touch <mailto:office@crate.io>`_.
 
    squirrel
    streamsets
-   telegraf
 
 
 
