@@ -1,0 +1,33 @@
+==================
+Insert Performance
+==================
+
+A ``INSERT INTO`` statement is processed as follows:
+
+ - Parse the statement to create an `abstract syntax tree`_
+ - Do some basic semantic validation
+ - Plan the operation
+ - Execute the operation
+
+CrateDB `calculates the shard ID`_ for every row to be inserted when executing
+the operation. Insert requests are then grouped and sent to the nodes that hold
+each primary shard.
+
+There are a number of different ways to reduce the processing overhead of these
+steps. Either by eliminating needless repetition of steps, or by reducing the
+work needed to be done by one of the steps.
+
+This section of the guide will show you how.
+
+.. rubric:: Table of Contents
+
+.. toctree::
+   :maxdepth: 2
+
+   methods
+   parallel
+   tuning
+   testing
+
+.. _Abstract Syntax Tree: https://en.wikipedia.org/wiki/Abstract_syntax_tree
+.. _calculates the shard ID: https://crate.io/docs/crate/reference/en/latest/sql/ddl/sharding.html#routing
