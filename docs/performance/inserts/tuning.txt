@@ -1,0 +1,172 @@
+.. _config_tuning:
+
+================================
+Configuration Tuning for Inserts
+================================
+
+This document outlines a number of hardware and software configuration changes
+you can make to tune your setup for inserts performance.
+
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+
+Hardware
+========
+
+Solid-State Drives
+------------------
+
+Switch to *Solid-State Drives* (SSDs) if you can.
+
+SSDs are generally much faster than hard-disk drives, and usually offer the
+most cost-effective hardware upgrade for a CrateDB setup.
+
+Use the ``iostat`` tool to display disk I/O statistics, which should include
+output like this:
+
+.. code-block:: text
+
+    sh$ iostat
+    ...
+    avg-cpu:  %user   %nice %system %iowait  %steal   %idle
+               0.53    0.01    0.05    0.01    0.00   99.41
+    ...
+
+
+Here, the most interesting metric is ``%iowait``. This tells you how
+time the CPU is waiting for disk I/O. You can expect better insert performance
+from CrateDB relative to how low this value is.
+
+CPUs
+----
+
+If your queries are complex, the additional CPU overhead during the
+:ref:`analyzing phase <parsing_analyzing>` of insert query processing might
+result in a CPU performance bottleneck.
+
+If this becomes the case, and simplifying your queries isn't an option,
+upgrading your CPUs will be a cost-effective way to boost CrateDB performance.
+
+RAM Disks
+---------
+
+TODO are there any circumstances under which we would advise using a ram disk
+
+Software
+========
+
+Server
+------
+
+Replicas
+........
+
+Biggest influence: replicas (esp 0 vs . 1+)
+
+(Because primary write first and only after it writes the replicas)
+
+TODO: need details. what are we recommending here?
+
+Shards and Partitioning
+.......................
+
+Number of shards / partitioning
+
+TODO: need details. what are we recommending here?
+
+Table Schema
+............
+
+(Analyzer, INDEX OFF, Primary Key)
+
+TODO: need details. what are we recommending here?
+
+Translog
+........
+
+https://crate.io/docs/crate/reference/en/latest/sql/reference/create_table.html#translog-durability
+
+TODO: need details. what are we recommending here?
+
+Refresh Interval
+................
+
+Data that has been written to a shard cannot be read back until the shard index
+has been refreshed.
+
+The `refresh_interval`_ table setting specifies how frequently shard indexes
+are refreshed. The default value is every 1000 milliseconds.
+
+If you know that your client application can tollerate a higher refresh
+interval, you can expect to see performance improvements if you increase this
+value.
+
+Manual Optimizing
+.................
+
+CrateDB uses an append-only strategy for writing data to the disk. Tables are
+written to disk as a collection of segment files. As tables grow, so does the
+number of underlying segments.
+
+CrateDB can optimize tables by merging segments and discarding
+data that is no longer used. This process is occasionally triggered by CrateDB,
+and under normal circumstances, you do not have to worry about optimizing
+tables yourself.
+
+However, if you are doing a lot of inserts, you may want to optimize tables (or
+even specific partitions) on your own schedule. If so, you can use the
+`OPTIMIZE`_ command.
+
+Index Store Throttle
+....................
+
+If you are using SSDs, you probably want to increase the
+`indices.store.throttle.max_bytes_per_sec`_ setting to something between
+``100mb`` and ``200mb``.
+
+TODO: Check if index store throttle is still up2date
+
+TODO: need an explanation for this
+
+Index Buffer Size
+.................
+
+https://crate.io/a/optimize-big-clusters/
+
+TODO: is this stuff undocumented in CrateDB? should we add it? I would prefer
+not to link through to the ES docs if possible
+
+see: https://www.elastic.co/guide/en/elasticsearch/reference/current/indexing-buffer.html
+
+Client
+------
+
+Parallel Inserts
+................
+
+Because CrateDB is a distributed database, insert capacity scales with the size
+of your cluster. One way to increase insert performance is do
+:ref:`parallel inserts <parallel_inserts>`.
+
+How many inserts you can do in parallel whilst getting the best performance out
+of CrateDB is going to vary on many factors.
+
+You should conduct :ref:`performance testing
+<testing_inserts_performance>` to find the sweet spot for your cluster.
+
+Bulk Size
+.........
+
+:ref:`Bulk inserts <bulk_inserts>` are recommended if you are doing lots of inserts.
+
+How large you can make your bulk insert batches whilst getting the best
+performance out of CrateDB is going to vary on many factors.
+
+You should conduct :ref:`performance testing <testing_inserts_performance>` to
+find the sweet spot for your cluster.
+
+.. _refresh_interval: https://crate.io/docs/crate/reference/en/latest/sql/reference/create_table.html#refresh-interval
+.. _OPTIMIZE: https://crate.io/docs/crate/reference/en/latest/sql/reference/optimize.html
+.. _indices.store.throttle.max_bytes_per_sec: https://crate.io/docs/crate/reference/en/latest/configuration/cluster.html#indices-store-throttle-max-bytes-per-sec

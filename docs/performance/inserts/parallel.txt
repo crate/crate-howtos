@@ -1,0 +1,20 @@
+.. _parallel_inserts:
+
+================
+Parallel Inserts
+================
+
+https://trello.com/c/NqdxmiEU/12-8-insert-content-parallelize-inserts
+
+Outline how to determine a sweetspot:
+Start with a single node
+Create schema with a conservative number of shards
+Run benchmark
+Play around with concurrency settings
+(show graph at this point)
+Change number of shards settings
+Show influence
+Show how it changes with 2 nodes
+
+
+Mention connection-reuse, connection pooling (https://github.com/brettwooldridge/HikariCP)

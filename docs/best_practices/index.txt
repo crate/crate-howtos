@@ -13,7 +13,6 @@ A collection of CrateDB best practices and tips for common scenarios.
    full_restart_upgrade
    bootstrap_checks
    data_import
-   insert_performance
    sharding
    docker
    ec2_setup
