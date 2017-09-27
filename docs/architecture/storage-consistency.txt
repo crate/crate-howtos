@@ -73,6 +73,8 @@ version number assigned, which gets increased every time a change occurs,
 patterns like `Optimistic Concurrency Control`_ can help to work around that
 limitation.
 
+.. _durability:
+
 Durability
 ==========
 

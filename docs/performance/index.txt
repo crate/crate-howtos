@@ -1,6 +1,6 @@
-==================
-Performance Tuning
-==================
+===========
+Performance
+===========
 
 This section of the documentation shows you how tune your setup and get the
 best performance from CrateDB.
@@ -8,8 +8,8 @@ best performance from CrateDB.
 .. rubric:: Table of Contents
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
 
    memory
    sharding
-   inserts
+   inserts/index
