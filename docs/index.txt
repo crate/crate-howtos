@@ -22,6 +22,7 @@ massive amounts of machine data in real-time.
    getting_started/index
    tutorials/index
    best_practices/index
+   performance/index
    tools/index
 
 .. _CrateDB Reference: https://crate.io/docs/crate/reference/

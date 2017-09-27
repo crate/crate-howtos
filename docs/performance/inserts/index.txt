@@ -1,0 +1,7 @@
+==================
+Insert Performance
+==================
+
+.. rubric:: Table of Contents
+
+.. toctree::

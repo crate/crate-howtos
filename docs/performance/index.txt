@@ -1,0 +1,11 @@
+===========
+Performance
+===========
+
+.. rubric:: Table of Contents
+
+.. toctree::
+
+   inserts/index
+
+
