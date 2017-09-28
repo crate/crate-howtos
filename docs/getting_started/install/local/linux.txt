@@ -301,7 +301,8 @@ Setting Environment Variables
 
 On Ubuntu, Debian and RHEL systems the CrateDB startup script sources
 environment variables, such as ``CRATE_HEAP_SIZE`` or ``CRATE_JAVA_OPTS`` that
-you define in */etc/default/crate*.
+you define in ``/etc/default/crate`` or ``/etc/sysconfig/crate`` (depending on
+the distribution).
 
 Example
 -------
