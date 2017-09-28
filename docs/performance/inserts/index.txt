@@ -7,5 +7,6 @@ Insert Performance
 .. toctree::
    :maxdepth: 2
 
+   architecture
    bulk
    testing

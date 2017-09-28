@@ -4,10 +4,15 @@
 Bulk Inserts
 ============
 
+Bulk inserts are more efficient than single inserts, and you should switch to
+them if you can.
+
 .. rubric:: Table of Contents
 
 .. contents::
    :local:
+
+.. _single_inserts:
 
 Single Inserts
 ==============
@@ -16,7 +21,8 @@ Single Inserts
 
 .. code-block:: psql
 
-    cr> INSERT INTO my_table (column_a) VALUES ("value 1");
+    cr> INSERT INTO my_table (id, first_name)
+    ...      VALUES (1, "Arthur");
     INSERT OK, 1 row affected  (... sec)
 
 Single inserts are typically very fast with CrateDB. A small cluster can
@@ -42,6 +48,8 @@ reads, replication, and cluster management).
 
 Fortunately, there is a solution: bulk inserts.
 
+.. _switcing_to_bulk_inserts:
+
 Switching to Bulk Inserts
 =========================
 
@@ -57,11 +65,13 @@ less internal network traffic. In addition, the bulk query only needs to be
 parsed, planned, and executed once. And if `translog.durability`_ is set to
 ``REQUEST`` (the default), a bulk insert only flushes the disk once.
 
-Alternatives
-============
+Bulk Insert Alternatives
+========================
 
 If the HTTP endpoint isn't a viable option for you, there are a few
 alternatives.
+
+.. _unnest_method:
 
 ``UNNEST``
 ----------
@@ -89,7 +99,7 @@ Combine ``UNNEST`` with ``INSERT`` to perform bulk inserts:
 
 .. code-block:: psql
 
-    cr> INSERT INTO my_table (id, name)
+    cr> INSERT INTO my_table (id, first_name)
     ...   (SELECT *
     ...      FROM UNNEST(
     ...             [1, 2, 3],
@@ -107,13 +117,15 @@ For example, using the CrateDB Python client, the following is possible:
 .. code-block:: python
 
     client.execute("""
-      INSERT INTO my_table (id, name)
+      INSERT INTO my_table (id, first_name)
         (SELECT *
            FROM UNNEST(?, ?))
     """, ([1, 2, 3], ["Arthur", "Trillian", "Marvin"]))
 
 Here, you can vary the number of rows being inserted without having to change
 the prepared statement.
+
+.. _multiple_value_expressions:
 
 Multiple Value Expressions
 --------------------------
@@ -122,7 +134,7 @@ You can insert multiple rows with multiple value expressions, like so:
 
 .. code-block:: psql
 
-    cr> INSERT INTO my_table (id, name)
+    cr> INSERT INTO my_table (id, first_name)
     ...      VALUES (1, 'Arthur'),
     ...             (2, 'Trillian'),
     ...             (2, 'Marvin');
@@ -139,6 +151,8 @@ concatenation each time.
 Query string parameter substitution is recommended over string concatenation,
 and so the ``UNNEST`` method is recommended over the multiple value expressions
 method.
+
+.. _client_feature_method:
 
 Client Feature
 --------------

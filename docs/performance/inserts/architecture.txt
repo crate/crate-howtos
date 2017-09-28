@@ -1,0 +1,250 @@
+=================
+Insert Processing
+=================
+
+To optimize CrateDB and your client applications for insert performance, it's
+important that you have a basic understanding of how CrateDB handles inserts
+internally. This will make it easier to reason about the location of potential
+performance bottlenecks.
+
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+
+Types of Insert
+===============
+
+There are three kinds of inserts as far as CrateDB's insert handling is
+concerned.
+
+Single Inserts
+--------------
+
+A single insert looks like this:
+
+.. code-block:: psql
+
+  cr> INSERT INTO my_table (id, first_name)
+  ...      VALUES (1, "Arthur");
+  INSERT OK, 1 row affected  (... sec)
+
+As far as CrateDB's insert handling is concerned,
+:ref:`client batching <client_feature_method>` (e.g. JDBC's
+``addBatch`` and ``executeBatch``) counts as a type one insert, because client
+batching is little more than an efficient way of issuing a collection of single
+inserts.
+
+Inserts With Multiple Value Expressions
+---------------------------------------
+
+An insert with :ref:`multiple value expressions <multiple_value_expressions>`
+looks like this:
+
+.. code-block:: psql
+
+   cr> INSERT INTO my_table (id, first_name)
+   ...      VALUES (1, 'Arthur'),
+   ...             (2, 'Trillian'),
+   ...             (2, 'Marvin');
+   INSERT OK, 3 rows affected  (... sec)
+
+Bulk Inserts
+------------
+
+Bulk inserts are typically done via :ref:`the CrateDB HTTP endpoint
+<switcing_to_bulk_inserts>`, but they can also be done with SQL (see
+:ref:`unnest_method`) if the HTTP endpoint isn't a viable option.
+
+The ``UNNEST`` method looks like this:
+
+  .. code-block:: psql
+
+     cr> INSERT INTO my_table (id, first_name)
+     ...   (SELECT *
+     ...      FROM UNNEST(
+     ...             [1, 2, 3],
+     ...             ['Arthur', 'Trillian', 'Marvin']));
+     INSERT OK, 3 rows affected  (... sec)
+
+Processing Phases
+=================
+
+Parsing and Analysing
+---------------------
+
+When a user issues an insert statement to the cluster then this request is sent
+to whichever individual node the client connected to. This node is then
+responsible for performing statement parsing and analysing.
+
+The statement is parsed by the *SQL parser*. The *parsed statement* is then
+analysed by the *statement analyser*, which produces an *analysed statement*.
+
+The statement analyser performs the following checks:
+
+- Does the target table exist?
+
+- Do the specified table columns exist?
+
+   - If not, does the table have a `dynamic column policy`_?
+
+- Do the data types of the insert values match the data types of the existing columns?
+
+- Are all ``PRIMARY KEY`` columns and ``NOT NULL`` column specified?
+
+- Are the values for ``NOT NULL`` columns non null?
+
+- Is the table partitioned?
+
+  - If so, does a `partition`_ exist for all insert values?
+
+    - If not, enrich the statement with a list of the partitions that need to be created
+
+Preparation
+-----------
+
+TODO: could this also be called the "planning" phase?
+
+TODO: where does preparation happen? on the original node the client connected
+to?
+
+TODO: what's the name of the subsystem that takes the analysed statement and
+"prepares" it? i.e. the stuff we're describing in this section (See
+"INSERT_NOUN" placeholder below)
+
+The INSERT_NOUN will create one more more ``InsertRequest`` objects. Each
+``InsertRequest`` object holds the details of one row to be inserted.
+
+If there are multiple inserts, the INSERT_NOUN will also create a `hashmap`_
+that groups ``InsertRequest`` objects by shard ID (``ShardId``). We will use
+Java synatx and refer to this, like so: ``Map<ShardId, List<InsertRequest>>``.
+
+How the INSERT_NOUN proceeds depends on the type of insert being prepared.
+
+Preparing Single Inserts
+........................
+
+The INSERT_NOUN performs the following actions:
+
+1. If it doesn't exist, create the new partition
+
+2. Create a single ``InsertRequest`` object
+
+Preparing Inserts With Multiple Value Expressions
+.................................................
+
+For each row to be inserted, the INSERT_NOUN performs the following actions:
+
+1. If it doesn't exist, create the new partition
+
+2. Calculate the shard ID (``ShardId``) using the `routing column`_
+
+3. Create an ``InsertRequest`` object and add it to ``Map<ShardId,
+   List<InsertRequest>>``
+
+Preparing Bulk Inserts
+......................
+
+The INSERT_NOUN performs the same steps taken for inserts with multiple value
+expressions, as listed under the previous header.
+
+Additionally, the INSERT_NOUN creates an ``BulkResponse`` object, which holds
+the fine-grain response data so that we can start populate it while processing
+the individual rows to be inserted, we proceed with the actual write operations:
+
+Execution
+---------
+
+TODO: where does execution happen? on the original node the client connected
+to?
+
+TODO: what's the name of the subsystem that takes the prepared/planned
+statement and "executes" it? i.e. the stuff we're describing in this section
+(See "INSERT_NOUN" placeholder below)
+
+How the INSERT_NOUN proceeds depends on the type of insert being executed.
+
+Executing Single Inserts
+........................
+
+- From the current cluster state we find the node that holds the primary shard
+  for this shard Id of the single InsertRequest
+
+1. Write is performed on that node (primary shard)
+
+2. A write request is sent to the replicas of the shard
+
+  - If successful a Response is sent back to the client which denotes (1 row
+    inserted)
+
+  - An error (HTTP) or Exception (Postgres Wire Protocol) is sent to the client
+
+Executing Inserts With Multiple Value Expressions
+.................................................
+
+A Best effort approach is followed, meaning we try to insert as many rows as
+possible without returning on the first error encountered. The Map<ShardId,
+List<InsertRequest>> is processed in groups with the same shardId.
+
+For each group (List<InsertRequest>):
+
+1. From the current cluster state we find the node that holds the primary shard
+   for this shard Id of the single InsertRequest
+
+2. The group of requests is sent to that node
+
+3. Write is performed on that node (primary shard)
+
+4. A write request is sent to the replicas of the shard
+
+  - If successful then a counter is increased.
+
+A response is sent to the user containing the value of the counter. Eg: 4 rows
+inserted (out of the 10). 0 rows inserted (but no error) is returned if all
+values failed.
+
+Executing Bulk Inserts
+......................
+
+A best effort approach is followed, meaning that we try to insert as many rows
+as possible without returning on the first error encountered. The Map<ShardId,
+List<InsertRequest>> is processed in groups with the same shardId.
+
+For each group (List<InsertRequest>):
+
+1. From the current cluster state we find the node that holds the primary shard
+   for this shard Id of the single InsertRequest
+
+2. The group of requests is sent to that node
+
+3. Write is performed on that node (primary shard)
+
+4. A write request is sent to the replicas of the shard
+
+5. The BulkResponse object is updated with the result of this operation.
+
+The BulkResponse is sent to the client containing fine-grain info about the
+insert operation (see
+https://crate.io/docs/crate/reference/en/latest/protocols/http.html?highlight=
+bulk%20insert#bulk-errors. Response object contains a number for each bulk
+argument which is 1 if the particular value tuple is inserted or -2 along with
+an error message if failed.
+
+For b & c & d `write.wait_for_active_shards` setting on that table affects the
+behaviour. If it's set to "all" (default value) then all shards primary + all
+replicas should be available in order to proceed with the write. If at least
+one replica is not available, then after a waiting period the operation fails
+and an error is returned back to the user. If a lower value x is specified then
+a successful response is returned to the user once x number of shards
+(primary+replicas) have successfully been updated with the new row. If 1 is
+specified then the write is successfully as long as it’s written to the primary
+shard. (see `more info`_)
+
+.. _dynamic column policy: https://crate.io/docs/crate/reference/en/latest/sql/ddl/column_policy.html#dynamic
+.. _primary key: https://crate.io/docs/crate/reference/en/latest/sql/ddl/constraints.html#primary-key
+.. _not null: https://crate.io/docs/crate/reference/en/latest/sql/ddl/constraints.html#not-null
+.. _partition: https://crate.io/docs/crate/reference/en/latest/sql/partitioned_tables.html
+.. _routing column: https://crate.io/docs/crate/reference/en/latest/sql/ddl/sharding.html#routing
+.. _hashmap: https://en.wikipedia.org/wiki/Hash_table
+.. _bulk operations: https://crate.io/docs/crate/reference/protocols/http.html#bulk-operations
+.. _more info: https://www.elastic.co/guide/en/elasticsearch/reference/master/docs-index_.html#index-wait-for-active-shards
