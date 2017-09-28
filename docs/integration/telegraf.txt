@@ -3,6 +3,7 @@ Using Telegraf with CrateDB
 ===============================
 
 `Telegraf <https://github.com/influxdata/telegraf>`_ is a plugin-driven server agent for collecting & reporting metrics.
+Unsing Telegraf in combination with CrateDB allows you collecting a huge amount of data and query them with SQL in real-time.
 
 
 .. rubric:: Table of Contents
@@ -55,6 +56,8 @@ Your CrateDB config should look something like this:
   table = "metrics"
   # If true, and the metrics table does not exist, create it automatically.
   table_create = true
+
+On Telegraf start the table metrics will be created in the doc shema. A view seconds later you will see Telegraf metrics stored in this table.
 
 Run
 ===
