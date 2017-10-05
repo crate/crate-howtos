@@ -10,7 +10,8 @@ CrateDB and Docker_ are a great match thanks to CrateDB's shared-nothing,
 horizontally scalable architecture that lends itself well to containerization.
 
 This document covers the essentials of running CrateDB and Docker using the
-official `CrateDB Docker image`_.
+official `CrateDB Docker image`_. If you intend to bring CrateDB on Docker to
+production please ensure that you address the following :ref:`resource_constraints`.
 
 .. NOTE::
 
@@ -187,6 +188,9 @@ Here's how you would mount ``crate.yml``::
 Here, ``/srv/crate/config/crate.yml`` is an example path, and should be
 replaced with the path to your host machine ``crate.yml`` file.
 
+
+.. _resource_constraints:
+
 Resource Constraints
 --------------------
 
@@ -194,6 +198,15 @@ It is very important that you set resource constraints when you are running
 CrateDB inside Docker. Current versions of the JVM are unable to detect that
 they are running inside a container, and as a result, `the detected limits are
 wrong`_.
+
+Bootstrap checks
+................
+
+By using CrateDB with Docker, CrateDB binds by default to any site-local IP
+address on the system e.g. 192.168.0.1. On bootstrap this performs a number of
+checks during. The settings listed in `Bootstrap Checks`_ must be addressed on
+the Docker **host system** to start CrateDB successfully and going to
+production.
 
 Memory
 ......
@@ -241,3 +254,4 @@ everything at once like so::
 .. _Metadata Gateway: https://crate.io/docs/crate/reference/configuration.html#metadata-gateway
 .. _Discovery: https://crate.io/docs/crate/reference/configuration.html#discovery
 .. _CRATE_HEAP_SIZE: https://crate.io/docs/crate/reference/configuration.html#crate-heap-size
+.. _Bootstrap Checks: https://crate.io/docs/crate/guide/best_practices/bootstrap_checks.html
