@@ -205,8 +205,36 @@ provide Java 8 in any of their official repos, so you have to `install it via a
 3rd party repository
 <https://crate.io/docs/install/local/linux/#debian-wheezy>`_
 
-Install CrateDB From PPA
-------------------------
+.. _install_from_deb_repo:
+
+Install CrateDB from DEB repository
+-----------------------------------
+
+**This repository contains CrateDB versions greater than and equal to 2.1.0.**
+
+First, you need to download and install the GPG key with which the packages are
+verified.
+
+.. code-block:: sh
+
+    wget https://cdn.crate.io/downloads/deb/DEB-GPG-KEY-crate
+    sudo apt-key add DEB-GPG-KEY-crate
+
+Then add the testing or stable repo to your apt sources by adding a new file in
+the ``/etc/apt/sources.list.d/`` directory with the following content:
+
+.. code-block:: sh
+
+    deb https://cdn.crate.io/downloads/deb/<repo>/ <codename> main
+    deb-src https://cdn.crate.io/downloads/deb/<repo>/ <codename> main
+
+Replace ``<repo>`` with ``testing`` or ``stable`` depending which repo you want
+to use, and replace codename with the code name of your Ubuntu distribution.
+Use ``source /etc/os-release && echo $UBUNTU_CODENAME`` if you don't know the
+code name of your distro.
+
+Install CrateDB From PPA (Legacy)
+---------------------------------
 
 .. NOTE::
 
@@ -241,37 +269,6 @@ and install CrateDB:
 If you want to install testing releases, you can simply replace
 ``ppa:crate/stable`` with ``ppa:crate/testing`` and run ``apt-get update``
 again.
-
-.. _install_from_deb_repo:
-
-Install CrateDB from DEB repository
------------------------------------
-
-.. NOTE::
-
-   This repository contains only CrateDB versions greater than and equal to
-   2.1.0.
-
-First, you need to download and install the GPG key with which the packages are
-verified.
-
-.. code-block:: sh
-
-    wget https://cdn.crate.io/downloads/deb/DEB-GPG-KEY-crate
-    sudo apt-key add DEB-GPG-KEY-crate
-
-Then add the testing or stable repo to your apt sources by adding a new file in
-the ``/etc/apt/sources.list.d/`` directory with the following content:
-
-.. code-block:: sh
-
-    deb https://cdn.crate.io/downloads/deb/<repo>/ <codename> main
-    deb-src https://cdn.crate.io/downloads/deb/<repo>/ <codename> main
-
-Replace ``<repo>`` with ``testing`` or ``stable`` depending which repo you want
-to use, and replace codename with the code name of your Ubuntu distribution.
-Use ``source /etc/os-release && echo $UBUNTU_CODENAME`` if you don't know the
-code name of your distro.
 
 Start CrateDB
 -------------
