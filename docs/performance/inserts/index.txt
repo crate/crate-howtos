@@ -5,5 +5,7 @@ Insert Performance
 .. rubric:: Table of Contents
 
 .. toctree::
+   :maxdepth: 2
 
    bulk
+   testing
