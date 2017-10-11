@@ -148,6 +148,24 @@ Some clients offer their own bulk inserts implementation.
 `The JDBC client`_, for instance, provides the `addBatch`_ and `executeBatch`_
 methods.
 
+For example:
+
+.. code-block:: java
+
+   PreparedStatement preparedStatement = connection.prepareStatement(
+       "INSERT INTO my_table (id, first_name) VALUES (?, ?)");
+
+   preparedStatement.setString(1, "Arthur");
+   preparedStatement.addBatch();
+
+   preparedStatement.setString(1, "Trillian");
+   preparedStatement.addBatch();
+
+   preparedStatement.setString(1, "Marvin");
+   preparedStatement.addBatch();
+
+   int[] results = preparedStatement.executeBatch();
+
 Typically, these implementations still use individual insert statements, but
 they have a lower resource overhead because they use the binary protocol,
 contain almost no headers, and are executed over an already established
