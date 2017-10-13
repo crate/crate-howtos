@@ -225,7 +225,45 @@ list the hosts and tables with the highest number of rows inside a single
 shard. There's a lot of additional information available for shards. To find
 out more about that, see our :ref:`documentation <import_shards_replicas>`.
 
-Step 5: Managing Snapshots
+
+Step 5: Analyze Allocation Problems
+===================================
+
+Related to the previous step about gaining insights about shards and
+replication is the step about cluster wide shard allocations.
+
+In some circumstances, shard allocations might behave differently than you
+expect. A typical example might be that a table remains underreplicated for no
+apparent reason. You would probably want to find out what is causing the
+cluster to not allocate the shards. For that, there is the ``sys.allocations``
+table, which lists all shards in the cluster.
+
+If a shard is unassigned, the row will also include a reason why it cannot be
+allocated on any node.
+
+If a shard is assigned but cannot be moved or rebalanced, the row includes a
+reason why it remains on the current node.
+
+For a full list of available columns, see the `reference documentation about
+system tables`_.
+
+To find out about the different states of shards of a specific table you, can
+simply filter by ``table_schema`` and ``table_name``, e.g.::
+
+    cr> SELECT table_name, shard_id, node_id, explanations
+    ... FROM sys.allocations
+    ... WHERE table_schema = 'doc' AND table_name = 'my_table'
+    ... ORDER BY current_state, shard_id;
+    +------------+----------+---------+--------------+
+    | table_name | shard_id | node_id | explanations |
+    +------------+----------+---------+--------------+
+    | doc        | my_table | ...     | ...          |
+    +------------+----------+---------+--------------+
+    ...
+    +------------+----------+---------+--------------+
+    SELECT ... in set (... sec)
+
+Step 6: Managing Snapshots
 ==========================
 
 Finally, if your repair efforts did not succeed, your application or users
@@ -255,3 +293,5 @@ to restore. Suppose you make nightly backups, the command::
 
 shows you last week's snapshots along with its name, the stored indices, and
 how long they took.
+
+.. _`reference documentation about system tables`: https://crate.io/docs/crate/reference/sql/system.html#Allocations
