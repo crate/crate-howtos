@@ -125,10 +125,6 @@ Elasticsearch.
 Most of the known issues that relate to resiliency `exist in the Elasticsearch
 layer <https://www.elastic.co/guide/en/elasticsearch/resiliency/current/>`_.
 
-Fortunately, most of these issues are fixed in the Elasticsearch 6.x release
-line. We are working on updating CrateDB to use Elasticsearch 6.x and hope to
-have it ready in the first quarter of 2018.
-
 Repeated Cluster Partitions Can Cause Lost Cluster Updates
 ----------------------------------------------------------
 
