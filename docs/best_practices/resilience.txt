@@ -125,10 +125,6 @@ Elasticsearch.
 Most of the known issues that relate to resiliency `exist in the Elasticsearch
 layer <https://www.elastic.co/guide/en/elasticsearch/resiliency/current/>`_.
 
-Fortunately, most of these issues are fixed in the Elasticsearch 5.x release
-line. We are working on updating CrateDB to use Elasticsearch 5.x and hope to
-have it ready in the first quarter of 2017.
-
 Repeated Cluster Partitions Can Cause Lost Cluster Updates
 ----------------------------------------------------------
 
@@ -145,7 +141,8 @@ Repeated Cluster Partitions Can Cause Lost Cluster Updates
    <tr>
     <td>Status</td>
     <td>Work ongoing (<a
-      href="https://github.com/elastic/elasticsearch/pull/20384">#20384</a>)
+      href="https://www.elastic.co/guide/en/elasticsearch/resiliency/current/index.html#_repeated_network_partitions_can_cause_cluster_state_updates_to_be_lost_status_ongoing"
+      >More info</a>)
     </td>
    </tr>
    <tr>
@@ -182,6 +179,19 @@ Cluster state is very important and contains information like shard location,
 schemas, and so on. Lost cluster state updates can cause data loss, reset
 settings, and problems with table structures.
 
+.. rubric:: Partially fixed
+
+
+This problem is mostly fixed by `#20384 
+<https://github.com/elastic/elasticsearch/pull/20384>`_ (CrateDB v2.0.x),
+which uses committed cluster state updates during master election process.
+This does not fully solve this rare problem but considerably reduces the chance
+of occurrence. The reason is that if the second partition happens concurrently
+with a cluster state update and blocks the cluster state commit message from
+reaching a majority of nodes, it may be that the in flight update is lost. If
+the now-isolated master can still acknowledge the cluster state update to the
+client this will result to the loss of an acknowledged change.
+
 Retry of Updates Causes Double Execution
 ----------------------------------------
 
@@ -191,7 +201,8 @@ Retry of Updates Causes Double Execution
    <tr>
     <td>Status</td>
     <td>Work ongoing (<a
-      href="https://github.com/elastic/elasticsearch/issues/9967">#9967</a>)
+      href="https://www.elastic.co/guide/en/elasticsearch/resiliency/current/index.html#_better_request_retry_mechanism_when_nodes_are_disconnected_status_ongoing"
+      >More info</a>)
     </td>
    </tr>
    <tr>
@@ -239,7 +250,7 @@ Version Number Representing Ambiguous Row Versions
    <tr>
     <td>Status</td>
     <td>Work ongoing (<a
-      href="https://github.com/crate/crate/issues/3711">#3711</a>)
+      href="https://www.elastic.co/guide/en/elasticsearch/resiliency/current/index.html#_the__version_field_may_not_uniquely_identify_document_content_during_a_network_partition_status_ongoing">More info</a>)
     </td>
    </tr>
    <tr>
@@ -278,6 +289,10 @@ update that was made on the replicated shard is lost but the new version number
 matches the lost update. This will break `Optimistic Concurrency Control
 <https://crate.io/docs/reference/sql/occ.html>`_.
 
+
+Fixed Issues
+============
+
 Loss of Rows Due to Network Partition
 -------------------------------------
 
@@ -286,7 +301,7 @@ Loss of Rows Due to Network Partition
    <table class="summary">
    <tr>
     <td>Status</td>
-    <td>Fix planned for early 2017 (<a
+    <td>Fixed in Crate v2.0.x (<a
       href="https://github.com/elastic/elasticsearch/issues/7572">#7572</a>, <a
       href="https://github.com/elastic/elasticsearch/issues/14252">#14252</a>)
     </td>
@@ -336,7 +351,7 @@ Dirty Reads Caused by Bad Primary Handover
    <table class="summary">
    <tr>
     <td>Status</td>
-    <td>Fix planned for early 2017 (<a
+    <td>Fixed in CrateDB v2.0.x (<a
       href="https://github.com/elastic/elasticsearch/pull/15900">#15900</a>, <a
       href="https://github.com/elastic/elasticsearch/issues/12573">#12573</a>)
     </td>
@@ -388,7 +403,7 @@ Changes Are Overwritten by Old Data in Danger of Lost Data
    <table class="summary">
    <tr>
     <td>Status</td>
-    <td>Fix planned for early 2017 (<a
+    <td>Fixed in CrateDB v2.0.x (<a
       href="https://github.com/elastic/elasticsearch/issues/14671">#14671</a>)
     </td>
    </tr>
@@ -430,7 +445,7 @@ Unaware Master Accepts Cluster Updates
    <table class="summary">
    <tr>
     <td>Status</td>
-    <td>Fix planned for early 2017 (<a
+    <td>Fixed in CrateDB v2.0.x (<a
       href="https://github.com/elastic/elasticsearch/issues/13062">#13062</a>)
     </td>
    </tr>
