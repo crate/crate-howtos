@@ -42,12 +42,14 @@ from CrateDB relative to how low this value is.
 CPUs
 ----
 
-If your queries are complex, the additional CPU overhead during the
-:ref:`analyzing phase <parsing_analyzing>` of insert query processing might
-result in a CPU performance bottleneck.
+If your table schemas are complex or make use of `fulltext indexes`_, the
+additional CPU overhead during the :ref:`analyzing phase <parsing_analyzing>`
+of insert query processing might result in a CPU performance bottleneck.
 
-If this becomes the case, and simplifying your queries isn't an option,
-upgrading your CPUs will be a cost-effective way to boost CrateDB performance.
+If this becomes the case, you might want to try using different fulltext
+analyzers or maybe even turn off fulltext indexing entirely. If neither of
+these are an option, upgrading your CPUs will be a cost-effective way to boost
+CrateDB performance.
 
 RAM Disks
 ---------
@@ -63,32 +65,52 @@ Server
 Replicas
 ........
 
-Biggest influence: replicas (esp 0 vs . 1+)
+The biggest performance cost occurred when you go from zero replicas to one
+configured replica for a table. After that point, load increases linearly. This
+is because a write is made to the primary first, and then afterwards, writes
+are made concurrently to the replicas.
 
-(Because primary write first and only after it writes the replicas)
+However, using tables with zero replicas is not recommended for anything except
+one-off data imports. You should have at least one configured replica for every
+table in a cluster that has three nodes or more.
 
-TODO: need details. what are we recommending here?
+Replicas improve availability and durability (in the event of node failure or
+cluster partitions) but they do incur a performance cost.
 
 Shards and Partitioning
 .......................
 
-Number of shards / partitioning
+Consult our guide to :ref:`optimising shards for ingestion
+<sharding_guide_ingestion>` for more details.
 
-TODO: need details. what are we recommending here?
+TODO the above guide only mentions shards. do we specifically wanna mention
+here or there something about how this specifically relates to partitions
 
-Table Schema
+Indexing
+........
+
+By default, all table columns are indexed. Regular columns use the ``plain``
+index, and fulltext columns use the ``fulltext`` index.
+
+Indexes are expensive, so `turning column indexes off`_ will always improve
+performance. Sometimes significantly. But the downside is that you cannot use
+those columns in the where clause.
+
+Primary Keys
 ............
 
-(Analyzer, INDEX OFF, Primary Key)
-
-TODO: need details. what are we recommending here?
+If your data does not have a `natural primary key`_ (i.e. data that uniquely
+identifies each row), use the ``_id`` `system column`_ as a primary key. This
+is better than creating your own `surrogate primary key`_ (e.g. manually
+generating a UUID for each row) because there is one less column to index.
 
 Translog
 ........
 
-https://crate.io/docs/crate/reference/en/latest/sql/reference/create_table.html#translog-durability
-
-TODO: need details. what are we recommending here?
+If `translog.durability`_ is set to ``REQUEST`` (the default), the
+:ref:`translog <durability>` gets flushed after every operation. Setting this to ``ASYNC`` will improve insert performance, but it also worsens
+durability. If a node is shut down before a translog has been synced, those
+opperations will be lost.
 
 Refresh Interval
 ................
@@ -170,3 +192,9 @@ find the sweet spot for your cluster.
 .. _refresh_interval: https://crate.io/docs/crate/reference/en/latest/sql/reference/create_table.html#refresh-interval
 .. _OPTIMIZE: https://crate.io/docs/crate/reference/en/latest/sql/reference/optimize.html
 .. _indices.store.throttle.max_bytes_per_sec: https://crate.io/docs/crate/reference/en/latest/configuration/cluster.html#indices-store-throttle-max-bytes-per-sec
+.. _fulltext indexes: https://crate.io/docs/crate/reference/en/latest/sql/fulltext.html
+.. _turning column indexes off: https://crate.io/docs/crate/reference/en/latest/sql/ddl/indices_full_search.html#disable-indexing
+.. _surrogate primary key: https://en.wikipedia.org/wiki/Surrogate_key
+.. _natural primary key: https://en.wikipedia.org/wiki/Natural_key
+.. _system column: https://crate.io/docs/crate/reference/en/latest/sql/administration/system_columns.html
+.. _translog.durability: https://crate.io/docs/crate/reference/en/latest/sql/reference/create_table.html#translog-durability
