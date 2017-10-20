@@ -19,12 +19,7 @@ Install
 There is an `open pull request`_ for adding the CrateDB output plugin to
 Telegraf.
 
-Until this pull request is merged, we are providing binaries for:
-
-- `linux 368 <https://cdn.crate.io/downloads/dist/telegraf/telegraf_0.1-170921123755.linux.386.tar.gz>`_
-- `linux amd64 <https://cdn.crate.io/downloads/dist/telegraf/telegraf_0.1-170921123755.linux.amd64.tar.gz>`_
-- `darwin amd64 <https://cdn.crate.io/downloads/dist/telegraf/telegraf_0.1-170921123755.darwin.amd64.tar.gz>`_
-- `windows amd64 <https://cdn.crate.io/downloads/dist/telegraf/telegraf_0.1-170921123755.windows.amd64.tar.gz>`_
+Until this pull request is merged, we are providing `prebuilt binaries`_.
 
 Or, you can build it by yourself `from the source <https://github.com/tomsvogel/telegraf#from-source>`_.
 
@@ -80,3 +75,4 @@ the standard syntax, i.e. by specifying ``my_schema.metrics`` for ``table``.
 A few seconds later, you will see Telegraf metrics being written to this table.
 
 .. _open pull request: https://github.com/influxdata/telegraf/pull/3210
+.. _prebuilt binaries: https://cdn.crate.io/downloads/dist/telegraf/
