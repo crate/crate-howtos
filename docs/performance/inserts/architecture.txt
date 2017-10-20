@@ -88,6 +88,9 @@ The statement analyzer performs the following checks:
 
 - Are the values for ``NOT NULL`` columns non null?
 
+  (Sometimes, checks like this can only be performed during execution of the
+  query because the values are not yet known.)
+
 - Is the table partitioned?
 
   - If so, does a `partition`_ exist for all insert values?
