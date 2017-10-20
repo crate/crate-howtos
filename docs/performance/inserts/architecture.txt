@@ -242,15 +242,10 @@ If the required number of replicas is not available, and do not become
 available during a brief waiting period, the operation fails and an error is
 returned back to the user.
 
-TODO IS THE WAITING PERIOD CONFIGURABLE?
-
-TODO the ES docs say this improves resiliency. but why? surely the replication
-notices missing copies of the data on the replicas and will fix the issue after
-the insert takes place eventually?
-
-.. SEEALSO::
-
-   `Elasticsearch documentation`_
+Configuring this setting to require at least one replica shard increases
+resiliency. Because if a primary accepts a write, there is a small window
+between that data being written and replication taking place. If your primary
+fails during that window, that data is lost.
 
 .. _dynamic column policy: https://crate.io/docs/crate/reference/en/latest/sql/ddl/column_policy.html#dynamic
 .. _primary key: https://crate.io/docs/crate/reference/en/latest/sql/ddl/constraints.html#primary-key
