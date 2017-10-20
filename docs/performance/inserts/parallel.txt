@@ -4,11 +4,12 @@
 Parallel Inserts
 ================
 
-Because CrateDB is a clustered data with every node capable of handling client
-requests, parallelizing (i.e. doing many at once) your inserts is one good way
-to increase insert performance.
+Because CrateDB is a distributed database with every node capable of handling
+client requests, parallelizing your inserts (i.e. doing many at once) is a
+good way to increase performance.
 
-There are a few ways you can do this.
+This document introduces you to a number of different approaches for doing
+parallel inserts.
 
 .. rubric:: Table of Contents
 
@@ -26,21 +27,6 @@ concurrent requests.
 
 This is the least efficient way to do parallel inserts, because the
 resources on that node can easily become a bottleneck.
-
-Switch Between Multiple Nodes
------------------------------
-
-Configure your client application with a list of nodes in your cluster, and
-select a random node each time a request is made.
-
-The CrateDB `Python client`_, `JDBC client`_, and `PHP PDO client`_ support some
-sort of multiple node configuration.
-
-You can implement your own too.
-
-This solves the bottleneck issue when using a single node, but it's still a
-rudimentary approach that involves adding and removing node addresses manually
-from your application configuration.
 
 DNS Round Robin
 ---------------
@@ -71,13 +57,35 @@ There are a few problems:
   Ideally, clients should be rapidly switching beween CrateDB nodes, to make
   best use of the cluster.
 
+Switch Between Multiple Nodes
+-----------------------------
+
+Configure your client application with a list of nodes in your cluster, and
+select a random node each time a request is made.
+
+The CrateDB `Python client`_, `JDBC client`_, and `PHP PDO client`_ support
+multiple nodes configuration.
+
+This solves the bottleneck issue when using a single node, but it's still a
+rudimentary approach that involves adding and removing node addresses manually
+from your application configuration.
+
+Connection Pooling
+------------------
+
+If your client supports it, connection pooling improves on the previous method
+of switching between multiple nodes by sharing network connections between
+requests.
+
+`HikariCP`_ is a connection pool that works with the CrateDB `JDBC client`_.
+
 Use a Load Balancer
 -------------------
 
 Stick your CrateDB cluster in front of a load balancer.
 
-With something like `HAProxy`_, you can configure a round robin load balancing
-with something like this in your config:
+With a load balancer like `HAProxy`_, you can configure a round robin load
+balancing with something like this in your config:
 
 .. code-block:: text
 
@@ -94,15 +102,6 @@ This technique comes with the added benefit that most load balancers (like
 HAProxy) will monitor the cluster and provide health checks, analytics
 dashboards, and so on.
 
-Client Connection Pooling
--------------------------
-
-If your client supports it, connection pooling can be a good way to both load
-balance requests as well as make use of connection reuse. This may offer
-performance benefits over a fully featured load balancer.
-
-`HikariCP`_ is a connection pool that works with the CrateDB `JDBC client`_.
-
 Testing Parallel Inserts
 ========================
 
@@ -115,13 +114,13 @@ To test parallel inserts, you should:
 2. Run a number of different tests against that setup, using different
    ``--concurrency`` settings
 
-3. Plot your results on a graph to see the performance curve of your setup
-   (i.e. how your setup responds to different loads)
+3. Evaluate your throughput results (perhaps by plotting your results on a
+   graph so that you can see the response curve)
 
-4. Start over
+Try out different setups and re-run the test.
 
-At the end of this process, you will have a number of performance curve graphs
-for the different setups you are interested in testing.
+At the end of this process, you will have a better understanding of the
+throughput of your cluster with different setups and under different loads.
 
 .. _HAProxy: http://www.haproxy.org/
 .. _A record: https://en.wikipedia.org/wiki/List_of_DNS_record_types?
