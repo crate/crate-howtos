@@ -104,13 +104,6 @@ The analyzed statement is then handed off to the *planner*, which plans out the
 execution of the insert. This process continues to take place on the node
 responsible for handling the client request.
 
-The planner will create one more more ``InsertRequest`` objects. Each
-``InsertRequest`` object holds the details of one row to be inserted.
-
-If there are multiple inserts, the planner will also create a `hashmap`_
-that groups ``InsertRequest`` objects by shard ID (``ShardId``). We will use
-Java synatx and refer to this, like so: ``Map<ShardId, List<InsertRequest>>``.
-
 How the planner proceeds depends on the type of insert being prepared.
 
 Planning Single Inserts
@@ -120,7 +113,7 @@ The planner performs the following actions:
 
 1. If the partition doesn't exist, create a new partition
 
-2. Create a single ``InsertRequest`` object
+2. Create a single insert request
 
 Planning Inserts With Multiple Value Expressions
 ................................................
@@ -131,8 +124,7 @@ For each row to be inserted, the planner performs the following actions:
 
 2. Calculate the shard ID (``ShardId``) using the `routing column`_
 
-3. Create an ``InsertRequest`` object and add it to ``Map<ShardId,
-   List<InsertRequest>>``
+3. Create a single insert request for the shard ID
 
 Planning Bulk Inserts
 .....................
@@ -140,23 +132,22 @@ Planning Bulk Inserts
 The planner performs the same steps taken for inserts with multiple value
 expressions, as listed under the previous header.
 
-Additionally, the planner creates an ``BulkResponse`` object, which holds the
-fine-grain response data so that we can start populate it while processing the
-individual rows to be inserted, we proceed with the actual write operations:
+Additionally, the planner prepares a bulk insert response object that will hold
+the results of every row we try to insert.
 
 .. _execution:
 
 Execution
 ---------
 
-The planned statement is then handed off to the *executor*, which executes the
-insert across the cluster.
+The planned inserts are then handed off to the *executor*, which executes them
+across the cluster.
 
 This process is managed by the node responsible for handling the client
-request, but the operations needed to complete the insert can be handed off to
+request, but the operations needed to complete the inserts can be handed off to
 any `data node`_ in the cluster.
 
-How the executor proceeds depends on the type of insert being executed.
+How the executor proceeds depends on the type of inserts being executed.
 
 Executing Single Inserts
 ........................
@@ -165,15 +156,14 @@ The executor performs the following actions:
 
 1. Query the :ref:`cluster state <cluster_state_management>` for the the node
    that holds the primary shard corresponding to the ``shardId`` of the
-   ``InsertRequest``
+   insert
 
 2. Check that :ref:`the required number of replicas <minimum_active_shards>`
    are available
 
-3. Send a write request corresponding to the ``InsertRequest`` to the primary
-   shard
+3. Send the insert request to the primary shard
 
-4. Send an identical write request to the replicas of the primary shard
+4. Send an identical request request to the replicas of the primary shard
 
    - If successful, a response is sent to the client reporting that one row has
      been inserted
@@ -187,21 +177,17 @@ Executing Inserts With Multiple Value Expressions
 The executor makes a best effort to insert as many rows as possible. The
 executor will continue to try to insert rows, even when errors are encountered.
 
-The ``Map<ShardId, List<InsertRequest>>`` hashmap is processed one ``shardId``
-and ``List<InsertRequest>`` object pair at a time.
-
-For each pair, the executor performs the following actions:
+For every insert request, the executor performs the following actions:
 
 1. Query the :ref:`cluster state <cluster_state_management>` for the the node
-   that holds the primary shard corresponding to the ``shardId``
+   that holds the primary shard
 
 2. Check that :ref:`the required number of replicas <minimum_active_shards>`
    are available
 
-4. Send a write request corresponding to the ``List<InsertRequest>`` to the
-   primary shard
+4. Send an insert request to the primary shard
 
-5. Send an identical write request to the replicas of the primary shard
+5. Send an identical insert request to the replicas of the primary shard
 
    - If successful, an insert counter is incremented
 
@@ -222,12 +208,11 @@ The executor performs the same steps taken for inserts with multiple value
 expressions, as listed under the previous header, with one exception.
 
 Instead of reporting a single number corresponding to the number of successful
-inserts, the previously created ``BulkResponse`` object is populated with
+inserts, the previously created bulk insert response object is populated with
 information about every insert attempted.
 
-The ``BulkResponse`` is then used to create a `bulk insert response`_ that is
-returned to the client, with a ``rowcount`` for every row in the bulk insert
-request:
+The `bulk insert response`_ object is returned to the client, with a
+``rowcount`` for every row in the bulk insert request:
 
 - A ``rowcount`` of ``1`` indicates a successful insert
 
