@@ -19,8 +19,8 @@ parallel inserts.
 Methods
 =======
 
-Use a Single Node
------------------
+Query a Single Node
+-------------------
 
 Point your client application at a single node in your cluster, and send many
 concurrent requests.
@@ -41,6 +41,10 @@ This can be used as a sort of rudimentary load balancing system.
 
 There are a few problems:
 
+- DNS might return the IP for an unresponsive node. If your client does not
+  know how to connect to any of the nodes directly, it may not be able to make
+  subsequent requests until the situation resolves itself.
+
 - The DNS does not know about CrateDB nodes that have joined or left the
   cluster. You must update the configuration by hand each time.
 
@@ -57,8 +61,8 @@ There are a few problems:
   Ideally, clients should be rapidly switching beween CrateDB nodes, to make
   best use of the cluster.
 
-Switch Between Multiple Nodes
------------------------------
+Client Round Robin
+------------------
 
 Configure your client application with a list of nodes in your cluster, and
 select a random node each time a request is made.
@@ -73,11 +77,15 @@ from your application configuration.
 Connection Pooling
 ------------------
 
-If your client supports it, connection pooling improves on the previous method
-of switching between multiple nodes by sharing network connections between
-requests.
+If your client supports it, connection pooling improves performance by sharing
+network connections between requests.
+
+This is often combined with client round robin. When a node is selected at
+random, any existing connection is reused.
 
 `HikariCP`_ is a connection pool that works with the CrateDB `JDBC client`_.
+
+The `Python client`_ supports round robin and connection pooling.
 
 Use a Load Balancer
 -------------------
@@ -101,6 +109,17 @@ balancer. The load balancer then distributes requests across your cluster.
 This technique comes with the added benefit that most load balancers (like
 HAProxy) will monitor the cluster and provide health checks, analytics
 dashboards, and so on.
+
+There is one problem:
+
+- Like DNS round robin, the proxy might return the IP for an unresponsive node.
+  If your client does not know how to connect to any of the nodes directly, it
+  may not be able to make subsequent requests until the situation resolves
+  itself.
+
+TODO: do any proxies automatically do fail over?
+
+TODO whole section on DNS published IPs that we do on cloud infra
 
 Testing Parallel Inserts
 ========================
