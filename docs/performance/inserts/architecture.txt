@@ -40,7 +40,7 @@ like this:
 
 .. code-block:: psql
 
-   cr> INSERT INTO my_table (id, first_name)
+   cr> INSERT INTO first_name (id, first_name)
    ...      VALUES (1, 'Arthur'),
    ...             (2, 'Trillian'),
    ...             (2, 'Marvin');
@@ -54,7 +54,13 @@ Bulk inserts are typically done via :ref:`the CrateDB HTTP endpoint
 <bulk_client>` or with SQL via :ref:`UNNEST <bulk_unnest>`. Consult the
 respective docs for details of each method.
 
-All three bulk insert methods are handled the same internally by CrateDB.
+The HTTP endpoint method and the client batching method work by efficiently
+issuing lots of separate queries. Those queries can be single inserts or
+inserts with multiple value expressions. Bulk inserts with multiple value
+expressions offer no performance benefits, and are therefore uncommon in
+practice.
+
+TODO: IS THE ABOVE TRUE
 
 .. _processing_phases:
 
@@ -116,7 +122,7 @@ The planner performs the following actions:
 
 1. If the partition doesn't exist, create a new partition
 
-2. Create a single insert request
+2. Create a single planned insert
 
 Planning Inserts With Multiple Value Expressions
 ................................................
@@ -127,7 +133,9 @@ For each row to be inserted, the planner performs the following actions:
 
 2. Calculate the shard ID (``ShardId``) using the `routing column`_
 
-3. Create a single insert request for the shard ID
+3. Create a single planned insert
+
+4. Group the planned insert with other planned inserts for this shard
 
 Planning Bulk Inserts
 .....................
@@ -136,7 +144,7 @@ The planner performs the same steps taken for inserts with multiple value
 expressions, as listed under the previous header.
 
 Additionally, the planner prepares a bulk insert response object that will hold
-the results of every row we try to insert.
+the results of every insert we attempt.
 
 .. _execution:
 
@@ -159,12 +167,12 @@ The executor performs the following actions:
 
 1. Query the :ref:`cluster state <cluster_state_management>` for the the node
    that holds the primary shard corresponding to the ``shardId`` of the
-   insert
+   planned insert
 
 2. Check that :ref:`the required number of replicas <minimum_active_shards>`
    are available
 
-3. Send the insert request to the primary shard
+3. Send an insert request to the primary shard
 
 4. Send an identical request request to the replicas of the primary shard
 
@@ -180,7 +188,7 @@ Executing Inserts With Multiple Value Expressions
 The executor makes a best effort to insert as many rows as possible. The
 executor will continue to try to insert rows, even when errors are encountered.
 
-For every insert request, the executor performs the following actions:
+For every planned insert, the executor performs the following actions:
 
 1. Query the :ref:`cluster state <cluster_state_management>` for the the node
    that holds the primary shard
@@ -215,12 +223,19 @@ inserts, the previously created bulk insert response object is populated with
 information about every insert attempted.
 
 The `bulk insert response`_ object is returned to the client, with a
-``rowcount`` for every row in the bulk insert request:
+``rowcount`` for every insert in the bulk insert request that will either be:
 
-- A ``rowcount`` of ``1`` indicates a successful insert
+- A positive ``rowcount`` indicates the number of successul rows inserted
 
-- A ``rowcount`` of ``2`` indicates a failed insert, and may be
+- A ``rowcount`` of ``-2`` indicates a failed insert, and may be
   accompanied with with an ``error_message``
+
+.. NOTE::
+
+   If you are doing bulk inserts with a single value expression, the
+   ``rowcount`` will always be ``1`` for successful inserts. If you are doing
+   bulk inserts with multiple value expressions, as before, the ``rowcount``
+   indicates how many successful inserts were made for that bulk insert.
 
 .. _minimum_active_shards:
 
