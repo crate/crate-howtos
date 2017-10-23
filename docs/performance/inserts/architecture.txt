@@ -227,7 +227,7 @@ information about every insert attempted.
 The `bulk insert response`_ object is returned to the client, with a
 ``rowcount`` for every insert in the bulk insert request that will either be:
 
-- A positive ``rowcount`` indicates the number of successul rows inserted
+- A positive ``rowcount`` indicates the number of successful rows inserted
 
 - A ``rowcount`` of ``-2`` indicates a failed insert, and may be
   accompanied with with an ``error_message``
