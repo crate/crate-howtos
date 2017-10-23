@@ -188,6 +188,8 @@ Executing Inserts With Multiple Value Expressions
 The executor makes a best effort to insert as many rows as possible. The
 executor will continue to try to insert rows, even when errors are encountered.
 
+TODO somehow need to mention this is done by shard group??
+
 For every planned insert, the executor performs the following actions:
 
 1. Query the :ref:`cluster state <cluster_state_management>` for the the node
