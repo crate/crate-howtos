@@ -1,15 +1,25 @@
 .. _parallel_inserts:
 
-================
-Parallel Inserts
-================
+==================
+Concurrent Inserts
+==================
 
-Because CrateDB is a distributed database with every node capable of handling
-client requests, parallelizing your inserts (i.e. doing many at once) is a
-good way to increase performance.
+If you have a queue of inserts, one way to process them in your client is to
+send them one by one, waiting for the response from previous insert before
+sending the next one.
+
+With a latency of 5ms between the server and client, even if inserts happened
+instantaneously, this client could only ever do 200 inserts per second.
+
+If you're handling a lot of inserts, this sort of setup can very quickly become a
+performance bottleneck.
+
+The solution to this is to send multiple inserts concurrently. That is, send
+off every insert request as soon as you need to and do not wait for a
+response before sending another insert.
 
 This document introduces you to a number of different approaches for doing
-parallel inserts.
+concurrent inserts.
 
 .. rubric:: Table of Contents
 

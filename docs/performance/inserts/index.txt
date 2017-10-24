@@ -9,6 +9,6 @@ Insert Performance
 
    architecture.txt
    bulk
-   parallel
+   concurrent
    tuning
    testing
