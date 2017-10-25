@@ -106,6 +106,8 @@ byte-serialized Plain Old Java Objects (`POJOs`_) and operates on a separate
 port. That so-called "transport port" must be open and reachable from all nodes
 in the cluster.
 
+.. _cluster_state_management:
+
 Cluster State Management
 ------------------------
 

@@ -1,0 +1,94 @@
+.. _insert_architecture:
+
+====================
+Inserts Architecture
+====================
+
+OR: Inserts Overview/Basics
+
+A ``INSERT INTO`` statement is roughly processed as follows:
+
+ - Parse the statement to create an abstract syntax tree
+ - Do some basic semantic validation
+ - Plan the operation
+ - Execute the operation: This involves calculating the shardId for each row to
+   be inserted and sending requests to the nodes holding the primary shard.
+
+-- add graph here showing the sharding
+
+
+There are different options to reduce the processing required or
+even skip entire steps. Some involve using different variants of the ``INSERT
+INTO`` statement, others involve using a different client API.
+
+
+Different statement types
+=========================
+
+A good way to optimize insert performance is to insert multiple rows with a
+single statement. This way the processing overhead is greatly reduced: Parsing
+the statement, the semantic validation and planning the operation is only done
+once. In addition, the execution phase can batch certain operations. This
+reduces both, the amount of communication between nodes and disk accesses.
+
+
+-- maybe add graph here showing the difference between single row / multi row insert incl. sharding
+
+
+-- add UNNEST
+
+
+-- add MULTI VALUES
+
+
+Clients API Usage
+==================
+
+Bulk/Batch API
+--------------
+
+
+Most clients also provide some form of batch API. Using such an API causes
+CrateDB to process the statement similar to a ``INSERT INTO .. UNNEST``
+statement. The statement preparation must only be done once to insert multiple
+rows.
+
+.. note::
+
+    For clients using the postgres wire protocol there will be a slight
+    overhead compared to the ``UNNEST`` variant because each individual batch
+    (row) is send as a separate message to the server.
+
+    Clients using HTTP can utilize a special Bulk Endpoint - All parameters can
+    be sent in a single request to the server.
+
+
+-- add JDBC example or link to docs
+-- add python example?
+
+
+
+Prepared statements
+-------------------
+
+Most clients based provide some form of `prepared statement` support. By using
+prepared statements, the server is able to do some work up-front once; this
+work can then be re-used for subsequent invokations of the same query.
+
+This option will be slower than the previously mentioned option because the
+execution-phase cannot be optimized.
+
+.. note:: this is only optimized for clients using the postgres wire protocol
+
+--  add JDBC example
+
+
+
+
+
+
+
+
+
+
+

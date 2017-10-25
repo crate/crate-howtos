@@ -1,0 +1,14 @@
+===========
+Performance
+===========
+
+.. rubric:: Table of Contents
+
+.. toctree::
+   :maxdepth: 2
+
+   sharding
+   inserts/index
+   load-balancing
+
+

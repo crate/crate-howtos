@@ -1,0 +1,278 @@
+.. _insert_architecture:
+
+===================
+Insert Architecture
+===================
+
+If you want to optimize your use of CrateDB for insert performance, it's
+important that you have a basic understanding of how CrateDB handles inserts
+internally.
+
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+
+.. _types_of_insert:
+
+Types of Insert
+===============
+
+There are three kinds of inserts as far as CrateDB's insert handling is
+concerned.
+
+Single Inserts
+--------------
+
+A single insert looks like this:
+
+.. code-block:: psql
+
+  cr> INSERT INTO my_table (id, first_name)
+  ...      VALUES (1, "Arthur");
+  INSERT OK, 1 row affected  (... sec)
+
+Inserts With Multiple Value Expressions
+---------------------------------------
+
+An insert with :ref:`multiple value expressions <bulk_multiple_values>` looks
+like this:
+
+.. code-block:: psql
+
+   cr> INSERT INTO first_name (id, first_name)
+   ...      VALUES (1, 'Arthur'),
+   ...             (2, 'Trillian'),
+   ...             (2, 'Marvin');
+   INSERT OK, 3 rows affected  (... sec)
+
+Bulk Inserts
+------------
+
+Bulk inserts are typically done via :ref:`the CrateDB HTTP endpoint
+<bulk_switching>`, but they can also be done with :ref:`client batching
+<bulk_client>` or with SQL via :ref:`UNNEST <bulk_unnest>`. Consult the
+respective docs for details of each method.
+
+The HTTP endpoint method and the client batching method work by efficiently
+issuing lots of separate queries. Those queries can be single inserts or
+inserts with multiple value expressions. Bulk inserts with multiple value
+expressions offer no performance benefits, and are therefore uncommon in
+practice.
+
+TODO: IS THE ABOVE TRUE
+
+.. _processing_phases:
+
+Processing Phases
+=================
+
+.. _parsing_analyzing:
+
+Parsing and Analyzing
+---------------------
+
+When a user issues an insert statement to the cluster then this request is sent
+to whichever individual node the client connected to. This node is then
+responsible for performing statement parsing, analyzing, and planning.
+
+The statement is parsed by the *SQL parser*. The *parsed statement* is then
+analyzed by the *statement analyzer*, which produces an *analyzed statement*.
+
+The statement analyzer performs the following checks:
+
+- Does the target table exist?
+
+- Do the specified table columns exist?
+
+   - If not, does the table have a `dynamic column policy`_?
+
+- Do the data types of the insert values match the data types of the existing
+  columns?
+
+- Are all ``PRIMARY KEY`` columns and ``NOT NULL`` column specified?
+
+- Are the values for ``NOT NULL`` columns non null?
+
+  (Sometimes, checks like this can only be performed during execution of the
+  query because the values are not yet known.)
+
+- Is the table partitioned?
+
+  - If so, does a `partition`_ exist for all insert values?
+
+    - If not, enrich the statement with a list of the partitions that need to
+      be created
+
+.. _planning:
+
+Planning
+--------
+
+The analyzed statement is then handed off to the *planner*, which plans out the
+execution of the insert. This process continues to take place on the node
+responsible for handling the client request.
+
+How the planner proceeds depends on the type of insert being prepared.
+
+Planning Single Inserts
+.......................
+
+The planner performs the following actions:
+
+1. If the partition doesn't exist, create a new partition
+
+2. Create a single planned insert
+
+Planning Inserts With Multiple Value Expressions
+................................................
+
+For each row to be inserted, the planner performs the following actions:
+
+1. If the partition doesn't exist, create a new partition
+
+2. Calculate the shard ID (``ShardId``) using the `routing column`_
+
+3. Create a single planned insert
+
+4. Group the planned insert with other planned inserts for this shard
+
+Planning Bulk Inserts
+.....................
+
+The planner performs the same steps taken for inserts with multiple value
+expressions, as listed under the previous header.
+
+Additionally, the planner prepares a bulk insert response object that will hold
+the results of every insert we attempt.
+
+.. _execution:
+
+Execution
+---------
+
+The planned inserts are then handed off to the *executor*, which executes them
+across the cluster.
+
+This process is managed by the node responsible for handling the client
+request, but the operations needed to complete the inserts can be handed off to
+any `data node`_ in the cluster.
+
+How the executor proceeds depends on the type of inserts being executed.
+
+Executing Single Inserts
+........................
+
+The executor performs the following actions:
+
+1. Query the :ref:`cluster state <cluster_state_management>` for the the node
+   that holds the primary shard corresponding to the ``shardId`` of the
+   planned insert
+
+2. Check that :ref:`the required number of replicas <minimum_active_shards>`
+   are available
+
+3. Send an insert request to the primary shard
+
+4. Send an identical request request to the replicas of the primary shard
+
+   - If successful, a response is sent to the client reporting that one row has
+     been inserted
+
+   - Otherwise, an error (when using HTTP) or an exception (when using the
+     Postgres wire protocol) is sent to the client
+
+Executing Inserts With Multiple Value Expressions
+.................................................
+
+The executor makes a best effort to insert as many rows as possible. The
+executor will continue to try to insert rows, even when errors are encountered.
+
+TODO somehow need to mention this is done by shard group??
+
+For every planned insert, the executor performs the following actions:
+
+1. Query the :ref:`cluster state <cluster_state_management>` for the the node
+   that holds the primary shard
+
+2. Check that :ref:`the required number of replicas <minimum_active_shards>`
+   are available
+
+4. Send an insert request to the primary shard
+
+5. Send an identical insert request to the replicas of the primary shard
+
+   - If successful, an insert counter is incremented
+
+6. A response is sent to the user reporting the value of the successful insert
+   counter
+
+.. NOTE::
+
+   If an insert request with multiple value expressions results in no
+   successful inserts, this is reported like any other result and does not
+   produce an an error (when using HTTP) or an exception (when using the
+   Postgres wire protocol).
+
+Executing Bulk Inserts
+......................
+
+The executor performs the same steps taken for inserts with multiple value
+expressions, as listed under the previous header, with one exception.
+
+Instead of reporting a single number corresponding to the number of successful
+inserts, the previously created bulk insert response object is populated with
+information about every insert attempted.
+
+The `bulk insert response`_ object is returned to the client, with a
+``rowcount`` for every insert in the bulk insert request that will either be:
+
+- A positive ``rowcount`` indicates the number of successful rows inserted
+
+- A ``rowcount`` of ``-2`` indicates a failed insert, and may be
+  accompanied with with an ``error_message``
+
+.. NOTE::
+
+   If you are doing bulk inserts with a single value expression, the
+   ``rowcount`` will always be ``1`` for successful inserts. If you are doing
+   bulk inserts with multiple value expressions, as before, the ``rowcount``
+   indicates how many successful inserts were made for that bulk insert.
+
+.. _minimum_active_shards:
+
+Minimum Active Shards
+=====================
+
+The `write.wait_for_active_shards`_ table setting configures the minimum number
+of shards that must be available for inserts to take place:
+
+- If set to ``all`` (the default value) the primary shard and all replica
+  shards must be available
+
+- If set to some value ``x``, the insert will only proceed once the primary
+  shard plus ``x-1`` replica shards are available
+
+- If set to ``1``, the insert will proceed if the primary shard is available
+
+If the required number of replicas is not available, and do not become
+available during a brief waiting period, the operation fails and an error is
+returned back to the user.
+
+Configuring this setting to require at least one replica shard increases
+resiliency. Because if a primary accepts a write, there is a small window
+between that data being written and replication taking place. If your primary
+fails during that window, that data is lost.
+
+.. _dynamic column policy: https://crate.io/docs/crate/reference/en/latest/sql/ddl/column_policy.html#dynamic
+.. _primary key: https://crate.io/docs/crate/reference/en/latest/sql/ddl/constraints.html#primary-key
+.. _not null: https://crate.io/docs/crate/reference/en/latest/sql/ddl/constraints.html#not-null
+.. _partition: https://crate.io/docs/crate/reference/en/latest/sql/partitioned_tables.html
+.. _routing column: https://crate.io/docs/crate/reference/en/latest/sql/ddl/sharding.html#routing
+.. _hashmap: https://en.wikipedia.org/wiki/Hash_table
+.. _bulk operations: https://crate.io/docs/crate/reference/protocols/http.html#bulk-operations
+.. _more info: https://www.elastic.co/guide/en/elasticsearch/reference/master/docs-index_.html#index-wait-for-active-shards
+.. _data node: https://crate.io/docs/crate/reference/en/latest/configuration/node.html#node-types
+.. _bulk insert response: https://crate.io/docs/crate/reference/en/latest/protocols/http.html#bulk-errors
+.. _write.wait_for_active_shards: https://crate.io/docs/crate/reference/en/latest/sql/reference/create_table.html#sql-ref-write-wait-for-active-shards
+.. _Elasticsearch documentation: https://www.elastic.co/guide/en/elasticsearch/reference/master/docs-index_.html#index-wait-for-active-shards

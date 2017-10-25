@@ -1,18 +1,8 @@
-.. highlight:: sh
-
 .. _sharding_guide:
 
 ==============
 Sharding Guide
 ==============
-
-.. rubric:: Table of Contents
-
-.. contents::
-   :local:
-
-Introduction
-============
 
 This document is a sharding best practice guide for CrateDB.
 
@@ -28,7 +18,14 @@ the type of hardware you're using.
    This guide assumes you know the basics. If you are looking for an intro to
    sharding, see `Sharding`_.
 
-Optimising For Query Performance
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+
+.. _sharding_guide_query:
+
+Optimising for Query Performance
 ================================
 
 Under-Allocation Is Bad
@@ -103,7 +100,9 @@ based on the assumption that your nodes have two CPUs each.
    How this factors into balancing your shard allocation will depend on the
    types of queries you intend to run.
 
-Optimising For Ingestion Performance
+.. _sharding_guide_ingestion:
+
+Optimising for Ingestion Performance
 ====================================
 
 As with `Optimising For Query Performance`_, when doing heavy ingestion, it is

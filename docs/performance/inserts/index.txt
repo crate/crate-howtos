@@ -1,0 +1,14 @@
+==================
+Insert Performance
+==================
+
+.. rubric:: Table of Contents
+
+.. toctree::
+   :maxdepth: 2
+
+   architecture.txt
+   bulk
+   concurrent
+   tuning
+   testing

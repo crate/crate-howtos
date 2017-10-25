@@ -1,0 +1,222 @@
+.. _bulk_inserts:
+
+============
+Bulk Inserts
+============
+
+If ingestion performance is an important metric for you, and you can do your
+inserts in batches, you should switch from single inserts to bulk inserts.
+
+This document introduces you to a number of different approaches for doing
+bulk inserts.
+
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+
+.. _bulk_single_inserts:
+
+Single Inserts
+==============
+
+`Single inserts`_ use the ``INSERT`` statement, and look like this:
+
+.. code-block:: psql
+
+    cr> INSERT INTO my_table (column_a) VALUES ("value 1");
+    INSERT OK, 1 row affected  (... sec)
+
+Single inserts are typically very fast with CrateDB. A small cluster can
+easily handle several thousand inserts per second.
+
+However, it's important to note that:
+
+ 1. Every insert is first applied to the primary shard
+
+ 2. After the primary shard has been updated, the insert is then individually
+    communicated in parallel to every configured replica shard
+
+ 3. CrateDB will not return a response until all replica shards have been
+    updated
+
+The overhead for each insert (query parsing, planning, and execution, which
+includes network connection setups, connection teardowns, and connection
+metadata) starts to add up for very heavy insert workloads.
+
+In addition, lots of internal traffic will congest your network, which will
+slow down any network-based cluster operations (i.e. inserts, distributed
+reads, replication, and cluster management).
+
+Fortunately, there is a solution: bulk inserts.
+
+.. _bulk_switching:
+
+Switching to Bulk Inserts
+=========================
+
+If you can batch up your inserts, switching to *bulk inserts* will dramatically
+improve both ingestion performance, and overall cluster performance.
+
+Bulk inserts make use of the CrateDB HTTP endpoint `bulk operations`_ feature
+to perform many inserts in a single operation.
+
+Bulk inserts still generate internal network traffic, and CrateDB still waits
+until all replicas have been updated before returning a response. But there is
+less internal network traffic. In addition, the bulk query only needs to be
+parsed, planned, and executed once. And if `translog.durability`_ is set to
+``REQUEST`` (the default), a bulk insert only flushes the disk once.
+
+Alternative Bulk Insert Methods
+===============================
+
+If the HTTP endpoint isn't a viable option for you, there are a few
+alternatives.
+
+.. _bulk_unnest:
+
+``UNNEST``
+----------
+
+CrateDB provides support for bulk inserts via the `UNNEST`_ function.
+
+The ``UNNEST`` function produce rows, like so:
+
+.. code-block:: psql
+
+    cr> SELECT *
+    ...   FROM UNNEST(
+    ...          [1, 2, 3],
+    ...          ['Arthur', 'Trillian', 'Marvin']);
+    +------+----------+
+    | col1 | col2     |
+    +------+----------+
+    |    1 | Arthur   |
+    |    2 | Trillian |
+    |    3 | Marvin   |
+    +------+----------+
+    SELECT 3 rows in set  (... sec)
+
+Combine ``UNNEST`` with ``INSERT`` to perform bulk inserts:
+
+.. code-block:: psql
+
+    cr> INSERT INTO my_table (id, name)
+    ...   (SELECT *
+    ...      FROM UNNEST(
+    ...             [1, 2, 3],
+    ...             ['Arthur', 'Trillian', 'Marvin']));
+    INSERT OK, 3 rows affected  (... sec)
+
+This method of doing bulk inserts should perform about as well as the HTTP
+endpoint method, and is therefore the recommended alternative.
+
+If your client supports query string parameter substitution, you can use the
+``UNNEST`` method with static prepared statements.
+
+For example, using the CrateDB Python client, the following is possible:
+
+.. code-block:: python
+
+    client.execute("""
+      INSERT INTO my_table (id, name)
+        (SELECT *
+           FROM UNNEST(?, ?))
+    """, ([1, 2, 3], ["Arthur", "Trillian", "Marvin"]))
+
+Here, you can vary the number of rows being inserted without having to change
+the prepared statement.
+
+.. _bulk_multiple_values:
+
+Multiple Value Expressions
+--------------------------
+
+You can insert multiple rows with multiple value expressions, like so:
+
+.. code-block:: psql
+
+    cr> INSERT INTO my_table (id, name)
+    ...      VALUES (1, 'Arthur'),
+    ...             (2, 'Trillian'),
+    ...             (2, 'Marvin');
+    INSERT OK, 3 rows affected  (... sec)
+
+This method of doing bulk inserts is usually slower than the ``UNNEST`` method,
+because parsing is more expensive. The query looks nicer for humans though.
+
+The only problem is that the structure of the insert statement is variable on
+the number of rows to insert. So, if you are inserting a variable number of
+rows, you have to prepare the SQL statement using some form of string
+concatenation each time.
+
+Query string parameter substitution is recommended over string concatenation,
+and so the ``UNNEST`` method is recommended over the multiple value expressions
+method.
+
+.. _bulk_client:
+
+Client Feature
+--------------
+
+Some clients offer their own bulk inserts implementation.
+
+`The JDBC client`_, for instance, provides the `addBatch`_ and `executeBatch`_
+methods.
+
+For example:
+
+.. code-block:: java
+
+   PreparedStatement preparedStatement = connection.prepareStatement(
+       "INSERT INTO my_table (id, first_name) VALUES (?, ?)");
+
+   preparedStatement.setString(1, "Arthur");
+   preparedStatement.addBatch();
+
+   preparedStatement.setString(1, "Trillian");
+   preparedStatement.addBatch();
+
+   preparedStatement.setString(1, "Marvin");
+   preparedStatement.addBatch();
+
+   int[] results = preparedStatement.executeBatch();
+
+Typically, these implementations still use individual insert statements, but
+they have a lower resource overhead because they use the binary protocol,
+contain almost no headers, and are executed over an already established
+connection.
+
+The client batching method usually performs better than manual single inserts,
+but worse than both the ``UNNEST`` method and multiple value expressions method.
+
+Testing Bulk Inserts
+====================
+
+Follow the instructions in our :ref:`testing_inserts_performance` guide.
+
+To test bulk inserts, you should:
+
+1. Configure the setup you would like to test
+
+2. Run a number of different tests against that setup, using different
+   ``--bulk-size`` settings
+
+3. Evaluate your throughput results (perhaps by plotting your results on a
+   graph so that you can see the response curve)
+
+Try out different setups and re-run the test.
+
+At the end of this process, you will have a better understanding of the
+throughput of your cluster with different setups and under different loads.
+
+.. _benchmarking: https://crate.io/a/insert-boost-on-replicas/
+.. _single inserts: https://crate.io/docs/crate/reference/sql/dml.html#inserting-data
+.. _SQL HTTP endpoint: https://crate.io/docs/crate/reference/protocols/http.html
+.. _bulk operations: https://crate.io/docs/crate/reference/protocols/http.html#bulk-operations
+.. _UNNEST: https://crate.io/docs/crate/reference/en/latest/sql/table_functions.html#unnest-array-array
+.. _cr8: https://github.com/mfussenegger/cr8/
+.. _translog.durability: https://crate.io/docs/crate/reference/en/latest/sql/reference/create_table.html#translog-durability
+.. _the JDBC client: https://crate.io/docs/clients/jdbc/en/latest/
+.. _addBatch: https://docs.oracle.com/javase/7/docs/api/java/sql/Statement.html#addBatch(java.lang.String)
+.. _executeBatch: https://docs.oracle.com/javase/7/docs/api/java/sql/Statement.html#executeBatch()

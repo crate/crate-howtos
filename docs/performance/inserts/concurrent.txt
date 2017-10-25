@@ -1,0 +1,159 @@
+.. _concurrent_inserts:
+
+==================
+Concurrent Inserts
+==================
+
+If you have a queue of inserts, one way to process them in your client is to
+send them one by one, waiting for the response from previous insert before
+sending the next one.
+
+With a latency of 5ms between the server and client, even if inserts happened
+instantaneously, this client could only ever do 200 inserts per second.
+
+If you're handling a lot of inserts, this sort of setup can very quickly become a
+performance bottleneck.
+
+The solution to this is to send multiple inserts concurrently. That is, send
+off every insert request as soon as you need to and do not wait for a
+response before sending another insert.
+
+This document introduces you to a number of different approaches for doing
+concurrent inserts.
+
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+
+Methods
+=======
+
+Query a Single Node
+-------------------
+
+Point your client application at a single node in your cluster, and send many
+concurrent requests.
+
+This is the least efficient way to do parallel inserts, because the
+resources on that node can easily become a bottleneck.
+
+DNS Round Robin
+---------------
+
+When configuring your DNS, you can point the `A record`_ for a domain like
+``crate.example.com`` at multiple IP addresses. When a client requests the IP
+address for ``crate.example.com``, the DNS server will respond with a list of
+IP address, often in a random order. The client typically uses the first IP
+address in the list.
+
+This can be used as a sort of rudimentary load balancing system.
+
+There are a few problems:
+
+- DNS might return the IP for an unresponsive node. If your client does not
+  know how to connect to any of the nodes directly, it may not be able to make
+  subsequent requests until the situation resolves itself.
+
+- The DNS does not know about CrateDB nodes that have joined or left the
+  cluster. You must update the configuration by hand each time.
+
+- DNS results are often cached by clients.
+
+  If you have a small number of clients, they will contact a small number of
+  nodes in your cluster.
+
+  DNS cache time (the *TTL* value) can be reduced, but this results in
+  additional DNS overhead, and doesn't help much if you have a large number of
+  nodes and small number of clients who are regularly stuck making requests to
+  a single node.
+
+  Ideally, clients should be rapidly switching beween CrateDB nodes, to make
+  best use of the cluster.
+
+Client Round Robin
+------------------
+
+Configure your client application with a list of nodes in your cluster, and
+select a random node each time a request is made.
+
+The CrateDB `Python client`_, `JDBC client`_, and `PHP PDO client`_ support
+multiple nodes configuration.
+
+This solves the bottleneck issue when using a single node, but it's still a
+rudimentary approach that involves adding and removing node addresses manually
+from your application configuration.
+
+Connection Pooling
+------------------
+
+If your client supports it, connection pooling improves performance by sharing
+network connections between requests.
+
+This is often combined with client round robin. When a node is selected at
+random, any existing connection is reused.
+
+`HikariCP`_ is a connection pool that works with the CrateDB `JDBC client`_.
+
+The `Python client`_ supports round robin and connection pooling.
+
+Use a Load Balancer
+-------------------
+
+Stick your CrateDB cluster in front of a load balancer.
+
+With a load balancer like `HAProxy`_, you can configure a round robin load
+balancing with something like this in your config:
+
+.. code-block:: text
+
+    backend cratedb-cluster
+    balance roundrobin
+    server cratedb1 192.0.2.1:4200 check
+    server cratedb2 192.0.2.2:4200 check
+    server cratedb3 192.0.2.3:4200 check
+
+With this setup, your client applications would all point directly at the load
+balancer. The load balancer then distributes requests across your cluster.
+
+This technique comes with the added benefit that most load balancers (like
+HAProxy) will monitor the cluster and provide health checks, analytics
+dashboards, and so on.
+
+There is one problem:
+
+- Like DNS round robin, the proxy might return the IP for an unresponsive node.
+  If your client does not know how to connect to any of the nodes directly, it
+  may not be able to make subsequent requests until the situation resolves
+  itself.
+
+TODO: do any proxies automatically do fail over?
+
+TODO whole section on DNS published IPs that we do on cloud infra
+
+Testing Parallel Inserts
+========================
+
+Follow the instructions in our :ref:`testing_inserts_performance` guide.
+
+To test parallel inserts, you should:
+
+1. Configure the setup you would like to test
+
+2. Run a number of different tests against that setup, using different
+   ``--concurrency`` settings
+
+3. Evaluate your throughput results (perhaps by plotting your results on a
+   graph so that you can see the response curve)
+
+Try out different setups and re-run the test.
+
+At the end of this process, you will have a better understanding of the
+throughput of your cluster with different setups and under different loads.
+
+.. _HAProxy: http://www.haproxy.org/
+.. _A record: https://en.wikipedia.org/wiki/List_of_DNS_record_types?
+.. _Python client: https://crate.io/docs/clients/python/en/latest/
+.. _JDBC client: https://crate.io/docs/clients/jdbc/en/latest/
+.. _PHP PDO client: https://crate.io/docs/clients/pdo/en/latest/
+.. _HikariCP: https://github.com/brettwooldridge/HikariCP

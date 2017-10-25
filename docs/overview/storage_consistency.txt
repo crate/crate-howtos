@@ -1,3 +1,5 @@
+.. _storage_and_consistency:
+
 =======================
 Storage and Consistency
 =======================
@@ -16,6 +18,8 @@ across the cluster and what consistency and durability guarantees are provided.
 
 .. contents::
    :local:
+
+.. _data_storage:
 
 Data Storage
 ============
@@ -58,6 +62,8 @@ synchronous over all active replicas with the following flow:
 Should any replica shard fail to write the data or times out in step 5, it's
 immediately considered as unavailable.
 
+.. _atomic_document_level:
+
 Atomic on Document Level
 ========================
 
@@ -72,6 +78,8 @@ CrateDB does not provide transactions. Since every document in CrateDB has a
 version number assigned, which gets increased every time a change occurs,
 patterns like `Optimistic Concurrency Control`_ can help to work around that
 limitation.
+
+.. _durability:
 
 Durability
 ==========
@@ -88,6 +96,8 @@ permanent.
 The translog is also directly transferred when a newly allocated replica
 initializes itself from the primary shard. There is no need to flush segments
 to disc just for replica-recovery purposes.
+
+.. _document_addressing:
 
 Addressing of Documents
 =======================
@@ -113,6 +123,8 @@ accesses documents:
 
 :search: Query by matching against fields of documents across all candidate
          shards of the table.
+
+.. _consistency:
 
 Consistency
 ===========
@@ -148,6 +160,8 @@ translog.
 .. _resiliency documentation: /docs/scale/resilience/
 
 .. _storage_consistency_cluster_meta_data:
+
+.. _cluster_metadata:
 
 Cluster Meta Data
 =================
