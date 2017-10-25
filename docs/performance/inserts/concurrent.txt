@@ -1,4 +1,4 @@
-.. _parallel_inserts:
+.. _concurrent_inserts:
 
 ==================
 Concurrent Inserts

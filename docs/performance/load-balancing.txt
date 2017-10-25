@@ -1,0 +1,134 @@
+.. _load_balancing:
+
+============== Load Balancing ==============
+
+from jordi:
+
+> Hm - giving this some more thought. I wonder if the current structure should
+> be changed here slightly as well. I see two points being made here:
+> >
+> Make sure the client isn't the bottle neck (Do concurrent inserts) Make sure
+> a single node isn't the bottle neck (Spread the load)
+> >
+> Maybe we could represent that better in the structure and on each point list
+> the content we have already as options to achieve that?
+>
+TODO: I don't think there are currently clients which support dns or aws/azure
+discovery, so I wouldn't mention that.
+
+> should we also cover discovery via dns and aws/azure?
+
+> https://crate.io/docs/crate/reference/en/latest/configuration/cluster.html#
+discovery-via-dns
+
+> are there any clients or client libraries that can build the node list this
+> way?
+
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+   :
+Round Robin ===========
+
+Client Round Robin ------------------
+
+Configure your client application with a list of nodes in your cluster, and
+select a random node each time a request is made.
+
+The CrateDB `Python client`_, `JDBC client`_, and `PHP PDO client`_ support
+multiple nodes configuration.
+
+This solves the bottleneck issue when using a single node, but it's still a
+rudimentary approach that involves adding and removing node addresses manually
+from your application configuration.
+
+better than dns bcus it lets you auto failover
+
+mention connection pooling?
+
+DNS Round Robin ---------------
+
+When configuring your DNS, you can point the `A record`_ for a domain like
+``crate.example.com`` at multiple IP addresses. When a client requests the IP
+address for ``crate.example.com``, the DNS server will respond with a list of
+IP address, often in a random order. The client typically uses the first IP
+address in the list.
+
+This can be used as a sort of rudimentary load balancing system.
+
+There are a few problems:
+
+- DNS might return the IP for an unresponsive node. If your client does not
+know how to connect to any of the nodes directly, it may not be able to make
+subsequent requests until the situation resolves itself.
+
+- The DNS does not know about CrateDB nodes that have joined or left the
+cluster. You must update the configuration by hand each time.
+
+- DNS results are often cached by clients.
+
+  If you have a small number of clients, they will contact a small number of
+  nodes in your cluster.
+
+  DNS cache time (the *TTL* value) can be reduced, but this results in
+  additional DNS overhead, and doesn't help much if you have a large number of
+  nodes and small number of clients who are regularly stuck making requests to
+  a single node.
+
+  Ideally, clients should be rapidly switching beween CrateDB nodes, to make
+  best use of the cluster.
+
+Proxy Load Balancer ===================
+
+HTTP Load Balancer ------------------
+
+Stick your CrateDB cluster in front of a load balancer.
+
+With a load balancer like `HAProxy`_, you can configure a round robin load
+balancing with something like this in your config:
+
+.. code-block:: text
+
+    backend cratedb-cluster balance roundrobin server cratedb1 192.0.2.1:4200
+    check server cratedb2 192.0.2.2:4200 check server cratedb3 192.0.2.3:4200
+    check
+
+With this setup, your client applications would all point directly at the load
+balancer. The load balancer then distributes requests across your cluster.
+
+This technique comes with the added benefit that most load balancers (like
+HAProxy) will monitor the cluster and provide health checks, analytics
+dashboards, and so on.
+
+There is one problem:
+
+- Like DNS round robin, the proxy might return the IP for an unresponsive node.
+If your client does not know how to connect to any of the nodes directly, it
+may not be able to make subsequent requests until the situation resolves
+itself.
+
+TODO: do any proxies automatically do fail over?
+
+from jordi:
+> They do detect dead nodes and remove them, but afaik they can't recover from
+> an
+error happening. If the client sends a request that is redirected to a node
+just dying shortly after the redirect decision was made. But I'm not sure.
+
+TODO whole section on DNS published IPs that we do on cloud infra
+
+Wire Protocol Load Balancer ---------------------------
+
+todo
+
+https://github.com/CrunchyData/crunchy-proxy
+
+
+.. _HAProxy: http://www.haproxy.org/ .. _A record:
+https://en.wikipedia.org/wiki/List_of_DNS_record_types? .. _Python client:
+https://crate.io/docs/clients/python/en/latest/ .. _JDBC client:
+https://crate.io/docs/clients/jdbc/en/latest/ .. _PHP PDO client:
+https://crate.io/docs/clients/pdo/en/latest/ .. _HikariCP:
+https://github.com/brettwooldridge/HikariCP
+
