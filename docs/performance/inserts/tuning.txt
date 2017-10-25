@@ -43,8 +43,10 @@ CPUs
 ----
 
 If your table schemas are complex or make use of `fulltext indexes`_, the
-additional CPU overhead during the :ref:`analyzing phase <parsing_analyzing>`
-of insert query processing might result in a CPU performance bottleneck.
+additional CPU overhead during the analyzing phase of insert query processing
+might result in a CPU performance bottleneck.
+
+TODO: maybe link up "analyzing phase" again
 
 If this becomes the case, you might want to try using different fulltext
 analyzers or maybe even turn off fulltext indexing entirely. If neither of
@@ -165,12 +167,14 @@ see: https://www.elastic.co/guide/en/elasticsearch/reference/current/indexing-bu
 Client
 ------
 
-Parallel Inserts
-................
+Concurrent Inserts
+..................
 
 Because CrateDB is a distributed database, insert capacity scales with the size
 of your cluster. One way to increase insert performance is do
-:ref:`parallel inserts <parallel_inserts>`.
+:ref:`concurrent inserts <concurrent_inserts>`.
+
+TODO: rewrite this whole section
 
 How many inserts you can do in parallel whilst getting the best performance out
 of CrateDB is going to vary on many factors.

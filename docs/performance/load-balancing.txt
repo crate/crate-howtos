@@ -28,10 +28,12 @@ discovery-via-dns
 
 .. contents::
    :local:
-   :
-Round Robin ===========
 
-Client Round Robin ------------------
+Round Robin
+===========
+
+Client Round Robin
+------------------
 
 Configure your client application with a list of nodes in your cluster, and
 select a random node each time a request is made.
@@ -47,7 +49,8 @@ better than dns bcus it lets you auto failover
 
 mention connection pooling?
 
-DNS Round Robin ---------------
+DNS Round Robin
+---------------
 
 When configuring your DNS, you can point the `A record`_ for a domain like
 ``crate.example.com`` at multiple IP addresses. When a client requests the IP
@@ -60,11 +63,11 @@ This can be used as a sort of rudimentary load balancing system.
 There are a few problems:
 
 - DNS might return the IP for an unresponsive node. If your client does not
-know how to connect to any of the nodes directly, it may not be able to make
-subsequent requests until the situation resolves itself.
+  know how to connect to any of the nodes directly, it may not be able to make
+  subsequent requests until the situation resolves itself.
 
 - The DNS does not know about CrateDB nodes that have joined or left the
-cluster. You must update the configuration by hand each time.
+  cluster. You must update the configuration by hand each time.
 
 - DNS results are often cached by clients.
 
@@ -79,9 +82,11 @@ cluster. You must update the configuration by hand each time.
   Ideally, clients should be rapidly switching beween CrateDB nodes, to make
   best use of the cluster.
 
-Proxy Load Balancer ===================
+Proxy Load Balancer
+===================
 
-HTTP Load Balancer ------------------
+HTTP Load Balancer
+------------------
 
 Stick your CrateDB cluster in front of a load balancer.
 
@@ -104,9 +109,9 @@ dashboards, and so on.
 There is one problem:
 
 - Like DNS round robin, the proxy might return the IP for an unresponsive node.
-If your client does not know how to connect to any of the nodes directly, it
-may not be able to make subsequent requests until the situation resolves
-itself.
+  If your client does not know how to connect to any of the nodes directly, it
+  may not be able to make subsequent requests until the situation resolves
+  itself.
 
 TODO: do any proxies automatically do fail over?
 
@@ -118,17 +123,16 @@ just dying shortly after the redirect decision was made. But I'm not sure.
 
 TODO whole section on DNS published IPs that we do on cloud infra
 
-Wire Protocol Load Balancer ---------------------------
+Wire Protocol Load Balancer
+---------------------------
 
 todo
 
 https://github.com/CrunchyData/crunchy-proxy
 
-
-.. _HAProxy: http://www.haproxy.org/ .. _A record:
-https://en.wikipedia.org/wiki/List_of_DNS_record_types? .. _Python client:
-https://crate.io/docs/clients/python/en/latest/ .. _JDBC client:
-https://crate.io/docs/clients/jdbc/en/latest/ .. _PHP PDO client:
-https://crate.io/docs/clients/pdo/en/latest/ .. _HikariCP:
-https://github.com/brettwooldridge/HikariCP
-
+.. _HAProxy: http://www.haproxy.org/
+.. _A record: https://en.wikipedia.org/wiki/List_of_DNS_record_types?
+.. _Python client: https://crate.io/docs/clients/python/en/latest/
+.. _JDBC client: https://crate.io/docs/clients/jdbc/en/latest/
+.. _PHP PDO client: https://crate.io/docs/clients/pdo/en/latest/
+.. _HikariCP: https://github.com/brettwooldridge/HikariCP
