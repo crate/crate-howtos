@@ -134,6 +134,16 @@ always be visible, since the information will be retrieved directly from the
 translog.
 
 .. NOTE::
+  
+  ``Dirty reads`` can occur if the primary shard becomes isolated. The primary 
+  will only realize it is isolated once it tries to communicate with its 
+  replicas or the master. At that point, a write operation is already committed 
+  into the primary and can be read by a concurrent read operation. In order to 
+  minimise the window of opportunity for this phenomena, the CrateDB nodes 
+  communicate with the master every second (by default) and once they realise 
+  no master is known, they will start rejecting write operations.
+
+.. NOTE::
 
   Every replica shard is updated synchronously with its primary and always
   carries the same information. Therefore it does not matter if the primary or
