@@ -4,8 +4,6 @@ Overview
 
 This section gives an overview of CrateDB.
 
-If you're want to start using CrateDB, skip to the :ref:`getting-started` section.
-
 .. rubric:: Table of Contents
 
 .. toctree::

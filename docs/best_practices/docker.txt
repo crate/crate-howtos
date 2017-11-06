@@ -11,14 +11,17 @@ horizontally scalable architecture that lends itself well to containerization.
 
 This document covers the essentials of running CrateDB and Docker using the
 official `CrateDB Docker image`_. If you intend to bring CrateDB on Docker to
-production please ensure that you address the following :ref:`resource_constraints`.
+production please ensure that you address the following
+:ref:`resource_constraints`.
 
 .. NOTE::
 
    If you're just getting started with CrateDB and Docker, check out our
-   introductory guides for :ref:`running Docker locally
-   <getting_started_docker>` or :ref:`Docker Cloud
-   <getting_started_docker_cloud>`.
+   introductory guides for `running CrateDB with Docker locally`_ or `running
+   CrateDB with Docker Cloud`_.
+
+.. _running CrateDB with Docker locally: https://crate.io/docs/crate/getting-started/en/latest/install/containers/docker.html
+.. _running CrateDB with Docker Cloud: https://crate.io/docs/crate/getting-started/en/latest/install/containers/docker_cloud.html
 
 .. rubric:: Table of Contents
 
