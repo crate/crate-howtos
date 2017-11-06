@@ -31,7 +31,7 @@ Looking for more help?
 .. _paid support: https://crate.io/pricing/
 .. _Slack: https://crate.io/docs/support/slackin/
 .. _StackOverflow: https://stackoverflow.com/tags/crate
-.. _the hosted documentation: https://crate.io/docs/reference/python/
+.. _the hosted documentation: https://crate.io/docs/crate/guide/en/latest/
 
 .. |build-status| image:: https://img.shields.io/travis/crate/guide.svg?style=flat
     :alt: build status
