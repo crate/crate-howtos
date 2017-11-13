@@ -1,0 +1,12 @@
+========================================
+Run CrateDB on Amazon Web Services (AWS)
+========================================
+
+.. rubric:: Table of Contents
+
+.. toctree::
+   :maxdepth: 1
+
+   ami.txt
+   ec2_setup.txt
+   s3_setup.txt
