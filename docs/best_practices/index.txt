@@ -15,10 +15,6 @@ A collection of CrateDB best practices and tips for common scenarios.
    data_import
    insert_performance
    sharding
-   docker
-   ec2_setup
-   s3_setup
-   crate_ami
    migrating_from_mysql
    migrating_from_mongodb
    systables

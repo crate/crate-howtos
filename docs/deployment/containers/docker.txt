@@ -2,9 +2,9 @@
 
 .. _cratedb_docker:
 
-==================
-CrateDB and Docker
-==================
+=====================
+Run CrateDB on Docker
+=====================
 
 CrateDB and Docker_ are a great match thanks to CrateDB's shared-nothing,
 horizontally scalable architecture that lends itself well to containerization.

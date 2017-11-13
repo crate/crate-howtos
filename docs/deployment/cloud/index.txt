@@ -1,0 +1,17 @@
+=========================
+CrateDB and Cloud Hosting
+=========================
+
+CrateDB provides packages and executables that will work on any operating
+systems capable of running Java.
+
+.. rubric:: Table of Contents
+
+.. toctree::
+   :maxdepth: 2
+   :titlesonly:
+
+   aws/index
+   azure
+   softlayer
+   packet

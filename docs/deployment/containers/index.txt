@@ -1,0 +1,17 @@
+======================
+CrateDB and Containers
+======================
+
+CrateDB is ideal for containerized environments, creating and scaling a cluster
+takes minutes and your valuable data is always in sync and available.
+
+.. rubric:: Table of Contents
+
+.. toctree::
+   :maxdepth: 1
+
+   docker
+   docker_cloud
+   coreos
+   containership
+

@@ -17,10 +17,11 @@ massive amounts of machine data in real-time.
 .. rubric:: Table of Contents
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :titlesonly:
 
    overview/index
+   deployment/index
    best_practices/index
    tools/index
    integration/index
