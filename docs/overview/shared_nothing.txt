@@ -53,10 +53,11 @@ The SQL Handler part of a node is responsible for three aspects:
     (`abstract syntax tree`_)
 
 The SQL Handler is the only of the four components that interfaces with the
-"outside world". CrateDB supports two protocols to handle client requests:
+"outside world". CrateDB supports three protocols to handle client requests:
 
-(a) HTTP and
+(a) HTTP
 (b) a Binary Transport Protocol
+(c) the PostgreSQL Wire Protocol
 
 A typical request contains a SQL statement and its corresponding arguments.
 
@@ -230,14 +231,14 @@ Cluster Behavior
 The fact that each CrateDB node in a cluster is equal allows applications and
 users to connect to any node and get the same response for the same operations.
 As already described in section :ref:`shared_nothing_components` the SQL
-Handler is responsible handling incoming client SQL requests, either using HTTP
-or transport protocol. The "handler node" that accepts the client request also
-returns the response to the client. It does neither redirect nor delegate the
-request to a different nodes. The handler node parses the incoming request into
-a syntax tree, analyzes it and creates an execution plan locally. Then the
-operations of the plan are executed in a distributed manner. The upstream of
-the final phase of the execution is always the handler which then returns the
-response to the client.
+Handler is responsible handling incoming client SQL requests, either using the
+HTTP, transport protocol or PostgreSQL wire protocol. The "handler node" that
+accepts the client request also returns the response to the client. It does
+neither redirect nor delegate the request to a different nodes. The handler
+node parses the incoming request into a syntax tree, analyzes it and creates
+an execution plan locally. Then the operations of the plan are executed in a
+distributed manner. The upstream of the final phase of the execution is always
+the handler which then returns the response to the client.
 
 Application Use Case
 ====================
