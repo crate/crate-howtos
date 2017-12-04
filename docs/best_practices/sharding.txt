@@ -58,15 +58,15 @@ Significant Over-Allocation Is Bad
 
 .. CAUTION::
 
-   If you have more shards than CPUs, this is called *over-allocation*. A
+   If you have more shards per table than CPUs, this is called *over-allocation*. A
    little over-allocation is desirable. But if you significantly over-allocate
-   your shards, you will see performance degradation.
+   your shards per table, you will see performance degradation.
 
 When you have slightly more shards per table than CPUs, you ensure that query
 workloads can be parallelized and distributed maximally, which in turn ensures
 maximal query performance.
 
-However, if most nodes hold have more shards per table than they have CPUs, you
+However, if most nodes have more shards per table than they have CPUs, you
 could actually see performance degradation. Each shard comes with a cost in
 terms of open files, RAM, and CPU cycles. Smaller shards also means small shard
 indexes, which can adversely affect computed search term relevance.
@@ -82,7 +82,7 @@ Finding the right balance when it comes to sharding will vary on a lot of
 things. And while it's generally advisable to slightly over-allocate, it's also
 a good idea to benchmark your particular setup so as to find the sweet spot.
 
-If you don't manually set the number of shards, CrateDB will make a best guess,
+If you don't manually set the number of shards per table, CrateDB will make a best guess,
 based on the assumption that your nodes have two CPUs each.
 
 .. NOTE::
