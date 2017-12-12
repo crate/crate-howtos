@@ -23,7 +23,7 @@ massive amounts of machine data in real-time.
    overview/index
    deployment/index
    admin/index
-   scale/index
+   scaling/index
    performance/index
    best_practices/index
    tools/index
