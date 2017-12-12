@@ -20,7 +20,7 @@ massive amounts of machine data in real-time.
    :maxdepth: 3
    :titlesonly:
 
-   overview/index
+   architecture/index
    deployment/index
    admin/index
    scaling/index
