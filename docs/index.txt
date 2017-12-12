@@ -25,7 +25,6 @@ massive amounts of machine data in real-time.
    scale/index
    best_practices/index
    tools/index
-   integration/index
 
 .. _CrateDB Reference: https://crate.io/docs/crate/reference/en/latest/
 .. _Getting Started with CrateDB: https://crate.io/docs/crate/getting-started/en/latest/
