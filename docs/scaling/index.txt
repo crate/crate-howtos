@@ -1,6 +1,6 @@
-=====
-Scale
-=====
+=======
+Scaling
+=======
 
 .. rubric:: Table of Contents
 
