@@ -2,7 +2,7 @@
 Architecture
 ============
 
-This section covers the architecture of CrateDB.
+This section of the documentation covers the architecture of CrateDB.
 
 .. rubric:: Table of Contents
 
