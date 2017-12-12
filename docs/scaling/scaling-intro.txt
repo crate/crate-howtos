@@ -16,7 +16,7 @@ purposes.
 Open the CrateDB admin UI at *SERVER\_IP:4200/admin* and you should see
 something like the following, note the *NODES: 1* indicator.
 
-.. image:: scale_1_node_cluster.png
+.. image:: scale-1-node-cluster.png
    :alt: A 1 Node Cluster
 
 Let's add a second CrateDB node to the cluster, this will depend on how you
@@ -45,7 +45,7 @@ quantity of data and hardware setup you will also notice the cluster state
 changes to yellow momentarily as it rebalances and resynchronizes data across
 the cluster.
 
-.. image:: scale_2_node_cluster.png
+.. image:: scale-2-node-cluster.png
    :alt: A 2 Node Cluster
 
 Add another node to the cluster using the same steps as above. You will notice
@@ -54,7 +54,7 @@ after adding the third node. Here you can see that CrateDB also provides
 information about how data is rebalancing at a table and shard level as well
 as at a cluster level.
 
-.. image:: scale_3_node_cluster.png
+.. image:: scale-3-node-cluster.png
    :alt: A 3 Node Cluster
 
 Try removing a node from the cluster by killing a CrateDB process or stopping a

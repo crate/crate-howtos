@@ -32,7 +32,7 @@ For a multi zone setup, CrateDB clusters need to fulfill the following:
 
 To achieve these requirements, make use of **shard allocation awareness**. If
 you are new to setting up a multi-node CrateDB cluster you should read our
-:doc:`multi node setup <multi_node_setup>` guide first.
+:ref:`multi node setup <multi_node_setup>` guide first.
 
 Assigning Tags
 ==============

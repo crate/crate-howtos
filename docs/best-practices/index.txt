@@ -9,8 +9,8 @@ A collection of CrateDB best practices and tips for common scenarios.
 .. toctree::
    :maxdepth: 1
 
-   data_import
-   migrating_from_mysql
-   migrating_from_mongodb
+   data-import
+   migrating-from-mysql
+   migrating-from-mongodb
    telegraf
    systables

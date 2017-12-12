@@ -1,3 +1,5 @@
+.. _multi_node_setup:
+
 ========================
 CrateDB Multi Node Setup
 ========================

@@ -10,7 +10,7 @@ This section covers the architecture of CrateDB.
     :maxdepth: 1
 
     joins
-    shared_nothing
-    storage_consistency
+    shared-nothing
+    storage-consistency
     comparisons/index
     resilience

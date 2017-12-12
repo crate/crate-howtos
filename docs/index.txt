@@ -25,7 +25,7 @@ massive amounts of machine data in real-time.
    admin/index
    scaling/index
    performance/index
-   best_practices/index
+   best-practices/index
    tools/index
 
 .. _CrateDB Reference: https://crate.io/docs/crate/reference/en/latest/

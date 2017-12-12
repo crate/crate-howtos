@@ -33,17 +33,17 @@ click the large green *Launch your first Node* button.
 Give the cluster a name, select the details of your cloud provider and give the
 cluster a tag that we use to group and target services.
 
-.. image:: dc_create_cluster.png
+.. image:: dc-create-cluster.png
    :alt: Nodes Section
 
 After a couple of minutes, the cluster will be ready.
 
-.. image:: docker_cloud_nodes.png
+.. image:: docker-cloud-nodes.png
    :alt: Cluster Ready
 
 And here are the new instances on Digital Ocean (in my case).
 
-.. image:: docker_cloud_droplets.png
+.. image:: docker-cloud-droplets.png
    :alt: New Instances
 
 Create Services
@@ -94,7 +94,7 @@ choose from
 As we are setting one set of ports manually, this will limit some of our
 potential deployment strategies.
 
-.. image:: docker_cloud_running_services.png
+.. image:: docker-cloud-running-services.png
    :alt: Services
 
 Click the *Endpoints* tab to see the cluster URL and open the link ending in
@@ -102,13 +102,13 @@ port 4200 under the *Service endpoints* section, adding */admin* to access the
 CrateDB admin interface. You should see a 3 node cluster, indicated by the '3'
 in the top right of the window.
 
-.. image:: docker_cloud_endpoint.png
+.. image:: docker-cloud-endpoint.png
    :alt: Services
 
 To double check what is happening, click the *Nodes* tab, you should see the
 two VMs, one with 1 container and 1 with 2.
 
-.. image:: docker_cloud_node_dashboard_spread.png
+.. image:: docker-cloud-node-dashboard-spread.png
    :alt: Nodes Tab
 
 Conclusion
