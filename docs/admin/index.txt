@@ -2,6 +2,9 @@
 Administration
 ==============
 
+This section of the documentation covers CrateDB database administration
+practices.
+
 .. rubric:: Table of Contents
 
 .. toctree::
