@@ -7,8 +7,8 @@ Scaling
 .. toctree::
    :maxdepth: 1
 
-   scaling_intro
-   multi_node_setup
-   multi_zone_setup
-   docker_swarm
+   scaling-intro
+   multi-node-setup
+   multi-zone-setup
+   docker-swarm
    kubernetes

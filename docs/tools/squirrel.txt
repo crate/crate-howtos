@@ -31,14 +31,14 @@ with its distribution, so an extra setup step is required to run CrateDB with
 3. Choose the ``Drivers`` tab and add a new driver, adding the following
    information into the form and confirm by pressing ok.
 
-   .. image:: squirrel_add_driver.png
+   .. image:: squirrel-add-driver.png
       :alt: squirrel add driver dialogue
 
 4. Choose the ``Aliases`` tab and add a new Alias, Choose your new driver
    (called crate in our example) and enter your database URL. Username and
    password are not supported, so leave them blank.
 
-   .. image:: squirrel_add_alias.png
+   .. image:: squirrel-add-alias.png
       :alt: squirrel add alias dialogue
 
 5. Connect your alias to your CrateDB instance.
@@ -49,17 +49,17 @@ Usage
 You can browse CrateDB using the Object Tree Worksheet, that is the usual view
 you use for browsing your tables and get information about their schema.
 
-.. image:: squirrel_view.png
+.. image:: squirrel-view.png
   :alt: browsing the content and schema of a table using squirrel
 
 When browsing a table’s content using Content, it is possible to edit the table
 contents by right-clicking and choosing Make Editable.
 
-.. image:: squirrel_edit.png
+.. image:: squirrel-edit.png
   :alt: editing the content of a table using squirrel
 
 Using the SQuirreL SQL Editor it is possible to execute arbitrary SQL commands
 and scripts.
 
-.. image:: squirrel_sql.png
+.. image:: squirrel-sql.png
   :alt: using the squirrel sql editor
