@@ -1,8 +1,8 @@
-========
-Overview
-========
+============
+Architecture
+============
 
-This section gives an overview of CrateDB.
+This section covers the architecture of CrateDB.
 
 .. rubric:: Table of Contents
 
