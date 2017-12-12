@@ -1,0 +1,12 @@
+==============
+Administration
+==============
+
+.. rubric:: Table of Contents
+
+.. toctree::
+   :maxdepth: 1
+
+   rolling_upgrade
+   full_restart_upgrade
+   bootstrap_checks
