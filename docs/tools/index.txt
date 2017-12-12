@@ -5,9 +5,9 @@ Tools
 There are several tools that play well with CrateDB, from development utilities
 to data visualization tools. We even use some of them ourselves!
 
-This page gives an overview of the tools available and tested with the latest
-version of CrateDB. If you know of any other tools that work well with CrateDB,
-please `get in touch <mailto:office@crate.io>`_.
+This section of the documentation covers some of the tools available. If you
+know of any other tools that work well with CrateDB, please `get in touch
+<mailto:office@crate.io>`_.
 
 .. rubric:: Table of Contents
 
