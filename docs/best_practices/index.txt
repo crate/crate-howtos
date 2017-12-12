@@ -14,5 +14,3 @@ A collection of CrateDB best practices and tips for common scenarios.
    migrating_from_mongodb
    telegraf
    systables
-   resilience
-

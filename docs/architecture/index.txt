@@ -13,3 +13,4 @@ This section covers the architecture of CrateDB.
     shared_nothing
     storage_consistency
     comparisons/index
+    resilience
