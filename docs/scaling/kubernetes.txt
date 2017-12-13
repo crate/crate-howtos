@@ -10,7 +10,7 @@ Thanks to :doc:`our Docker image <../deployment/containers/docker>`, managing
 your CrateDB cluster with Kubernetes requires only a few steps.
 
 This guide will assume that you already have `kubectl
-<http://kubernetes.io/docs/user-guide/prereqs/>`_ and a `Kubernetes cluster
+<https://kubernetes.io/docs/tasks/tools/install-kubectl/>`_ and a `Kubernetes cluster
 <http://kubernetes.io/docs/getting-started-guides/binary_release/>`_ ready to
 go. All of the commands/templates/etc. provided should be customized to meet
 your personal requirements!
@@ -42,12 +42,14 @@ version:
         name: crate-web
       - port: 4300
         name: cluster
+      - port: 5432
+        name: postgres
       type: LoadBalancer
       selector:
         app: crate
     ---
-    apiVersion: "apps/v1alpha1"
-    kind: PetSet
+    apiVersion: "apps/v1beta1"
+    kind: StatefulSet
     metadata:
       name: crate
     spec:
@@ -60,6 +62,13 @@ version:
           annotations:
             pod.alpha.kubernetes.io/initialized: "true"
         spec:
+          initContainers:
+          - name: init-sysctl
+            image: busybox
+            imagePullPolicy: IfNotPresent
+            command: ["sysctl", "-w", "vm.max_map_count=262144"]
+            securityContext:
+              privileged: true
           containers:
           - name: crate
             image: crate:latest
@@ -82,6 +91,8 @@ version:
               name: db
             - containerPort: 4300
               name: cluster
+            - containerPort: 5432
+              name: postgres
             env:
             # Half the available memory.
             - name: CRATE_HEAP_SIZE
@@ -89,21 +100,30 @@ version:
             - name: EXPECTED_NODES
               value: "3"
             - name: CLUSTER_NAME
-              value: "my-crate-cluster"
+              value: "my-cratedb-cluster"
           volumes:
             - name: data
               emptyDir:
                 medium: "Memory"
 
+Init Containers
+---------------
+
+Init containers are containers that run before the main contain of the pod,
+and are intended to accomplish some prerequisite task before the pod can be fully
+started. In this template's case, the init container sets a value for
+``vm.max_map_count``, which is required for the bootstrap checks to pass.
+
 Start CrateDB
 -------------
 
-This template utilizes `Kubernetes 1.3's PetSet
-<http://kubernetes.io/docs/user-guide/petset/>`_ type that allows to add SRV
-records for DNS discovery and a proper shutdown when scaling. While CrateDB
-would also work as a stateless pod (cattle), this way facilitates a couple of
-things like storage and shard migration on zero downtime upgrades. To create a
-cluster based on that template use:
+This template utilizes the `Kubernetes StatefulSet
+<https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/>`_ type
+that allows you to add SRV records for node DNS discovery, as well as a graceful
+shutdown when scaling. While CrateDB would also work as a stateless pod
+(cattle), this way facilitates a couple of things like persistant storage and
+shard migration on zero downtime upgrades. To create a new cluster based on
+this template, use::
 
 .. code-block:: sh
 
@@ -118,17 +138,16 @@ Find out the public IP and the services that have been created with
 Scale CrateDB
 -------------
 
-Next you can scale your cluster by editing the PetSet's configuration and
-setting the 'replicas' field to the desired number of pods. Be aware that
-currently this is the only mutable value:
+Next, you can scale your cluster by scaling the number of replicas of the
+StatefulSet to the desired number of CrateDB nodes:
 
 .. code-block:: sh
 
-    kubectl edit petset crate
+    kubectl scale statefulsets crate --replicas=4
 
-After increasing/decreasing the number of replicas (pod replicas), CrateDB's
-config should be adjusted (especially when scaling down or your cluster might
-disappear!) and there are three important settings in this context:
+After increasing/decreasing the number of pod replicas, CrateDB's config should
+be adjusted, especially when scaling down or your cluster might disappear!
+There are three important settings in this context:
 
 ::
 
@@ -174,9 +193,9 @@ the same storage. Since the `Persistent Volume Claims
 <https://github.com/kubernetes/kubernetes/blob/master/examples/experimental/persistent-volume-provisioning/README.md>`_
 depend on the Kubernetes cluster (and if it runs in the cloud), the volume
 template is currently not included in our template. You can familiarize
-yourself with them `here <http://kubernetes.io/docs/user-guide/petset/>`_. For
-now, the volumes are explicitly stated and to customize that accordingly, the
-`volume guide <http://kubernetes.io/docs/user-guide/volumes/>`_ is very
+yourself with them `here <https://kubernetes.io/docs/concepts/workloads/controllers/statefulset>`_.
+For now, the volumes are explicitly stated and to customize that accordingly, the
+`volume guide <https://kubernetes.io/docs/concepts/storage/volumes/>`_ is very
 helpful.
 
 Manual Approach
@@ -188,7 +207,7 @@ exposing the ports that CrateDB uses.
 
 .. code-block:: sh
 
-    kubectl run crate-cluster --image=crate:latest --port=4200 --port=4300
+    kubectl run crate-cluster --image=crate:latest --port=4200 --port=4300 --port=5432
 
 Expose the pod to the outside World with a specific Kubernetes service:
 
