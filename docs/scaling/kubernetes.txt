@@ -109,7 +109,7 @@ version:
 Init Containers
 ---------------
 
-Init containers are containers that run before the main contain of the pod,
+Init containers are containers that run before the main container of the pod,
 and are intended to accomplish some prerequisite task before the pod can be fully
 started. In this template's case, the init container sets a value for
 ``vm.max_map_count``, which is required for the bootstrap checks to pass.
