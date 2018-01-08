@@ -75,11 +75,11 @@ version:
             command:
               - /docker-entrypoint.sh
               - -Ccluster.name=${CLUSTER_NAME}
-              - -Cdiscovery.type=srv
+              - -Cdiscovery.zen.hosts_provider=srv
               - -Cdiscovery.zen.minimum_master_nodes=2
+              - -Cdiscovery.srv.query=_cluster._tcp.crate-discovery.default.svc.cluster.local
               - -Cgateway.recover_after_nodes=2
               - -Cgateway.expected_nodes=${EXPECTED_NODES}
-              - -Cdiscovery.srv.query=_cluster._tcp.crate-discovery.default.svc.cluster.local
             volumeMounts:
                 - mountPath: /data
                   name: data
