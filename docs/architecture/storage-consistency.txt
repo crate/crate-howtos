@@ -123,7 +123,8 @@ caching and reverse lookup capabilities for shards. An ``IndexReader`` is
 always bound to the Lucene_ segment it was started from, which means it has to
 be refreshed in order to see new changes, this is done on a time based manner,
 but can also be done manually (see `refresh`_). Therefore a search only sees a
-change if the according `IndexReader` was refreshed after that change occurred.
+change if the according ``IndexReader`` was refreshed after that change 
+occurred.
 
 If a query specification results in a ``get`` operation, changes are visible
 immediately. This is achieved by looking up the document in the translog first,

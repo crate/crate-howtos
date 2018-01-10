@@ -39,7 +39,7 @@ Bulk Inserts
 ============
 
 If you use the `SQL HTTP endpoint`_, you can insert multiple records at once by
-making use of `bulk operations`. Our benchmarking_ indicates that you can
+making use of `bulk operations`_. Our benchmarking_ indicates that you can
 expect to see at least a twofold increase in ingestion performance.
 
 Bulk inserts still generate internal network traffic, and CrateDB still waits
