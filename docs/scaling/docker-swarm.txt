@@ -81,8 +81,8 @@ Gather Your Swarm
 
 For the machines to work together, we can create a swarm with `Docker's Swarm
 <https://docs.docker.com/engine/swarm/>`_ feature, which works in a
-Master-Slave configuration. Hence, in order to continue, choose one of these
-machines to become the master node:
+manager-worker configuration. Hence, in order to continue, choose one of these
+machines to become the manager node:
 
 .. code-block:: sh
 
