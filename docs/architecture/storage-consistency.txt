@@ -103,16 +103,18 @@ the table schema (see `Routing`_).
 While transparent to the user, internally there are two ways how CrateDB
 accesses documents:
 
-:get: Direct access by identifier. Only applicable if the routing key and the
-      identifier can be computed from the given query specification. (e.g: the
-      full primary key is defined in the where clause).
+:get:
+  Direct access by identifier. Only applicable if the routing key and the
+  identifier can be computed from the given query specification. (e.g: the full
+  primary key is defined in the where clause).
 
-      This is the most efficient way to access a document, since only a single
-      shard gets accessed and only a simple index lookup on the ``_id`` field
-      has to be done.
+  This is the most efficient way to access a document, since only a single shard
+  gets accessed and only a simple index lookup on the ``_id`` field has to be
+  done.
 
-:search: Query by matching against fields of documents across all candidate
-         shards of the table.
+:search:
+  Query by matching against fields of documents across all candidate shards of
+  the table.
 
 Consistency
 ===========
@@ -123,7 +125,7 @@ caching and reverse lookup capabilities for shards. An ``IndexReader`` is
 always bound to the Lucene_ segment it was started from, which means it has to
 be refreshed in order to see new changes, this is done on a time based manner,
 but can also be done manually (see `refresh`_). Therefore a search only sees a
-change if the according ``IndexReader`` was refreshed after that change 
+change if the according ``IndexReader`` was refreshed after that change
 occurred.
 
 If a query specification results in a ``get`` operation, changes are visible
@@ -135,13 +137,13 @@ always be visible, since the information will be retrieved directly from the
 translog.
 
 .. NOTE::
-  
-  ``Dirty reads`` can occur if the primary shard becomes isolated. The primary 
-  will only realize it is isolated once it tries to communicate with its 
-  replicas or the master. At that point, a write operation is already committed 
-  into the primary and can be read by a concurrent read operation. In order to 
-  minimise the window of opportunity for this phenomena, the CrateDB nodes 
-  communicate with the master every second (by default) and once they realise 
+
+  ``Dirty reads`` can occur if the primary shard becomes isolated. The primary
+  will only realize it is isolated once it tries to communicate with its
+  replicas or the master. At that point, a write operation is already committed
+  into the primary and can be read by a concurrent read operation. In order to
+  minimise the window of opportunity for this phenomena, the CrateDB nodes
+  communicate with the master every second (by default) and once they realise
   no master is known, they will start rejecting write operations.
 
 .. NOTE::
