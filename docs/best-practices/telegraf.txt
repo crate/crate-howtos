@@ -16,14 +16,11 @@ take advantage of the many things that CrateDB has to offer.
 Install
 =======
 
-There is an `open pull request`_ for adding the CrateDB output plugin to
-Telegraf.
-
-Until this pull request is merged, we are providing `prebuilt binaries`_.
-
-Or, you can build it by yourself `from the source <https://github.com/tomsvogel/telegraf#from-source>`_.
+You will need to `install Telegraf`_.
 
 Once Telegraf is installed, continue to the next section.
+
+.. _Install Telegraf: https://github.com/influxdata/telegraf#installation
 
 Configure
 =========
