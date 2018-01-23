@@ -1,0 +1,200 @@
+.. _debian:
+
+===============================
+Run CrateDB on Debian GNU/Linux
+===============================
+
+CrateDB maintains packages for the follow Debian versions:
+
+- `Stretch`_ (9.x)
+- `Jessie`_ (8.x)
+- `Wheezy`_ (7.x)
+
+.. _Wheezy: https://www.debian.org/releases/wheezy/
+.. _Jessie: https://www.debian.org/releases/jessie/
+.. _Stretch: https://www.debian.org/releases/stretch/
+
+This document will walk you through the process of installing and configuring
+the CrateDB Debian package.
+
+.. TIP::
+
+   This document targets production deployments.
+
+   If you're just getting started with CrateDB, we also provide a `one-step
+   Linux installer`_ .
+
+.. _one-step Linux installer: https://crate.io/docs/crate/getting-started/en/latest/install-run/special/linux.html
+
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+
+Configure Apt
+=============
+
+Firstly, you will need to upgrade `Apt`_ (the Debian package manager) with HTTPS
+support, like so:
+
+.. _Apt: https://wiki.debian.org/Apt
+
+.. code-block:: sh
+
+   sh$ sudo apt-get install apt-transport-https
+
+After that, you will need to download the CrateDB GPG key:
+
+.. code-block:: sh
+
+   sh$ wget https://cdn.crate.io/downloads/apt/DEB-GPG-KEY-crate
+
+And then, so that Apt trusts the CrateDB repository, add the key:
+
+.. code-block:: sh
+
+   sh$ sudo apt-key add DEB-GPG-KEY-crate
+
+CrateDB provides a stable and a testing release channel. At this point, you
+should select which one you wish to use.
+
+Create an Apt configuration file, like so:
+
+.. code-block:: sh
+
+   sh$ sudo touch /etc/apt/sources.list.d/crate-CHANNEL.list
+
+Here, replace ``CHANNEL`` with ``stable`` or ``testing``, depending on which
+release channel you plan to use.
+
+Then, edit it, and add the following:
+
+.. code-block:: text
+
+   deb https://cdn.crate.io/downloads/apt/CHANNEL/ CODENAME main
+   deb-src https://cdn.crate.io/downloads/apt/CHANNEL/ CODENAME main
+
+Here, replace ``CHANNEL`` as above, and then, additionally, replace
+``CODENAME`` with the codename of your distribution, which be ``wheezy``,
+``jessie``, or ``stretch``.
+
+Additional Steps
+================
+
+.. CAUTION::
+
+   CrateDB requires Java 8 or higher.
+
+   To run CrateDB on Debian releases older than Debian Stretch, you will need to
+   follow some additional steps.
+
+Debian Jessie (8.x)
+-------------------
+
+Debian Jessie provides Java 8 via the `backports`_ repository.
+
+.. _backports: https://backports.debian.org/
+
+You can set up the backports repository like so:
+
+.. code-block:: sh
+
+   sh$ REPO_URL="http://http.debian.net/debian"
+
+   sh$ echo "deb $REPO_URL jessie-backports main" | sudo tee -a /etc/apt/sources.list
+
+.. _debian-wheezy:
+
+Debian Wheezy (7.x)
+-------------------
+
+Debian Wheezy does not officially ship with Java 8, so you will have to install
+it from a third party repository.
+
+We recommend the `WebUpd8 team`_ repository, which you can configure like so:
+
+.. _WebUpd8 team: https://launchpad.net/~webupd8team
+
+.. code-block:: sh
+
+   sh$ REPO_URL="http://ppa.launchpad.net/webupd8team/java/ubuntu"
+
+   sh$ echo "deb $REPO_URL precise main" | sudo tee -a /etc/apt/sources.list
+   sh$ echo "deb-src $REPO_URL precise main" | sudo tee -a /etc/apt/sources.list
+
+   sh$ sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EEA14886
+   sh$ sudo apt-get update
+   sh$ sudo apt-get install oracle-java8-installer
+
+Install CrateDB
+===============
+
+With everything set up, you can install CrateDB, like so:
+
+.. code-block:: sh
+
+   sh$ sudo apt-get update
+   sh$ sudo apt-get install crate
+
+After the installation is finished, the ``crate`` service should be
+up-and-running.
+
+You should be able to access it by visiting::
+
+  http://localhost:4200/
+
+.. TIP::
+
+   If you're new to CrateDB, check out our our `first use`_ documentation.
+
+.. _first use: https://crate.io/docs/crate/getting-started/en/latest/first-use/index.html
+
+Controlling CrateDB
+===================
+
+With Debian Jessie (8.x) and above, you can control the ``crate`` service like
+so:
+
+.. code-block:: sh
+
+    sh$ sudo systemctl COMMAND crate
+
+With Debian Wheezy (9.x), you must do this instead:
+
+.. code-block:: sh
+
+    sh$ sudo /etc/init.d/crate COMMAND
+
+In both instances, replace ``COMMAND`` with ``start``, ``stop``, ``restart``,
+``status``, etc.
+
+Configuration
+=============
+
+The CrateDB startup script `sources`_ environment variables from the
+``/etc/default/crate`` file.
+
+.. _sources: https://en.wikipedia.org/wiki/Source_(command)
+
+You can use this mechanism to configure CrateDB.
+
+Here's one example:
+
+.. code-block:: sh
+
+   # Heap Size (defaults to 256m min, 1g max)
+   CRATE_HEAP_SIZE=2g
+
+   # Maximum number of open files, defaults to 65535.
+   # MAX_OPEN_FILES=65535
+
+   # Maximum locked memory size. Set to "unlimited" if you use the
+   # bootstrap.mlockall option in crate.yml. You must also set
+   # CRATE_HEAP_SIZE.
+   MAX_LOCKED_MEMORY=unlimited
+
+   # Additional Java OPTS
+   # CRATE_JAVA_OPTS=
+
+   # Force the JVM to use IPv4 stack
+   CRATE_USE_IPV4=true

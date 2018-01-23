@@ -11,5 +11,6 @@ environments.
    :maxdepth: 3
    :titlesonly:
 
+   linux/index
    containers/index
    cloud/index
