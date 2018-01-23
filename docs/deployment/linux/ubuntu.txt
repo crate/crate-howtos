@@ -1,0 +1,204 @@
+.. _ubuntu:
+
+=====================
+Run CrateDB on Ubuntu
+=====================
+
+CrateDB maintains packages for the following Ubuntu versions:
+
+- `Artful Aardvark` (17.10)
+- `Zesty Zapus`_ (17.04)
+- `Yakkety Yak`_ (16.10)
+- `Xenial Xerus`_ (16.04)
+- `Trusty Tahr`_ (14.04)
+
+.. _Artful Aardvark: https://wiki.ubuntu.com/ArtfulAardvark/ReleaseNotes
+.. _Zesty Zapus: https://wiki.ubuntu.com/ZestyZapus/ReleaseNotes
+.. _Yakkety Yak: https://wiki.ubuntu.com/YakketyYak/ReleaseNotes
+.. _Xenial Xerus: https://wiki.ubuntu.com/XenialXerus/ReleaseNotes
+.. _Trusty Tahr: https://wiki.ubuntu.com/TrustyTahr/ReleaseNotes
+
+.. CAUTION::
+
+   CrateDB requires Java 8 or higher.
+
+   To run CrateDB on Ubuntu releases older than Trusty Tahr 14.10, you will need
+   to :ref:`install Java 8 from a 3rd party repository <debian-wheezy>`.
+
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+
+Configure Apt
+=============
+
+CrateDB 2.1.0 or Higher
+-----------------------
+
+.. NOTE::
+
+   The official CrateDB repository only contains CrateDB 2.1.0 or higher.
+
+   Consult the section for `Older Versions`_ if necessary.
+
+Firstly, you will need to configure `Apt`_ (the Ubuntu package manager) to trust
+the CrateDB repository.
+
+.. _Apt: https://wiki.debian.org/Apt
+
+Download the CrateDB GPG key:
+
+.. code-block:: sh
+
+   sh$ wget https://cdn.crate.io/downloads/apt/DEB-GPG-KEY-crate
+
+And then add the key to Apt:
+
+.. code-block:: sh
+
+   sh$ sudo apt-key add DEB-GPG-KEY-crate
+
+CrateDB provides a stable release and a testing release channel. At this point,
+you should select which one you wish to use.
+
+Create an Apt configuration file, like so:
+
+.. code-block:: sh
+
+   sh$ sudo touch /etc/apt/sources.list.d/crate-CHANNEL.list
+
+Here, replace ``CHANNEL`` with ``stable`` or ``testing``, depending on which
+type of release channel you plan to use.
+
+Then, edit it, and add the following:
+
+.. code-block:: text
+
+   deb https://cdn.crate.io/downloads/apt/CHANNEL/ CODENAME main
+   deb-src https://cdn.crate.io/downloads/apt/CHANNEL/ CODENAME main
+
+Here, replace ``CHANNEL`` as above, and then, additionally, replace
+``CODENAME`` with the codename of your distribution, which can be round by
+running:
+
+.. code-block:: sh
+
+   sh$ source /etc/os-release && echo $UBUNTU_CODENAME
+
+You can now install CrateDB.
+
+Skip to `Install CrateDB`_.
+
+Older Versions
+--------------
+
+.. CAUTION::
+
+   This method of installation has been deprecated and does not support CrateDB
+   2.1.0 or higher.
+
+For version of CrateDB older than 2.1.0, you will have to install from an
+official, but unmaintained, `PPA repository`_.
+
+.. _PPA repository: https://launchpad.net/ubuntu/+ppas
+
+Firstly, you will need to install package that allows you to add new PPA repositories:
+
+.. code-block:: sh
+
+   sh$ sudo apt-get install python-software-properties
+
+If you're running Xenial Xerus (16.04) or higher, you will also need to
+install this package:
+
+.. code-block:: sh
+
+   sh$ sudo apt-get install software-properties-common
+
+CrateDB provides a stable and a testing release channel. At this point, you
+should select which one you wish to use.
+
+Now, it will be possible to add the PPA repository, like so:
+
+.. code-block:: sh
+
+   sh$ sudo add-apt-repository ppa:crate/CHANNEL
+
+Here, replace ``CHANNEL`` with ``stable`` or ``testing``, depending on which
+release channel you plan to use.
+
+You can now install CrateDB.
+
+Install CrateDB
+===============
+
+With everything set up, you can install CrateDB, like so:
+
+.. code-block:: sh
+
+   sh$ sudo apt-get update
+   sh$ sudo apt-get install crate
+
+After the installation is finished, the ``crate`` service should be
+up-and-running.
+
+You should be able to access it by visiting::
+
+  http://localhost:4200/
+
+.. TIP::
+
+   If you're new to CrateDB, check out our our `first use`_ documentation.
+
+.. _first use: https://crate.io/docs/crate/getting-started/en/latest/first-use/index.html
+
+Controlling CrateDB
+===================
+
+With Xenial Xerus (15.04) and above, you can control the ``crate`` service like
+so:
+
+.. code-block:: sh
+
+   sh$ sudo systemctl COMMAND crate
+
+With Trusty Tahr (14.04), you should use:
+
+.. code-block:: sh
+
+   sh$ sudo service crate COMMAND
+
+In both instances, replace ``COMMAND`` with ``start``, ``stop``, ``restart``,
+``status``, etc.
+
+Configuration
+=============
+
+The CrateDB startup script `sources`_ environment variables from the
+``/etc/default/crate`` file.
+
+.. _sources: https://en.wikipedia.org/wiki/Source_(command)
+
+You can use this mechanism to configure CrateDB.
+
+Here's one example:
+
+.. code-block:: sh
+
+   # Heap Size (defaults to 256m min, 1g max)
+   CRATE_HEAP_SIZE=2g
+
+   # Maximum number of open files, defaults to 65535.
+   # MAX_OPEN_FILES=65535
+
+   # Maximum locked memory size. Set to "unlimited" if you use the
+   # bootstrap.mlockall option in crate.yml. You must also set
+   # CRATE_HEAP_SIZE.
+   MAX_LOCKED_MEMORY=unlimited
+
+   # Additional Java OPTS
+   # CRATE_JAVA_OPTS=
+
+   # Force the JVM to use IPv4 stack
+   CRATE_USE_IPV4=true
