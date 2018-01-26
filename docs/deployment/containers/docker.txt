@@ -191,6 +191,12 @@ Here's how you would mount ``crate.yml``::
 Here, ``/srv/crate/config/crate.yml`` is an example path, and should be
 replaced with the path to your host machine ``crate.yml`` file.
 
+Healthcheck
+-----------
+
+The official `CrateDB Docker image`_ ships with a configured liveness
+`Docker healthcheck`_. This `Docker healthcheck`_ will flag that the CrateDB 
+process might have crashed or hanged inside the container without terminating.
 
 .. _resource_constraints:
 
@@ -258,3 +264,4 @@ everything at once like so::
 .. _Discovery: https://crate.io/docs/crate/reference/configuration.html#discovery
 .. _CRATE_HEAP_SIZE: https://crate.io/docs/crate/reference/configuration.html#crate-heap-size
 .. _Bootstrap Checks: https://crate.io/docs/crate/guide/best_practices/bootstrap_checks.html
+.. _Docker healthcheck: https://docs.docker.com/engine/reference/builder/#healthcheck
