@@ -6,3 +6,6 @@ exclude_patterns = ["out/**"]
 # it should be a .ico and in addition there is no favicon.png in this project
 # so it can't find the file
 html_favicon = None
+
+site_url = 'https://crate.io/docs/crate/guide/en/latest/'
+extensions = ['sphinx_sitemap']
