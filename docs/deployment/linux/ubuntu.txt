@@ -47,17 +47,12 @@ the CrateDB repository.
 
 .. _Apt: https://wiki.debian.org/Apt
 
-Download the CrateDB GPG key:
+Download and import the CrateDB GPG key:
 
 .. code-block:: sh
 
-   sh$ wget https://cdn.crate.io/downloads/apt/DEB-GPG-KEY-crate
+   sh$ wget -qO - https://cdn.crate.io/downloads/deb/DEB-GPG-KEY-crate | apt-key add -
 
-And then add the key to Apt:
-
-.. code-block:: sh
-
-   sh$ sudo apt-key add DEB-GPG-KEY-crate
 
 CrateDB provides a stable release and a testing release channel. At this point,
 you should select which one you wish to use.
@@ -75,8 +70,8 @@ Then, edit it, and add the following:
 
 .. code-block:: text
 
-   deb https://cdn.crate.io/downloads/apt/CHANNEL/ CODENAME main
-   deb-src https://cdn.crate.io/downloads/apt/CHANNEL/ CODENAME main
+   deb https://cdn.crate.io/downloads/deb/CHANNEL/ CODENAME main
+   deb-src https://cdn.crate.io/downloads/deb/CHANNEL/ CODENAME main
 
 Here, replace ``CHANNEL`` as above, and then, additionally, replace
 ``CODENAME`` with the codename of your distribution, which can be round by
