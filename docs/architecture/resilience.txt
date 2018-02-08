@@ -114,6 +114,14 @@ Here are some considerations:
    rare consistency or data-loss issues you might encounter when CrateDB
    experiences network or hardware failures (see next section).
 
+
+Nightly Jepsen tests
+--------------------
+
+The source code of these tests can be inspected in the official
+`Jepsen repository <https://github.com/jepsen-io/jepsen>`_.
+
+
 Known Issues
 ============
 
@@ -290,6 +298,54 @@ matches the lost update. This will break `Optimistic Concurrency Control
 <https://crate.io/docs/reference/sql/occ.html>`_.
 
 
+Replicas can fall out of sync when a primary shard fails
+--------------------------------------------------------
+
+.. raw:: html
+
+   <table class="summary">
+   <tr>
+    <td>Status</td>
+    <td>
+        Initial work to address this issue has been done by introducing
+        sequence numbers:
+        <a href="https://github.com/elastic/elasticsearch/issues/10708">#10708</a>
+    </td>
+   </tr>
+   <tr>
+    <td>Severity</td>
+    <td>Modest</td>
+   </tr>
+   <tr>
+    <td>Likelihood</td>
+    <td>Rare</td>
+   </tr>
+   <tr>
+    <td>Cause</td>
+    <td>Primary fails and in-flight writes are only written to a subset of its replicas</td>
+   </tr>
+   <tr>
+    <td>Workloads</td>
+    <td>Writes on replicated table</td>
+   </tr>
+   </table>
+
+.. rubric:: Scenario
+
+When a primary shard fails, a replica shard will be promoted to be the primary
+shard. If there is more than one replica shard, it is possible for the remaining
+replicas to be out of sync with the new primary shard. This is caused by
+operations that were in-flight when the primary shard failed and may not have
+been processed on all replica shards. Currently, the discrepancies are not
+repaired on primary promotion but instead would be repaired if replica shards
+are relocated (e.g., from hot to cold nodes); this does mean that the length of
+time which replicas can be out of sync with the primary shard is
+unbounded.
+
+.. rubric:: Consequence
+
+Stale data may be read from replicas.
+
 Fixed Issues
 ============
 
@@ -436,6 +492,59 @@ data as a new primary. The data on the original primary shard is lost. Even if
 the node with the original primary shard rejoins the cluster, CrateDB has no
 way of distinguishing correct and incorrect data, so that data replaced with
 data from the new primary shard.
+
+Make table creation resilient to closing and full cluster crashes
+-----------------------------------------------------------------
+
+.. raw:: html
+
+   <table class="summary">
+   <tr>
+    <td>Status</td>
+    <td>
+        The issue has been fixed with the following issues.
+        Table recovery: <a href="https://github.com/elastic/elasticsearch/issues/9126">#9126</a>
+        Reopening tables: <a href="https://github.com/elastic/elasticsearch/issues/14739">#14739</a>
+        Allocation IDs: <a href="https://github.com/elastic/elasticsearch/issues/15281">#15281</a>
+    </td>
+   </tr>
+   <tr>
+    <td>Severity</td>
+    <td>Modest</td>
+   </tr>
+   <tr>
+    <td>Likelihood</td>
+    <td>Very Rare</td>
+   </tr>
+   <tr>
+    <td>Cause</td>
+    <td>Either the cluster fails while recovering a table or
+        the table is closed during shard creation.
+    </td>
+   </tr>
+   <tr>
+    <td>Workloads</td>
+    <td>Table creation</td>
+   </tr>
+   </table>
+
+.. rubric:: Scenario
+
+Recovering a table requires a quorum of shard copies to be available to allocate
+a primary. This means that a primary cannot be assigned if the cluster dies
+before enough shards have been allocated. The same happens if a table is closed
+before enough shard copies were started, making it impossible to reopen the
+table. Allocation IDs solve this issue by tracking allocated shard copies in the
+cluster. This makes it possible to safely recover a table in the presence of a
+single shard copy. Allocation IDs can also distinguish the situation where a
+table has been created but none of the shards have been started. If such an
+table was inadvertently closed before at least one shard could be started, a
+fresh shard will be allocated upon reopening the table.
+
+.. rubric:: Consequence
+
+The primary shard of the table cannot be assigned or a closed table cannot be
+re-opened.
 
 Unaware Master Accepts Cluster Updates
 --------------------------------------
