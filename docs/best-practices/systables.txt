@@ -43,13 +43,14 @@ Statements that are currently executed on the server are tracked in the tables
 **sys.jobs** and **sys.operations**. They give you the opportunity to view the
 ongoing activity in the cluster.
 
-For these to work you have to enable status logging with::
+If you're using an earlier version than CrateDB 3.0.0, you will have to enable
+statistics using:
 
     cr> SET GLOBAL stats.enabled = true;
     SET OK, 1 row affected (... sec)
 
-before you query these tables. Each syntactically correct request that got
-parsed and planned is listed in the **sys.jobs** table while it's executed::
+When enabled, each syntactically correct request that got parsed and planned is
+listed in the **sys.jobs** table while it's executed::
 
     cr> SELECT id as job_uuid, date_format(started) AS start, stmt FROM sys.jobs;
     +--------------------------------------+-----------------------------+-------------------------------------...----------------------------------+
