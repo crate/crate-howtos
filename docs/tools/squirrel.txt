@@ -35,8 +35,8 @@ with its distribution, so an extra setup step is required to run CrateDB with
       :alt: squirrel add driver dialogue
 
 4. Choose the ``Aliases`` tab and add a new Alias, Choose your new driver
-   (called crate in our example) and enter your database URL. Username and
-   password are not supported, so leave them blank.
+   (called ``CrateDB`` in our example) and enter your database URL. By default,
+   we authenticate as the ``crate`` user with no password..
 
    .. image:: squirrel-add-alias.png
       :alt: squirrel add alias dialogue
