@@ -1,8 +1,8 @@
 .. _crate_ami:
 
-=============================
-CrateDB Amazon Machine Images
-=============================
+====================================
+CrateDB Amazon Machine Images (AMIs)
+====================================
 
 An `Amazon Machine Image`_ (AMI) is a pre-configured virtual appliance that
 works with `Amazon Elastic Compute Cloud`_ (Amazon EC2).

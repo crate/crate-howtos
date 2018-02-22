@@ -1,9 +1,9 @@
 .. highlight:: yaml
 .. _ec2_setup:
 
-============================
-CrateDB Setup for Amazon EC2
-============================
+=============================
+Running CrateDB on Amazon EC2
+=============================
 
 .. rubric:: Table of Contents
 
