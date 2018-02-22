@@ -8,7 +8,7 @@ systems capable of running Java.
 .. rubric:: Table of Contents
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :titlesonly:
 
    aws/index
