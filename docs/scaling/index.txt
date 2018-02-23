@@ -15,5 +15,4 @@ This section of the documentation shows you how to scale CrateDB.
    scaling-intro
    multi-node-setup
    multi-zone-setup
-   docker-swarm
    kubernetes
