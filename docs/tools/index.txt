@@ -19,7 +19,6 @@ know of any other tools that work well with CrateDB, please `get in touch
 .. toctree::
    :hidden:
 
-   squirrel
    streamsets
 
 

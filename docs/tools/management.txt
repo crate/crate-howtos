@@ -10,15 +10,13 @@ Management Utilities
 SQuirreL SQL
 ============
 
-SQirreL is an open-source, cross-platform, graphical Java SQL Client (requires
+SQuirreL is an open-source, cross-platform, graphical Java SQL Client (requires
 Java >= 6.x) that allows you to view the structure of any JDBC compliant
 database.
 
-Here is a setup guide about :doc:`squirrel`.
+Learn how to `get set up with CrateDB and SQuirreL`_.
 
--  `Download <http://squirrel-sql.sourceforge.net>`__
--  `Official documentation
-   <http://squirrel-sql.sourceforge.net/paper/SQuirreL_us.pdf>`__
+.. _get set up with CrateDB and SQuirreL: https://crate.io/a/use-cratedb-squirrel-basic-java-desktop-client/
 
 conZole
 =======
