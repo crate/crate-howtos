@@ -7,18 +7,6 @@ Data Visualization
 .. contents::
    :local:
 
-Tableau Desktop
-===============
-
-Tableau is a business analytics and data visualization software that lets you
-see and understand data in minutes.
-
-Connecting Tableau to a CrateDB cluster requires our ODBC driver, find more
-details `here <https://crate.io/enterprise/odbc/>`__.
-
--  `Official website <http://www.tableau.com/>`_
--  `How to use Tableau <http://www.tableau.com/learn>`_
-
 SQLPad
 ======
 
