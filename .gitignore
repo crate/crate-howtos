@@ -2,3 +2,4 @@
 .venv
 docs/out
 get-pip.py
+.idea
