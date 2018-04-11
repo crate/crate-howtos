@@ -1,9 +1,9 @@
 .. highlight:: yaml
 .. _ec2_setup:
 
-============================
-CrateDB Setup for Amazon EC2
-============================
+=============================
+Running CrateDB on Amazon EC2
+=============================
 
 .. rubric:: Table of Contents
 
@@ -37,9 +37,9 @@ will allow CrateDB to accept and respond to pings from other CrateDB instances
 with the same cluster name and form a cluster.
 
 Once you have your instances running and CrateDB installed, you can enable the
-EC2 discovery by setting the discovery type to ``ec2``::
+EC2 discovery by setting ``discovery.zen.hosts_provider`` to ``ec2``::
 
-  discovery.type: ec2
+  discovery.zen.hosts_provider: ec2
 
 To be able to use the EC2 API, CrateDB must `sign the requests`_ by using
 AWS credentials consisting of an access key and a secret key. Therefore

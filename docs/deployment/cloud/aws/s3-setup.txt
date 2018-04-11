@@ -1,9 +1,9 @@
 .. highlight:: yaml
 .. _s3_setup:
 
-===========================
-CrateDB Setup for Amazon S3
-===========================
+========================================
+Using Amazon S3 as a Snapshot Repository
+========================================
 
 CrateDB supports using the `Amazon S3`_ (Amazon Simple Storage Service) as a
 snapshot repository. For this, you need to register the AWS plugin with
