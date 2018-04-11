@@ -47,17 +47,12 @@ the CrateDB repository.
 
 .. _Apt: https://wiki.debian.org/Apt
 
-Download the CrateDB GPG key:
+Download and import the CrateDB GPG key:
 
 .. code-block:: sh
 
-   sh$ wget https://cdn.crate.io/downloads/deb/DEB-GPG-KEY-crate
+   sh$ wget -qO - https://cdn.crate.io/downloads/deb/DEB-GPG-KEY-crate | sudo apt-key add -
 
-And then add the key to Apt:
-
-.. code-block:: sh
-
-   sh$ sudo apt-key add DEB-GPG-KEY-crate
 
 CrateDB provides a stable release and a testing release channel. At this point,
 you should select which one you wish to use.
