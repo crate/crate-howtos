@@ -51,7 +51,7 @@ Download and import the CrateDB GPG key:
 
 .. code-block:: sh
 
-   sh$ wget -qO - https://cdn.crate.io/downloads/deb/DEB-GPG-KEY-crate | apt-key add -
+   sh$ wget -qO - https://cdn.crate.io/downloads/deb/DEB-GPG-KEY-crate | sudo apt-key add -
 
 
 CrateDB provides a stable release and a testing release channel. At this point,
