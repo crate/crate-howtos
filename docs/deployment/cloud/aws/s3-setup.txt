@@ -24,9 +24,11 @@ setting in the ``crate.yml`` file::
   cloud.enabled: false
 
 To be able to use the S3 API, CrateDB must `sign the requests`_ by using AWS
-credentials consisting of an access key and a secret key. Therefore AWS
-provides `IAM roles`_ to avoid any distribution of your AWS credentials to the
-instances.
+credentials consisting of an access key and a secret key (note that these are
+`secure settings`_ in CrateDB and need to be configured as described in the
+`S3 create repository`_ section).
+Therefore AWS provides `IAM roles`_ to avoid any distribution of your AWS
+credentials to the instances.
 
 .. _s3_authentication:
 
@@ -105,3 +107,5 @@ within the policy:
 .. _`AWS guide`: http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html
 .. _`AWS principals`: http://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements.html#Principal
 .. _`AWS policy examples`: http://docs.aws.amazon.com/AmazonS3/latest/dev/example-bucket-policies.html
+.. _`secure settings`: [TODO: crate docs URL to secure settings]
+.. _`S3 create repository`: https://crate.io/docs/crate/reference/en/latest/sql/statements/create-repository.html#s3
