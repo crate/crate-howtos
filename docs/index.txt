@@ -16,6 +16,11 @@ massive amounts of machine data in real-time.
    Check out the `CrateDB Reference`_ for low-level documentation, including
    release notes, configuration, syntax reference, and so on.
 
+.. SEEALSO::
+
+   The CrateDB Guide is an open source documentation project and is `hosted on
+   GitHub`_.
+
 .. rubric:: Table of Contents
 
 .. toctree::
@@ -32,3 +37,4 @@ massive amounts of machine data in real-time.
 
 .. _CrateDB Reference: https://crate.io/docs/crate/reference/en/latest/
 .. _Getting Started With CrateDB: https://crate.io/docs/crate/getting-started/en/latest/
+.. _hosted on GitHub: https://github.com/crate/guide
