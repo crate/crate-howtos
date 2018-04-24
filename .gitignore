@@ -1,5 +1,6 @@
 .DS_Store
 .venv
-docs/out
+_out/
+out/
 get-pip.py
 .idea
