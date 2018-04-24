@@ -1,6 +1,6 @@
-.DS_Store
-.venv
 _out/
-out/
-get-pip.py
+.DS_Store
 .idea
+.venv
+get-pip.py
+out/
