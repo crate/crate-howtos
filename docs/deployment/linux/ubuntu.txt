@@ -6,12 +6,14 @@ Run CrateDB on Ubuntu
 
 CrateDB maintains packages for the following Ubuntu versions:
 
-- `Artful Aardvark` (17.10)
+- `Bionic Beaver`_ (18.04)
+- `Artful Aardvark`_ (17.10)
 - `Zesty Zapus`_ (17.04)
 - `Yakkety Yak`_ (16.10)
 - `Xenial Xerus`_ (16.04)
 - `Trusty Tahr`_ (14.04)
 
+.. _Bionic Beaver: https://wiki.ubuntu.com/BionicBeaver/ReleaseNotes
 .. _Artful Aardvark: https://wiki.ubuntu.com/ArtfulAardvark/ReleaseNotes
 .. _Zesty Zapus: https://wiki.ubuntu.com/ZestyZapus/ReleaseNotes
 .. _Yakkety Yak: https://wiki.ubuntu.com/YakketyYak/ReleaseNotes
