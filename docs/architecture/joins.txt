@@ -182,6 +182,16 @@ from the right relation. If an entry is found, the join condition is validated
 left and right relation is returned.
 
 
+.. _joins_figure_3:
+
+.. figure:: hash-join.svg
+   :width: 70%
+   :align: center
+
+   Figure 3
+
+   Basic hash join algorithm
+
 .. _joins_block_hash_join:
 
 Block Hash Join
@@ -247,6 +257,17 @@ to the client.
 This algorithm is used by CrateDB for most cases of hash join execution except
 for joins on complex subqueries that contain ``LIMIT`` and/or ``OFFSET``.
 
+.. _joins_figure_4:
+
+.. figure:: distributed-hash-join.svg
+   :width: 70%
+   :align: center
+
+   Figure 4
+
+   Distributed hash join algorithm
+
+
 Optimizations
 -------------
 
@@ -270,7 +291,7 @@ Push-Down Query Optimization
 Complex queries such as Listing 2 require the planner to decide when to filter,
 sort, and merge in order to efficiently execute the plan. In this case, the
 query would be split internally into subqueries before running the join. As
-shown in :ref:`joins_figure_3`, first filtering (and ordering) is applied to
+shown in :ref:`joins_figure_5`, first filtering (and ordering) is applied to
 relations *L* and *R* on their shards, then the result is directly broadcast to
 the nodes running the join. Not only will this behavior reduce the number of
 rows to work with, it also distributes the workload among the nodes so that the
@@ -288,13 +309,13 @@ rows to work with, it also distributes the workload among the nodes so that the
 *Listing 2. An INNER JOIN on ids (effectively an EQUI JOIN) which can be
 optimized.*
 
-.. _joins_figure_3:
+.. _joins_figure_5:
 
 .. figure:: push-down.png
    :scale: 70%
    :align: center
 
-   Figure 3
+   Figure 5
 
    Complex queries are broken down into subqueries that are run on their shards
    before joining.
