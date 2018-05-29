@@ -1,0 +1,81 @@
+.. _memory:
+
+====================
+Memory Configuration
+====================
+
+In general, you should allocate as much memory as possible to CrateDB.
+
+The amount of memory made allocated is called the *heap*.
+
+If the heap is too small, some memory-intensive queries (such as those which
+need to hold many rows in memory) may fail with ``OutOfMemory`` exceptions.
+
+However, there are two important limits on how large you should configure the
+heap.
+
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+
+.. _memory-limits:
+
+Limits
+======
+
+50% of Available RAM
+--------------------
+
+CrateDB uses `Lucene`_ as an underlying storage engine. Both CrateDB and Lucene
+need a lot of memory, so it is important not to assign too much to CrateDB and
+forget about Lucene. If Lucene does not have enough memory, CrateDB may
+experience serious performance degradation.
+
+A good starting point is to configure the CrateDB heap at 50% of the available
+system memory, leaving the other 50% free for Lucene and other system
+processes. Lucene will use as much memory as is available.
+
+30.5 Gigabytes Total
+--------------------
+
+On `x64 architectures`_, the `HotSpot Java Virtual Machine`_ (JVM) uses a
+performance optimization technique called `Compressed Oops`_ that allows the
+JVM to address up to 32 gigabytes of memory.
+
+If you configure the heap to more than 32 gigabytes, this performance
+optimization is disabled, and CrateDB will suffer performance degradation as a
+result.
+
+On some JVMs this value is as low as 30.5 gigabytes.
+
+For this reason, you should never configure the CrateDB heap to more than 30.5
+gigabytes.
+
+.. TIP::
+
+    When configuring heap size via `CRATE_HEAP_SIZE`_, you can specify 30.5
+    gigabytes with the value ``30500m``.
+
+If you are running CrateDB on a system with much more memory available, we
+recommend that you run multiple CrateDB nodes.
+
+In this instance, each CrateDB node should be configured with a heap size of
+30.5 gigabytes. However, in total, you should still leave 50% of the system
+memory for Lucene.
+
+You should also add this to your node configurations:
+
+.. code-block:: yaml
+
+    cluster.routing.allocation.same_shard.host: true
+
+This will prevent replica shards from being created on or moved to a CrateDB
+node on the same host system as the primary shard.
+
+.. _Compressed Oops: https://wiki.openjdk.java.net/display/HotSpot/CompressedOops
+.. _configurations: https://crate.io/docs/crate/reference/en/latest/config/index.html
+.. _CRATE_HEAP_SIZE: https://crate.io/docs/crate/reference/en/latest/config/environment.html#crate-heap-size
+.. _HotSpot Java Virtual Machine: http://www.oracle.com/technetwork/java/javase/tech/index-jsp-136373.html
+.. _Lucene: https://lucene.apache.org/
+.. _x64 architectures: https://en.wikipedia.org/wiki/X86-64
