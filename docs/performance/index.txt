@@ -10,5 +10,6 @@ best performance from CrateDB.
 .. toctree::
    :maxdepth: 1
 
+   memory
    sharding
    inserts
