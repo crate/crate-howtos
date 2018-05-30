@@ -71,7 +71,7 @@ So we recommend you choose the number of shards wisely. They depend on the
 number of nodes in the cluster as well as on the amount of data that goes into
 the table.
 
-.. NOTE::
+.. CAUTION::
 
   Be careful, you cannot change the number of shards once the table is created!
 

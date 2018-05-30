@@ -130,7 +130,7 @@ nodes in the cluster:
 
 where ``N`` is the maximum number of nodes in the cluster.
 
-.. NOTE::
+.. WARNING::
 
    Setting the quorum lower than described above may lead to 'split brain'
    scenarios. This means that in the case of network partitioning there could

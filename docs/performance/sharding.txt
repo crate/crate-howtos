@@ -25,8 +25,9 @@ the type of hardware you're using.
 
 .. NOTE::
 
-   This guide assumes you know the basics. If you are looking for an intro to
-   sharding, see `Sharding`_.
+   This guide assumes you know the basics.
+
+   If you are looking for an intro to sharding, see `Sharding`_.
 
 Optimising For Query Performance
 ================================
@@ -85,7 +86,7 @@ a good idea to benchmark your particular setup so as to find the sweet spot.
 If you don't manually set the number of shards per table, CrateDB will make a best guess,
 based on the assumption that your nodes have two CPUs each.
 
-.. NOTE::
+.. TIP::
 
    For the purposes of calculating how many shards a table should be clustered
    into, you can typically ignore replica partitions as these are not usually

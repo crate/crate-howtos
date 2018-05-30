@@ -20,7 +20,7 @@ CrateDB maintains packages for the following Ubuntu versions:
 .. _Xenial Xerus: https://wiki.ubuntu.com/XenialXerus/ReleaseNotes
 .. _Trusty Tahr: https://wiki.ubuntu.com/TrustyTahr/ReleaseNotes
 
-.. CAUTION::
+.. NOTE::
 
    CrateDB requires Java 8 or higher.
 
@@ -38,7 +38,7 @@ Configure Apt
 CrateDB 2.1.0 or Higher
 -----------------------
 
-.. NOTE::
+.. SEEALSO::
 
    The official CrateDB repository only contains CrateDB 2.1.0 or higher.
 
@@ -95,7 +95,7 @@ Skip to `Install CrateDB`_.
 Older Versions
 --------------
 
-.. CAUTION::
+.. NOTE::
 
    This method of installation has been deprecated and does not support CrateDB
    2.1.0 or higher.
@@ -149,7 +149,7 @@ You should be able to access it by visiting::
 
   http://localhost:4200/
 
-.. TIP::
+.. SEEALSO::
 
    If you're new to CrateDB, check out our our `first use`_ documentation.
 
