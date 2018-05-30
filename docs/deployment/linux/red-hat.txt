@@ -94,7 +94,7 @@ You should be able to access it by visiting::
 
   http://localhost:4200/
 
-.. TIP::
+.. SEEALSO::
 
    If you're new to CrateDB, check out our our `first use`_ documentation.
 

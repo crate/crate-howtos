@@ -17,7 +17,7 @@ CrateDB maintains packages for the follow Debian versions:
 This document will walk you through the process of installing and configuring
 the CrateDB Debian package.
 
-.. TIP::
+.. NOTE::
 
    This document targets production deployments.
 
@@ -81,12 +81,10 @@ Here, replace ``CHANNEL`` as above, and then, additionally, replace
 Additional Steps
 ================
 
-.. CAUTION::
+CrateDB requires Java 8 or higher.
 
-   CrateDB requires Java 8 or higher.
-
-   To run CrateDB on Debian releases older than Debian Stretch, you will need to
-   follow some additional steps.
+To run CrateDB on Debian releases older than Debian Stretch, you will need to
+follow some additional steps.
 
 Debian Jessie (8.x)
 -------------------
@@ -143,7 +141,7 @@ You should be able to access it by visiting::
 
   http://localhost:4200/
 
-.. TIP::
+.. SEEALSO::
 
    If you're new to CrateDB, check out our our `first use`_ documentation.
 

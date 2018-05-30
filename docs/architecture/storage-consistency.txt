@@ -146,8 +146,6 @@ translog.
   communicate with the master every second (by default) and once they realise
   no master is known, they will start rejecting write operations.
 
-.. NOTE::
-
   Every replica shard is updated synchronously with its primary and always
   carries the same information. Therefore it does not matter if the primary or
   a replica shard is accessed in terms of consistency. Only the refresh of the
