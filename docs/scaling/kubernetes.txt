@@ -135,6 +135,13 @@ Find out the public IP and the services that have been created with
 
     kubectl get services
 
+If it is acceptable that this service is exposed externally, then specifying the 
+service type as `LoadBalancer` is sufficient. An external load balancer then 
+routes to `NodePort` and `ClusterIP` services. However, if it is not acceptable
+to expose the database on an external (public) IP, we recommend specifying the
+type as NodePort. These means that the service is exposed on each Node's IP as
+a static port. More information about service types can be found `here <https://kubernetes.io/docs/concepts/services-networking/service/>`.
+
 Scale CrateDB
 -------------
 
@@ -185,17 +192,46 @@ allows for a better flexibility than passing around config files.
 Storage
 -------
 
+torage
+-------
+The above example makes use of in-memory storage. This is only suggested to 
+facilitate testing out of CrateDB with Kubernetes. It is not advisable to use
+this form of storage for a production database because all data from this
+directory will be lost if a pod is deleted. More information on this can be
+found `here <https://kubernetes.io/docs/concepts/storage/volumes/>`, under `emptyDir`.
+
+When you require durable storage, `persistent volumes <https://kubernetes.io/docs/concepts/storage/persistent-volumes/>`
+(PV) should be used with CrateDB. A volume is bound and mounted to each Crate pod,
+using `volumeClaimTemplates` within the StatefulSet configuration. 
+
+.. code-block:: yaml
+
+      volumeClaimTemplates:
+      - metadata:
+          name: crate-persistent-storage
+        spec:
+          accessModes:
+          - ReadWriteOnce
+          resources:
+            requests:
+              storage: 10Gi
+
+Each PV has a lifecycle which is independent of the pod which makes use of it.
+In the event that a pod (or group of pods) is destroyed, the data will persist
+on these volumes and will be reassigned to the pods when they re-spawn.
+
 Many container hosting services offer spinning disks as default storage media,
-which - for CrateDB - is often too slow. In addition to that, replication only
-makes sense if the data is on separate physical media in order to achieve high
-availability and to avoid potential bottlenecks when several clusters attach
-the same storage. Since the `Persistent Volume Claims
-<https://github.com/kubernetes/kubernetes/blob/master/examples/experimental/persistent-volume-provisioning/README.md>`_
-depend on the Kubernetes cluster (and if it runs in the cloud), the volume
-template is currently not included in our template. You can familiarize
-yourself with them `here <https://kubernetes.io/docs/concepts/workloads/controllers/statefulset>`_.
-For now, the volumes are explicitly stated and to customize that accordingly, the
-`volume guide <https://kubernetes.io/docs/concepts/storage/volumes/>`_ is very
+however the performance of such volumes can be dependent on the cloud provider.
+Nevertheless, replication only makes sense if the data is on separate physical
+media in order to achieve high availability and to avoid potential bottlenecks
+when several clusters attach the same storage. More information about
+provisioning persistent volumes with a cloud provider can be found `here
+<https://github.com/kubernetes/examples/tree/master/staging/persistent-volume-provisioning>`.
+
+You can familiarize yourself with `Volumes` and `StatefulSets` `here
+<https://kubernetes.io/docs/concepts/workloads/controllers/statefulset>`_.
+Volumes can be customized as required, to achieve this, the `volume guide
+<https://kubernetes.io/docs/concepts/storage/volumes/>`_ is very
 helpful.
 
 Manual Approach
