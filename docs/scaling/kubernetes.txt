@@ -192,17 +192,17 @@ allows for a better flexibility than passing around config files.
 Storage
 -------
 
-torage
--------
 The above example makes use of in-memory storage. This is only suggested to 
 facilitate testing out of CrateDB with Kubernetes. It is not advisable to use
 this form of storage for a production database because all data from this
 directory will be lost if a pod is deleted. More information on this can be
-found `here <https://kubernetes.io/docs/concepts/storage/volumes/>`, under `emptyDir`.
+found `here <https://kubernetes.io/docs/concepts/storage/volumes/>`, under
+`emptyDir`.
 
-When you require durable storage, `persistent volumes <https://kubernetes.io/docs/concepts/storage/persistent-volumes/>`
-(PV) should be used with CrateDB. A volume is bound and mounted to each Crate pod,
-using `volumeClaimTemplates` within the StatefulSet configuration. 
+When you require durable storage, `persistent volumes
+<https://kubernetes.io/docs/concepts/storage/persistent-volumes/>` (PV) should
+be used with CrateDB. A volume is bound and mounted to each Crate pod, using
+`volumeClaimTemplates` within the StatefulSet configuration.
 
 .. code-block:: yaml
 
