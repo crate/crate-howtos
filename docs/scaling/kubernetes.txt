@@ -136,8 +136,8 @@ Find out the public IP and the services that have been created with
     kubectl get services
 
 If it is acceptable that this service is exposed externally, then specifying the 
-service type as `LoadBalancer` is sufficient. An external load balancer then 
-routes to `NodePort` and `ClusterIP` services. However, if it is not acceptable
+service type as ``LoadBalancer`` is sufficient. An external load balancer then 
+routes to ``NodePort`` and ``ClusterIP`` services. However, if it is not acceptable
 to expose the database on an external (public) IP, we recommend specifying the
 type as NodePort. This means that the service is exposed on each Node's IP as
 a static port. More information about service types can be found `here <https://kubernetes.io/docs/concepts/services-networking/service/>`.
@@ -201,7 +201,7 @@ found `here <kubernetes.io/docs/concepts/storage/volumes/#emptydir>`.
 When you require durable storage, `persistent volumes
 <https://kubernetes.io/docs/concepts/storage/persistent-volumes/>` (PV) should
 be used with CrateDB. A volume is bound and mounted to each Crate pod, using
-`volumeClaimTemplates` within the StatefulSet configuration.
+``volumeClaimTemplates`` within the StatefulSet configuration.
 
 .. code-block:: yaml
 
@@ -227,7 +227,7 @@ when several clusters attach the same storage. More information about
 provisioning persistent volumes with a cloud provider can be found `here
 <https://github.com/kubernetes/examples/tree/master/staging/persistent-volume-provisioning>`.
 
-You can familiarize yourself with `Volumes` and `StatefulSets` `here
+You can familiarize yourself with ``Volumes`` and ``StatefulSets`` `here
 <https://kubernetes.io/docs/concepts/workloads/controllers/statefulset>`_.
 Volumes can be customized as required, to achieve this, the `kubernetes volume
 guide <https://kubernetes.io/docs/concepts/storage/volumes/>`_ is very
