@@ -6,14 +6,12 @@ Kubernetes is an open-source system for automating deployment, scaling, and
 management of containerized applications that builds on 15 years of experience
 running production workflows at Google.
 
-Thanks to :doc:`our Docker image <../deployment/containers/docker>`, managing
-your CrateDB cluster with Kubernetes requires only a few steps.
+Thanks to our :ref:`Docker image <cratedb_docker>`, managing your CrateDB
+cluster with Kubernetes requires only a few steps.
 
-This guide will assume that you already have `kubectl
-<https://kubernetes.io/docs/tasks/tools/install-kubectl/>`_ and a `Kubernetes cluster
-<http://kubernetes.io/docs/getting-started-guides/binary_release/>`_ ready to
-go. All of the commands/templates/etc. provided should be customized to meet
-your personal requirements!
+This guide will assume that you already have `kubectl`_ and a `Kubernetes
+cluster`_ ready to go. All of the provided commands, templates, and so on
+should be customized to meet your requirements!
 
 .. rubric:: Table of Contents
 
@@ -23,10 +21,9 @@ your personal requirements!
 The CrateDB Template
 ====================
 
-At CrateDB we are proud of our community and our user `'cedboss'
-<https://github.com/cedbossneo>`_ provided us with a template to use for
-Kubernetes to deploy CrateDB. Building on that draft we developed a more mature
-version:
+At CrateDB we are proud of our community and our user `cedboss`_ provided us
+with a template to use for Kubernetes to deploy CrateDB. Building on that draft
+we developed a more mature version:
 
 .. code-block:: yaml
 
@@ -110,37 +107,42 @@ Init Containers
 ---------------
 
 Init containers are containers that run before the main container of the pod,
-and are intended to accomplish some prerequisite task before the pod can be fully
-started. In this template's case, the init container sets a value for
+and are intended to accomplish some prerequisite task before the pod can be
+fully started. In this template's case, the init container sets a value for
 ``vm.max_map_count``, which is required for the bootstrap checks to pass.
 
 Start CrateDB
 -------------
 
-This template utilizes the `Kubernetes StatefulSet
-<https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/>`_ type
-that allows you to add SRV records for node DNS discovery, as well as a graceful
-shutdown when scaling. While CrateDB would also work as a stateless pod
-(cattle), this way facilitates a couple of things like persistant storage and
-shard migration on zero downtime upgrades. To create a new cluster based on
-this template, use::
+This template utilizes the Kubernetes `StatefulSet`_ type that allows you to
+add SRV records for node DNS discovery, as well as a graceful shutdown when
+scaling. While CrateDB would also work as a stateless pod (cattle), this way
+facilitates a couple of things like persistant storage and shard migration on
+zero downtime upgrades.
+
+To create a new cluster based on this template, use:
 
 .. code-block:: sh
 
     kubectl create -f crate-kubernetes.yml
 
-Find out the public IP and the services that have been created with
+Find out the public IP and the services that have been created with:
 
 .. code-block:: sh
 
     kubectl get services
 
-If it is acceptable that this service is exposed externally, then specifying the 
-service type as ``LoadBalancer`` is sufficient. An external load balancer then 
-routes to ``NodePort`` and ``ClusterIP`` services. However, if it is not acceptable
-to expose the database on an external (public) IP, we recommend specifying the
-type as NodePort. This means that the service is exposed on each Node's IP as
-a static port. More information about service types can be found `here <https://kubernetes.io/docs/concepts/services-networking/service/>`.
+If it's okay for this service is exposed externally, specifying the service
+type as ``LoadBalancer`` is sufficient. An external load balancer then routes
+to ``NodePort`` and ``ClusterIP`` services.
+
+However, if it is not acceptable to expose the database on an external (public)
+IP, we recommend specifying the type as ``NodePort``. This means that the
+service is exposed on each node's IP as a static port.
+
+.. SEEALSO::
+
+    The Kubernetes documentation has more information about `services`_.
 
 Scale CrateDB
 -------------
@@ -164,20 +166,28 @@ There are three important settings in this context:
 
 The settings ``recover_after_nodes`` and ``expected_nodes`` are important for
 the cluster to know the intended size and if it should recover or rather accept
-the provided cluster state *on startup*. Therefore changing these values will
-require a cluster restart and a misconfiguration will trigger a cluster check
-to fail. However, the cluster will still continue to function properly.
-``discovery.zen.minimum_master_nodes`` on the other hand influences how the
-master nodes are elected, and a value greater than the number of nodes is going
-to disband the cluster, whereas a too small number might lead to a split-brain
-scenario - which is why it is necessary to adjust this number when scaling by
-issuing
+the provided cluster state *on startup*.
+
+Therefore changing these values will require a cluster restart and a
+misconfiguration will trigger a cluster check to fail. However, the cluster
+will still continue to function properly.
+
+The ``discovery.zen.minimum_master_nodes`` setting, on the other hand,
+influences how the master nodes are elected. A value greater than the number of
+nodes is going to disband the cluster. Whereas a too small number might lead to
+a split-brain scenario.
+
+For these reasons, it is necessary to adjust this number when scaling.
+
+You can do that, like so:
+
 
 .. code-block:: psql
 
     SET GLOBAL PERSISTENT discovery.zen.minimum_master_nodes = 5
 
-... where 5 is one more than half the actual number of nodes in the cluster.
+Here, ``5`` is one more than half the actual number of nodes in the cluster.
+
 Now to monitor the available pods you can use ``kubectl proxy`` which starts a
 web server with log outputs and a list of the available pods.
 
@@ -185,23 +195,29 @@ Customize CrateDB
 -----------------
 
 In this template, CrateDB is configured using the ``-C`` parameters for the
-executable. Every setting in `CrateDB's YAML config
-<https://crate.io/docs/reference/configuration.html>`_ is available there and
-allows for a better flexibility than passing around config files.
+executable. Every setting in CrateDB's `configuration file`_ is available there
+and allows for a better flexibility than passing around config files.
 
 Storage
 -------
 
-The above example makes use of in-memory storage. This is only suggested to 
-facilitate testing out of CrateDB with Kubernetes. It is not advisable to use
-this form of storage for a production database because all data from this
-directory will be lost if a pod is deleted. More information on this can be
-found `here <kubernetes.io/docs/concepts/storage/volumes/#emptydir>`.
+The above example makes use of in-memory storage. This is only suggested for
+when you are testing CrateDB with Kubernetes.
 
-When you require durable storage, `persistent volumes
-<https://kubernetes.io/docs/concepts/storage/persistent-volumes/>` (PV) should
-be used with CrateDB. A volume is bound and mounted to each Crate pod, using
-``volumeClaimTemplates`` within the StatefulSet configuration.
+.. WARNING::
+
+    We do not recommend in-memory storage for a production database. All data
+    from this directory will be lost when a pod is deleted.
+
+.. SEEALSO::
+
+    The Kubernetes documentation has more information about `in-memory
+    storage`_.
+
+For durable storage, `persistent volumes`_ (PV) should be used.
+
+A volume is bound and mounted to each Crate pod, using ``volumeClaimTemplates``
+within the StatefulSet configuration.
 
 .. code-block:: yaml
 
@@ -215,23 +231,25 @@ be used with CrateDB. A volume is bound and mounted to each Crate pod, using
             requests:
               storage: 10Gi
 
-Each PV has a lifecycle which is independent of the pod that makes use of it.
-In the event that a pod (or group of pods) is destroyed, the data will persist
-on these volumes and will be reassigned to the pods when they re-spawn.
+Each PV lifecycle is independent of any pod that makes use of it. When a pod
+(or group of pods) is destroyed, the data will persist on these volumes and
+will be reassigned to the pods when they re-spawn.
 
-Many container hosting services offer spinning disks as default storage media,
-however the performance of such volumes can be dependent on the cloud provider.
-Nevertheless, replication only makes sense if the data is on separate physical
-media in order to achieve high availability and to avoid potential bottlenecks
-when several clusters attach the same storage. More information about
-provisioning persistent volumes with a cloud provider can be found `here
-<https://github.com/kubernetes/examples/tree/master/staging/persistent-volume-provisioning>`.
+Many container hosting services offer spinning disks as the default storage
+media. However, the performance of spinning disks can be dependent on the cloud
+provider. Nevertheless, replication only makes sense if the data is on separate
+physical media in order to achieve high availability and to avoid potential
+bottlenecks when several clusters attach the same storage.
 
-You can familiarize yourself with ``Volumes`` and ``StatefulSets`` `here
-<https://kubernetes.io/docs/concepts/workloads/controllers/statefulset>`_.
-Volumes can be customized as required, to achieve this, the `kubernetes volume
-guide <https://kubernetes.io/docs/concepts/storage/volumes/>`_ is very
-helpful.
+.. SEEALSO::
+
+    The Kubernetes examples documentation has more information about
+    `provisioning persistent volumes with a cloud provider`_.
+
+    The Kubernetes docs has more information on ``Volumes`` and ``StatefulSets``.
+
+    Volumes can be customized as required. Consult the `kubernetes volume
+    guide`_ for more help.
 
 Manual Approach
 ===============
@@ -262,3 +280,15 @@ Scale a CrateDB pod with:
 .. code-block:: sh
 
     kubectl scale deployment crate-cluster --replicas=3
+
+.. _cedboss: https://github.com/cedbossneo
+.. _configuration file: https://crate.io/docs/reference/configuration.html
+.. _in-memory storage: kubernetes.io/docs/concepts/storage/volumes/#emptydir
+.. _kubectl: https://kubernetes.io/docs/tasks/tools/install-kubectl/
+.. _Kubernetes cluster: http://kubernetes.io/docs/getting-started-guides/binary_release/
+.. _kubernetes volume guide: https://kubernetes.io/docs/concepts/storage/volumes/
+.. _more information: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset
+.. _persistent volumes: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
+.. _provisioning persistent volumes with a cloud provider: https://github.com/kubernetes/examples/tree/master/staging/persistent-volume-provisioning
+.. _services: https://kubernetes.io/docs/concepts/services-networking/service/
+.. _StatefulSet: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/
