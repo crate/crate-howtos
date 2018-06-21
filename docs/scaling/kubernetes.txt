@@ -282,7 +282,7 @@ Scale a CrateDB pod with:
     kubectl scale deployment crate-cluster --replicas=3
 
 .. _cedboss: https://github.com/cedbossneo
-.. _configuration file: https://crate.io/docs/reference/configuration.html
+.. _configuration file: https://crate.io/docs/crate/reference/en/latest/config/index.html
 .. _in-memory storage: kubernetes.io/docs/concepts/storage/volumes/#emptydir
 .. _kubectl: https://kubernetes.io/docs/tasks/tools/install-kubectl/
 .. _Kubernetes cluster: http://kubernetes.io/docs/getting-started-guides/binary_release/
