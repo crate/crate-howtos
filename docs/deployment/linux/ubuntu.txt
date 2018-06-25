@@ -88,6 +88,16 @@ running:
 
    sh$ source /etc/os-release && echo $UBUNTU_CODENAME
 
+Once that is done, update Apt:
+
+.. code-block:: sh
+
+   sh$ sudo apt-get update
+
+You should see a success message. This indicates that the CrateDB release
+channel is correctly configured and the ``crate`` package has been registered
+locally.
+
 You can now install CrateDB.
 
 Skip to `Install CrateDB`_.
@@ -130,6 +140,16 @@ Now, it will be possible to add the PPA repository, like so:
 Here, replace ``CHANNEL`` with ``stable`` or ``testing``, depending on which
 release channel you plan to use.
 
+Once that is done, update Apt:
+
+.. code-block:: sh
+
+   sh$ sudo apt-get update
+
+You should see a success message. This indicates that the CrateDB release
+channel is correctly configured and the ``crate`` package has been registered
+locally.
+
 You can now install CrateDB.
 
 Install CrateDB
@@ -139,7 +159,6 @@ With everything set up, you can install CrateDB, like so:
 
 .. code-block:: sh
 
-   sh$ sudo apt-get update
    sh$ sudo apt-get install crate
 
 After the installation is finished, the ``crate`` service should be
@@ -177,6 +196,15 @@ In both instances, replace ``COMMAND`` with ``start``, ``stop``, ``restart``,
 Configuration
 =============
 
+Configuration Files
+-------------------
+
+The main CrateDB configuration files are located in the ``/etc/crate``
+directory.
+
+Environment
+-----------
+
 The CrateDB startup script `sources`_ environment variables from the
 ``/etc/default/crate`` file.
 
@@ -204,3 +232,15 @@ Here's one example:
 
    # Force the JVM to use IPv4 stack
    CRATE_USE_IPV4=true
+
+Customized Setups
+=================
+
+A full list of package files can be obtained with this command::
+
+     sh$ dpkg-query -L crate
+
+If you want to deviate from the way that the ``crate`` package integrates with
+your system, we recommend that you go with a `basic tarball installation`_.
+
+.. _basic tarball installation: https://crate.io/docs/crate/getting-started/en/latest/install-run/basic.html

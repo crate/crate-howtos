@@ -100,9 +100,17 @@ You should be able to access it by visiting::
 
 .. _first use: https://crate.io/docs/crate/getting-started/en/latest/first-use/index.html
 
-
 Configuration
 =============
+
+Configuration Files
+-------------------
+
+The main CrateDB configuration files are located in the ``/etc/crate``
+directory.
+
+Environment
+-----------
 
 The CrateDB startup script `sources`_ environment variables from the
 ``/etc/sysconfig/crate`` file.
@@ -131,3 +139,15 @@ Here's one example:
 
    # Force the JVM to use IPv4 stack
    CRATE_USE_IPV4=true
+
+Customized Setups
+=================
+
+A full list of package files can be obtained with this command::
+
+     sh$ rpm -ql crate
+
+If you want to deviate from the way that the ``crate`` package integrates with
+your system, we recommend that you go with a `basic tarball installation`_.
+
+.. _basic tarball installation: https://crate.io/docs/crate/getting-started/en/latest/install-run/basic.html
