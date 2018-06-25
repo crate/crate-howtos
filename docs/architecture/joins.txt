@@ -27,12 +27,11 @@ elements appear in which join.
 .. _joins_figure_1:
 
 .. figure:: joins.png
-   :scale: 70%
    :align: center
 
-   Figure 1
+   Join Types
 
-   LEFT JOIN, RIGHT JOIN, INNER JOIN, OUTER JOIN, and CROSS JOIN of a set L and
+   From left to right, top to bottom: left join, right join, inner join, outer join, and cross join of a set L and
    R.
 
 Cross Join
@@ -135,10 +134,7 @@ return the results to the requesting client (see :ref:`joins_figure_2`).
 .. _joins_figure_2:
 
 .. figure:: nested-loop.png
-   :scale: 70%
    :align: center
-
-   Figure 2
 
    Nodes that are holding the smaller shards broadcast the data to the
    processing nodes which then return the results to the requesting node.
@@ -184,11 +180,8 @@ left and right relation is returned.
 
 .. _joins_figure_3:
 
-.. figure:: hash-join.svg
-   :width: 70%
+.. figure:: hash-join.png
    :align: center
-
-   Figure 3
 
    Basic hash join algorithm
 
@@ -259,14 +252,10 @@ for joins on complex subqueries that contain ``LIMIT`` and/or ``OFFSET``.
 
 .. _joins_figure_4:
 
-.. figure:: distributed-hash-join.svg
-   :width: 70%
+.. figure:: distributed-hash-join.png
    :align: center
 
-   Figure 4
-
    Distributed hash join algorithm
-
 
 Optimizations
 -------------
