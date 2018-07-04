@@ -175,6 +175,12 @@ With Debian Wheezy (9.x), you must do this instead:
 In both instances, replace ``COMMAND`` with ``start``, ``stop``, ``restart``,
 ``status``, etc.
 
+.. CAUTION::
+
+    Be sure to read the guide to :ref:`rolling upgrades <rolling_upgrade>` and
+    :ref:`full restart upgrades <full_restart_upgrade>` before attempting to
+    upgrade a running cluster.
+
 Configuration
 =============
 
