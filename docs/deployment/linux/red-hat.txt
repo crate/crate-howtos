@@ -100,6 +100,12 @@ You should be able to access it by visiting::
 
 .. _first use: https://crate.io/docs/crate/getting-started/en/latest/first-use/index.html
 
+.. CAUTION::
+
+    Be sure to read the guide to :ref:`rolling upgrades <rolling_upgrade>` and
+    :ref:`full restart upgrades <full_restart_upgrade>` before attempting to
+    upgrade a running cluster.
+
 Configuration
 =============
 
