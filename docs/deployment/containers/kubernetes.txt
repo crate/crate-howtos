@@ -1,0 +1,301 @@
+.. _getting_started_kubernetes:
+
+=========================
+Run CrateDB on Kubernetes
+=========================
+
+`Kubernetes <https://kubernetes.io/>`_ is an scalable, open-source container
+orchestration system for the management, deployment and scaling of containerised
+applications. Kubernetes works with a variety of container technologies, but
+this guide will focus on `Docker <https://www.docker.com/>`_, as this is the
+container tool we both use and support.
+
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+
+Kubernetes Cluster
+==================
+
+The first part of deploying CrateDB using Kubernetes is to have a Kubernetes
+cluster consisting of at least one master and one worker node. There are several
+ways of accomplishing this, either by bootstrapping a cluster yourself using
+a tool like `kubeadm <https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/>`_,
+or by using a Cloud provider, such as the `Azure Kubernetes Service <https://azure.microsoft.com/en-us/services/kubernetes-service/>`_
+or the `Amazon Kubernetes Service <https://aws.amazon.com/eks/>`_.
+
+Discovery Service
+=================
+
+The first thing we should define is the discovery service that the CrateDB nodes
+will use to discover and communicate with eachother:
+
+.. code-block:: yaml
+
+  apiVersion: v1
+  kind: Service
+  metadata:
+    name: crate-discovery
+    labels:
+      app: crate
+  spec:
+    type: ClusterIP
+    ports:
+    - port: 4300
+      name: cluster
+    selector:
+      app: crate
+      tier: node
+
+This service only concerns port ``4300``, the internode communication port. We
+have defined it as a ``ClusterIP`` service, as we do not need to expose this
+port to the outside world.
+
+The second service we should define is the one that will expose whatever ports
+we require for communication with applications existing outside the Kubernetes
+cluster. In this example, we expose ``4200`` (the HTTP port) and ``5432``
+(the PostgreSQL wire protocol port):
+
+.. code-block:: yaml
+
+  apiVersion: v1
+  kind: Service
+  metadata:
+    name: crate-service
+    labels:
+      app: crate
+  spec:
+    ports:
+    - port: 4200
+      name: crate-web
+    - port: 5432
+      name: postgres
+    type: LoadBalancer
+    selector:
+      app: crate
+
+This service is defined as a ``LoadBalancer`` service, which will make whatever
+Cloud provider you are using provide a load balancing service to distribute
+traffic across the containers for these 2 ports.
+
+Persistant Storage Claims
+=========================
+
+CrateDB should be deployed on Kubernetes with persistant storage, so that
+the node's data is not lost during rescheduling. One way of doing this is via
+Peristant Volume Claims. The way that you should do this will depend on your
+Kubernetes provider, and for this example we will use Microsoft Azure:
+
+.. code-block:: yaml
+
+  volumeClaimTemplates:
+    - metadata:
+        name: persistant-data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: azure-premium-managed-disk
+        resources:
+          requests:
+            storage: 100g
+
+Here, we create a volume claim template which our CrateDB pods can use upon
+creation. Specifically, we are requesting a volume that can only be mounted as
+read/write by a single node, of size 100GB and of type Premium Managed Disk.
+
+CrateDB StatefulSet
+===================
+
+Since CrateDB nodes are not interchangable, they require some form of identity
+(in the form of storage and network identifiers) that will persist across
+pod rescheduling or restarting. For this, we use the `StatefulSet <https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/>`_
+controller. The following StatefulSet definition will provide you with a basic
+3 node CrateDB cluster:
+
+.. code-block:: yaml
+
+  apiVersion: "apps/v1"
+  kind: StatefulSet
+  metadata:
+    name: crate
+  spec:
+    serviceName: "crate-db"
+    replicas: 3
+    template:
+      metadata:
+        labels:
+          app: crate
+        annotations:
+          pod.alpha.kubernetes.io/initialized: "true"
+      spec:
+        initContainers:
+        - name: init-sysctl
+          image: busybox
+          imagePullPolicy: IfNotPresent
+          command: ["sysctl", "-w", "vm.max_map_count=262144"]
+          securityContext:
+            privileged: true
+        containers:
+        - name: crate
+          image: crate:2.3.12
+          command:
+            - /docker-entrypoint.sh
+            - -Ccluster.name=${CLUSTER_NAME}
+            - -Cdiscovery.zen.minimum_master_nodes=1
+            - -Cdiscovery.zen.hosts_provider=srv
+            - -Cdiscovery.srv.query=_cluster._tcp.crate-discovery.default.svc.cluster.local
+            - -Cgateway.recover_after_nodes=1
+            - -Cgateway.expected_nodes=${EXPECTED_NODES}
+            - -Cpath.data=/data
+            - -Cssl.http.enabled=true
+            - -Cssl.psql.enabled=true
+            - -Cssl.ingestion.mqtt.enabled=true
+          volumeMounts:
+              - mountPath: /data
+                name: data
+          resources:
+            limits:
+              memory: 2Gi
+          ports:
+          - containerPort: 4200
+            name: db
+          - containerPort: 4300
+            name: cluster
+          - containerPort: 5432
+            name: postgres
+          env:
+          # Half the available memory.
+          - name: CRATE_HEAP_SIZE
+            value: "1g"
+          - name: EXPECTED_NODES
+            value: "3"
+          - name: CLUSTER_NAME
+            value: "cratedb-cluster"
+        volumes:
+          - name: data
+            persistentVolumeClaim:
+              claimName: persistant-data
+
+However, since this configuration is more involved that our previous Service
+definitions, it would be worthwhile to step through it to explain what is
+happening.
+
+Controller Definition
+---------------------
+
+.. code-block:: yaml
+
+  apiVersion: "v1"
+  kind: StatefulSet
+  metadata:
+    name: crate
+
+As stated above, the controller we require to run CrateDB within Kubernetes
+is a **StatefulSet**. We have also given our deployment a recognisable name.
+
+Pod Specification
+-----------------
+
+.. code-block:: yaml
+
+  spec:
+    serviceName: "crate-db"
+    replicas: 3
+    template:
+      metadata:
+        labels:
+          app: crate
+        annotations:
+          pod.alpha.kubernetes.io/initialized: "true"
+
+Here, we define the number of replicas, or effectively, the number of CrateDB
+nodes we wish to have in this deployment. We are also applying the label
+``crate`` to the pods in this StatefulSet, which our ``crate-discovery`` and
+``crate-service`` services will use to define which pods they should apply to.
+
+.. code-block:: yaml
+
+      spec:
+        initContainers:
+        - name: init-sysctl
+          image: busybox
+          imagePullPolicy: IfNotPresent
+          command: ["sysctl", "-w", "vm.max_map_count=262144"]
+          securityContext:
+            privileged: true
+
+InitContainers are containers that run **before** the main containers of a pod
+are started, and they must terminate before the main pods can be initialised.
+Here, we use one in order to validate the memory map
+`bootstrap check <https://crate.io/docs/crate/guide/en/latest/admin/bootstrap-checks.html>`_
+that runs on a CrateDB node's initialisation.
+
+.. code-block:: yaml
+
+        containers:
+        - name: crate
+          image: crate:2.3.12
+          command:
+            - /docker-entrypoint.sh
+            - -Ccluster.name=cratedb_cluster
+            - -Cdiscovery.zen.minimum_master_nodes=1
+            - -Cdiscovery.zen.hosts_provider=srv
+            - -Cdiscovery.srv.query=_cluster._tcp.crate-discovery.default.svc.cluster.local
+            - -Cgateway.recover_after_nodes=1
+            - -Cgateway.expected_nodes=3
+            - -Cpath.data=/data
+            - -Cssl.http.enabled=true
+            - -Cssl.psql.enabled=true
+          volumeMounts:
+              - mountPath: /data
+                name: data
+          resources:
+            limits:
+              memory: 2Gi
+          ports:
+          - containerPort: 4200
+            name: db
+          - containerPort: 4300
+            name: cluster
+          - containerPort: 5432
+            name: postgres
+          env:
+          # Half the available memory.
+          - name: CRATE_HEAP_SIZE
+            value: "1g"
+
+This is the core of the StatefulSet, the definition of what containers to run
+on each pod. In this example, we are stating that we wish to use version 2.3.12
+of CrateDB, with some standard configuration options. One configuration
+option to note is the `discovery.srv.query` option, which uses service records
+to identify the hostnames and ports of the other CrateDB nodes being managed
+by the ``crate-discovery`` service.
+
+We are also opening the ports we need on the container, specifically ``4200`` for
+internode communication, ``4300`` for the HTTP endpoint and ``5432`` for the
+PostgreSQL wire protcool endpoint.
+
+Finally, we are defining some memory values we need. We specify that each
+container should be limited to 2GB of memory and subsequently that the heap size
+available to CrateDB should be 1GB. It is a general rule that Crate's heap size
+should be no larger than 50% of the available memory, so that the rest can be
+used by Lucene and other system processes. Exceeding this heap size limit
+will impact Lucene's performance, and ultimately degrade CrateDB's performance.
+
+.. code-block:: yaml
+
+        volumes:
+          - name: data
+            persistentVolumeClaim:
+              claimName: persistant-data
+
+Finally, we are creating a volume called ``data``, using our previously defined
+volume claim. This is then mounted as part of the ``volumeMounts`` section in
+our container definition.
+
+Conclusion
+==========
+
+After deploying the services, persistant volume claims and StatefulSet definition
+to your Kubernetes cluster, you will have a standard 3 node CrateDB cluster
+deployed and ready to use.
