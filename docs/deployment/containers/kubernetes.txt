@@ -1,0 +1,303 @@
+.. _getting_started_kubernetes:
+
+=========================
+Run CrateDB on Kubernetes
+=========================
+
+`Kubernetes`_ is an open-source container orchestration system for the
+management, deployment, and scaling of containerized applications.
+
+.. NOTE::
+
+   `Docker`_ is the recommended container type for CrateDB.
+
+   While Kubernetes works with a variety of container technologies, this
+   document only covers its use with Docker.
+
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
+
+Prerequisites
+=============
+
+This document assumes `familiarity with Kubernetes`_.
+
+Before continuing you should already have a Kubernetes cluster up-and-running
+with at least one master node and one worker node.
+
+.. SEEALSO::
+
+   You can use `kubeadm`_ to bootstrap a Kubernetes cluster by hand.
+
+   Alternatively, cloud services such as `Azure Kubernetes Service`_ or the
+   `Amazon Kubernetes Service`_ can do this for you.
+
+Configuration
+=============
+
+This document provides an example configuration for Kubernetes that should
+produce a three-node CrateDB cluster that is ready to use.
+
+The example configuration includes:
+
+- A `controller`_
+
+- Two `services`_ (for internal and external communication)
+
+- A `persistent volume`_
+
+Controller
+----------
+
+A Kubernetes `pod`_ is a group of one or more containers. Pods are designed to
+provide discrete units of functionality.
+
+CrateDB nodes are self-contained, so we don't need to use more than one
+container in a pod. We can configure our pods as a single container running
+CrateDB.
+
+Pods are designed to be fungible computing units, meaning they can be created or
+destroyed at will. This, in turn, means that:
+
+- A cluster can be scaled in or out by destroying or creating pods
+
+- A cluster can be healed by replacing pods
+
+- A cluster can be rebalanced by rescheduling pods (i.e., destroying the pod on
+  one Kubernetes node and recreating it on a new node)
+
+However, CrateDB nodes that leave and then want to rejoin a cluster must retain
+their state. That is, they must continue to use the same name and must continue
+to use the same data on disk.
+
+For this reason, we use the `StatefulSet`_ controller to define our cluster,
+which ensures that CrateDB nodes retain state across restarts or rescheduling.
+
+The following `configuration`_ snippet defines controller for a three-node
+CrateDB cluster:
+
+.. code-block:: yaml
+
+  apiVersion: "apps/v1"
+  # We're using a StatefulSet controller.
+  kind: StatefulSet
+  metadata:
+    name: crate
+  spec:
+    serviceName: "crate"
+    # Our cluster has three nodes.
+    replicas: 3
+    template:
+      metadata:
+        labels:
+          # The pods in this cluster have the `crate` app label. This can be
+          # used by services which we define in a subsequent snippet.
+          app: crate
+        annotations:
+          pod.alpha.kubernetes.io/initialized: "true"
+      spec:
+        # InitContainers run before the main containers of a pod are started,
+        # and they must terminate before the primary pods can be initialized.
+        # Here, we use one to set the correct memory map limit.
+        initContainers:
+        - name: init-sysctl
+          image: busybox
+          imagePullPolicy: IfNotPresent
+          command: ["sysctl", "-w", "vm.max_map_count=262144"]
+          securityContext:
+            privileged: true
+        # This final section is the core of the StatefulSet configuration. It
+        # defines the container to run in each pod.
+        containers:
+        - name: crate
+          # Here, we're using CrateDB 2.3.12.
+          image: crate:2.3.12
+          # Pass in configuration to CrateDB via command-line options. Notice
+          # that we are telling CrateDB to use DNS records to discover the
+          # other CrateDB nodes. This is possible because Kubernetes provides
+          # DNS mapping for the `crate-internal` service, which we define in a
+          # subsequent snippet.
+          command:
+            - /docker-entrypoint.sh
+            - -Ccluster.name=${CLUSTER_NAME}
+            - -Cdiscovery.zen.minimum_master_nodes=1
+            - -Cdiscovery.zen.hosts_provider=srv
+            - -Cdiscovery.srv.query=_cluster._tcp.crate-internal.default.svc.cluster.local
+            - -Cgateway.recover_after_nodes=1
+            - -Cgateway.expected_nodes=${EXPECTED_NODES}
+            - -Cpath.data=/data
+            - -Cssl.http.enabled=true
+            - -Cssl.psql.enabled=true
+            - -Cssl.ingestion.mqtt.enabled=true
+          volumeMounts:
+                # Mount the `/data` directory as a volume named `data`.
+              - mountPath: /data
+                name: data
+          resources:
+            limits:
+              memory: 2Gi
+          ports:
+            # Port 4300 for inter-node communication.
+          - containerPort: 4300
+            name: crate-internal
+            # Port 4200 for HTTP clients.
+          - containerPort: 4200
+            name: crate-web
+            # Port 5432 for PostgreSQL wire protocol clients.
+          - containerPort: 5432
+            name: postgres
+          # Pass these next values through to CrateDB.
+          env:
+            # Half the available memory configured under `resources` above.
+          - name: CRATE_HEAP_SIZE
+            value: "1g"
+          - name: EXPECTED_NODES
+            value: "3"
+          - name: CLUSTER_NAME
+            value: "crate"
+        volumes:
+            # Map the `data` volume to a persistent volume named
+            # `persistant-data` which we define in a later snippet.
+          - name: data
+            persistentVolumeClaim:
+              claimName: persistant-data
+
+.. SEEALSO::
+
+   CrateDB supports `configuration via command-line options`_ and `node
+   discovery via DNS`_.
+
+   :ref:`Configure memory <memory>` by hand for optimum performance.
+
+   You must set memory map limits correctly. Consult the :ref:`bootstrap checks
+   <bootstrap_checks>` documentation for more information.
+
+Services
+--------
+
+A Kubernetes pod is ephemeral and so is its network address. Typically, this
+means that it is inadvisable to connect to pods directly.
+
+A Kubernetes `service`_ allows you to define a network access policy for a set
+of pods. You can then use the network address of the service to communicate
+with the pods. The network address of the service remains static even though the
+constituent pods may come and go.
+
+For our purposes, we define two services: an `internal service`_ and an
+`external service`_.
+
+Internal Service
+................
+
+CrateDB uses the internal service for `node discovery via DNS`_ and
+:ref:`inter-node communication <inter-node-comms>`.
+
+Here's an example `configuration`_  snippet:
+
+.. code-block:: yaml
+
+  apiVersion: v1
+  kind: Service
+  metadata:
+    # This name is mapped to DNS and forms part of the DNS query the controller
+    # passes into the CrateDB configuration in the previous snippet.
+    name: crate-internal
+    labels:
+      app: crate
+  spec:
+    # A ClusterIP service is only accessible from within the Kubernetes cluster.
+    type: ClusterIP
+    ports:
+      # Port 4300 for inter-node communication.
+    - port: 4300
+      name: crate-internal
+    selector:
+      # Apply this to all nodes with the `crate` app label.
+      app: crate
+
+External Service
+................
+
+The external service provides a stable network address for external clients.
+
+Here's an example `configuration`_ snippet:
+
+.. code-block:: yaml
+
+  apiVersion: v1
+  kind: Service
+  metadata:
+    # With this name, your CrateDB cluster will be accessible via the
+    # `crate-external.default.svc.cluster.local` hostname.
+    name: crate-external
+    labels:
+      app: crate
+  spec:
+    # A LoadBalancer service load balances incoming requests across the cluster.
+    type: LoadBalancer
+    ports:
+      # Port 4200 for HTTP clients.
+    - port: 4200
+      name: crate-web
+      # Port 5432 for PostgreSQL wire protocol clients.
+    - port: 5432
+      name: postgres
+    selector:
+      # Apply this to all nodes with the `crate` app label.
+      app: crate
+
+.. NOTE::
+
+   The `LoadBalancer`_ service type is only available on hosted cloud platforms
+   that provide externally managed load balancers.
+
+   An `ingress`_ resource can be used to provide internally managed load
+   balancers.
+
+Persistent Volume
+-----------------
+
+As mentioned in the `Controller`_ section, CrateDB containers must be able to
+retain state between restarts and rescheduling. This can be achieved using
+`persistent volumes`_.
+
+There are many different ways to provide persistent volumes, and so the specific
+configuration will depend on your setup.
+
+Here's an example `configuration`_ snippet for Microsoft `Azure Managed Disks`_:
+
+.. code-block:: yaml
+
+  volumeClaimTemplates:
+    - metadata:
+        name: persistant-data
+      spec:
+        # This will create one 100GB read-write Premium Managed Disk volume for
+        # every distinct CrateDB container.
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: azure-premium-managed-disk
+        resources:
+          requests:
+            storage: 100g
+
+.. _Amazon Kubernetes Service: https://aws.amazon.com/eks/
+.. _Azure Kubernetes Service: https://azure.microsoft.com/en-us/services/kubernetes-service/
+.. _Azure Managed Disks: https://azure.microsoft.com/en-us/pricing/details/managed-disks/
+.. _configuration via command-line options: https://crate.io/docs/crate/reference/en/latest/config/index.html
+.. _configuration: https://kubernetes.io/docs/concepts/configuration/overview/
+.. _controller: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/
+.. _Docker: https://www.docker.com/
+.. _familiarity with Kubernetes: https://kubernetes.io/docs/tutorials/kubernetes-basics/
+.. _Ingress: https://kubernetes.io/docs/concepts/services-networking/ingress/
+.. _kubeadm: https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/
+.. _Kubernetes: https://kubernetes.io/
+.. _LoadBalancer: https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer
+.. _node discovery via DNS: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery-via-dns
+.. _persistent volume: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
+.. _persistent volumes: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
+.. _pod: https://kubernetes.io/docs/concepts/workloads/pods/pod/
+.. _service: https://kubernetes.io/docs/concepts/services-networking/service/
+.. _services: https://kubernetes.io/docs/concepts/services-networking/service/
+.. _StatefulSet: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/

@@ -12,6 +12,7 @@ takes minutes and your valuable data is always in sync and available.
 
    docker
    docker-cloud
+   kubernetes
    coreos
    containership
 

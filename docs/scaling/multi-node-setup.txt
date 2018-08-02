@@ -46,6 +46,8 @@ To name a node:
 
 If the node name is omitted, then it's generated dynamically on startup.
 
+.. _inter-node-comms:
+
 Inter-Node Communication
 ========================
 
