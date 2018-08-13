@@ -1,294 +1,214 @@
-==========
-Kubernetes
-==========
+.. _scaling-kube:
 
-Kubernetes is an open-source system for automating deployment, scaling, and
-management of containerized applications that builds on 15 years of experience
-running production workflows at Google.
+=============================
+Scaling CrateDB on Kubernetes
+=============================
 
-Thanks to our :ref:`Docker image <cratedb_docker>`, managing your CrateDB
-cluster with Kubernetes requires only a few steps.
+CrateDB and Docker are a great match thanks to CrateDB’s `horizontally
+scalable`_ `shared-nothing architecture`_ that lends itself well to
+`containerization`_.
 
-This guide will assume that you already have `kubectl`_ and a `Kubernetes
-cluster`_ ready to go. All of the provided commands, templates, and so on
-should be customized to meet your requirements!
+`Kubernetes`_ is an open-source container orchestration system for the
+management, deployment, and scaling of containerized systems.
+
+Together, Docker and Kubernetes are a fantastic way to deploy and scale CrateDB.
+
+.. NOTE::
+
+    This guide assumes you have already deployed CrateDB on Kubernetes.
+
+    Consult the :ref:`Kubernetes deployment guide <getting_started_kubernetes>`
+    for more help.
+
+.. SEEALSO::
+
+    The official `CrateDB Docker image`_.
 
 .. rubric:: Table of Contents
 
 .. contents::
    :local:
 
-The CrateDB Template
-====================
+.. _scaling-kube-kube:
 
-At CrateDB we are proud of our community and our user `cedboss`_ provided us
-with a template to use for Kubernetes to deploy CrateDB. Building on that draft
-we developed a more mature version:
+Kubernetes Reconfiguration
+==========================
+
+You can scale your CrateDB cluster by increasing or decreasing the configured
+number of replica `pods`_ in your `StatefulSet`_ controller to the desired
+number of CrateDB nodes.
+
+.. _scaling-kube-command:
+
+Using an Imperative Command
+---------------------------
+
+You can issue an `imperative command`_ to make the configuration change, like
+so:
+
+.. code-block:: sh
+
+    sh$ kubectl scale statefulsets crate --replicas=4
+
+.. NOTE::
+
+    This makes it easy to scale quickly, but your cluster configuration is not
+    reflected in your `version control`_ system.
+
+.. _scaling-kube-vc:
+
+Using Version Control
+---------------------
+
+If you want to version control your cluster configuration, you can edit the
+StatefulSet controller configuration file directly.
+
+Take this example configuration snippet:
 
 .. code-block:: yaml
 
-    apiVersion: v1
-    kind: Service
-    metadata:
-      name: crate-discovery
-      labels:
-        app: crate
-    spec:
-      ports:
-      - port: 4200
-        name: crate-web
-      - port: 4300
-        name: cluster
-      - port: 5432
-        name: postgres
-      type: LoadBalancer
-      selector:
-        app: crate
-    ---
-    apiVersion: "apps/v1beta1"
+    apiVersion: "apps/v1"
+    # We're using a StatefulSet controller.
     kind: StatefulSet
     metadata:
+      # This is the name used as a prefix for all pods in the set.
       name: crate
     spec:
-      serviceName: "crate-db"
-      replicas: 3
-      template:
-        metadata:
-          labels:
-            app: crate
-          annotations:
-            pod.alpha.kubernetes.io/initialized: "true"
-        spec:
-          initContainers:
-          - name: init-sysctl
-            image: busybox
-            imagePullPolicy: IfNotPresent
-            command: ["sysctl", "-w", "vm.max_map_count=262144"]
-            securityContext:
-              privileged: true
-          containers:
-          - name: crate
-            image: crate:latest
-            command:
-              - /docker-entrypoint.sh
-              - -Ccluster.name=${CLUSTER_NAME}
-              - -Cdiscovery.zen.hosts_provider=srv
-              - -Cdiscovery.zen.minimum_master_nodes=2
-              - -Cdiscovery.srv.query=_cluster._tcp.crate-discovery.default.svc.cluster.local
-              - -Cgateway.recover_after_nodes=2
-              - -Cgateway.expected_nodes=${EXPECTED_NODES}
-            volumeMounts:
-                - mountPath: /data
-                  name: data
-            resources:
-              limits:
-                memory: 2Gi
-            ports:
-            - containerPort: 4200
-              name: db
-            - containerPort: 4300
-              name: cluster
-            - containerPort: 5432
-              name: postgres
-            env:
-            # Half the available memory.
-            - name: CRATE_HEAP_SIZE
-              value: "1g"
-            - name: EXPECTED_NODES
-              value: "3"
-            - name: CLUSTER_NAME
-              value: "my-cratedb-cluster"
-          volumes:
-            - name: data
-              emptyDir:
-                medium: "Memory"
+      serviceName: "crate-set"
+      # Our cluster has three nodes.
+      replicas: 4
+    [...]
 
-Init Containers
----------------
+The only thing you need to change here is the ``replicas`` value.
 
-Init containers are containers that run before the main container of the pod,
-and are intended to accomplish some prerequisite task before the pod can be
-fully started. In this template's case, the init container sets a value for
-``vm.max_map_count``, which is required for the bootstrap checks to pass.
+You can then save your edits and update Kubernetes, like so:
 
-Start CrateDB
--------------
+.. code-block:: console
 
-This template utilizes the Kubernetes `StatefulSet`_ type that allows you to
-add SRV records for node DNS discovery, as well as a graceful shutdown when
-scaling. While CrateDB would also work as a stateless pod (cattle), this way
-facilitates a couple of things like persistant storage and shard migration on
-zero downtime upgrades.
+    sh$ kubectl replace -f crate-controller.yaml --namespace crate
+    statefulset.apps/crate replaced
 
-To create a new cluster based on this template, use:
+Here, we're assuming a configuration file named ``crate-controller.yaml`` and a
+deployment that uses the ``crate`` `namespace`_.
 
-.. code-block:: sh
+If your StatefulSet uses the default `rolling update strategy`_, this command will
+restart your pods with the new configuration one-by-one.
 
-    kubectl create -f crate-kubernetes.yml
+.. NOTE::
 
-Find out the public IP and the services that have been created with:
+    If you are making changes this way, you probably want to update the CrateDB
+    configuration at the same time. Consult the next section for details.
 
-.. code-block:: sh
+.. WARNING::
 
-    kubectl get services
+    If you use a regular ``replace`` command, pods are restarted, and any
+    `persistent volumes`_ will still be intact.
 
-If it's okay for this service is exposed externally, specifying the service
-type as ``LoadBalancer`` is sufficient. An external load balancer then routes
-to ``NodePort`` and ``ClusterIP`` services.
+    If, however, you pass the ``--force`` option to the ``replace`` command,
+    resources are deleted and recreated, and the pods will come back up with no
+    data.
 
-However, if it is not acceptable to expose the database on an external (public)
-IP, we recommend specifying the type as ``NodePort``. This means that the
-service is exposed on each node's IP as a static port.
+.. _scaling-kube-cratedb:
 
-.. SEEALSO::
+CrateDB Reconfiguration
+=======================
 
-    The Kubernetes documentation has more information about `services`_.
+CrateDB needs to be configured appropriately for the number of nodes in the
+CrateDB cluster.
 
-Scale CrateDB
--------------
+.. WARNING::
 
-Next, you can scale your cluster by scaling the number of replicas of the
-StatefulSet to the desired number of CrateDB nodes:
+    Failing to update CrateDB configuration after a rescale operation can
+    result in data loss.
 
-.. code-block:: sh
+    You should take particular care if you are reducing the size of the cluster
+    because CrateDB must recover and rebalance shards as the nodes drop out.
 
-    kubectl scale statefulsets crate --replicas=4
+.. _scaling-kube-clustering:
 
-After increasing/decreasing the number of pod replicas, CrateDB's config should
-be adjusted, especially when scaling down or your cluster might disappear!
-There are three important settings in this context:
+Clustering Behavior
+-------------------
 
-::
+The `discovery.zen.minimum_master_nodes`_ setting affects `metadata
+master`_ election.
 
-    discovery.zen.minimum_master_nodes=2
-    gateway.recover_after_nodes=2
-    gateway.expected_nodes=3
-
-The settings ``recover_after_nodes`` and ``expected_nodes`` are important for
-the cluster to know the intended size and if it should recover or rather accept
-the provided cluster state *on startup*.
-
-Therefore changing these values will require a cluster restart and a
-misconfiguration will trigger a cluster check to fail. However, the cluster
-will still continue to function properly.
-
-The ``discovery.zen.minimum_master_nodes`` setting, on the other hand,
-influences how the master nodes are elected. A value greater than the number of
-nodes is going to disband the cluster. Whereas a too small number might lead to
-a split-brain scenario.
-
-For these reasons, it is necessary to adjust this number when scaling.
-
-You can do that, like so:
-
+This setting can be changed while CrateDB is running, like so:
 
 .. code-block:: psql
 
     SET GLOBAL PERSISTENT discovery.zen.minimum_master_nodes = 5
 
-Here, ``5`` is one more than half the actual number of nodes in the cluster.
+If you are using a controller configuration like the example given in the
+:ref:`Kubernetes deployment guide <getting_started_kubernetes>`, you can make
+this reconfiguration by altering the ``discovery.zen.minimum_master_nodes``
+command option.
 
-Now to monitor the available pods you can use ``kubectl proxy`` which starts a
-web server with log outputs and a list of the available pods.
+Changes to the Kubernetes controller configuration can then be deployed using
+``kubectl replace`` as shown in the previous subsection, `Using Version
+Control`_.
 
-Customize CrateDB
+.. CAUTION::
+
+    If ``discovery.zen.minimum_master_nodes`` is set to more than the current
+    number of nodes in the cluster, the cluster will disband. On the other
+    hand, a number that is too small might lead to a `split-brain`_ scenario.
+
+    Accordingly, it is important to `adjust this number carefully`_ when
+    scaling CrateDB.
+
+.. _scaling-kube-recovery:
+
+Recovery Behavior
 -----------------
 
-In this template, CrateDB is configured using the ``-C`` parameters for the
-executable. Every setting in CrateDB's `configuration file`_ is available there
-and allows for a better flexibility than passing around config files.
+CrateDB has two settings that depend on cluster size and determine how cluster
+`metadata`_ is recovered during startup:
 
-Storage
--------
+- `gateway.expected_nodes`_
+- `gateway.recover_after_nodes`_
 
-The above example makes use of in-memory storage. This is only suggested for
-when you are testing CrateDB with Kubernetes.
+The values of these settings must be changed via Kubernetes. Unlike with
+clustering behavior reconfiguration, you cannot change these values using
+CrateDB's `runtime configuration`_ capabilities.
 
-.. WARNING::
+If you are using a controller configuration like the example given in the
+:ref:`Kubernetes deployment guide <getting_started_kubernetes>`, you can make
+this reconfiguration by altering the ``EXPECTED_NODES`` environment variable
+and the ``recover_after_nodes`` command option.
 
-    We do not recommend in-memory storage for a production database. All data
-    from this directory will be lost when a pod is deleted.
+Changes to the Kubernetes controller configuration can then be deployed using
+``kubectl replace`` as shown in the previous subsection, `Using Version
+Control`_.
 
-.. SEEALSO::
+.. NOTE::
 
-    The Kubernetes documentation has more information about `in-memory
-    storage`_.
+    You can scale a CrateDB cluster without updating these values, but the
+    `CrateDB Admin UI`_ will display `node check`_ failures.
 
-For durable storage, `persistent volumes`_ (PV) should be used.
+    However, you should only do this on a production cluster if you need to
+    scale to handle a load spike quickly.
 
-A volume is bound and mounted to each Crate pod, using ``volumeClaimTemplates``
-within the StatefulSet configuration.
-
-.. code-block:: yaml
-
-      volumeClaimTemplates:
-      - metadata:
-          name: crate-persistent-storage
-        spec:
-          accessModes:
-          - ReadWriteOnce
-          resources:
-            requests:
-              storage: 10Gi
-
-Each PV lifecycle is independent of any pod that makes use of it. When a pod
-(or group of pods) is destroyed, the data will persist on these volumes and
-will be reassigned to the pods when they re-spawn.
-
-Many container hosting services offer spinning disks as the default storage
-media. However, the performance of spinning disks can be dependent on the cloud
-provider. Nevertheless, replication only makes sense if the data is on separate
-physical media in order to achieve high availability and to avoid potential
-bottlenecks when several clusters attach the same storage.
-
-.. SEEALSO::
-
-    The Kubernetes examples documentation has more information about
-    `provisioning persistent volumes with a cloud provider`_.
-
-    The Kubernetes docs has more information on ``Volumes`` and ``StatefulSets``.
-
-    Volumes can be customized as required. Consult the `kubernetes volume
-    guide`_ for more help.
-
-Manual Approach
-===============
-
-Create a Kubernetes 'pod', or a group of containers tied together for
-administration and networking. In this case, using the CrateDB Docker image and
-exposing the ports that CrateDB uses.
-
-.. code-block:: sh
-
-    kubectl run crate-cluster --image=crate:latest --port=4200 --port=4300 --port=5432
-
-Expose the pod to the outside World with a specific Kubernetes service:
-
-.. code-block:: sh
-
-    kubectl expose deployment crate-cluster --type="LoadBalancer"
-
-And use the following command to get the status of the service you just
-created:
-
-.. code-block:: sh
-
-    kubectl get services crate-cluster
-
-Scale a CrateDB pod with:
-
-.. code-block:: sh
-
-    kubectl scale deployment crate-cluster --replicas=3
-
-.. _cedboss: https://github.com/cedbossneo
-.. _configuration file: https://crate.io/docs/crate/reference/en/latest/config/index.html
-.. _in-memory storage: kubernetes.io/docs/concepts/storage/volumes/#emptydir
-.. _kubectl: https://kubernetes.io/docs/tasks/tools/install-kubectl/
-.. _Kubernetes cluster: http://kubernetes.io/docs/getting-started-guides/binary_release/
-.. _kubernetes volume guide: https://kubernetes.io/docs/concepts/storage/volumes/
-.. _more information: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset
+.. _adjust this number carefully: https://crate.io/docs/crate/reference/en/latest/admin/system-information.html#minimum-master-nodes
+.. _containerization: https://www.docker.com/resources/what-container
+.. _CrateDB Admin UI: https://crate.io/docs/clients/admin-ui/en/latest/
+.. _CrateDB Docker image: https://hub.docker.com/_/crate/
+.. _deleted and recreated: https://kubernetes.io/docs/concepts/cluster-administration/manage-deployment/#disruptive-updates
+.. _discovery.zen.minimum_master_nodes: https://crate.io/docs/crate/reference/en/latest/admin/system-information.html#minimum-master-nodes
+.. _gateway.expected_nodes: https://crate.io/docs/crate/reference/en/latest/admin/system-information.html#recovery-expected-nodes
+.. _gateway.recover_after_nodes: https://crate.io/docs/crate/reference/en/latest/admin/system-information.html#recovery-after-nodes
+.. _horizontally scalable: https://en.wikipedia.org/wiki/Scalability#Horizontal_and_vertical_scaling
+.. _imperative command: https://kubernetes.io/docs/concepts/overview/object-management-kubectl/overview/#imperative-commands
+.. _kubectl: https://kubernetes.io/docs/reference/kubectl/overview/
+.. _Kubernetes: https://kubernetes.io/
+.. _metadata master: https://crate.io/docs/crate/guide/en/latest/architecture/shared-nothing.html#cluster-state-management
+.. _metadata: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#metadata-gateway
+.. _namespace: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/
+.. _node check: https://crate.io/docs/crate/reference/en/latest/admin/system-information.html#description-of-checked-node-settings
 .. _persistent volumes: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
-.. _provisioning persistent volumes with a cloud provider: https://github.com/kubernetes/examples/tree/master/staging/persistent-volume-provisioning
-.. _services: https://kubernetes.io/docs/concepts/services-networking/service/
+.. _pods: https://kubernetes.io/docs/concepts/workloads/pods/pod/
+.. _rolling update strategy: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#rolling-updates
+.. _runtime configuration: https://crate.io/docs/crate/reference/en/latest/admin/runtime-config.html#administration-runtime-config
+.. _shared-nothing architecture : https://en.wikipedia.org/wiki/Shared-nothing_architecture
+.. _split-brain: https://en.wikipedia.org/wiki/Split-brain
 .. _StatefulSet: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/
+.. _version control: https://en.wikipedia.org/wiki/Version_control
