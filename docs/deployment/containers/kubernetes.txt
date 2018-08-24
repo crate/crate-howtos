@@ -42,11 +42,93 @@ produce a three-node CrateDB cluster that is ready to use.
 
 The example configuration includes:
 
-- A `controller`_
-
 - Two `services`_ (for internal and external communication)
 
+- A `controller`_
+
 - A `persistent volume`_
+
+Services
+--------
+
+A Kubernetes pod is ephemeral and so is its network address. Typically, this
+means that it is inadvisable to connect to pods directly.
+
+A Kubernetes `service`_ allows you to define a network access policy for a set
+of pods. You can then use the network address of the service to communicate
+with the pods. The network address of the service remains static even though the
+constituent pods may come and go.
+
+For our purposes, we define two services: an `internal service`_ and an
+`external service`_.
+
+Internal Service
+................
+
+CrateDB uses the internal service for `node discovery via DNS`_ and
+:ref:`inter-node communication <inter-node-comms>`.
+
+Here's an example `configuration`_  snippet:
+
+.. code-block:: yaml
+
+  apiVersion: v1
+  kind: Service
+  metadata:
+    # This name is mapped to DNS and forms part of the DNS query the controller
+    # passes into the CrateDB configuration in the previous snippet.
+    name: crate-internal
+    labels:
+      app: crate
+  spec:
+    # A ClusterIP service is only accessible from within the Kubernetes cluster.
+    type: ClusterIP
+    ports:
+      # Port 4300 for inter-node communication.
+    - port: 4300
+      name: crate-internal
+    selector:
+      # Apply this to all nodes with the `crate` app label.
+      app: crate
+
+External Service
+................
+
+The external service provides a stable network address for external clients.
+
+Here's an example `configuration`_ snippet:
+
+.. code-block:: yaml
+
+  apiVersion: v1
+  kind: Service
+  metadata:
+    # With this name, your CrateDB cluster will be accessible via the
+    # `crate-external.default.svc.cluster.local` hostname.
+    name: crate-external
+    labels:
+      app: crate
+  spec:
+    # A LoadBalancer service load balances incoming requests across the cluster.
+    type: LoadBalancer
+    ports:
+      # Port 4200 for HTTP clients.
+    - port: 4200
+      name: crate-web
+      # Port 5432 for PostgreSQL wire protocol clients.
+    - port: 5432
+      name: postgres
+    selector:
+      # Apply this to all nodes with the `crate` app label.
+      app: crate
+
+.. NOTE::
+
+   The `LoadBalancer`_ service type is only available on hosted cloud platforms
+   that provide externally managed load balancers.
+
+   An `ingress`_ resource can be used to provide internally managed load
+   balancers.
 
 Controller
 ----------
@@ -173,88 +255,6 @@ CrateDB cluster:
 
    You must set memory map limits correctly. Consult the :ref:`bootstrap checks
    <bootstrap_checks>` documentation for more information.
-
-Services
---------
-
-A Kubernetes pod is ephemeral and so is its network address. Typically, this
-means that it is inadvisable to connect to pods directly.
-
-A Kubernetes `service`_ allows you to define a network access policy for a set
-of pods. You can then use the network address of the service to communicate
-with the pods. The network address of the service remains static even though the
-constituent pods may come and go.
-
-For our purposes, we define two services: an `internal service`_ and an
-`external service`_.
-
-Internal Service
-................
-
-CrateDB uses the internal service for `node discovery via DNS`_ and
-:ref:`inter-node communication <inter-node-comms>`.
-
-Here's an example `configuration`_  snippet:
-
-.. code-block:: yaml
-
-  apiVersion: v1
-  kind: Service
-  metadata:
-    # This name is mapped to DNS and forms part of the DNS query the controller
-    # passes into the CrateDB configuration in the previous snippet.
-    name: crate-internal
-    labels:
-      app: crate
-  spec:
-    # A ClusterIP service is only accessible from within the Kubernetes cluster.
-    type: ClusterIP
-    ports:
-      # Port 4300 for inter-node communication.
-    - port: 4300
-      name: crate-internal
-    selector:
-      # Apply this to all nodes with the `crate` app label.
-      app: crate
-
-External Service
-................
-
-The external service provides a stable network address for external clients.
-
-Here's an example `configuration`_ snippet:
-
-.. code-block:: yaml
-
-  apiVersion: v1
-  kind: Service
-  metadata:
-    # With this name, your CrateDB cluster will be accessible via the
-    # `crate-external.default.svc.cluster.local` hostname.
-    name: crate-external
-    labels:
-      app: crate
-  spec:
-    # A LoadBalancer service load balances incoming requests across the cluster.
-    type: LoadBalancer
-    ports:
-      # Port 4200 for HTTP clients.
-    - port: 4200
-      name: crate-web
-      # Port 5432 for PostgreSQL wire protocol clients.
-    - port: 5432
-      name: postgres
-    selector:
-      # Apply this to all nodes with the `crate` app label.
-      app: crate
-
-.. NOTE::
-
-   The `LoadBalancer`_ service type is only available on hosted cloud platforms
-   that provide externally managed load balancers.
-
-   An `ingress`_ resource can be used to provide internally managed load
-   balancers.
 
 Persistent Volume
 -----------------
