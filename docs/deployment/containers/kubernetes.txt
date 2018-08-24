@@ -131,11 +131,12 @@ Here's an example configuration snippet:
 
 .. NOTE::
 
-   The `LoadBalancer`_ service type is only available on hosted cloud platforms
-   that provide externally managed load balancers.
+   In production, a `LoadBalancer`_ service type is typically only available on
+   hosted cloud platforms that provide externally managed load balancers.
+   However, an `ingress`_ resource can be used to provide internally managed
+   load balancers.
 
-   An `ingress`_ resource can be used to provide internally managed load
-   balancers.
+   For local development, `Minikube`_ provides a LoadBalancer service.
 
 Controller
 ----------
@@ -335,6 +336,7 @@ You can then use this in your controller configuration with something like this:
 .. _kubeadm: https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/
 .. _Kubernetes: https://kubernetes.io/
 .. _LoadBalancer: https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer
+.. _Minikube: https://kubernetes.io/docs/setup/minikube/
 .. _node discovery via DNS: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery-via-dns
 .. _persistent volume: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
 .. _persistent volumes: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
