@@ -15,12 +15,14 @@ Together, Docker and Kubernetes are a fantastic way to deploy and scale CrateDB.
 
 .. NOTE::
 
-   `Docker`_ is the recommended container type for CrateDB.
-
    While Kubernetes works with a variety of container technologies, this
    document only covers its use with Docker.
 
 .. SEEALSO::
+
+    A lower-level introduction to :ref:`running CrateDB on Docker <cratedb-docker>`.
+
+    A guide to :ref:`scaling CrateDB on Kubernetes <scaling-kube>`.
 
     The official `CrateDB Docker image`_.
 

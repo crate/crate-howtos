@@ -1,6 +1,6 @@
 .. highlight:: sh
 
-.. _cratedb_docker:
+.. _cratedb-docker:
 
 =====================
 Run CrateDB on Docker

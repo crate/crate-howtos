@@ -22,6 +22,8 @@ Together, Docker and Kubernetes are a fantastic way to deploy and scale CrateDB.
 
 .. SEEALSO::
 
+    A guide to :ref:`deploying CrateDB on Kubernetes <cratedb-kubernetes>`.
+
     The official `CrateDB Docker image`_.
 
 .. rubric:: Table of Contents
