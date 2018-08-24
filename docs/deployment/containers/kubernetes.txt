@@ -72,24 +72,23 @@ Here's an example `configuration`_  snippet:
 
 .. code-block:: yaml
 
-  apiVersion: v1
-  kind: Service
-  metadata:
-    # This name is mapped to DNS and forms part of the DNS query the controller
-    # passes into the CrateDB configuration in the previous snippet.
-    name: crate-internal
-    labels:
-      app: crate
-  spec:
-    # A ClusterIP service is only accessible from within the Kubernetes cluster.
-    type: ClusterIP
-    ports:
-      # Port 4300 for inter-node communication.
-    - port: 4300
-      name: crate-internal
-    selector:
-      # Apply this to all nodes with the `crate` app label.
-      app: crate
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: crate-internal-service
+      labels:
+        app: crate
+    spec:
+      # A static IP address is assigned to this service. This IP address is
+      # only reachable from within the Kubernetes cluster.
+      type: ClusterIP
+      ports:
+        # Port 4300 for inter-node communication.
+      - port: 4300
+        name: crate-internal
+      selector:
+        # Apply this to all nodes with the `app:crate` label.
+        app: crate
 
 External Service
 ................
@@ -100,27 +99,25 @@ Here's an example `configuration`_ snippet:
 
 .. code-block:: yaml
 
-  apiVersion: v1
-  kind: Service
-  metadata:
-    # With this name, your CrateDB cluster will be accessible via the
-    # `crate-external.default.svc.cluster.local` hostname.
-    name: crate-external
-    labels:
-      app: crate
-  spec:
-    # A LoadBalancer service load balances incoming requests across the cluster.
-    type: LoadBalancer
-    ports:
-      # Port 4200 for HTTP clients.
-    - port: 4200
-      name: crate-web
-      # Port 5432 for PostgreSQL wire protocol clients.
-    - port: 5432
-      name: postgres
-    selector:
-      # Apply this to all nodes with the `crate` app label.
-      app: crate
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: crate-external-service
+      labels:
+        app: crate
+    spec:
+      # Create an externally reachable load balancer.
+      type: LoadBalancer
+      ports:
+        # Port 4200 for HTTP clients.
+      - port: 4200
+        name: crate-web
+        # Port 5432 for PostgreSQL wire protocol clients.
+      - port: 5432
+        name: postgres
+      selector:
+        # Apply this to all nodes with the `app:crate` label.
+        app: crate
 
 .. NOTE::
 
@@ -162,89 +159,97 @@ CrateDB cluster:
 
 .. code-block:: yaml
 
-  apiVersion: "apps/v1"
-  # We're using a StatefulSet controller.
-  kind: StatefulSet
-  metadata:
-    name: crate
-  spec:
-    serviceName: "crate"
-    # Our cluster has three nodes.
-    replicas: 3
-    template:
-      metadata:
-        labels:
-          # The pods in this cluster have the `crate` app label. This can be
-          # used by services which we define in a subsequent snippet.
+    apiVersion: "apps/v1"
+    # We're using a StatefulSet controller.
+    kind: StatefulSet
+    metadata:
+      # This is the name used as a prefix for all pods in the set.
+      name: crate
+    spec:
+      serviceName: "crate-set"
+      # Our cluster has three nodes.
+      replicas: 3
+      selector:
+        matchLabels:
+          # The pods in this cluster have the `app:crate` app label.
           app: crate
-        annotations:
-          pod.alpha.kubernetes.io/initialized: "true"
-      spec:
-        # InitContainers run before the main containers of a pod are started,
-        # and they must terminate before the primary pods can be initialized.
-        # Here, we use one to set the correct memory map limit.
-        initContainers:
-        - name: init-sysctl
-          image: busybox
-          imagePullPolicy: IfNotPresent
-          command: ["sysctl", "-w", "vm.max_map_count=262144"]
-          securityContext:
-            privileged: true
-        # This final section is the core of the StatefulSet configuration. It
-        # defines the container to run in each pod.
-        containers:
-        - name: crate
-          # Here, we're using CrateDB 2.3.12.
-          image: crate:2.3.12
-          # Pass in configuration to CrateDB via command-line options. Notice
-          # that we are telling CrateDB to use DNS records to discover the
-          # other CrateDB nodes. This is possible because Kubernetes provides
-          # DNS mapping for the `crate-internal` service, which we define in a
-          # subsequent snippet.
-          command:
-            - /docker-entrypoint.sh
-            - -Ccluster.name=${CLUSTER_NAME}
-            - -Cdiscovery.zen.minimum_master_nodes=1
-            - -Cdiscovery.zen.hosts_provider=srv
-            - -Cdiscovery.srv.query=_cluster._tcp.crate-internal.default.svc.cluster.local
-            - -Cgateway.recover_after_nodes=1
-            - -Cgateway.expected_nodes=${EXPECTED_NODES}
-            - -Cpath.data=/data
-            - -Cssl.http.enabled=true
-            - -Cssl.psql.enabled=true
-            - -Cssl.ingestion.mqtt.enabled=true
-          volumeMounts:
-                # Mount the `/data` directory as a volume named `data`.
-              - mountPath: /data
-                name: data
-          resources:
-            limits:
-              memory: 2Gi
-          ports:
-            # Port 4300 for inter-node communication.
-          - containerPort: 4300
-            name: crate-internal
-            # Port 4200 for HTTP clients.
-          - containerPort: 4200
-            name: crate-web
-            # Port 5432 for PostgreSQL wire protocol clients.
-          - containerPort: 5432
-            name: postgres
-          # Pass these next values through to CrateDB.
-          env:
-            # Half the available memory configured under `resources` above.
-          - name: CRATE_HEAP_SIZE
-            value: "1g"
-          - name: EXPECTED_NODES
-            value: "3"
-          - name: CLUSTER_NAME
-            value: "crate"
-        volumes:
-            # Map the `data` volume to a persistent volume named
-            # `persistant-data` which we define in a later snippet.
-          - name: data
-            persistentVolumeClaim:
-              claimName: persistant-data
+      template:
+        metadata:
+          labels:
+            app: crate
+        spec:
+          # InitContainers run before the main containers of a pod are
+          # started, and they must terminate before the primary containers
+          # are initialized. Here, we use one to set the correct memory
+          # map limit.
+          initContainers:
+          - name: init-sysctl
+            image: busybox
+            imagePullPolicy: IfNotPresent
+            command: ["sysctl", "-w", "vm.max_map_count=262144"]
+            securityContext:
+              privileged: true
+          # This final section is the core of the StatefulSet configuration.
+          # It defines the container to run in each pod.
+          containers:
+          - name: crate
+            # Use the CrateDB 3.0.5 Docker image.
+            image: crate:3.0.5
+            # Pass in configuration to CrateDB via command-line options.
+            # Notice that we are configuring CrateDB unicast host discovery
+            # using the SRV records provided by Kubernetes.
+            command:
+              - /docker-entrypoint.sh
+              - -Ccluster.name=${CLUSTER_NAME}
+              - -Cdiscovery.zen.minimum_master_nodes=2
+              - -Cdiscovery.zen.hosts_provider=srv
+              - -Cdiscovery.srv.query=_crate-internal._tcp.crate-internal-service.${NAMESPACE}.svc.cluster.local
+              - -Cgateway.recover_after_nodes=2
+              - -Cgateway.expected_nodes=${EXPECTED_NODES}
+              - -Cpath.data=/data
+            volumeMounts:
+                  # Mount the `/data` directory as a volume named `data`.
+                - mountPath: /data
+                  name: data
+            resources:
+              limits:
+                # How much memory each pod gets.
+                memory: 512Mi
+            ports:
+              # Port 4300 for inter-node communication.
+            - containerPort: 4300
+              name: crate-internal
+              # Port 4200 for HTTP clients.
+            - containerPort: 4200
+              name: crate-web
+              # Port 5432 for PostgreSQL wire protocol clients.
+            - containerPort: 5432
+              name: postgres
+            # Environment variables passed through to the container.
+            env:
+              # This is variable is detected by CrateDB.
+            - name: CRATE_HEAP_SIZE
+              value: "256m"
+              # The rest of these variables are used in the command-line
+              # options.
+            - name: EXPECTED_NODES
+              value: "3"
+            - name: CLUSTER_NAME
+              value: "my-crate"
+            - name: NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+      volumeClaimTemplates:
+        # Use persistent storage.
+        - metadata:
+            name: data
+          spec:
+            accessModes:
+            - ReadWriteOnce
+            resources:
+              requests:
+                storage: 1Gi
 
 .. SEEALSO::
 
@@ -270,17 +275,18 @@ Here's an example `configuration`_ snippet for Microsoft `Azure Managed Disks`_:
 
 .. code-block:: yaml
 
-  volumeClaimTemplates:
-    - metadata:
-        name: persistant-data
-      spec:
-        # This will create one 100GB read-write Premium Managed Disk volume for
-        # every distinct CrateDB container.
-        accessModes: [ "ReadWriteOnce" ]
-        storageClassName: azure-premium-managed-disk
-        resources:
-          requests:
-            storage: 100g
+    [...]
+      volumeClaimTemplates:
+        - metadata:
+            name: persistant-data
+          spec:
+            # This will create one 100GB read-write Premium Managed Disk volume for
+            # every distinct CrateDB container.
+            accessModes: [ "ReadWriteOnce" ]
+            storageClassName: azure-premium-managed-disk
+            resources:
+              requests:
+                storage: 100g
 
 .. _Amazon Kubernetes Service: https://aws.amazon.com/eks/
 .. _Azure Kubernetes Service: https://azure.microsoft.com/en-us/services/kubernetes-service/
