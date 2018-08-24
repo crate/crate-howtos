@@ -1,11 +1,17 @@
-.. _getting_started_kubernetes:
+.. _cratedb-kubernetes:
 
 =========================
 Run CrateDB on Kubernetes
 =========================
 
+CrateDB and `Docker`_ are a great match thanks to CrateDB’s `horizontally
+scalable`_ `shared-nothing architecture`_ that lends itself well to
+`containerization`_.
+
 `Kubernetes`_ is an open-source container orchestration system for the
-management, deployment, and scaling of containerized applications.
+management, deployment, and scaling of containerized systems.
+
+Together, Docker and Kubernetes are a fantastic way to deploy and scale CrateDB.
 
 .. NOTE::
 
@@ -13,6 +19,10 @@ management, deployment, and scaling of containerized applications.
 
    While Kubernetes works with a variety of container technologies, this
    document only covers its use with Docker.
+
+.. SEEALSO::
+
+    The official `CrateDB Docker image`_.
 
 .. rubric:: Table of Contents
 
@@ -315,9 +325,12 @@ You can then use this in your controller configuration with something like this:
 .. _Azure Managed Disks: https://azure.microsoft.com/en-us/pricing/details/managed-disks/
 .. _configuration via command-line options: https://crate.io/docs/crate/reference/en/latest/config/index.html
 .. _configuration: https://kubernetes.io/docs/concepts/configuration/overview/
+.. _containerization: https://www.docker.com/resources/what-container
 .. _controller: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/
+.. _CrateDB Docker image: https://hub.docker.com/_/crate/
 .. _Docker: https://www.docker.com/
 .. _familiarity with Kubernetes: https://kubernetes.io/docs/tutorials/kubernetes-basics/
+.. _horizontally scalable: https://en.wikipedia.org/wiki/Scalability#Horizontal_and_vertical_scaling
 .. _Ingress: https://kubernetes.io/docs/concepts/services-networking/ingress/
 .. _kubeadm: https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/
 .. _Kubernetes: https://kubernetes.io/
@@ -328,5 +341,6 @@ You can then use this in your controller configuration with something like this:
 .. _pod: https://kubernetes.io/docs/concepts/workloads/pods/pod/
 .. _service: https://kubernetes.io/docs/concepts/services-networking/service/
 .. _services: https://kubernetes.io/docs/concepts/services-networking/service/
+.. _shared-nothing architecture : https://en.wikipedia.org/wiki/Shared-nothing_architecture
 .. _StatefulSet: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/
 .. _StorageClass: https://kubernetes.io/docs/concepts/storage/storage-classes/

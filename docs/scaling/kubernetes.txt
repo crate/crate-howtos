@@ -4,7 +4,7 @@
 Scaling CrateDB on Kubernetes
 =============================
 
-CrateDB and Docker are a great match thanks to CrateDB’s `horizontally
+CrateDB and `Docker`_ are a great match thanks to CrateDB’s `horizontally
 scalable`_ `shared-nothing architecture`_ that lends itself well to
 `containerization`_.
 
@@ -194,6 +194,7 @@ Control`_.
 .. _CrateDB Docker image: https://hub.docker.com/_/crate/
 .. _deleted and recreated: https://kubernetes.io/docs/concepts/cluster-administration/manage-deployment/#disruptive-updates
 .. _discovery.zen.minimum_master_nodes: https://crate.io/docs/crate/reference/en/latest/admin/system-information.html#minimum-master-nodes
+.. _Docker: https://www.docker.com/
 .. _gateway.expected_nodes: https://crate.io/docs/crate/reference/en/latest/admin/system-information.html#recovery-expected-nodes
 .. _gateway.recover_after_nodes: https://crate.io/docs/crate/reference/en/latest/admin/system-information.html#recovery-after-nodes
 .. _horizontally scalable: https://en.wikipedia.org/wiki/Scalability#Horizontal_and_vertical_scaling
