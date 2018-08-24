@@ -1,29 +1,27 @@
 .. highlight:: sh
 
-.. _cratedb_docker:
+.. _cratedb-docker:
 
 =====================
 Run CrateDB on Docker
 =====================
 
-CrateDB and Docker_ are a great match thanks to CrateDB's shared-nothing,
-horizontally scalable architecture that lends itself well to containerization.
+CrateDB and `Docker`_ are a great match thanks to CrateDB’s `horizontally
+scalable`_ `shared-nothing architecture`_ that lends itself well to
+`containerization`_.
 
-This document covers the essentials of running CrateDB and Docker using the
-official `CrateDB Docker image`_. If you intend to bring CrateDB on Docker to
-production please ensure that you address the following
-:ref:`resource_constraints`.
+This document covers the essentials of running CrateDB on Docker.
 
 .. NOTE::
 
    If you're just getting started with CrateDB and Docker, check out our
    introductory guides for `spinning up your first CrateDB instance`_.
 
-   Alternatively, you might be interested in `running CrateDB with Docker
-   Cloud`_.
+.. SEEALSO::
 
-.. _spinning up your first CrateDB instance: https://crate.io/docs/crate/getting-started/en/latest/install/containers/docker.html
-.. _running CrateDB with Docker Cloud: https://crate.io/docs/crate/getting-started/en/latest/install/containers/docker_cloud.html
+    Guides for running CrateDB on :ref:`Docker Cloud <cratedb-docker-cloud>` and :ref:`Kubernetes <cratedb-kubernetes>`.
+
+    The official `CrateDB Docker image`_.
 
 .. rubric:: Table of Contents
 
@@ -285,17 +283,22 @@ everything at once like so::
         crate \
         crate -Cnetwork.host=_site_
 
+.. _Bootstrap Checks: https://crate.io/docs/crate/guide/best_practices/bootstrap_checks.html
+.. _containerization: https://www.docker.com/resources/what-container
+.. _CRATE_HEAP_SIZE: https://crate.io/docs/crate/reference/configuration.html#crate-heap-size
 .. _CrateDB Docker image: https://hub.docker.com/_/crate/
+.. _Discovery: https://crate.io/docs/crate/reference/configuration.html#discovery
 .. _Docker Cloud: https://crate.io/docs/install/containers/docker-cloud/
+.. _Docker healthcheck: https://docs.docker.com/engine/reference/builder/#healthcheck
 .. _Docker volume: https://docs.docker.com/engine/tutorials/dockervolumes/
 .. _Docker: https://www.docker.com/
+.. _horizontally scalable: https://en.wikipedia.org/wiki/Scalability#Horizontal_and_vertical_scaling
+.. _Metadata Gateway: https://crate.io/docs/crate/reference/configuration.html#metadata-gateway
+.. _running CrateDB with Docker Cloud: https://crate.io/docs/crate/getting-started/en/latest/install/containers/docker_cloud.html
 .. _running Docker locally: https://crate.io/docs/install/containers/docker/
 .. _set the maximum memory: https://docs.docker.com/engine/admin/resource_constraints/#memory
 .. _set the maximum number of CPUs: https://docs.docker.com/engine/admin/resource_constraints/#cpu
+.. _shared-nothing architecture : https://en.wikipedia.org/wiki/Shared-nothing_architecture
+.. _spinning up your first CrateDB instance: https://crate.io/docs/crate/getting-started/en/latest/install/containers/docker.html
 .. _the detected limits are wrong: https://developers.redhat.com/blog/2017/03/14/java-inside-docker/
 .. _user-defined network: https://docs.docker.com/engine/userguide/networking/#user-defined-networks
-.. _Metadata Gateway: https://crate.io/docs/crate/reference/configuration.html#metadata-gateway
-.. _Discovery: https://crate.io/docs/crate/reference/configuration.html#discovery
-.. _CRATE_HEAP_SIZE: https://crate.io/docs/crate/reference/configuration.html#crate-heap-size
-.. _Bootstrap Checks: https://crate.io/docs/crate/guide/best_practices/bootstrap_checks.html
-.. _Docker healthcheck: https://docs.docker.com/engine/reference/builder/#healthcheck
