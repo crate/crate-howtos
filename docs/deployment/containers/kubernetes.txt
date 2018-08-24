@@ -37,7 +37,7 @@ with at least one master node and one worker node.
 Configuration
 =============
 
-This document provides an example configuration for Kubernetes that should
+This document provides an example `configuration`_ for Kubernetes that should
 produce a three-node CrateDB cluster that is ready to use.
 
 The example configuration includes:
@@ -68,7 +68,7 @@ Internal Service
 CrateDB uses the internal service for `node discovery via DNS`_ and
 :ref:`inter-node communication <inter-node-comms>`.
 
-Here's an example `configuration`_  snippet:
+Here's an example configuration snippet:
 
 .. code-block:: yaml
 
@@ -95,7 +95,7 @@ External Service
 
 The external service provides a stable network address for external clients.
 
-Here's an example `configuration`_ snippet:
+Here's an example configuration snippet:
 
 .. code-block:: yaml
 
@@ -154,7 +154,7 @@ to use the same data on disk.
 For this reason, we use the `StatefulSet`_ controller to define our cluster,
 which ensures that CrateDB nodes retain state across restarts or rescheduling.
 
-The following `configuration`_ snippet defines controller for a three-node
+The following configuration snippet defines controller for a three-node
 CrateDB cluster:
 
 .. code-block:: yaml
@@ -271,7 +271,29 @@ retain state between restarts and rescheduling. This can be achieved using
 There are many different ways to provide persistent volumes, and so the specific
 configuration will depend on your setup.
 
-Here's an example `configuration`_ snippet for Microsoft `Azure Managed Disks`_:
+Microsoft Azure
+...............
+
+You can create a `StorageClass`_ for `Azure Managed Disks`_ with a
+configuration snippet like this:
+
+.. code-block:: yaml
+
+    apiVersion: storage.k8s.io/v1beta1
+    kind: StorageClass
+    metadata:
+      # The name chosen here can be used to create volume claims.
+      name: azure-premium-managed-disk
+      labels:
+        storage-tier: premium
+        volume-type: ssd
+        addonmanager.kubernetes.io/mode: Reconcile
+    provisioner: kubernetes.io/azure-disk
+    parameters:
+      kind: Managed
+      storageaccounttype: Premium_LRS
+
+You can then use this in your controller configuration with something like this:
 
 .. code-block:: yaml
 
@@ -280,8 +302,8 @@ Here's an example `configuration`_ snippet for Microsoft `Azure Managed Disks`_:
         - metadata:
             name: persistant-data
           spec:
-            # This will create one 100GB read-write Premium Managed Disk volume for
-            # every distinct CrateDB container.
+            # This will create one 100GB read-write Azure Managed Disks volume
+            # for every CrateDB pod.
             accessModes: [ "ReadWriteOnce" ]
             storageClassName: azure-premium-managed-disk
             resources:
@@ -307,3 +329,4 @@ Here's an example `configuration`_ snippet for Microsoft `Azure Managed Disks`_:
 .. _service: https://kubernetes.io/docs/concepts/services-networking/service/
 .. _services: https://kubernetes.io/docs/concepts/services-networking/service/
 .. _StatefulSet: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/
+.. _StorageClass: https://kubernetes.io/docs/concepts/storage/storage-classes/
