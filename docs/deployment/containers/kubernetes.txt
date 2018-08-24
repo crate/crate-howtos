@@ -20,6 +20,9 @@ Together, Docker and Kubernetes are a fantastic way to deploy and scale CrateDB.
 
 .. SEEALSO::
 
+    A complimentary blog post miniseries that walks you through the process of
+    `setting up your first CrateDB cluster on Kubernetes`_.
+
     A lower-level introduction to :ref:`running CrateDB on Docker <cratedb-docker>`.
 
     A guide to :ref:`scaling CrateDB on Kubernetes <scaling-kube>`.
@@ -345,6 +348,7 @@ You can then use this in your controller configuration with something like this:
 .. _pod: https://kubernetes.io/docs/concepts/workloads/pods/pod/
 .. _service: https://kubernetes.io/docs/concepts/services-networking/service/
 .. _services: https://kubernetes.io/docs/concepts/services-networking/service/
+.. _setting up your first CrateDB cluster on Kubernetes: https://crate.io/a/run-your-first-cratedb-cluster-on-kubernetes-part-one/
 .. _shared-nothing architecture : https://en.wikipedia.org/wiki/Shared-nothing_architecture
 .. _StatefulSet: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/
 .. _StorageClass: https://kubernetes.io/docs/concepts/storage/storage-classes/
