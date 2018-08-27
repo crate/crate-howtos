@@ -96,7 +96,7 @@ used to create a three-node CrateDB cluster.
 Services
 --------
 
-A Kubernetes pod is ephemeral and so is its network address. Typically, this
+A Kubernetes pod is ephemeral and so are its network addresses. Typically, this
 means that it is inadvisable to connect to pods directly.
 
 A Kubernetes `service`_ allows you to define a network access policy for a set
