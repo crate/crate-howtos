@@ -87,10 +87,6 @@ restart your pods with the new configuration one-by-one.
     resources are deleted and recreated, and the pods will come back up with no
     data.
 
-.. _manage a Kubernetes deployment: https://kubernetes.io/docs/concepts/cluster-administration/manage-deployment/
-.. _rolling update strategy: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#rolling-updates
-.. _persistent volumes: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
-
 Configuration
 =============
 
@@ -374,11 +370,13 @@ You can then use this in your controller configuration with something like this:
 .. _kubeadm: https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/
 .. _Kubernetes: https://kubernetes.io/
 .. _LoadBalancer: https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer
+.. _manage a Kubernetes deployment: https://kubernetes.io/docs/concepts/cluster-administration/manage-deployment/
 .. _Minikube: https://kubernetes.io/docs/setup/minikube/
 .. _node discovery via DNS: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery-via-dns
 .. _persistent volume: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
 .. _persistent volumes: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
 .. _pod: https://kubernetes.io/docs/concepts/workloads/pods/pod/
+.. _rolling update strategy: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#rolling-updates
 .. _service: https://kubernetes.io/docs/concepts/services-networking/service/
 .. _services: https://kubernetes.io/docs/concepts/services-networking/service/
 .. _setting up your first CrateDB cluster on Kubernetes: https://crate.io/a/run-your-first-cratedb-cluster-on-kubernetes-part-one/
