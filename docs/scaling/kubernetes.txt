@@ -48,7 +48,7 @@ Using an Imperative Command
 You can issue an `imperative command`_ to make the configuration change, like
 so:
 
-.. code-block:: sh
+.. code-block:: console
 
     sh$ kubectl scale statefulsets crate --replicas=4
 

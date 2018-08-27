@@ -49,19 +49,53 @@ with at least one master node and one worker node.
    Alternatively, cloud services such as `Azure Kubernetes Service`_ or the
    `Amazon Kubernetes Service`_ can do this for you.
 
+Managing Kubernetes
+===================
+
+There are lots of different ways to `manage a Kubernetes deployment`_. Which
+one makes sense for you will depend on your situation.
+
+This section shows you three basic commands you can use to create and update a
+resource.
+
+You can create a resource like so:
+
+.. code-block:: console
+
+     sh$ kubectl create -f crate-controller.yaml --namespace crate
+     statefulset.apps/crate-controller created
+
+Here, we are creating a `StatefulSet`_ controller in the ``crate`` namespace
+using a configuration file named ``crate-controller.yaml``.
+
+You can update the resource after editing the configuration file, like so:
+
+.. code-block:: console
+
+    sh$ kubectl replace -f crate-controller.yaml --namespace crate
+    statefulset.apps/crate replaced
+
+If your StatefulSet uses the default `rolling update strategy`_, this command will
+restart your pods with the new configuration one-by-one.
+
+.. WARNING::
+
+    If you use a regular ``replace`` command, pods are restarted, and any
+    `persistent volumes`_ will still be intact.
+
+    If, however, you pass the ``--force`` option to the ``replace`` command,
+    resources are deleted and recreated, and the pods will come back up with no
+    data.
+
+.. _manage a Kubernetes deployment: https://kubernetes.io/docs/concepts/cluster-administration/manage-deployment/
+.. _rolling update strategy: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#rolling-updates
+.. _persistent volumes: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
+
 Configuration
 =============
 
-This document provides an example `configuration`_ for Kubernetes that should
-produce a three-node CrateDB cluster that is ready to use.
-
-The example configuration includes:
-
-- Two `services`_ (for internal and external communication)
-
-- A `controller`_
-
-- A `persistent volume`_
+This section provides four Kubernetes `configuration`_ snippets that can be
+used to create a three-node CrateDB cluster.
 
 Services
 --------
@@ -170,7 +204,7 @@ to use the same data on disk.
 For this reason, we use the `StatefulSet`_ controller to define our cluster,
 which ensures that CrateDB nodes retain state across restarts or rescheduling.
 
-The following configuration snippet defines controller for a three-node
+The following configuration snippet defines a controller for a three-node
 CrateDB cluster:
 
 .. code-block:: yaml
@@ -332,7 +366,6 @@ You can then use this in your controller configuration with something like this:
 .. _configuration via command-line options: https://crate.io/docs/crate/reference/en/latest/config/index.html
 .. _configuration: https://kubernetes.io/docs/concepts/configuration/overview/
 .. _containerization: https://www.docker.com/resources/what-container
-.. _controller: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/
 .. _CrateDB Docker image: https://hub.docker.com/_/crate/
 .. _Docker: https://www.docker.com/
 .. _familiarity with Kubernetes: https://kubernetes.io/docs/tutorials/kubernetes-basics/
