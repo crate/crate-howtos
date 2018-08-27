@@ -17,7 +17,7 @@ Together, Docker and Kubernetes are a fantastic way to deploy and scale CrateDB.
 
     This guide assumes you have already deployed CrateDB on Kubernetes.
 
-    Consult the :ref:`Kubernetes deployment guide <getting_started_kubernetes>`
+    Consult the :ref:`Kubernetes deployment guide <cratedb-kubernetes>`
     for more help.
 
 .. SEEALSO::
@@ -141,9 +141,9 @@ This setting can be changed while CrateDB is running, like so:
     SET GLOBAL PERSISTENT discovery.zen.minimum_master_nodes = 5
 
 If you are using a controller configuration like the example given in the
-:ref:`Kubernetes deployment guide <getting_started_kubernetes>`, you can make
-this reconfiguration by altering the ``discovery.zen.minimum_master_nodes``
-command option.
+:ref:`Kubernetes deployment guide <cratedb-kubernetes>`, you can make this
+reconfiguration by altering the ``discovery.zen.minimum_master_nodes`` command
+option.
 
 Changes to the Kubernetes controller configuration can then be deployed using
 ``kubectl replace`` as shown in the previous subsection, `Using Version
@@ -174,9 +174,9 @@ clustering behavior reconfiguration, you cannot change these values using
 CrateDB's `runtime configuration`_ capabilities.
 
 If you are using a controller configuration like the example given in the
-:ref:`Kubernetes deployment guide <getting_started_kubernetes>`, you can make
-this reconfiguration by altering the ``EXPECTED_NODES`` environment variable
-and the ``recover_after_nodes`` command option.
+:ref:`Kubernetes deployment guide <cratedb-kubernetes>`, you can make this
+reconfiguration by altering the ``EXPECTED_NODES`` environment variable and the
+``recover_after_nodes`` command option.
 
 Changes to the Kubernetes controller configuration can then be deployed using
 ``kubectl replace`` as shown in the previous subsection, `Using Version
