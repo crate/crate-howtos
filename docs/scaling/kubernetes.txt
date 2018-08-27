@@ -69,9 +69,8 @@ Take this example configuration snippet:
 
 .. code-block:: yaml
 
-    apiVersion: "apps/v1"
-    # We're using a StatefulSet controller.
     kind: StatefulSet
+    apiVersion: "apps/v1"
     metadata:
       # This is the name used as a prefix for all pods in the set.
       name: crate

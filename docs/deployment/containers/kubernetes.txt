@@ -117,8 +117,8 @@ Here's an example configuration snippet:
 
 .. code-block:: yaml
 
-    apiVersion: v1
     kind: Service
+    apiVersion: v1
     metadata:
       name: crate-internal-service
       labels:
@@ -144,8 +144,8 @@ Here's an example configuration snippet:
 
 .. code-block:: yaml
 
-    apiVersion: v1
     kind: Service
+    apiVersion: v1
     metadata:
       name: crate-external-service
       labels:
@@ -205,9 +205,8 @@ CrateDB cluster:
 
 .. code-block:: yaml
 
-    apiVersion: "apps/v1"
-    # We're using a StatefulSet controller.
     kind: StatefulSet
+    apiVersion: "apps/v1"
     metadata:
       # This is the name used as a prefix for all pods in the set.
       name: crate
@@ -325,8 +324,8 @@ configuration snippet like this:
 
 .. code-block:: yaml
 
-    apiVersion: storage.k8s.io/v1beta1
     kind: StorageClass
+    apiVersion: storage.k8s.io/v1beta1
     metadata:
       # The name chosen here can be used to create volume claims.
       name: azure-premium-managed-disk
