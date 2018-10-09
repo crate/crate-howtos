@@ -55,9 +55,9 @@ However, it's important to note that:
  3. CrateDB will not return a response until all replica shards have been
     updated
 
-The overhead for each insert (query parsing, planning, and execution, which
-includes network connection setups, connection teardowns, and connection
-metadata) starts to add up for very heavy insert workloads.
+The overhead for each insert (query parsing, planning, and execution, and
+potentially network connection overhead too) starts to add up for very heavy
+insert workloads.
 
 In addition, lots of internal traffic will congest your network, which will
 slow down any network-based cluster operations (i.e. inserts, distributed
