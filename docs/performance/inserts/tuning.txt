@@ -104,8 +104,8 @@ lost.
 Refresh Interval
 ----------------
 
-Data that has been written to a shard cannot be read back until the shard index
-has been refreshed.
+With the exception of primary key lookups, data that has been written to a
+shard cannot be read back until the shard index has been refreshed.
 
 The `refresh_interval`_ table setting specifies how frequently shard indexes
 are refreshed. The default value is every 1000 milliseconds.
