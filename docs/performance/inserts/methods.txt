@@ -105,7 +105,7 @@ Specifically, the advantages are:
 - The query only needs to be parsed, planned, and executed once
 
 - If `translog.durability`_ is set to ``REQUEST`` (the default), an insert
-  using ``UNNEST`` flushes the disk once.
+  using ``UNNEST`` flushes the disk once for every shard written to.
 
 If your client supports query string parameter substitution, you can use the
 ``UNNEST`` method with static prepared statements.
