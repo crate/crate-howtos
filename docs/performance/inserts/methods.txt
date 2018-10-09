@@ -245,9 +245,10 @@ Typically, prepared statements are used :ref:`single insert statements
 <inserts_single_inserts>`.
 
 Prepared statements with single inserts will usually perform better than
-:ref:`standard querying <inserts_standard_querying>` with single inserts, but
-worse than standard querying with both the :ref:`UNNEST method<inserts_unnest>`
-and :ref:`multiple value expressions <inserts_multiple_values>`.
+:ref:`standard querying <inserts_standard_querying>` with single inserts, and
+should be comparable to standard querying with both the :ref:`UNNEST
+method<inserts_unnest>` and :ref:`multiple value expressions
+<inserts_multiple_values>`.
 
 Testing
 =======
