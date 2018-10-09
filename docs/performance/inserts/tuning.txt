@@ -98,8 +98,8 @@ Translog
 If `translog.durability`_ is set to ``REQUEST`` (the default), the
 :ref:`translog <durability>` gets flushed after every operation. Setting this
 to ``ASYNC`` will improve insert performance, but it also worsens durability.
-If a node is shut down before a translog has been synced, those opperations
-will be lost.
+If a node crashes before a translog has been synced, those opperations will be
+lost.
 
 Refresh Interval
 ----------------
