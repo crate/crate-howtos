@@ -105,7 +105,7 @@ Specifically, the advantages are:
 - The query only needs to be parsed, planned, and executed once
 
 - If `translog.durability`_ is set to ``REQUEST`` (the default), an insert
-  using ``UNNEST`` flushes the disk once for every shard written to.
+  using ``UNNEST`` flushes the disk once for every shard written to
 
 If your client supports query string parameter substitution, you can use the
 ``UNNEST`` method with static prepared statements.
@@ -197,7 +197,7 @@ The advantages are the same as using the :ref:`UNNEST method<inserts_unnest>`:
   needs to be parsed, planned, and executed once
 
 - If `translog.durability`_ is set to ``REQUEST`` (the default), a bulk insert
-  only flushes the disk once
+  only flushes the disk once for every shard written to
 
 Because the advantages are the same as using the ``UNNEST`` method, you
 typically will not see a performance improvement by combining bulk operations
