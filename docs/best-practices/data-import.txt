@@ -183,6 +183,11 @@ After import don't forget to turn throttling on again by setting its value to
   cr> SET GLOBAL TRANSIENT indices.store.throttle.type = 'merge';
   SET OK, 1 row affected (... sec)
 
+
+.. NOTE::
+
+    These settings were removed in CrateDB 3.0.
+
 .. SEEALSO::
 
   - `indices.store.throttle`_
@@ -400,7 +405,7 @@ Further Reading
 .. _Replication: https://crate.io/docs/crate/reference/sql/ddl/replication.html#replication
 .. _Refresh: https://crate.io/docs/crate/reference/sql/refresh.html
 .. _refresh_interval: https://crate.io/docs/crate/reference/sql/reference/create_table.html#refresh-interval
-.. _indices.store.throttle: https://crate.io/docs/crate/reference/configuration.html#store-level-throttling
+.. _indices.store.throttle: https://crate.io/docs/crate/reference/en/2.3/config/cluster.html#store-level-throttling
 .. _COPY FROM: https://crate.io/docs/crate/reference/sql/reference/copy_from.html
 .. _ALTER TABLE ONLY: https://crate.io/docs/crate/reference/sql/partitioned_tables.html#alter-table-only
 .. _partitioned tables: https://crate.io/docs/crate/reference/sql/partitioned_tables.html
