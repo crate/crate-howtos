@@ -207,6 +207,7 @@ of a 5 node cluster looks like this:
 
 .. figure:: mesh-network-topology.png
    :align: center
+   :width: 50%
 
    Figure 3
 

@@ -301,7 +301,6 @@ optimized.*
 .. _joins_figure_5:
 
 .. figure:: push-down.png
-   :scale: 70%
    :align: center
 
    Figure 5
