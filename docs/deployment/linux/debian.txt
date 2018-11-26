@@ -187,18 +187,14 @@ Configuration
 Configuration Files
 -------------------
 
-The main CrateDB configuration files are located in the ``/etc/crate``
+The main CrateDB `configuration files`_ are located in the ``/etc/crate``
 directory.
 
 Environment
 -----------
 
-The CrateDB startup script `sources`_ environment variables from the
+The CrateDB startup script `sources`_ `environment variables`_ from the
 ``/etc/default/crate`` file.
-
-.. _sources: https://en.wikipedia.org/wiki/Source_(command)
-
-You can use this mechanism to configure CrateDB.
 
 Here's one example:
 
@@ -232,3 +228,6 @@ If you want to deviate from the way that the ``crate`` package integrates with
 your system, we recommend that you go with a `basic tarball installation`_.
 
 .. _basic tarball installation: https://crate.io/docs/crate/getting-started/en/latest/install-run/basic.html
+.. _configuration files: https://crate.io/docs/crate/reference/en/latest/config/index.html
+.. _environment variables: https://crate.io/docs/crate/reference/en/latest/config/environment.html
+.. _sources: https://en.wikipedia.org/wiki/Source_(command)
