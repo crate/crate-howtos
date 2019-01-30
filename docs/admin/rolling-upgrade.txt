@@ -137,6 +137,11 @@ need to send the ``USR2`` signal::
   If your system uses SysVinit (e.g. Debian Wheezy), you can also use ``service
   crate graceful-stop``.
 
+.. WARNING::
+
+    Stopping a crate process using the ``USR2`` signal is deprecated
+    and will be removed in a future release.
+
 Depending on the size of your cluster this might take a while. You might want
 to check your server logs to see if the graceful stop process is progressing
 well. In case of an error or a timeout, the node will stay up, signaling the
