@@ -19,17 +19,15 @@ Help
 
 Looking for more help?
 
-- Read `the hosted documentation`_
-- Chat with us via our `support channel`_
-- Get `paid support`_
+- Read the `project docs`_
+- Check out our `support channels`_
 
 .. _contribution docs: CONTRIBUTING.rst
 .. _Crate.io: http://crate.io/
 .. _CrateDB: https://github.com/crate/crate
 .. _developer docs: DEVELOP.rst
-.. _paid support: https://crate.io/pricing/
-.. _support channel: https://crate.io/support/
-.. _the hosted documentation: https://crate.io/docs/crate/guide/en/latest/
+.. _support channels: https://crate.io/support/
+.. _project docs: https://crate.io/docs/crate/guide/en/latest/
 
 .. |build-status| image:: https://img.shields.io/travis/crate/guide.svg?style=flat
     :alt: build status
