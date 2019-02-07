@@ -189,11 +189,6 @@ the reallocating is not finished, you can set the ``force`` setting to
   Also, if there is not enough disk space on other nodes to move the shards to
   the graceful stop procedure will fail.
 
-You can also set the ``reallocate`` setting to ``false`` if you want to ensure
-that a node cannot be stopped if the cluster would need to move shards off the
-node. This can prevent long waiting times until the shutdown process runs into
-timeout during reallocation.
-
 By default, only the ``graceful stop`` command considers the cluster settings
 described at `Graceful Stop`_.
 
