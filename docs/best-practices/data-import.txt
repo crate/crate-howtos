@@ -160,6 +160,10 @@ If you do not need to query your data during import, which is the case most of
 the time, you can lighten the merge throttling behaviour that otherwise would
 ensure better search performance.
 
+.. NOTE::
+
+    These settings were removed in CrateDB 3.0.
+
 To improve indexing performance you can temporarily disable throttling
 completely by setting the ``indices.store.throttle.type`` to ``none``.
 
@@ -182,11 +186,6 @@ After import don't forget to turn throttling on again by setting its value to
 
   cr> SET GLOBAL TRANSIENT indices.store.throttle.type = 'merge';
   SET OK, 1 row affected (... sec)
-
-
-.. NOTE::
-
-    These settings were removed in CrateDB 3.0.
 
 .. SEEALSO::
 
