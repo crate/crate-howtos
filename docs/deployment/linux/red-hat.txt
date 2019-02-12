@@ -7,10 +7,8 @@ Run CrateDB on Red Hat Linux
 CrateDB maintains the official RPM repositories for:
 
 - `Red Hat Linux 7`_
-- `Red Hat Linux 6`_
 
 .. _Red Hat Linux 7: https://www.redhat.com/en/resources/whats-new-red-hat-enterprise-linux-7
-.. _Red Hat Linux 6: https://www.redhat.com/en/resources/red-hat-enterprise-linux-6
 
 Both of these work with RedHat Enterprise Linux, CentOS, and Scientific Linux.
 
@@ -38,13 +36,7 @@ For Red Hat Linux 7, run:
 
    sh$ sudo rpm -Uvh https://cdn.crate.io/downloads/yum/7/noarch/crate-release-7.0-1.noarch.rpm
 
-For Red Hat Linux 6, run:
-
-.. code-block:: sh
-
-   sh$ sudo rpm -Uvh https://cdn.crate.io/downloads/yum/6/x86_64/crate-release-6.5-1.noarch.rpm
-
-Both of the above commands will create the ``/etc/yum.repos.d/crate.repo``
+The above commands will create the ``/etc/yum.repos.d/crate.repo``
 configuration file.
 
 CrateDB provides a stable and a testing release channel. At this point, you
@@ -78,14 +70,8 @@ With Red Hat Linux 7, you can control the ``crate`` service like so:
 
    sh$ sudo systemctl COMMAND crate
 
-With Red Hat Linux 6, you should use:
-
-.. code-block:: sh
-
-   sh$ sudo service crate COMMAND
-
-In both instances, replace ``COMMAND`` with ``start``, ``stop``, ``restart``,
-``status``, etc.
+Here, replace ``COMMAND`` with ``start``, ``stop``, ``restart``, ``status`` and
+so on.
 
 After you run the appropriate command with the ``start`` argument, the
 ``crate`` service should be up-and-running.
