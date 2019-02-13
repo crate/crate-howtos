@@ -19,7 +19,8 @@ CrateDB maintains packages for the following Ubuntu versions:
    CrateDB requires Java 8 or higher.
 
    To run CrateDB on Ubuntu releases older than 16.04, you will need to install
-   Java from a 3rd party repository. This can be done by adding the openjdk ppa:
+   Java from a third-party repository. This can be done by adding the openjdk
+   PPA:
 
       sh$ sudo add-apt-repository ppa:openjdk-r/ppa
       sh$ sudo apt-get update

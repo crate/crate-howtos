@@ -117,7 +117,8 @@ so:
 
     sh$ sudo systemctl COMMAND crate
 
-Replace ``COMMAND`` with ``start``, ``stop``, ``restart``, ``status``, etc.
+Here, replace ``COMMAND`` with ``start``, ``stop``, ``restart``, ``status`` and
+so on.
 
 .. CAUTION::
 

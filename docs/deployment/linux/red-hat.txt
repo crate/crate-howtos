@@ -70,7 +70,8 @@ With Red Hat Linux 7, you can control the ``crate`` service like so:
 
    sh$ sudo systemctl COMMAND crate
 
-Replace ``COMMAND`` with ``start``, ``stop``, ``restart``, ``status``, etc.
+Here, replace ``COMMAND`` with ``start``, ``stop``, ``restart``, ``status`` and
+so on.
 
 After you run the appropriate command with the ``start`` argument, the
 ``crate`` service should be up-and-running.
