@@ -85,11 +85,10 @@ Here are some considerations:
    decrease) the capacity of your cluster, `add (or remove) nodes
    <https://crate.io/docs/scale/multi_node_setup/>`_.
 
--  If availability is a concern, you can add `nodes across multiple zones
-   <https://crate.io/docs/scale/multi_zone_setup/>`_ (e.g. different data
-   centers or geographical regions). The more available your CrateDB cluster
-   is, the more likely it is to withstand external failures like a zone going
-   down.
+-  If availability is a concern, you can add :ref:`nodes across multiple zones
+   <multi-zone-setup>` (e.g. different data centers or geographical regions).
+   The more available your CrateDB cluster is, the more likely it is to
+   withstand external failures like a zone going down.
 
 -  If data durability or read performance is a concern, you can increase the
    number of `table replicas
@@ -190,7 +189,7 @@ settings, and problems with table structures.
 .. rubric:: Partially fixed
 
 
-This problem is mostly fixed by `#20384 
+This problem is mostly fixed by `#20384
 <https://github.com/elastic/elasticsearch/pull/20384>`_ (CrateDB v2.0.x),
 which uses committed cluster state updates during master election process.
 This does not fully solve this rare problem but considerably reduces the chance
