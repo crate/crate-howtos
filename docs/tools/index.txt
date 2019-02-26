@@ -5,69 +5,46 @@ Tools
 There are several tools that play well with CrateDB, from development utilities
 to data visualization tools. We even use some of them ourselves!
 
-This section of the documentation covers some of the tools available. If you
-know of any other tools that work well with CrateDB, please `get in touch
-<mailto:office@crate.io>`_.
+- **Pentaho**
+
+  `Pentaho`_ prepares and blends data, delivering business analytics from any
+  source. You can connect to CrateDB clusters by using `Petaho Kettle`_ and the
+  standalone version of `our JDBC driver`.
+
+- **StreamSets Data Collector**
+
+  The `StreamSets`_ Data Collector is a lightweight, powerful engine that
+  streams data in real time. `Read more`_.
+
+- **Zoomdata**
+
+  Zoomdata is a SaaS solution for deep analysis of big data sets in a visual
+  interface. CrateDB is available as a data source connection.
+
+- **Metabase**
+
+  `Metabase`_ is an open source, easy-to-use visualization that answers questions
+  about your data. It's written in Clojure and comes with a CrateDB driver out of
+  the box! Read more about it in our `blog post`_.
 
 .. SEEALSO::
 
-    The `client tools`_ category on our blog.
+    The `integrations`_ category on our blog.
+
+This section of the documentation covers some of the tools available. If you
+know of any other tools that work well with CrateDB, please `get in touch
+<mailto:office@crate.io>`_.
 
 .. toctree::
    :hidden:
 
    streamsets
 
-Data Visualization
-==================
-
-Pentaho
--------
-
-Pentaho prepares and blends data, delivering business analytics from any
-source. You can connect to CrateDB clusters by using the standalone version of
-`our JDBC driver <https://crate.io/docs/reference/jdbc/>`_.
-
--  `Website <http://community.pentaho.com>`__
--  `Github <https://github.com/pentaho/pentaho-kettle>`__
-
-StreamSets Data Collector
--------------------------
-
-StreamSets Data Collector is a lightweight, powerful engine that streams data
-in real time. Use Data Collector to route and process data in your data
-streams. Read the manual (:doc:`streamsets`) on how to use CrateDB as an origin
-and destination in a StreamSets pipeline.
-
--  `Download <https://streamsets.com/opensource/>`_
--  `Official documentation
-   <https://streamsets.com/documentation/datacollector/latest/help/>`__
-
-Zoomdata
---------
-
-Zoomdata is a SaaS solution for deep analysis of big data sets in a visual
-interface. CrateDB is available as a data source connection.
-
-Grafana
--------
-
-Grafana is a very versatile tool for visualizing all kinds of time series data,
-and it has a CrateDB plugin.
-
--  `Website <https://grafana.net/>`__
--  `CrateDB Datasource Plugin
-   <https://grafana.net/plugins/crate-datasource>`_
-
-Metabase
---------
-
-Metabase is an open source, easy-to-use visualization that answers questions
-about your data. It's written in Clojure and comes with a CrateDB driver out of
-the box!
-
--  `Read our blogpost about Metabase
-   <https://crate.io/a/visualize-crate-data-with-metabase/>`_
--  `Website <http://www.metabase.com/>`__
-
-.. _client tools: https://crate.io/a/category/client-tools/
+.. _blog post: https://crate.io/a/visualize-crate-data-with-metabase/
+.. _integrations: https://crate.io/a/category/client-tools/
+.. _Metabase: http://www.metabase.com/
+.. _our JDBC driver: https://crate.io/docs/reference/jdbc
+.. _Pentaho: http://community.pentaho.com
+.. _Petaho Kettle: https://github.com/pentaho/pentaho-kettle
+.. _StreamSets: https://streamsets.com/opensource
+.. _read more: https://crate.io/docs/crate/guide/en/latest/tools/streamsets.html
