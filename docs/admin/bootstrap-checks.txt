@@ -82,6 +82,16 @@ Edit ``/etc/sysctl.conf`` and configure::
 
     vm.max_map_count = 262144
 
+To take effect the changed setting has to be applied using ``sysctl``.
+
+    sysctl -p  # this will load all settings from /etc/sysctl.conf
+
+
+Alternatively, the ``vm.max_map_count`` value can be set like so directly:
+
+    sysctl -w vm.max_map_count=262144
+
+
 Garbage Collection
 ==================
 
