@@ -97,8 +97,7 @@ example of our init.sls:
       pkgrepo.managed:
         - name: crate
         - humanname: Crate
-        - baseurl: https://cdn.crate.io/downloads/yum/testing/6/x86_64/
-        - enabled: 0 # 1 = testing release.
+        - baseurl: https://cdn.crate.io/downloads/yum/7/noarch/
         - gpgcheck: 1
         - gpgkey: https://cdn.crate.io/downloads/yum/RPM-GPG-KEY-crate
         - required_in:
@@ -107,7 +106,7 @@ example of our init.sls:
     packages:
       pkg.installed:
         - pkgs:
-          - java-1.8.0-openjdk
+          - java-11-openjdk-headless
           - wget
           - crate
 
