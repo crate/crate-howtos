@@ -126,34 +126,18 @@ Use the `SET`_ command to do so:
 Step 2: Graceful Stop
 ---------------------
 
-There are two ways of stopping a ``crate`` node:
+To initiate a graceful shutdown that behaves as described in the introduction
+of this document, the `Decommission Statement`_ must be used.
 
-1. Use the ``ALTER CLUSTER DECOMMISSION`` statement.
-   See `Decommission Statement`_ for usage.
+Stopping a node via the ``TERM`` user signal (Often invoked via ``Ctrl+C`` or
+``systemctl stop crate``), will cause a normal shutdown of CrateDB, **without**
+going through the graceful shutdown procedure described earlier.
 
-2. Kill the process using the ``USR2`` signal
-
-The ``crate`` process supports multiple signals (see `Signal Handling`_) that
-invoke different shutdown procedures. To stop a CrateDB process gracefully you
-need to send the ``USR2`` signal::
-
-  sh$ kill -USR2 `cat /path/to/crate.pid`
-
-.. NOTE::
-
-  If your system uses SysVinit (e.g. Debian Wheezy), you can also use ``service
-  crate graceful-stop``.
-
-.. WARNING::
-
-    Stopping a crate process using the ``USR2`` signal is deprecated
-    and will be removed in a future release.
-
-Depending on the size of your cluster, stopping a ``crate`` node might take
-a while. You might want to check your server logs to see if the graceful stop
-process is progressing well. In case of an error or a timeout, the node will
-stay up, signaling the error in its log files (or wherever you put your log
-messages).
+Depending on the size of your cluster, stopping a ``crate`` node gracefully
+might take a while. You might want to check your server logs to see if the
+graceful stop process is progressing well. In case of an error or a timeout,
+the node will stay up, signaling the error in its log files (or wherever you
+put your log messages).
 
 Using the default settings the node will shut down by moving all primary shards
 off the node first. This will ensure that no data is lost. However, the cluster
