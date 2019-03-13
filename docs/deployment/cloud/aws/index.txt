@@ -7,6 +7,5 @@ Run CrateDB on Amazon Web Services (AWS)
 .. toctree::
    :maxdepth: 1
 
-   ami.txt
    ec2-setup.txt
    s3-setup.txt
