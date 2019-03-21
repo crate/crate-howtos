@@ -6,14 +6,6 @@
 Bootstrap Checks
 ================
 
-.. rubric:: Table of Contents
-
-.. contents::
-   :local:
-
-Introduction
-============
-
 If you are binding to a network reachable IP address, CrateDB performs a number
 of bootstrap checks during startup. These checks examine your setup and will
 prevent startup if a problem is detected.
@@ -23,6 +15,18 @@ CrateDB passes the bootstrap checks and can perform optimally.
 
 If you are binding to the loopback address, the bootstrap checks will not be
 run, but it is still a good idea to follow these instructions.
+
+.. TIP::
+
+    If you are using Docker, these checks are dependent on the host system. You
+    must configure the host system appropriately if you wish to run CrateDB on
+    Docker. Consult the additional documentation on Docker :ref:`resource
+    constraints <resource_constraints>` for more information.
+
+.. rubric:: Table of Contents
+
+.. contents::
+   :local:
 
 System Settings
 ===============
