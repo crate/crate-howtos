@@ -13,3 +13,4 @@ best performance from CrateDB.
    memory
    sharding
    inserts/index
+   selects
