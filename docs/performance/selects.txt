@@ -17,7 +17,7 @@ Similar products sometimes limit the amount of records that are processed for
 ``GROUP BY`` operations. That means the user might get inaccurate results, but
 for analytics this is often an acceptable trade-off.
 
-To emulate this down sampling behavior, users can filter on the ``_docid``
+To emulate this down-sampling behavior, users can filter on the ``_docid``
 system column using a modulo operation.
 
 Given our previous use case, the query without any filters might look like
