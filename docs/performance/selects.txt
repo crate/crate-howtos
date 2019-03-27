@@ -7,21 +7,7 @@ Aggregations and Group By
 
 It is common to do ``GROUP BY`` queries on tables for analytics purposes. For
 example, you might select the ``avg``, ``max``, and ``min`` of some
-measurements over a billion records and group them by device ID.
-
-By default, CrateDB processes all matching records. This may require a lot of
-processing power, depending on the data set and the size of the CrateDB
-cluster.
-
-Similar products sometimes limit the amount of records that are processed for
-``GROUP BY`` operations. That means the user might get inaccurate results, but
-for analytics this is often an acceptable trade-off.
-
-To emulate this down-sampling behavior, users can filter on the ``_docid``
-system column using a modulo operation.
-
-Given our previous use case, the query without any filters might look like
-this::
+measurements over a billion records and group them by device ID::
 
    cr> SELECT
       device_id,
@@ -44,7 +30,55 @@ this::
    +-----------+------------+-------------------+------------+
 
 
-Now, to speed up this query we can append a ``WHERE _docid % 10 = 0`` filter::
+By default, CrateDB processes all matching records. This may require a lot of
+processing power and take more time than desirable, depending on the data set
+and the size of the CrateDB cluster.
+
+To reduce the load and speed up such queries, it is often acceptable to trade
+some accuracy for faster responses and less resource utilization.
+
+If your data set has a normal distribution, it is likely that the average over
+the whole data set is not much different from the average over a subset of the
+whole data set.
+
+Some products which offer GROUP BY like functionality also include an option to
+limit the number of records which are looked at for the grouping operation.
+Aggregating 100.000 records instead of 10 or 100 million records makes a huge
+difference in query response times.
+
+CrateDB with its SQL interface contains the ``LIMIT`` clause to limit the
+amount of data. Together with sub-queries this could be used to reduce the
+amount of records considered for the GROUP BY as well::
+
+
+   cr> SELECT
+      device_id,
+      max(value),
+      avg(value),
+      min(value)
+   FROM (
+      SELECT
+         device_id,
+         value
+      FROM
+         measures
+      LIMIT 100000) samples
+   GROUP BY
+      device_id
+   ORDER BY
+      1 DESC;
+
+
+Unfortunately, due to how the ``LIMIT`` operator works, CrateDB is required to
+merge the data set onto a single node before it can continue with the ``GROUP
+BY`` operation. This reduces the parallelization that can be used for the
+``GROUP BY`` to that of a single node, instead of all data nodes holding the
+data of the given table.
+
+
+A better way to emulate this down-sampling behavior is to filter on the
+``_docid`` system column using a modulo operation::
+
 
    cr> SELECT
       device_id,
@@ -72,9 +106,10 @@ Now, to speed up this query we can append a ``WHERE _docid % 10 = 0`` filter::
 You'll notice that the result changed slightly, but is still fairly close to
 the original result.
 
-Note that the ``% 10`` in this example was arbitrary. The higher the number,
-the fewer records will match the query and the less accurate the result will
-be. This trades accuracy for performance.
+The ``% 10`` in this example was arbitrary. The higher the number, the fewer
+records will match the query and the less accurate the result will be, but it
+will also get faster. ``% 10`` roughly translates to "Only consider every 10th
+row".
 
 .. NOTE::
 
