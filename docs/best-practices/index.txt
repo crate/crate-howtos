@@ -12,5 +12,4 @@ A collection of CrateDB best practices and tips for common scenarios.
    data-import
    migrating-from-mysql
    migrating-from-mongodb
-   telegraf
    systables
