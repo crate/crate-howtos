@@ -66,6 +66,11 @@ Breaking it down, that command:
   host machine to port ``4200`` on the container
 - Runs the command ``crate`` process inside the container
 
+.. NOTE::
+
+   If this command aborts with an error, consult the
+   :ref:`docker-troubleshooting` section for help.
+
 Check the node is up with ``docker ps`` and you should see something like this:
 
 .. code-block:: text
@@ -119,6 +124,40 @@ You can now add subsequent nodes, like so::
    in the admin UI. For a cluster that you intend to use seriously, you should,
    at the very least, configure the `Metadata Gateway`_ and `Discovery`_
    mechanisms.
+
+.. _docker-troubleshooting:
+
+Troubleshooting
+---------------
+
+The most common issue when running CrateDB on Docker is a failing
+:ref:`bootstrap check <bootstrap_checks>`  because the *memory map limit*
+is too low. This can be :ref:`adjusted on the host system <bootstrap_checks>`.
+
+If the limit cannot be adjusted on the host system, the memory map limit check
+can be bypassed by passing the ``-Cnode.store.allow_mmapfs=false`` option to
+the ``crate`` command::
+
+    sh$ docker run -d --name=crate01 \
+          --net=crate -p 4201:4200 --env CRATE_HEAP_SIZE=2g \
+          crate -Cnetwork.host=_site_ \
+                -Cnode.store.allow_mmapfs=false
+
+.. CAUTION::
+
+   This will result in degraded performance.
+
+You can also start a single node without any bootstrap checks by passing the
+``-Cdiscovery.type=single-node`` option::
+
+    sh$ docker run -d --name=crate01 \
+          --net=crate -p 4201:4200 --env CRATE_HEAP_SIZE=2g \
+          crate -Cnetwork.host=_site_ \
+                -Cdiscovery.type=single-node
+
+.. NOTE::
+
+   This means that the node cannot form a cluster with any other nodes.
 
 Taking it Further
 -----------------
@@ -295,7 +334,6 @@ everything at once like so::
         crate \
         crate -Cnetwork.host=_site_
 
-.. _Bootstrap Checks: https://crate.io/docs/crate/guide/best_practices/bootstrap_checks.html
 .. _containerization: https://www.docker.com/resources/what-container
 .. _CRATE_HEAP_SIZE: https://crate.io/docs/crate/reference/configuration.html#crate-heap-size
 .. _CrateDB Docker image: https://hub.docker.com/_/crate/
