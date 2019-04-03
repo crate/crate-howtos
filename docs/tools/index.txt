@@ -16,17 +16,6 @@ to data visualization tools. We even use some of them ourselves!
   The `StreamSets`_ Data Collector is a lightweight, powerful engine that
   streams data in real time. `Read more`_.
 
-- **Zoomdata**
-
-  Zoomdata is a SaaS solution for deep analysis of big data sets in a visual
-  interface. CrateDB is available as a data source connection.
-
-- **Metabase**
-
-  `Metabase`_ is an open source, easy-to-use visualization that answers questions
-  about your data. It's written in Clojure and comes with a CrateDB driver out of
-  the box! Read more about it in our `blog post`_.
-
 .. SEEALSO::
 
     The `integrations`_ category on our blog.
