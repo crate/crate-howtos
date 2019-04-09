@@ -17,6 +17,6 @@ mock==1.0.1
 pillow==2.6.1
 Pygments==2.3.1
 recommonmark==0.4.0
-setuptools==37.0.0
-sphinx==1.6.5
-requests==2.18.4
+setuptools==40.6.3
+sphinx==1.7.4
+requests==2.21.0
