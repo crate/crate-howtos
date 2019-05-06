@@ -75,28 +75,32 @@ Node Discovery
 ==============
 
 The simplest way to do node discovery is to provide a list of expected hosts,
-using the FQDN and transport port:
+network IP addresses using the FQDN and transport port:
 
-.. code-block:: yaml
-
-    discovery.zen.ping.unicast.hosts:
-      - node1.example.com:4300
-      - node2.example.com:4300
-      - node3.example.com:4300
-
-Or use internal network IP addresses and the transport port:
-
-.. code-block:: yaml
-
-    discovery.zen.ping.unicast.hosts:
-      - 10.0.1.101:4300
-      - 10.0.1.102:4300
-      - 10.0.1.103:4300
++-----------------+-----------+---------------------------------------+
+| CrateDB Version | Reference | Configuration Example                 |
++=================+===========+=======================================+
+| <=4.x           | `latest`_ | .. code-block:: yaml                  |
+|                 |           |                                       |
+|                 |           |     discovery.seed_hosts:             |
+|                 |           |       - node1.example.com:4300        |
+|                 |           |       - node2.example.com:4300        |
+|                 |           |       - 10.0.1.102:4300               |
+|                 |           |       - 10.0.1.103:4300               |
++-----------------+-----------+---------------------------------------+
+| <=3.x           | `3.3`_    | .. code-block:: yaml                  |
+|                 |           |                                       |
+|                 |           |     discovery.zen.ping.unicast.hosts: |
+|                 |           |       - node1.example.com:4300        |
+|                 |           |       - node2.example.com:4300        |
+|                 |           |       - 10.0.1.102:4300               |
+|                 |           |       - 10.0.1.103:4300               |
++-----------------+-----------+---------------------------------------+
 
 .. NOTE::
 
    When adding new nodes to the cluster, you do not need to update the list of
-   unicast hosts for existing/running nodes. The cluster will find and add new
+   hosts for existing/running nodes. The cluster will find and add new
    nodes when they ping existing ones.
 
 Providing a list of expected hosts is just one node discovery mechanism.
@@ -111,62 +115,59 @@ for more information.
 Master Node Election
 ====================
 
-Although all CrateDB nodes in a cluster are equal, one node is elected as
-master for managing cluster meta data. Like any other peer-to-peer system,
-nodes communicate with each other directly. The master node is responsible for
-making changes to, publishing the global cluster state, and delegating
-redistribution of shards when nodes join or leave the cluster. All nodes are
-eligible to become master.
+In a CrateDB cluster, the master node is responsible for making changes to the
+global cluster state. The master node is elected as part of the
+:ref:`shared_nothing_master_node_election`.
 
-There may only be one master per cluster. To ensure this, CrateDB sets a quorum
-which needs to be present to elect a master and for the cluster to be
-operational.
+CrateDB requires a *quorum* of nodes in the cluster before a master can be
+elected. This insures that multiple masters are not elected in the event of a
+network partition (which would lead to a `split-brain`_ scenario).
 
-This quorum can be configured using the ``minimum_master_nodes`` setting. It's
-highly recommend to set the quorum greater than half the maximum number of
-nodes in the cluster:
+.. _master-node-election-4x:
 
-::
+CrateDB versions 4.x and above
+------------------------------
 
-    (N / 2) + 1
+CrateDB will automatically determine the ideal quorum size. However, the
+`cluster.initial_master_nodes`_ setting must be configured with a initial set
+of master-eligible nodes.
 
-where ``N`` is the maximum number of nodes in the cluster.
+.. TIP::
 
-.. WARNING::
+    In a three node cluster, all nodes must declared master-eligible.
 
-   Setting the quorum lower than described above may lead to 'split brain'
-   scenarios. This means that in the case of network partitioning there could
-   be more than one pool of nodes meeting the quorum electing a master on their
-   own. This can cause data loss and inconsistencies.
+To configure this setting, add something like this to your `configuration`_
+file:
 
-If the number of nodes in a cluster changes, the quorum must be updated to
-prevent it being too high. This is not just because the quorum should never
-reach less than half the available nodes, but also to allow for unavailable
-nodes.
+.. code-block:: yaml
 
-Example
--------
+    cluster.initial_master_nodes:
+      - node1.example.com
+      - 10.0.1.102
+      - 10.0.1.103
 
-In a 3 node cluster, at least 2 nodes need to be aware of each other before
-they can elect a master. Add the following line to the configuration file:
+.. _master-node-election-3x:
+
+CrateDB versions 3.x and below
+------------------------------
+
+The quorum must be configured manually.
+
+In a three node cluster, the quorum size
+(`discovery.zen.minimum_master_nodes`_) must be at least two. This is explained in the
+:ref:`quorum guide <shared_nothing_master_node_election>`.
+
+Configure a quorum of two, add this to your `configuration`_ file:
 
 .. code-block:: yaml
 
     discovery.zen.minimum_master_nodes: 2
 
-On an already running cluster it's possible to set using the following
-statement:
+On an already running cluster, you set this using SQL:
 
 .. code-block:: psql
 
-    SET GLOBAL PERSISTENT discovery.zen.minimum_master_nodes = 2;
-
-.. NOTE::
-
-   The formula means that a cluster with a maximum of 2 nodes, the quorum is
-   also 2. In practice this means that a 2-node cluster needs to have both
-   nodes online to be operational. Therefore a highly available and
-   fault-tolerant multi-node setup requires at least 3 nodes.
+    cr> SET GLOBAL PERSISTENT discovery.zen.minimum_master_nodes = 2;
 
 Gateway Configuration
 =====================
@@ -226,3 +227,10 @@ published settings can differ from the address of the actual host:
 
 - `Host settings for Nodes <https://crate.io/docs/crate/reference/configuration.html#conf-hosts>`_
 - `Host settings for Ports <https://crate.io/docs/crate/reference/configuration.html#conf-ports>`_
+
+.. _3.3: https://crate.io/docs/crate/reference/en/3.3/config/cluster.html#discovery
+.. _cluster.initial_master_nodes: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#cluster_initial_master_nodes
+.. _configuration: https://crate.io/docs/crate/reference/en/latest/config/index.html
+.. _discovery.zen.minimum_master_nodes: https://crate.io/docs/crate/reference/en/3.3/config/cluster.html#discovery-zen-minimum-master-nodes
+.. _latest: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery
+.. _split-brain: https://en.wikipedia.org/wiki/Split-brain_(computing)

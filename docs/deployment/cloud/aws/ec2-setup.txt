@@ -36,10 +36,20 @@ at least allow traffic on CrateDB's transport port (default ``4300``). This
 will allow CrateDB to accept and respond to pings from other CrateDB instances
 with the same cluster name and form a cluster.
 
-Once you have your instances running and CrateDB installed, you can enable the
-EC2 discovery by setting ``discovery.zen.hosts_provider`` to ``ec2``::
+Once you have your instances running and CrateDB installed, you can enable EC2
+discovery:
 
-  discovery.zen.hosts_provider: ec2
++-----------------+-------------------+---------------------------------------+
+| CrateDB Version | Reference         | Example                               |
++=================+===================+=======================================+
+| >=4.x           | `latest`_         | ::                                    |
+|                 |                   |                                       |
+|                 |                   |     discovery.zen.seed_providers: ec2 |
++-----------------+-------------------+---------------------------------------+
+| <=3.x           | `3.3`_            | ::                                    |
+|                 |                   |                                       |
+|                 |                   |     discovery.zen.hosts_provider: ec2 |
++-----------------+-------------------+---------------------------------------+
 
 To be able to use the EC2 API, CrateDB must `sign the requests`_ by using
 AWS credentials consisting of an access key and a secret key. Therefore
@@ -50,7 +60,7 @@ CrateDB binds to the loopback interface by default. To get EC2 discovery
 working, you need to update the `Hosts`_ setting to bind to and publish the
 site-local address::
 
-    network.host: _site_
+  network.host: _site_
 
 .. NOTE::
 
@@ -196,16 +206,18 @@ discovery by availability zone::
 
 See also `discovery.ec2.availability_zones`_.
 
-.. _`Amazon EC2`: http://aws.amazon.com/ec2
-.. _`EC2 API`: http://docs.aws.amazon.com/AWSEC2/latest/APIReference/Welcome.html
-.. _`sign the requests`: http://docs.aws.amazon.com/general/latest/gr/signing_aws_api_requests.html
-.. _`IAM roles`: http://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html
-.. _`AWS guide`: http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html
-.. _`AWS CLI`: http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html#launch-instance-with-role-cli
-.. _`AWS Console`: http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html#launch-instance-with-role-console
-.. _Unicast Host Discovery: https://crate.io/docs/crate/reference/configuration.html#unicast-host-discovery
-.. _Hosts: https://crate.io/docs/crate/reference/configuration.html#hosts
 .. _1.2.0: https://crate.io/docs/crate/reference/release_notes/1.2.0.html
+.. _3.3: https://crate.io/docs/crate/reference/en/3.3/config/cluster.html#discovery
+.. _Amazon EC2: http://aws.amazon.com/ec2
+.. _AWS CLI: http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html#launch-instance-with-role-cli
+.. _AWS Console: http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html#launch-instance-with-role-console
+.. _AWS guide: http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html
+.. _discovery.ec2.availability_zones: https://crate.io/docs/crate/reference/configuration.html#discovery-on-amazon-ec2
 .. _discovery.ec2.groups: https://crate.io/docs/crate/reference/configuration.html#discovery-on-amazon-ec2
 .. _discovery.ec2.tags: https://crate.io/docs/crate/reference/configuration.html#discovery-on-amazon-ec2
-.. _discovery.ec2.availability_zones: https://crate.io/docs/crate/reference/configuration.html#discovery-on-amazon-ec2
+.. _EC2 API: http://docs.aws.amazon.com/AWSEC2/latest/APIReference/Welcome.html
+.. _Hosts: https://crate.io/docs/crate/reference/configuration.html#hosts
+.. _IAM roles: http://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html
+.. _latest: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery
+.. _sign the requests: http://docs.aws.amazon.com/general/latest/gr/signing_aws_api_requests.html
+.. _Unicast Host Discovery: https://crate.io/docs/crate/reference/configuration.html#unicast-host-discovery

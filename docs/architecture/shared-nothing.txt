@@ -77,7 +77,7 @@ Cluster State Service
 The three main functions of the Cluster State Service are:
 
 (a) cluster state management,
-(b) election of the Metadata Primary and
+(b) election of the master node and
 (c) node discovery, thus being the main component for cluster building (as
     described in section :ref:`shared_nothing_clusters`).
 
@@ -96,22 +96,23 @@ operating on a shard level.
 
 .. _shared_nothing_clusters:
 
-Multi Node Setup: Clusters
+Multi-Node Setup: Clusters
 ==========================
 
-A CrateDB cluster is a set of two or more instances of CrateDB running on
-different hosts forming a single database unit. For inter-node communication
-CrateDB uses a software specific Transport Protocol that utilizes
-byte-serialized Plain Old Java Objects (`POJOs`_) and operates on a separate
-port. That so-called "transport port" must be open and reachable from all nodes
-in the cluster.
+A CrateDB cluster is a set of two or more CrateDB instances (referred to as
+*nodes*) running on different hosts which form a single, distributed database.
+
+For inter-node communication, CrateDB uses a software specific transport
+protocol that utilizes byte-serialized Plain Old Java Objects (`POJOs`_) and
+operates on a separate port. That so-called "transport port" must be open and
+reachable from all nodes in the cluster.
 
 Cluster State Management
 ------------------------
 
 The cluster state is versioned and all nodes in a cluster keep a copy of the
-latest cluster state. However, only a single node in the cluster - the
-"Metadata Primary" - is allowed to change the state at runtime. This node is
+latest cluster state. However, only a single node in the cluster -- the
+*master node* -- is allowed to change the state at runtime. This node is
 elected by all nodes in the cluster.
 
 Settings, Metadata, and Routing
@@ -125,38 +126,57 @@ cluster and coordinate operations:
 * Schemas of tables
 * The status and location of primary and replica shards
 
-When the Primary updates the cluster state it will publish the new state to all
+When the master node updates the cluster state it will publish the new state to all
 nodes in the cluster and and wait for all nodes to respond before processing
 the next update.
 
-.. _shared_nothing_primary_election:
+.. _shared_nothing_master_node_election:
 
-Primary Election
-----------------
+Master Node Election
+--------------------
 
-Shared nothing architecture is often also referred to as "masterless"
-architecture. For CrateDB, this is fully true in terms of data storage.
-However, coordinating metadata, settings and DDL requires to have a dynamic
-Metadata Primary to be elected. In a CrateDB cluster any node is eligible to be
-elected as a Metadata Primary, although this could also be restricted to a
-subset of nodes if required. There must be only one single Metadata Primary per
-cluster.
+The process of electing a node as the master node in a cluster is called Master
+Node Election. There must be only one master node per cluster at any single
+time. In a CrateDB cluster any node is eligible to be elected as a master node,
+although this could also be restricted to a subset of nodes if required. These
+nodes will then elect a single node as master to coordinate the cluster state
+across the cluster.
 
-To ensure that even in case of a network partition (when one part of the
-cluster is not available) the cluster requires a quorum (relative to the
-expected nodes in the cluster) to be able to elect the Metadata Primary.
-Consequently the quorum must be greater than half of the expected nodes in the
-cluster:
+.. NOTE::
 
-.. code-block:: mathematica
+   The following only applies to CrateDB versions 3.x and below. CrateDB
+   versions 4.x and above :ref:`determine quorum size automatically
+   <master-node-election-4x>`.
 
-  q = n / 2 + 1
+A minimum number of nodes (referred as a *quorum*) needs to configured (using the
+`discovery.zen.minimum_master_nodes`_ setting) to ensure that in case of a
+network partition (when some nodes become unavailable) the cluster
+can elect a master node.
 
-Thus if a 6 node cluster is split in half, each partition will be unable to
-elect a Primary because the defined quorum of 4 nodes won't be met. This
-prevents the cluster from having 2 separate Primaries which would inevitably
-become out of sync and cause a "split brain" of the cluster. The desired quorum
-can be set at runtime.
+If the quorum is smaller than half the expected nodes in the cluster, and the
+cluster is split in half by a network partion, neither partion will be able to
+elect a new master node.
+
+If the quorum is exactly half the expected nodes in the cluster, and the
+cluster is split in half, both sides of the partion will be able to elect a
+master node. This is known as a `split-brain` scenario, and can lead to data
+loss because the master nodes may disagree with each other when the full
+cluster is restored.
+
+To avoid both of these problems, the quorum must be greater than half the
+expected nodes in the cluster:
+
+  .. code-block:: mathematica
+
+    q = FLOOR(n / 2) + 1
+
+It also helps if your cluster has an odd nodes. That way, no matter how the
+cluster gets split, one side of the split will be able to elect a master node.
+
+For example: a five node cluster should have a quorum set at three. The largest
+network partition would split the cluster into three nodes and two nodes. In
+this scenario, the three node cluster would elect a master node and the two
+node cluster would not.
 
 .. _shared_nothing_discovery:
 
@@ -174,10 +194,11 @@ module.
    Figure 2
 
    Phases of the node discovery process. n1 and n2 already form a cluster where
-   n1 is the elected Metadata Primary, n3 joins the cluster. The cluster state
+   n1 is the elected master node, n3 joins the cluster. The cluster state
    update happens in parallel!
 
 Node discovery happens in multiple steps:
+
 
 * CrateDB requires a list of potential host addresses for other CrateDB nodes
   when it is starting up. That list can either be provided by a static
@@ -186,9 +207,9 @@ Node discovery happens in multiple steps:
 
 * All potential host addresses are pinged. Nodes which receive the request
   respond to it with information about the cluster it belongs to, the current
-  Metadata Primary, and its own node name.
+  master node, and its own node name.
 
-* Now that the node knows the Metadata Primary, it sends a join request. The
+* Now that the node knows the master node, it sends a join request. The
   Primary verifies the incoming request and adds the new node to the cluster
   state that now contains the complete list of all nodes in the cluster.
 
@@ -283,3 +304,5 @@ will taken out of the load balancing.
 .. _abstract syntax tree: https://en.wikipedia.org/wiki/Abstract_syntax_tree
 .. _POJOs: https://en.wikipedia.org/wiki/Plain_Old_Java_Object
 .. _full mesh: https://en.wikipedia.org/wiki/Network_topology#Mesh
+.. _discovery.zen.minimum_master_nodes: https://crate.io/docs/crate/reference/en/3.3/config/cluster.html#discovery-zen-minimum-master-nodes
+.. _split-brain: https://en.wikipedia.org/wiki/Split-brain_(computing)

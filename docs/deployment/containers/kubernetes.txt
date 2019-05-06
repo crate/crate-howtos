@@ -201,7 +201,7 @@ For this reason, we use the `StatefulSet`_ controller to define our cluster,
 which ensures that CrateDB nodes retain state across restarts or rescheduling.
 
 The following configuration snippet defines a controller for a three-node
-CrateDB cluster:
+CrateDB 3.0.5 cluster:
 
 .. code-block:: yaml
 
@@ -295,6 +295,14 @@ CrateDB cluster:
             resources:
               requests:
                 storage: 1Gi
+
+.. CAUTION::
+
+   If you are not running CrateDB 3.0.5, you must adapt this example
+   configuration to your specific CrateDB version.
+
+   Specifically, the ``discovery.zen.minimum_master_nodes`` setting is :ref:`no
+   longer used <master-node-election-4x>` in CrateDB versions 4.x and above.
 
 .. SEEALSO::
 
