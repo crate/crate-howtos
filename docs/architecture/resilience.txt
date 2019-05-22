@@ -132,73 +132,6 @@ Elasticsearch.
 Most of the known issues that relate to resiliency `exist in the Elasticsearch
 layer <https://www.elastic.co/guide/en/elasticsearch/resiliency/current/>`_.
 
-Repeated Cluster Partitions Can Cause Lost Cluster Updates
-----------------------------------------------------------
-
-.. raw:: html
-
-   <style>
-   table.summary td {
-     border: 1px solid black;
-     padding: 5px;
-   }
-   </style>
-
-   <table class="summary">
-   <tr>
-    <td>Status</td>
-    <td>Work ongoing (<a
-      href="https://www.elastic.co/guide/en/elasticsearch/resiliency/current/index.html#_repeated_network_partitions_can_cause_cluster_state_updates_to_be_lost_status_ongoing"
-      >More info</a>)
-    </td>
-   </tr>
-   <tr>
-    <td>Severity</td>
-    <td>Moderate</td>
-   </tr>
-   <tr>
-    <td>Likelihood</td>
-    <td>Very rare</td>
-   </tr>
-   <tr>
-    <td>Cause</td>
-    <td>Network issues, unresponsive nodes</td>
-   </tr>
-   <tr>
-    <td>Workloads</td>
-    <td>All</td>
-   </tr>
-   </table>
-
-.. rubric:: Scenario
-
-A cluster is partitioned and a new master is elected on the side that has
-quorum. The cluster is repaired and simultaneously a change is made to the
-cluster state. The cluster is partitioned again before the new master node has
-a chance to publish the new cluster state and the partition the master lands on
-does not have quorum.
-
-.. rubric:: Consequence
-
-The node steps down as master and the uncommunicated state changes are lost.
-
-Cluster state is very important and contains information like shard location,
-schemas, and so on. Lost cluster state updates can cause data loss, reset
-settings, and problems with table structures.
-
-.. rubric:: Partially fixed
-
-
-This problem is mostly fixed by `#20384
-<https://github.com/elastic/elasticsearch/pull/20384>`_ (CrateDB v2.0.x),
-which uses committed cluster state updates during master election process.
-This does not fully solve this rare problem but considerably reduces the chance
-of occurrence. The reason is that if the second partition happens concurrently
-with a cluster state update and blocks the cluster state commit message from
-reaching a majority of nodes, it may be that the in flight update is lost. If
-the now-isolated master can still acknowledge the cluster state update to the
-client this will result to the loss of an acknowledged change.
-
 Retry of Updates Causes Double Execution
 ----------------------------------------
 
@@ -248,6 +181,76 @@ For example:
 
 -  A double update would incorrectly increment the row version number twice.
 
+Fixed Issues
+============
+
+Repeated Cluster Partitions Can Cause Lost Cluster Updates
+----------------------------------------------------------
+
+.. raw:: html
+
+   <style>
+   table.summary td {
+     border: 1px solid black;
+     padding: 5px;
+   }
+   </style>
+
+   <table class="summary">
+   <tr>
+    <td>Status</td>
+    <td>Fixed in CrateDB v4.0 (<a
+    href="https://github.com/elastic/elasticsearch/issues/32006">#32006</a>, <a
+    href="https://github.com/elastic/elasticsearch/issues/32171">#32171</a>)
+    </td>
+   </tr>
+   <tr>
+    <td>Severity</td>
+    <td>Moderate</td>
+   </tr>
+   <tr>
+    <td>Likelihood</td>
+    <td>Very rare</td>
+   </tr>
+   <tr>
+    <td>Cause</td>
+    <td>Network issues, unresponsive nodes</td>
+   </tr>
+   <tr>
+    <td>Workloads</td>
+    <td>All</td>
+   </tr>
+   </table>
+
+.. rubric:: Scenario
+
+A cluster is partitioned and a new master is elected on the side that has
+quorum. The cluster is repaired and simultaneously a change is made to the
+cluster state. The cluster is partitioned again before the new master node has
+a chance to publish the new cluster state and the partition the master lands on
+does not have quorum.
+
+.. rubric:: Consequence
+
+The node steps down as master and the uncommunicated state changes are lost.
+
+Cluster state is very important and contains information like shard location,
+schemas, and so on. Lost cluster state updates can cause data loss, reset
+settings, and problems with table structures.
+
+.. rubric:: Partially fixed
+
+
+This problem is mostly fixed by `#20384
+<https://github.com/elastic/elasticsearch/pull/20384>`_ (CrateDB v2.0.x),
+which uses committed cluster state updates during master election process.
+This does not fully solve this rare problem but considerably reduces the chance
+of occurrence. The reason is that if the second partition happens concurrently
+with a cluster state update and blocks the cluster state commit message from
+reaching a majority of nodes, it may be that the in flight update is lost. If
+the now-isolated master can still acknowledge the cluster state update to the
+client this will result to the loss of an acknowledged change.
+
 Version Number Representing Ambiguous Row Versions
 --------------------------------------------------
 
@@ -256,8 +259,9 @@ Version Number Representing Ambiguous Row Versions
    <table class="summary">
    <tr>
     <td>Status</td>
-    <td>Work ongoing (<a
-      href="https://www.elastic.co/guide/en/elasticsearch/resiliency/current/index.html#_the__version_field_may_not_uniquely_identify_document_content_during_a_network_partition_status_ongoing">More info</a>)
+    <td>Fixed in CrateDB v4.0 (<a
+    href="https://github.com/elastic/elasticsearch/issues/19269">#19269</a>, <a
+    href="https://github.com/elastic/elasticsearch/issues/10708">#10708</a>)
     </td>
    </tr>
    <tr>
@@ -305,10 +309,8 @@ Replicas can fall out of sync when a primary shard fails
    <table class="summary">
    <tr>
     <td>Status</td>
-    <td>
-        Initial work to address this issue has been done by introducing
-        sequence numbers:
-        <a href="https://github.com/elastic/elasticsearch/issues/10708">#10708</a>
+    <td>Fixed in CrateDB v4.0 (<a
+    href="https://github.com/elastic/elasticsearch/issues/10708">#10708</a>)
     </td>
    </tr>
    <tr>
@@ -344,9 +346,6 @@ unbounded.
 .. rubric:: Consequence
 
 Stale data may be read from replicas.
-
-Fixed Issues
-============
 
 Loss of Rows Due to Network Partition
 -------------------------------------
