@@ -61,7 +61,7 @@ contained a primary that has no replicas that can take over.
 Requirements
 ============
 
-Full Minimum Data Availability
+Full minimum data availability
 ------------------------------
 
 If the ``full`` minimum data availability is configured the cluster needs to
@@ -82,7 +82,7 @@ In short: for the ``full`` graceful stop to work the following has to be true::
 
     number_of_nodes > max_number_of_replicas + 1
 
-Primaries Minimum Data Availability
+Primaries minimum data availability
 -----------------------------------
 
 If the ``primaries`` minimum data availability is used, take care that there
@@ -104,7 +104,7 @@ Upgrade Process
 
     Before upgrading, you should `back up your data`_.
 
-Step 1: Disable Allocations
+Step 1: Disable allocations
 ---------------------------
 
 First, you have to prevent the cluster from re-distributing shards and replicas
@@ -123,7 +123,7 @@ Use the `SET`_ command to do so:
   This step may be omited if you set the
   ``cluster.graceful_stop.min_availability`` setting to ``full``.
 
-Step 2: Graceful Stop
+Step 2: Graceful stop
 ---------------------
 
 To initiate a graceful shutdown that behaves as described in the introduction
@@ -176,7 +176,7 @@ the reallocating is not finished, you can set the ``force`` setting to
 By default, only the ``graceful stop`` command considers the cluster settings
 described at `Graceful Stop`_.
 
-Observing the Reallocation
+Observing the reallocation
 ..........................
 
 If you want to observe the reallocation process triggered by a ``full`` or
@@ -268,7 +268,7 @@ Step 5: Repeat
 
 Repeat step two, three, and four for all other nodes.
 
-Step 6: Enable Allocations
+Step 6: Enable allocations
 --------------------------
 
 Last but not least when all nodes are updated you can re-enable allocations

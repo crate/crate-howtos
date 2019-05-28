@@ -83,7 +83,7 @@ The three main functions of the Cluster State Service are:
 
 It communicates using the Binary Transport Protocol.
 
-Data Storage
+Data storage
 ------------
 
 The data storage component handles operations to store and retrieve data from
@@ -96,7 +96,7 @@ operating on a shard level.
 
 .. _shared_nothing_clusters:
 
-Multi-Node Setup: Clusters
+Multi-node setup: Clusters
 ==========================
 
 A CrateDB cluster is a set of two or more CrateDB instances (referred to as
@@ -107,7 +107,7 @@ protocol that utilizes byte-serialized Plain Old Java Objects (`POJOs`_) and
 operates on a separate port. That so-called "transport port" must be open and
 reachable from all nodes in the cluster.
 
-Cluster State Management
+Cluster state management
 ------------------------
 
 The cluster state is versioned and all nodes in a cluster keep a copy of the
@@ -115,7 +115,7 @@ latest cluster state. However, only a single node in the cluster -- the
 *master node* -- is allowed to change the state at runtime. This node is
 elected by all nodes in the cluster.
 
-Settings, Metadata, and Routing
+Settings, metadata, and routing
 ................................
 
 The cluster state contains all necessary meta information to maintain the
@@ -244,7 +244,7 @@ number of connections (c) grows quadratically with the number of nodes (n):
 
   c = n * (n - 1)
 
-Cluster Behavior
+Cluster behavior
 ================
 
 The fact that each CrateDB node in a cluster is equal allows applications and
@@ -259,7 +259,7 @@ an execution plan locally. Then the operations of the plan are executed in a
 distributed manner. The upstream of the final phase of the execution is always
 the handler which then returns the response to the client.
 
-Application Use Case
+Application use case
 ====================
 
 In a conventional setup of an application using a primary-secondary database the

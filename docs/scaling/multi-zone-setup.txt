@@ -36,7 +36,7 @@ To achieve these requirements, make use of **shard allocation awareness**. If
 you are new to setting up a multi-node CrateDB cluster you should read our
 :ref:`multi node setup <multi_node_setup>` guide first.
 
-Assigning Tags
+Assigning tags
 ==============
 
 First, assign a tag containing the zone to the cluster nodes. This enables
@@ -61,7 +61,7 @@ zone of a cloud computing provider.
    These tags and settings can't be changed at runtime and need to be
    set on startup.
 
-Allocation Awareness
+Allocation awareness
 ====================
 
 Now tags can be set as attributes for the shard allocation awareness. We use
@@ -97,7 +97,7 @@ unassigned shards.
    Allocation awareness only means that CrateDB tries to conform to the
    awareness attributes, to avoid such allocations, force the awareness.
 
-Force Awareness
+Force awareness
 ===============
 
 To fulfill the 3rd requirement you need to ensure that when running a query on

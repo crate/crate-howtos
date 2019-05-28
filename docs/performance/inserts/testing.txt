@@ -17,10 +17,10 @@ established the baseline performance on a single node.
 .. contents::
    :local:
 
-Test Data
+Test data
 =========
 
-Using Real Data
+Using real data
 ---------------
 
 If you already have a table full of data that you want to test, the best thing
@@ -43,7 +43,7 @@ After you have done this, run:
 Then, copy the output from this command, and use it to create a table for
 testing purposes, called something like ``my_table_test``.
 
-Generating Fake Data
+Generating fake data
 --------------------
 
 IF you don't have data already, you can generate fake data. But do note that
@@ -97,7 +97,7 @@ Truncate the table:
     cr> DELETE FROM my_table_test;
     DELETE OK, 1000000 rows affected  (... sec)
 
-Running a Test
+Running a test
 ==============
 
 Now you have some test data, you can insert it into your test table and measure

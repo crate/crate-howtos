@@ -107,7 +107,7 @@ constituent pods may come and go.
 For our purposes, we define two services: an `internal service`_ and an
 `external service`_.
 
-Internal Service
+Internal service
 ................
 
 CrateDB uses the internal service for `node discovery via DNS`_ and
@@ -135,7 +135,7 @@ Here's an example configuration snippet:
         # Apply this to all nodes with the `app:crate` label.
         app: crate
 
-External Service
+External service
 ................
 
 The external service provides a stable network address for external clients.
@@ -314,7 +314,7 @@ CrateDB 3.0.5 cluster:
    You must set memory map limits correctly. Consult the :ref:`bootstrap checks
    <bootstrap_checks>` documentation for more information.
 
-Persistent Volume
+Persistent volume
 -----------------
 
 As mentioned in the `Controller`_ section, CrateDB containers must be able to

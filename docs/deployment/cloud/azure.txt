@@ -18,7 +18,7 @@ can use Azure's management console or CLI interface (`Learn how to install here
 Azure and Linux
 ===============
 
-Create a Resource Group
+Create a resource group
 -----------------------
 
 Azure uses 'Resource Groups' to group together related services and resources
@@ -30,7 +30,7 @@ under the *new* left hand panel of the Azure portal.
 .. image:: azure-new-resource-group.png
    :alt: Create Virtual Network
 
-Create a Network Security Group
+Create a network security group
 -------------------------------
 
 CrateDB uses two ports, one for inter-node communication (``4300``) and one for
@@ -53,7 +53,7 @@ Add a rule for each port:
 .. image:: azure-inbound-rules.png
    :alt: Create New Security Group
 
-Create a Virtual Network
+Create a virtual network
 ------------------------
 
 To create a cluster of CrateDB nodes on some cloud hosting providers, CrateDB
@@ -75,7 +75,7 @@ earlier to the subnet.
 .. image:: azure-vn-subnet-sg.png
    :alt: Add Security Group
 
-Create Virtual Machines
+Create virtual machines
 -----------------------
 
 Next create virtual machines to act as your CrateDB nodes. In this tutorial, I
@@ -127,13 +127,13 @@ Restart CrateDB ``service crate restart``.
 Azure and Windows
 =================
 
-Initial Setup
+Initial setup
 -------------
 
 To create a Resource Group, Network security group and virtual network, follow
 the same steps as for Azure and Linux.
 
-Create Virtual Machines
+Create virtual machines
 -----------------------
 
 Similar steps to creating Virtual Machines for Azure and Linux, but create the

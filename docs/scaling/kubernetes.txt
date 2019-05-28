@@ -33,7 +33,7 @@ Together, Docker and Kubernetes are a fantastic way to deploy and scale CrateDB.
 
 .. _scaling-kube-kube:
 
-Kubernetes Reconfiguration
+Kubernetes reconfiguration
 ==========================
 
 You can scale your CrateDB cluster by increasing or decreasing the configured
@@ -42,7 +42,7 @@ number of CrateDB nodes.
 
 .. _scaling-kube-command:
 
-Using an Imperative Command
+Using an imperative command
 ---------------------------
 
 You can issue an `imperative command`_ to make the configuration change, like
@@ -59,7 +59,7 @@ so:
 
 .. _scaling-kube-vc:
 
-Using Version Control
+Using version control
 ---------------------
 
 If you want to version control your cluster configuration, you can edit the
@@ -111,7 +111,7 @@ restart your pods with the new configuration one-by-one.
 
 .. _scaling-kube-cratedb:
 
-CrateDB Reconfiguration
+CrateDB reconfiguration
 =======================
 
 CrateDB needs to be configured appropriately for the number of nodes in the
@@ -127,7 +127,7 @@ CrateDB cluster.
 
 .. _scaling-kube-clustering:
 
-Clustering Behavior
+Clustering behavior
 -------------------
 
 .. NOTE::
@@ -166,7 +166,7 @@ Control`_.
 
 .. _scaling-kube-recovery:
 
-Recovery Behavior
+Recovery behavior
 -----------------
 
 CrateDB has two settings that depend on cluster size and determine how cluster

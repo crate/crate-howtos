@@ -13,7 +13,7 @@ open source core system on your own.
 .. contents::
    :local:
 
-Connect Hosting
+Connect hosting
 ===============
 
 First, from the *Providers -> Hosting* menu, connect your hosting accounts. The
@@ -22,7 +22,7 @@ current options are AWS, Digital Ocean, Joyent, Packet and Rackspace.
 .. image:: containership-providers.png
    :alt: Connect Accounts
 
-Create Cluster
+Create cluster
 ==============
 
 Next we need to create our cluster, the VMs that our CrateDB cluster will be
@@ -42,7 +42,7 @@ management of containers and applications and the actual containers and
 applications respectively. Read more about these concepts in `ContainerShip's
 documentation <https://docs.containership.io/docs/terminology>`_.
 
-Create Application
+Create application
 ==================
 
 After a few minutes waiting for the cluster to come online, we can create our

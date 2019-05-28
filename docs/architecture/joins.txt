@@ -17,7 +17,7 @@ to work with huge datasets.
 .. contents::
    :local:
 
-Types of Join
+Types of join
 =============
 
 A join is a relational operation that merges two data sets based on certain
@@ -34,7 +34,7 @@ elements appear in which join.
    From left to right, top to bottom: left join, right join, inner join, outer join, and cross join of a set L and
    R.
 
-Cross Join
+Cross join
 ----------
 
 A **cross join** returns the Cartesian product of two or more relations. The
@@ -42,7 +42,7 @@ result of the Cartesian product on the relation *L* and *R* consists of all
 possible permutations of each tuple of the relation *L* with every tuple of the
 relation *R*.
 
-Inner Join
+Inner join
 ----------
 
 An **inner join** is a join of two or more relations that returns only tuples
@@ -58,7 +58,7 @@ uses equality comparisons in the join condition. The equi join of the relation
 *L* and *R* combines tuple *l* of relation *L* with a tuple *r* of the relation
 *R* if the join attributes of both tuples are identical.
 
-Outer Join
+Outer join
 ----------
 
 An **outer join** returns a relation consisting of tuples that satisfy the join
@@ -90,7 +90,7 @@ to the specific use cases, are applied to improve execution performance.
 
 .. _joins_nested_loop:
 
-Nested Loop Join
+Nested loop join
 ----------------
 
 The **nested loop** join is the simplest join algorithm. One of the relations
@@ -106,7 +106,7 @@ are concatenated and added into the returned virtual relation::
 
 *Listing 1. Nested loop join algorithm.*
 
-Primitive Nested Loop
+Primitive nested loop
 .....................
 
 For joins on some relations, the nested loop operation can be executed directly
@@ -119,7 +119,7 @@ of collecting data from shards the rows can be the result of a previous join or
 
 .. _joins_distributed_nested_loop:
 
-Distributed Nested Loop
+Distributed nested loop
 .......................
 
 Relations are usually distributed to different nodes which require the nested
@@ -139,7 +139,7 @@ return the results to the requesting client (see :ref:`joins_figure_2`).
    Nodes that are holding the smaller shards broadcast the data to the
    processing nodes which then return the results to the requesting node.
 
-Pre-Ordering and Limits Optimization
+Pre-ordering and limits optimization
 ''''''''''''''''''''''''''''''''''''
 
 Queries can be optimized if they contain (a) ORDER BY, (b) LIMIT, or (c) if
@@ -154,13 +154,13 @@ operation to complete much faster.
 
 .. _joins_hash_join:
 
-Hash Join
+Hash join
 ---------
 
 The Hash Join algorithm is used to execute certains types of joins in a more
 perfomant way than :ref:`Nested Loop <joins_nested_loop>`.
 
-Basic Algorithm
+Basic algorithm
 ...............
 
 The operation takes place in one node (the handler node to which the client is
@@ -187,7 +187,7 @@ left and right relation is returned.
 
 .. _joins_block_hash_join:
 
-Block Hash Join
+Block hash join
 ...............
 
 The Hash Join algorithm requires a `hash table`_ containing all the rows of the
@@ -213,7 +213,7 @@ iterate over the rows of the right table multiple times, and it is the default
 algorithm used for Hash Join execution by CrateDB.
 
 
-Switch Tables Optimization
+Switch tables optimization
 ''''''''''''''''''''''''''
 
 Since the right table can be processed multiple times (number of rows from left
@@ -223,7 +223,7 @@ relation is larger than the left the query planner performs a switch to take
 advantage of this detail and execute the hash join with better performance.
 
 
-Distributed Block Hash Join
+Distributed block hash join
 ...........................
 
 Since CrateDB is a distributed database and a standard deployment consists of
@@ -260,7 +260,7 @@ for joins on complex subqueries that contain ``LIMIT`` and/or ``OFFSET``.
 Optimizations
 -------------
 
-Query Then Fetch
+Query then fetch
 ................
 
 Join operations on large relation can be extremely slow especially if the join
@@ -274,7 +274,7 @@ IDs. Next, as soon as the final data set is ready, CrateDB fetches the selected
 fields and returns the data to the client.
 
 
-Push-Down Query Optimization
+Push-down query optimization
 .............................
 
 Complex queries such as Listing 2 require the planner to decide when to filter,

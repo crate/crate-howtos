@@ -61,7 +61,7 @@ With everything set up, you can install CrateDB, like so:
 
 CrateDB is now installed, but not running.
 
-Running and Controlling CrateDB
+Running and controlling CrateDB
 ===============================
 
 With Red Hat Linux 7, you can control the ``crate`` service like so:
@@ -95,7 +95,7 @@ You should be able to access it by visiting::
 Configuration
 =============
 
-Configuration Files
+Configuration files
 -------------------
 
 The main CrateDB configuration files are located in the ``/etc/crate``
@@ -132,7 +132,7 @@ Here's one example:
    # Force the JVM to use IPv4 stack
    CRATE_USE_IPV4=true
 
-Customized Setups
+Customized setups
 =================
 
 A full list of package files can be obtained with this command::

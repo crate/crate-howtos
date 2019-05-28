@@ -34,7 +34,7 @@ CrateDB maintains packages for the following Ubuntu versions:
 Configure Apt
 =============
 
-CrateDB 2.1.0 or Higher
+CrateDB 2.1.0 or higher
 -----------------------
 
 .. SEEALSO::
@@ -101,7 +101,7 @@ You can now install CrateDB.
 
 Skip to `Install CrateDB`_.
 
-Older Versions
+Older versions
 --------------
 
 .. NOTE::
@@ -201,7 +201,7 @@ In both instances, replace ``COMMAND`` with ``start``, ``stop``, ``restart``,
 Configuration
 =============
 
-Configuration Files
+Configuration files
 -------------------
 
 The main CrateDB `configuration files`_ are located in the ``/etc/crate``
@@ -234,7 +234,7 @@ Here's one example:
    # Force the JVM to use IPv4 stack
    CRATE_USE_IPV4=true
 
-Customized Setups
+Customized setups
 =================
 
 A full list of package files can be obtained with this command::

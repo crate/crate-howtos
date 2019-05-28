@@ -16,7 +16,7 @@ Prerequisites
 We assume you have a CoreOS cluster running and can access the ``fleetctl``
 tool installed on your local system or on a node in the CoreOS cluster.
 
-Create the CrateDB Service
+Create the CrateDB service
 ==========================
 
 Create a service file called *crate@.service* with the following contents:

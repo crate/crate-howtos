@@ -28,10 +28,10 @@ This document covers the essentials of running CrateDB on Docker.
 .. contents::
    :local:
 
-Quick Start
+Quick start
 ===========
 
-Creating a Cluster
+Creating a cluster
 ------------------
 
 To get started with CrateDB and Docker on your dev machine, start by creating a
@@ -159,7 +159,7 @@ You can also start a single node without any bootstrap checks by passing the
 
    This means that the node cannot form a cluster with any other nodes.
 
-Taking it Further
+Taking it further
 -----------------
 
 `CrateDB settings <https://crate.io/docs/stable/configuration.html>`_ are set
@@ -216,7 +216,7 @@ heap size and override the default CrateDB command to give the node a name.
 Best Practices
 ==============
 
-One Container Per Host
+One container per host
 ----------------------
 
 For performance reasons, we strongly recommend that you only run one container
@@ -229,7 +229,7 @@ that like so::
     $ docker run -d -p 4200:4200 -p 4300:4300 -p 5432:5432 crate \
         crate -Cnetwork.host=_site_
 
-Persistent Data Directory
+Persistent data directory
 -------------------------
 
 Docker containers are ephemeral, meaning that containers are expected to come
@@ -245,7 +245,7 @@ path to your host machine ``data`` directory.
 
 See the `Docker volume`_ documentation for more help.
 
-Custom Configuration
+Custom configuration
 --------------------
 
 If you want to use a custom configuration, it is strongly recommended that you
@@ -283,7 +283,7 @@ You can do that by editing your `Docker Stack YAML file`_:
 
 .. _resource_constraints:
 
-Resource Constraints
+Resource constraints
 ====================
 
 It is very important that you set resource constraints when you are running
@@ -320,7 +320,7 @@ You must calculate and explicitly `set the maximum number of CPUs`_ the
 container can use. This is dependant on your host system, and typically, you
 want to make this as high as possible.
 
-Combined Configuration
+Combined configuration
 ----------------------
 
 If the container should use a maximum of 1.5 CPUs and a maximum of 2 GB

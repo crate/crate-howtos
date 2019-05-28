@@ -2,8 +2,8 @@
 Select Performance
 ==================
 
-Aggregations and Group By
-=========================
+Aggregations and ``GROUP BY``
+=============================
 
 It is common to do ``GROUP BY`` queries for analytics purposes. For example,
 you might select the ``avg``, ``max``, and ``min`` of some measurements over a

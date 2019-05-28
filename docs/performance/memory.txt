@@ -24,7 +24,7 @@ heap.
 Limits
 ======
 
-50% of Available RAM
+50% of available RAM
 --------------------
 
 CrateDB uses `Lucene`_ as an underlying storage engine. Both CrateDB and Lucene
@@ -36,7 +36,7 @@ A good starting point is to configure the CrateDB heap at 50% of the available
 system memory, leaving the other 50% free for Lucene and other system
 processes. Lucene will use as much memory as is available.
 
-30.5 Gigabytes Total
+30.5 gigabytes total
 --------------------
 
 On `x64 architectures`_, the `HotSpot Java Virtual Machine`_ (JVM) uses a

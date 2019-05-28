@@ -15,7 +15,7 @@ you can make to tune your setup for inserts performance.
 Hardware
 ========
 
-Solid-State Drives
+Solid-state drives
 ------------------
 
 Switch to `Solid-State Drives`_ (SSDs) if you can.
@@ -68,7 +68,7 @@ table in a cluster that has three nodes or more.
 Replicas improve availability and durability (in the event of node failure or
 cluster partitions) but they do incur a performance cost.
 
-Shards and Partitioning
+Shards and partitioning
 -----------------------
 
 The :ref:`sharding guide <sharding_guide>` has a section that covers
@@ -84,7 +84,7 @@ Indexes are expensive, so `turning column indexes off`_ will always improve
 performance. Sometimes significantly. But the downside is that you cannot use
 those columns in the where clause.
 
-Primary Keys
+Primary keys
 ------------
 
 If your data does not have a `natural primary key`_ (i.e. data that uniquely
@@ -101,7 +101,7 @@ to ``ASYNC`` will improve insert performance, but it also worsens durability.
 If a node crashes before a translog has been synced, those opperations will be
 lost.
 
-Refresh Interval
+Refresh interval
 ----------------
 
 With the exception of primary key lookups, data that has been written to a
@@ -114,7 +114,7 @@ If you know that your client application can tollerate a higher refresh
 interval, you can expect to see performance improvements if you increase this
 value.
 
-Manual Optimizing
+Manual optimizing
 -----------------
 
 CrateDB uses an append-only strategy for writing data to the disk. Tables are

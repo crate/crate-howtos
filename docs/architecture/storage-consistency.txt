@@ -17,7 +17,7 @@ across the cluster and what consistency and durability guarantees are provided.
 .. contents::
    :local:
 
-Data Storage
+Data storage
 ============
 
 Every table in CrateDB is sharded, which means that tables are divided and
@@ -58,7 +58,7 @@ synchronous over all active replicas with the following flow:
 Should any replica shard fail to write the data or times out in step 5, it's
 immediately considered as unavailable.
 
-Atomic on Document Level
+Atomic on document level
 ========================
 
 Each row of a table in CrateDB is a semi structured document which can be
@@ -91,7 +91,7 @@ The translog is also directly transferred when a newly allocated replica
 initializes itself from the primary shard. There is no need to flush segments
 to disc just for replica-recovery purposes.
 
-Addressing of Documents
+Addressing of documents
 =======================
 
 Every document has an `internal identifier`_. By default this identifier
@@ -162,7 +162,7 @@ translog.
 
 .. _storage_consistency_cluster_meta_data:
 
-Cluster Meta Data
+Cluster meta data
 =================
 
 Cluster meta data is held in the so called "Cluster State", which contains the

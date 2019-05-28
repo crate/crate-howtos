@@ -26,7 +26,7 @@ unlikely to experience resiliency issues with CrateDB.
 Overview
 ========
 
-Monitoring Cluster Status
+Monitoring cluster status
 -------------------------
 
 .. figure:: resilience-status.png
@@ -44,7 +44,7 @@ The status is updated every few seconds (variable on your cluster `ping
 configuration
 <https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-discovery-zen.html>`_).
 
-Storage and Consistency
+Storage and consistency
 -----------------------
 
 Code that expects the behavior of an `ACID
@@ -68,7 +68,7 @@ typically occurs within one second).
 
 Your applications should be designed to work this storage and consistency model.
 
-Deployment Strategies
+Deployment strategies
 ---------------------
 
 When deploying CrateDB you should carefully weigh your need for
@@ -121,7 +121,7 @@ The source code of these tests can be inspected in the official
 `Jepsen repository <https://github.com/jepsen-io/jepsen>`_.
 
 
-Known Issues
+Known issues
 ============
 
 CrateDB started of as a fork of Elasticsearch, but over time we have gradually
@@ -132,7 +132,7 @@ Elasticsearch.
 Most of the known issues that relate to resiliency `exist in the Elasticsearch
 layer <https://www.elastic.co/guide/en/elasticsearch/resiliency/current/>`_.
 
-Retry of Updates Causes Double Execution
+Retry of updates causes double execution
 ----------------------------------------
 
 .. raw:: html
@@ -181,10 +181,10 @@ For example:
 
 -  A double update would incorrectly increment the row version number twice.
 
-Fixed Issues
+Fixed issues
 ============
 
-Repeated Cluster Partitions Can Cause Lost Cluster Updates
+Repeated cluster partitions can cause lost cluster updates
 ----------------------------------------------------------
 
 .. raw:: html
@@ -251,7 +251,7 @@ reaching a majority of nodes, it may be that the in flight update is lost. If
 the now-isolated master can still acknowledge the cluster state update to the
 client this will result to the loss of an acknowledged change.
 
-Version Number Representing Ambiguous Row Versions
+Version number representing ambiguous row versions
 --------------------------------------------------
 
 .. raw:: html
@@ -347,7 +347,7 @@ unbounded.
 
 Stale data may be read from replicas.
 
-Loss of Rows Due to Network Partition
+Loss of rows due to network partition
 -------------------------------------
 
 .. raw:: html
@@ -397,7 +397,7 @@ The default configuration of a 30 second ping timeout with three retries
 corresponds to a 90 second risk window. However, it is very rare for a node to
 lose connectivity within the cluster but maintain connectivity with clients.
 
-Dirty Reads Caused by Bad Primary Handover
+Dirty reads caused by bad primary handover
 ------------------------------------------
 
 .. raw:: html
@@ -449,7 +449,7 @@ Writes that occur on the new primary during the risk window will not be
 replicated to the old shard (which still believes it is the primary) so any
 subsequent reads on the old shard may return incorrect data.
 
-Changes Are Overwritten by Old Data in Danger of Lost Data
+Changes are overwritten by old data in danger of lost data
 ----------------------------------------------------------
 
 .. raw:: html
@@ -544,7 +544,7 @@ fresh shard will be allocated upon reopening the table.
 The primary shard of the table cannot be assigned or a closed table cannot be
 re-opened.
 
-Unaware Master Accepts Cluster Updates
+Unaware master accepts cluster updates
 --------------------------------------
 
 .. raw:: html
