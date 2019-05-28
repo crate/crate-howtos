@@ -25,7 +25,7 @@ records into CrateDB as quickly as possible.
 This best practice example will guide you through the process and shows tips
 and tricks on how to import your data quickly and safely.
 
-Defining the Data Structure
+Defining the data structure
 ===========================
 
 Before starting the import you'll have to consider how your table structure
@@ -56,7 +56,7 @@ performant and therefore not what we want to use in a real world application.
 
 .. _import_shards_replicas:
 
-Shards and Replicas
+Shards and replicas
 -------------------
 
 If you do not set the number of shards and/or number of replicas, the default
@@ -106,7 +106,7 @@ The ``CREATE TABLE`` statement now looks like::
 
   - `Replication`_
 
-Refresh Interval
+Refresh interval
 ----------------
 
 Another simple, but very important tweak to speed up importing is to set the
@@ -153,7 +153,7 @@ value (time in ms)::
   - `Refresh`_
   - `refresh_interval`_
 
-Store Level Throttling
+Store level throttling
 ----------------------
 
 If you do not need to query your data during import, which is the case most of
@@ -191,14 +191,14 @@ After import don't forget to turn throttling on again by setting its value to
 
   - `indices.store.throttle`_
 
-Importing Data Using ``COPY FROM``
+Importing data using ``COPY FROM``
 ==================================
 
 Once the table is created it's time for the actual import. Use the ``COPY
 FROM`` command to import data into a table efficiently. For more in-depth
 documentation on ``COPY FROM`` see `COPY FROM`_.
 
-JSON Import Format
+JSON import format
 ------------------
 
 CrateDB has native support for ``JSON`` formatted data, where each line is a
@@ -246,7 +246,7 @@ will return successfully, reporting ``COPY OK, 0 rows affected (... sec)``.
   the types to their target but will always import the data as in the source
   file(s).
 
-Bulk Size
+Bulk size
 .........
 
 The bulk size defines the amount of lines that are read at once and imported
@@ -296,7 +296,7 @@ For example::
   cr> REFRESH TABLE users;
   REFRESH OK, 1 row affected (... sec)
 
-Partitioned Tables
+Partitioned tables
 ==================
 
 Sometimes you want to split your table into partitions to be able to handle
@@ -393,7 +393,7 @@ And last but not least:
   CrateDB is recommended anyway, but having one more disk (by adding another
   node) in the cluster, can make quite a difference.
 
-Further Reading
+Further reading
 ===============
 
 .. SEEALSO::

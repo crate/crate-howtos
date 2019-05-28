@@ -18,13 +18,13 @@ single-node instance.
 .. contents::
    :local:
 
-Node Settings
+Node settings
 =============
 
 Set node specific settings in the configuration file named *crate.yaml* shipped
 with CrateDB.
 
-Cluster Name
+Cluster name
 ------------
 
 CrateDB nodes with the same cluster name will join the cluster. The simplest
@@ -35,7 +35,7 @@ unique name.
 
     cluster.name: my_cluster
 
-Node Name
+Node name
 ---------
 
 To name a node:
@@ -48,7 +48,7 @@ If the node name is omitted, then it's generated dynamically on startup.
 
 .. _inter-node-comms:
 
-Inter-Node Communication
+Inter-node communication
 ========================
 
 The default port CrateDB uses communicate between nodes is *4300*. CrateDB
@@ -60,7 +60,7 @@ It's possible to change the port range bound to the transport service:
 
     transport.tcp.port: 4350-4360
 
-Want to Know More?
+Want to know more?
 ------------------
 
 `More information on port settings
@@ -71,7 +71,7 @@ CrateDB binds to a second port, *4200*, that is only used for HTTP
 communication. Clients connecting to the CrateDB cluster are using this HTTP
 port, except the native Java client, which uses the transport port.
 
-Node Discovery
+Node discovery
 ==============
 
 The simplest way to do node discovery is to provide a list of expected hosts,
@@ -112,7 +112,7 @@ for more information.
 
 .. _master-node-election:
 
-Master Node Election
+Master node election
 ====================
 
 In a CrateDB cluster, the master node is responsible for making changes to the
@@ -169,7 +169,7 @@ On an already running cluster, you set this using SQL:
 
     cr> SET GLOBAL PERSISTENT discovery.zen.minimum_master_nodes = 2;
 
-Gateway Configuration
+Gateway configuration
 =====================
 
 The gateway persists cluster meta data on disk every time it changes. This data
@@ -206,7 +206,7 @@ set in the configuration file, e.g.:
 
 Or as command line options, ``-Cgateway.recover_after_nodes=3``.
 
-Publish Host and Port
+Publish host and port
 =====================
 
 In certain cases the address of the node that runs CrateDB differs from the

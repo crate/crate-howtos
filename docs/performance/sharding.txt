@@ -24,10 +24,10 @@ the type of hardware you're using.
 .. contents::
    :local:
 
-Optimising for Query Performance
+Optimising for query performance
 ================================
 
-Under-Allocation Is Bad
+Under-allocation is bad
 -----------------------
 
 .. CAUTION::
@@ -49,7 +49,7 @@ In summary: the smaller your shards are, the more of them you will have, and so
 the more likely it is that they will be distributed across the whole cluster,
 and hence across all of your CPUs, and hence the faster your queries will run.
 
-Significant Over-Allocation Is Bad
+Significant over-allocation is bad
 ----------------------------------
 
 .. CAUTION::
@@ -71,7 +71,7 @@ For performance reasons, one thousand shards per table per node is considered
 the highest recommended configuration. If you exceed this you will experience a
 failing cluster check.
 
-Balancing Allocation
+Balancing allocation
 --------------------
 
 Finding the right balance when it comes to sharding will vary on a lot of
@@ -101,10 +101,10 @@ based on the assumption that your nodes have two CPUs each.
 
 .. _sharding_ingestion:
 
-Optimising for Ingestion Performance
+Optimising for ingestion performance
 ====================================
 
-As with `Optimising For Query Performance`_, when doing heavy ingestion, it is
+As with `Optimising for query performance`_, when doing heavy ingestion, it is
 good to cluster a table across as many nodes as possible. However, `we have
 found`_ that ingestion throughput can often increase as the table shard per CPU
 ratio on each node *decreases*.

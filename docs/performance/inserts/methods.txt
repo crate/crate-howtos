@@ -16,7 +16,7 @@ Choosing the best insert method is an easy way to improve insert performance.
 
 .. _insert_statement_types:
 
-Statement Types
+Statement types
 ===============
 
 There are three types of insert statement:
@@ -31,7 +31,7 @@ the next section.
 
 .. _inserts_single_inserts:
 
-Single Inserts
+Single inserts
 --------------
 
 `Single inserts`_ are the most basic sort of insert statement, and look like
@@ -125,7 +125,7 @@ the prepared statement.
 
 .. _inserts_multiple_values:
 
-Multiple Value Expressions
+Multiple value expressions
 --------------------------
 
 You can insert multiple rows with multiple value expressions, like so:
@@ -152,7 +152,7 @@ method.
 
 .. _inserts_client_approaches:
 
-Client Approaches
+Client approaches
 =================
 
 There are three client approaches for doing inserts:
@@ -166,7 +166,7 @@ Each client approach can be used to insert :ref:`any type of insert statement
 
 .. _inserts_standard_querying:
 
-Standard Querying
+Standard querying
 -----------------
 
 The standard way of issuing insert statements executes one statement at a time
@@ -182,7 +182,7 @@ For example, using the CrateDB Python client, here's a :ref:`single insert
 
 .. _inserts_bulk_operations:
 
-Bulk Operations
+Bulk operations
 ---------------
 
 You can use the `bulk operations`_ feature of the CrateDB HTTP endpoint to
@@ -209,7 +209,7 @@ Bulk operations are typically done with :ref:`single insert statements
 
 .. _inserts_prepared_statements:
 
-Prepared Statements
+Prepared statements
 -------------------
 
 Some clients offer a prepared statements feature. Prepared statements are

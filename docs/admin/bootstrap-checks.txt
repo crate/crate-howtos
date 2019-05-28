@@ -3,7 +3,7 @@
 .. _bootstrap_checks:
 
 ================
-Bootstrap Checks
+Bootstrap checks
 ================
 
 If you are binding to a network reachable IP address, CrateDB performs a number
@@ -28,10 +28,10 @@ run, but it is still a good idea to follow these instructions.
 .. contents::
    :local:
 
-System Settings
+System settings
 ===============
 
-Official Packages
+Official packages
 -----------------
 
 If you are using one of the official packages, all of the necessary operating
@@ -105,7 +105,7 @@ This command will this reload all settings from ``/etc/sysctl.conf``.
     Note, however, this setting will be reset to the value in
     ``/etc/sysctl.conf`` when your system next boots.
 
-Garbage Collection
+Garbage collection
 ==================
 
 CrateDB uses `the CMS garbage collector`_ and this should not be changed.

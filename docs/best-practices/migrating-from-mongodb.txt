@@ -9,7 +9,7 @@ Migrating from MongoDB
 .. contents::
    :local:
 
-Exporting Data from MongoDB
+Exporting data from MongoDB
 ===========================
 
 MongoDB ships with a commandline tool called mongoexport_. This tool can be
@@ -42,7 +42,7 @@ Once the script is downloaded convert the data:
 
  - `MongoDB Manual - Extended JSON <http://docs.mongodb.org/manual/reference/mongodb-extended-json/>`_
 
-Importing Data into CrateDB
+Importing data into CrateDB
 ===========================
 
 Before the converted file can be imported into CrateDB a table has to be

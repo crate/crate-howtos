@@ -16,7 +16,7 @@ overlay networking
 .. contents::
    :local:
 
-Connect Cloud Providers
+Connect cloud providers
 =======================
 
 The first step is to connect the cloud hosting providers you would like to use

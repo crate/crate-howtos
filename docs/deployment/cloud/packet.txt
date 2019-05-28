@@ -16,7 +16,7 @@ deployment, fast networking, and container-ready hardware make them a good
 choice for developers and production workloads - and perfect for CrateDB
 clusters!
 
-Create Your CrateDB Project
+Create Your CrateDB project
 ===========================
 
 Packet organizes machines as projects which bundle together several types of

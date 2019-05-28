@@ -40,7 +40,7 @@ instances for the test cluster. Salt Cloud provides an abstraction layer for
 multiple cloud hosting providers, also for `SoftLayer
 <http://docs.saltstack.com/en/latest/topics/cloud/softlayer.html>`__.
 
-Server Provisioning With Salt Cloud
+Server provisioning with Salt Cloud
 ===================================
 
 Example of ``/etc/salt/cloud.profiles``:

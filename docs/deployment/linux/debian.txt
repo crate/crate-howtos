@@ -129,7 +129,7 @@ so on.
 Configuration
 =============
 
-Configuration Files
+Configuration files
 -------------------
 
 The main CrateDB `configuration files`_ are located in the ``/etc/crate``
@@ -162,7 +162,7 @@ Here's one example:
    # Force the JVM to use IPv4 stack
    CRATE_USE_IPV4=true
 
-Customized Setups
+Customized setups
 =================
 
 A full list of package files can be obtained with this command::

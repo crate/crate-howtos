@@ -18,7 +18,7 @@ through the most common situations.
 .. contents::
    :local:
 
-Step 1: Health Check
+Step 1: Health check
 ====================
 
 A good point to start is the table **sys.check** that maintains a number of
@@ -36,7 +36,7 @@ The table reports checks that verify your cluster layout, give recommendations
 for configuration options, and warn you on incompatible software versions. More
 will be added as you go.
 
-Step 2: Activity in the Cluster
+Step 2: Activity in the cluster
 ===============================
 
 Statements that are currently executed on the server are tracked in the tables
@@ -79,7 +79,7 @@ are no current jobs nor operations that are causing problems, check the
 recorded history of finished jobs and operations in the tables **sys.jobs_log**
 and **sys.operations_log**, respectively.
 
-Step 3: Analyzing Cluster Resources
+Step 3: Analyzing cluster resources
 ===================================
 
 Sometimes it's not a single query that causes problems, but a component of your
@@ -132,7 +132,7 @@ memory, heap, or network throughput. Running::
 lists all available attributes. This object has the same structure as the
 **_node** system column of **sys.operations** from the previous section.
 
-Step 4: Insights About Partitions, Shards, and Replication
+Step 4: Insights about partitions, shards, and replication
 ==========================================================
 
 CrateDB divides the rows of each table into shards that are distinctively
@@ -227,7 +227,7 @@ shard. There's a lot of additional information available for shards. To find
 out more about that, see our :ref:`documentation <import_shards_replicas>`.
 
 
-Step 5: Analyze Allocation Problems
+Step 5: Analyze allocation problems
 ===================================
 
 Related to the previous step about gaining insights about shards and
@@ -264,7 +264,7 @@ simply filter by ``table_schema`` and ``table_name``, e.g.::
     +------------+----------+---------+--------------+
     SELECT ... in set (... sec)
 
-Step 6: Managing Snapshots
+Step 6: Managing snapshots
 ==========================
 
 Finally, if your repair efforts did not succeed, your application or users
