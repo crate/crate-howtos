@@ -48,6 +48,28 @@ If the node name is omitted, then it's generated dynamically on startup.
 
 .. _inter-node-comms:
 
+Node Type
+---------
+A Node can have various roles in the cluster:
+
+**Master-eligible node**
+
+A node that has node.master set to true, which makes it eligible to
+be elected as the master node, as part of the :ref:`master-node-election`.
+
+**Data node**
+
+A node that has node.data set to true. Data nodes hold soley data.
+
+**Coordination-only node**
+
+A node that has node.master set to false and node.data set to false is a coordination-only node,
+which will neither hold data nor is eligible as master and its only purpose is coordination.
+
+A node can have multiple roles at the same time. `More information on Node types
+<https://crate.io/docs/crate/reference/en/latest/config/node.html#node-types>`_
+can be found in CrateDB's reference guide.
+
 Inter-node communication
 ========================
 
