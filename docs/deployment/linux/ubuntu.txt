@@ -24,7 +24,7 @@ CrateDB maintains packages for the following Ubuntu versions:
 
       sh$ sudo add-apt-repository ppa:openjdk-r/ppa
       sh$ sudo apt-get update
-      sh$ apt-get install -y openjdk-11-jre-headless
+      sh$ sudo apt-get install -y openjdk-11-jre-headless
 
 .. rubric:: Table of Contents
 
