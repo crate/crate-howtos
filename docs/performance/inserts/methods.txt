@@ -1,7 +1,7 @@
 .. _insert_methods:
 
 ==============
-Insert Methods
+Insert methods
 ==============
 
 There are multiple ways to insert data into a CrateDB database.
@@ -9,7 +9,7 @@ There are multiple ways to insert data into a CrateDB database.
 Some insert methods can be faster than others, depending on your setup.
 Choosing the best insert method is an easy way to improve insert performance.
 
-.. rubric:: Table of Contents
+.. rubric:: Table of contents
 
 .. contents::
    :local:

@@ -1,7 +1,7 @@
 .. _memory:
 
 ====================
-Memory Configuration
+Memory configuration
 ====================
 
 In general, you should allocate as much memory as possible to CrateDB.
@@ -14,7 +14,7 @@ need to hold many rows in memory) may fail with ``OutOfMemory`` exceptions.
 However, there are two important limits on how large you should configure the
 heap.
 
-.. rubric:: Table of Contents
+.. rubric:: Table of contents
 
 .. contents::
    :local:

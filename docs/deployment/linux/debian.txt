@@ -22,7 +22,7 @@ the CrateDB Debian package.
 
 .. _one-step Linux installer: https://crate.io/docs/crate/getting-started/en/latest/install-run/special/linux.html
 
-.. rubric:: Table of Contents
+.. rubric:: Table of contents
 
 .. contents::
    :local:

@@ -12,7 +12,7 @@ cluster can perform every operation - hence all nodes are equal in terms
 of functionality (see :ref:`shared_nothing_components`) and are
 configured the same.
 
-.. rubric:: Table of Contents
+.. rubric:: Table of contents
 
 .. contents::
    :local:

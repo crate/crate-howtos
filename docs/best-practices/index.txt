@@ -1,10 +1,10 @@
 ==============
-Best Practices
+Best practices
 ==============
 
 A collection of CrateDB best practices and tips for common scenarios.
 
-.. rubric:: Table of Contents
+.. rubric:: Table of contents
 
 .. toctree::
    :maxdepth: 1

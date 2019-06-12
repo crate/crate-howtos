@@ -1,5 +1,5 @@
 ==================
-Select Performance
+Select performance
 ==================
 
 Aggregations and ``GROUP BY``

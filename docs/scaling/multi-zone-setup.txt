@@ -1,7 +1,7 @@
 .. _multi-zone-setup:
 
 ========================
-CrateDB Multi Zone Setup
+CrateDB multi-zone setup
 ========================
 
 If possible, we recommend running all CrateDB nodes of a cluster inside the
@@ -16,7 +16,7 @@ away can lead to noticeable latency and cause the cluster to slow down.
 In certain scenarios it may be necessary to run a cluster across multiple data
 centers or availability zones. We'll call these **zones** from now on.
 
-.. rubric:: Table of Contents
+.. rubric:: Table of contents
 
 .. contents::
    :local:

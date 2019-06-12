@@ -1,5 +1,5 @@
 ============================
-CrateDB Scaling Introduction
+CrateDB scaling introduction
 ============================
 
 CrateDB is designed to be easy to scale and adding a new node to a cluster is
@@ -73,7 +73,7 @@ Try running a simple query on the cluster, such as:
 Add and remove nodes to the cluster and try issuing the same query each time,
 you should notice no change in the result and very little difference in speed.
 
-.. rubric:: Related Links
+.. rubric:: Related links
 
 - `Setting Heap Size
   <https://crate.io/docs/stable/configuration.html#crate-heap-size>`_

@@ -1,5 +1,5 @@
 ============================
-Run CrateDB on ContainerShip
+Run CrateDB on Containership
 ============================
 
 `ContainerShip <http://containership.io/>`_ allows you to configure a hosting
@@ -8,7 +8,7 @@ third party integrations. Effortlessly manage, deploy, and scale across any
 number of providers. Detach a cluster from our service at any time and use the
 open source core system on your own.
 
-.. rubric:: Table of Contents
+.. rubric:: Table of contents
 
 .. contents::
    :local:

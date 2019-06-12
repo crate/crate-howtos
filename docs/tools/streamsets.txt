@@ -1,8 +1,8 @@
 =========================================================================
-Building Data Stream pipelines with CrateDB and StreamSets Data Collector
+Building data stream pipelines with CrateDB and StreamSets data collector
 =========================================================================
 
-.. rubric:: Table of Contents
+.. rubric:: Table of contents
 
 .. contents::
    :local:

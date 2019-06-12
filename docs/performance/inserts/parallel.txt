@@ -1,7 +1,7 @@
 .. _concurrent_inserts:
 
 ================
-Parallel Inserts
+Parallel inserts
 ================
 
 If you have a queue of inserts, one way to process them in your client is to
@@ -24,7 +24,7 @@ response before sending another insert.
    :ref:`inserts_bulk_operations` are a good fit. In many cases, you will see
    even better performance from bulk opperations.
 
-.. rubric:: Table of Contents
+.. rubric:: Table of contents
 
 .. contents::
    :local:
