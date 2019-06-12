@@ -2,10 +2,10 @@
 .. _efficient_data_import:
 
 ====================================
-Importing Huge Datasets into CrateDB
+Importing huge datasets into CrateDB
 ====================================
 
-.. rubric:: Table of Contents
+.. rubric:: Table of contents
 
 .. contents::
    :local:

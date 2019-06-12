@@ -2,10 +2,10 @@
 .. _rolling_upgrade:
 
 ===============
-Rolling Upgrade
+Rolling upgrade
 ===============
 
-.. rubric:: Table of Contents
+.. rubric:: Table of contents
 
 .. contents::
    :local:

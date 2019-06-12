@@ -12,7 +12,7 @@ CrateDB maintains the official RPM repositories for:
 
 Both of these work with RedHat Enterprise Linux, CentOS, and Scientific Linux.
 
-.. rubric:: Table of Contents
+.. rubric:: Table of contents
 
 .. contents::
    :local:

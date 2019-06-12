@@ -1,7 +1,7 @@
 .. _multi_node_setup:
 
 ========================
-CrateDB Multi Node Setup
+CrateDB multi-node setup
 ========================
 
 CrateDB is a distributed datastore and so in production, a cluster will
@@ -13,7 +13,7 @@ equal and each node is self-sufficient. This means that nodes work on their
 own, and all nodes in a cluster are configured equally, the same as with a
 single-node instance.
 
-.. rubric:: Table of Contents
+.. rubric:: Table of contents
 
 .. contents::
    :local:
@@ -245,7 +245,7 @@ published settings can differ from the address of the actual host:
     # port accessible from outside
     transport.publish_port: 4321
 
-.. rubric:: Related Links
+.. rubric:: Related links
 
 - `Host settings for Nodes <https://crate.io/docs/crate/reference/configuration.html#conf-hosts>`_
 - `Host settings for Ports <https://crate.io/docs/crate/reference/configuration.html#conf-ports>`_

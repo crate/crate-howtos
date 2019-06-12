@@ -1,13 +1,13 @@
 .. _config_tuning:
 
 ================================
-Configuration Tuning for Inserts
+Configuration tuning for inserts
 ================================
 
 This document outlines a number of hardware and software configuration changes
 you can make to tune your setup for inserts performance.
 
-.. rubric:: Table of Contents
+.. rubric:: Table of contents
 
 .. contents::
    :local:

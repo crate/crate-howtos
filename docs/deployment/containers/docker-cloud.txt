@@ -11,7 +11,7 @@ best and most relevant features for CrateDB users is `default support for
 overlay networking
 <https://docs.docker.com/engine/userguide/networking/get-started-overlay/>`_.
 
-.. rubric:: Table of Contents
+.. rubric:: Table of contents
 
 .. contents::
    :local:

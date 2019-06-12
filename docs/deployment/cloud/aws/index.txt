@@ -2,7 +2,7 @@
 Run CrateDB on Amazon Web Services (AWS)
 ========================================
 
-.. rubric:: Table of Contents
+.. rubric:: Table of contents
 
 .. toctree::
    :maxdepth: 1

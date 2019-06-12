@@ -2,7 +2,7 @@
 .. _systables:
 
 ===============================
-Troubleshooting with sys-Tables
+Troubleshooting with sys-tables
 ===============================
 
 CrateDB maintains a set of diagnostic tables in the **sys** schema. It consists
@@ -13,7 +13,7 @@ documentation about each single table
 <https://crate.io/docs/reference/sql/system.html>`__, this guide runs you
 through the most common situations.
 
-.. rubric:: Table of Contents
+.. rubric:: Table of contents
 
 .. contents::
    :local:

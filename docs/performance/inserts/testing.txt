@@ -1,7 +1,7 @@
 .. _testing_inserts_performance:
 
 ===========================
-Testing Inserts Performance
+Testing inserts performance
 ===========================
 
 The easiest way to test inserts performance is with the `cr8`_ tool.
@@ -12,7 +12,7 @@ by testing insert performance on a single node.
 You should only increase the size of your cluster for testing once you have
 established the baseline performance on a single node.
 
-.. rubric:: Table of Contents
+.. rubric:: Table of contents
 
 .. contents::
    :local:

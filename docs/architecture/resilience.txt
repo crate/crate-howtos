@@ -1,5 +1,5 @@
 ==================
-CrateDB Resiliency
+CrateDB resiliency
 ==================
 
 Distributed systems are tricky. All sorts of things can go wrong that are
@@ -18,7 +18,7 @@ wrong.
 Thankfully, for most use-cases, if you follow best practices, you are extremely
 unlikely to experience resiliency issues with CrateDB.
 
-.. rubric:: Table of Contents
+.. rubric:: Table of contents
 
 .. contents::
    :local:

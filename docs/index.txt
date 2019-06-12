@@ -1,7 +1,7 @@
 .. _index:
 
 =============
-CrateDB Guide
+CrateDB guide
 =============
 
 CrateDB is a distributed SQL database that makes it simple to store and analyze
@@ -21,7 +21,7 @@ massive amounts of machine data in real-time.
    The CrateDB Guide is an open source documentation project and is `hosted on
    GitHub`_.
 
-.. rubric:: Table of Contents
+.. rubric:: Table of contents
 
 .. toctree::
    :maxdepth: 3

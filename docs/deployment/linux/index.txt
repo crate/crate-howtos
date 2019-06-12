@@ -6,7 +6,7 @@ CrateDB and Linux
 
 CrateDB provides a number of Linux packages.
 
-.. rubric:: Table of Contents
+.. rubric:: Table of contents
 
 .. toctree::
    :maxdepth: 1

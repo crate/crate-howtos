@@ -1,7 +1,7 @@
 .. _sharding_guide:
 
 ==============
-Sharding Guide
+Sharding guide
 ==============
 
 This document is a sharding best practice guide for CrateDB.
@@ -19,7 +19,7 @@ the type of hardware you're using.
 
    If you are looking for an intro to sharding, see `Sharding`_.
 
-.. rubric:: Table of Contents
+.. rubric:: Table of contents
 
 .. contents::
    :local:

@@ -7,7 +7,7 @@ more nodes. But what's the best way to do that?
 
 This section of the documentation shows you how to scale CrateDB.
 
-.. rubric:: Table of Contents
+.. rubric:: Table of contents
 
 .. toctree::
    :maxdepth: 1

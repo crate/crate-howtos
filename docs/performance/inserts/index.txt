@@ -1,5 +1,5 @@
 ==================
-Insert Performance
+Insert performance
 ==================
 
 A ``INSERT INTO`` statement is processed as follows:
@@ -19,7 +19,7 @@ work needed to be done by one of the steps.
 
 This section of the guide will show you how.
 
-.. rubric:: Table of Contents
+.. rubric:: Table of contents
 
 .. toctree::
    :maxdepth: 2

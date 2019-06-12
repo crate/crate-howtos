@@ -3,10 +3,10 @@
 .. _full_restart_upgrade:
 
 ====================
-Full Restart Upgrade
+Full restart upgrade
 ====================
 
-.. rubric:: Table of Contents
+.. rubric:: Table of contents
 
 .. contents::
    :local:

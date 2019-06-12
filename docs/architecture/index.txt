@@ -4,7 +4,7 @@ Architecture
 
 This section of the documentation covers the architecture of CrateDB.
 
-.. rubric:: Table of Contents
+.. rubric:: Table of contents
 
 .. toctree::
     :maxdepth: 1

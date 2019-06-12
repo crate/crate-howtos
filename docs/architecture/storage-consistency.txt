@@ -1,5 +1,5 @@
 =======================
-Storage and Consistency
+Storage and consistency
 =======================
 
 This document provides an overview on how CrateDB stores and distributes state
@@ -12,7 +12,7 @@ across the cluster and what consistency and durability guarantees are provided.
   users, since the implementation is actually reused from the Elasticsearch_
   code.
 
-.. rubric:: Table of Contents
+.. rubric:: Table of contents
 
 .. contents::
    :local:

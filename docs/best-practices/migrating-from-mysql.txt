@@ -2,10 +2,10 @@
 .. _migrating_from_mysql:
 
 ====================
-Migrating From MySQL
+Migrating from MySQL
 ====================
 
-.. rubric:: Table of Contents
+.. rubric:: Table of contents
 
 .. contents::
    :local:
