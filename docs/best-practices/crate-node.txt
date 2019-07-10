@@ -396,15 +396,15 @@ lost three of them, leaving two nodes remaining.
 
 .. NOTE::
 
-Before you run ``crate-node unsafe-bootstrap`` you need to stop CrateDB.
+    Before you run ``crate-node unsafe-bootstrap`` you need to stop CrateDB.
 
 .. WARNING::
 
     This tool can cause arbitrary data loss and its use should be your last
     resort.
 
-* Run ``crate-node unsafe-bootstrap`` on the first remaining node
-  and answer ``n`` at the confirmation step.
+* Run ``crate-node unsafe-bootstrap`` on the first remaining node
+  and answer ``n`` at the confirmation step.
 
 .. code-block:: console
 
@@ -416,8 +416,8 @@ Before you run ``crate-node unsafe-bootstrap`` you need to stop CrateDB.
 
     Confirm [y/N] n
 
-*   Run ``crate-node unsafe-bootstrap`` on the second remaining node and
-    answer ``n`` at the confirmation step.
+*   Run ``crate-node unsafe-bootstrap`` on the second remaining node and
+    answer ``n`` at the confirmation step.
 
 .. code-block:: console
 
@@ -432,7 +432,7 @@ Before you run ``crate-node unsafe-bootstrap`` you need to stop CrateDB.
 Since the second node has a greater term it has a fresher cluster state, so it
 is better to unsafely bootstrap the cluster using the second node.
 
-*   Run ``crate-node unsafe-bootstrap`` on the second remaining node and answer
+*   Run ``crate-node unsafe-bootstrap`` on the second remaining node and answer
     ``y`` at the confirmation step.
 
 .. code-block:: console
@@ -447,7 +447,7 @@ is better to unsafely bootstrap the cluster using the second node.
     Master node was successfully bootstrapped
 
 Detaching nodes from the failed cluster
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can now detach all remaining nodes from the failed cluster so they can join
 the new cluster.
