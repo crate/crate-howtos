@@ -79,21 +79,21 @@ The ``crate-node repurpose`` command is intended to:
 If you want to re-purpose a data-node as a master-node, change the settings of
 the node in crate.yml to:
 
-*``node.master: true``
-*``node.data: false``
+* node.master: true
+* node.data: false
 
 **Repurposing a node as a coordination-only node**
 
 .. WARNING::
 
-Giving the following command can lead to data loss. Before giving this command,
-make sure the data contained is available on other nodes in the cluster.
+  Giving the following command can lead to data loss. Before giving this command,
+  make sure the data contained is available on other nodes in the cluster.
 
 If you want to re-purpose a data-node as a coordination-only node, change the
 settings of the node in crate.yml to:
 
-*``node.master: false``
-*``node.data: false``
+* node.master: false
+* node.data: false
 
 This re-purposes the node as a coordination-only node.
 
@@ -144,8 +144,8 @@ with the same term, choose the one with the largest version.
 
 .. NOTE::
 
-This information identifies the node with the freshest cluster state, which
-minimizes the quantity of data that might be lost.
+  This information identifies the node with the freshest cluster state, which
+  minimizes the quantity of data that might be lost.
 
 **Example**
 If the first node reports (4, 12) and a second node reports (5, 3),
@@ -236,9 +236,9 @@ been reset, and a new cluster is bootstrapped.
 
 .. WARNING::
 
-Moving nodes between clusters can lead to arbitrary data loss. Different
-clusters can have completely different cluster metadata and there is no way to
-safely merge the metadata of two clusters.
+  Moving nodes between clusters can lead to arbitrary data loss. Different
+  clusters can have completely different cluster metadata and there is no way to
+  safely merge the metadata of two clusters.
 
 To protect yourself against inadvertently joining the wrong clusters, each
 cluster creates a unique identifier at its initial start-up — known as the
@@ -332,7 +332,9 @@ dedicated master node.
 First update the settings in the crate.yml config file of the node to:
 ``node.master: true`` and ``node.data: false``.
 
-.. NOTE:: Before you continue with the next step you need to stop CrateDB.
+.. NOTE::
+
+  Before you continue with the next step you need to stop CrateDB.
 
 Run ``crate-node repurpose`` to find and remove excess shard data:
 
@@ -359,7 +361,9 @@ coordinating-only node.
 First update the settings in the crate.yml config file of the node to:
 ``node.master: false`` and ``node.data: false``.
 
-.. NOTE:: Before you continue with the next step you need to stop CrateDB.
+.. NOTE::
+
+  Before you continue with the next step you need to stop CrateDB.
 
 Run ``crate-node repurpose`` to find and remove excess shard data and table
 metadata:
@@ -390,11 +394,14 @@ cluster state (term, version) pair.
 Suppose your cluster had five master-eligible nodes and you have permanently
 lost three of them, leaving two nodes remaining.
 
-.. NOTE:: Before you run ``crate-node unsafe-bootstrap`` you need to stop
-          CrateDB.
+.. NOTE::
 
-..WARNING:: This tool can cause arbitrary data loss and its use should be your
-            last resort.
+Before you run ``crate-node unsafe-bootstrap`` you need to stop CrateDB.
+
+.. WARNING::
+
+    This tool can cause arbitrary data loss and its use should be your last
+    resort.
 
 * Run ``crate-node unsafe-bootstrap`` on the first remaining node
   and answer ``n`` at the confirmation step.
