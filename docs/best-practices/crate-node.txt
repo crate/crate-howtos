@@ -1,5 +1,6 @@
 .. highlight:: psql
 .. _recover:
+.. _conf-env:
 
 ===================================
 Troubleshooting with Crate node CLI
@@ -8,17 +9,17 @@ This part of the CrateDB documentation is based on the `Elasticsearch
 documentation <https://www.elastic.co/guide/en/elasticsearch/reference/current/node-tool.html>`_.
 
 The Crate node CLI allows you to form a new cluster if a CrateDB cluster
-irrecoverably loses the majority of the master-eligible nodes, by letting you
+irrecoverably loses the majority of the master-eligible nodes by letting you
 use the state of the remaining master nodes.
 
 This solution includes certain unsafe operations that are only possible while a
 node is shut down.
 
-You can temporarily shut down nodes for several reasons e.g. maintenance or
+You can temporarily shut down nodes for several reasons, e.g., maintenance or
 systems failure. Once a node is shut down, you need to restart it to let the
 node rejoin the cluster. However, re-joining nodes isn’t always possible. For
 instance, a node could be irreparable and would not restart. With the cluster
-still available, you can simply replace a broken node by a new node on a new
+still available, you can replace a broken node by a new node on a new
 host.
 
 Modifying a node
@@ -26,7 +27,7 @@ Modifying a node
 The ``crate-node`` command enables you to adjust the role of a node. It may also
 be able to recover some data after a disaster.
 
-To modify a node, you have to first call up the node. Use these arguments:
+To modify a node, you first have to call up the node. Use these arguments:
 
 .. code-block:: console
 
@@ -57,12 +58,14 @@ Certain situations may require you to change the initial type of a node by
 modifying and deleting its on-disk data.
 
 Run ``crate-node repurpose`` on a node with ``node.data: false`` and
-``node.master: true`` to delete any remaining shard data on that node. This
-leaves the table metadata and cluster metadata alone.
+``node.master: true`` to delete any remaining shard data on that node. Deleting
+remaining shard data on the node leaves the table metadata and cluster metadata
+alone.
 
 Run ``crate-node repurpose`` on a node with ``node.data: false`` and
 ``node.master: false`` to delete any remaining shard data and table
-metadata. This only leaves the cluster metadata alone.
+metadata. Deleting remaining shard data and table metadata leaves the cluster
+metadata alone.
 
 The ``crate-node repurpose`` command is intended to:
 
@@ -74,7 +77,8 @@ The ``crate-node repurpose`` command is intended to:
 
 * Restart the node.
 
-**Repurposing a node as a dedicated master node**
+Repurposing a node as a dedicated master node
+---------------------------------------------
 
 If you want to re-purpose a data-node as a master-node, change the settings of
 the node in crate.yml to:
@@ -86,8 +90,9 @@ the node in crate.yml to:
 
 .. WARNING::
 
-  Giving the following command can lead to data loss. Before giving this command,
-  make sure the data contained is available on other nodes in the cluster.
+  Giving the following command can lead to data loss. Before giving this
+  command, make sure the data contained is available on other nodes in the
+  cluster.
 
 If you want to re-purpose a data-node as a coordination-only node, change the
 settings of the node in crate.yml to:
@@ -95,11 +100,11 @@ settings of the node in crate.yml to:
 * node.master: false
 * node.data: false
 
-This re-purposes the node as a coordination-only node.
+Changing the node's settings re-purposes the node as a coordination-only node.
 
 The tool provides a summary of the data to be deleted and asks for confirmation
 before making any changes. You can get detailed information about the affected
-tables and shards by passing the verbose (-v) option.
+tables and shards bypassing the verbose (-v) option.
 
 Recovering data after a disaster
 --------------------------------
@@ -112,15 +117,15 @@ the node, the node re-joins the cluster and continues normally.
 
 Each node stores its data in the data directories defined by the ``path.data``
 setting. Meaning that in a disaster you can re-start a node by moving
-its data directories to another host, if those data directories can be recovered
+its data directories to another host if those data directories can be recovered
 from the faulty host.
 
 CrateDB requires a response from a majority of the master-eligible nodes
-to be able to elect a master and update the cluster state. This means that if
-you have three master-eligible nodes the cluster will remain available even
-if one of the nodes has failed. However, if two of the three master-eligible
-nodes fail the cluster will be unavailable until at least one of the nodes
-re-start.
+to be able to elect a master and update the cluster state. A majority of the
+master-eligible nodes responding means that if you have three master-eligible
+nodes, the cluster remains available even if one of the nodes has failed.
+However, if two of the three master-eligible nodes fail the cluster is
+unavailable until at least one of the nodes re-starts.
 
 Under certain circumstances, it is not possible to re-start enough nodes to
 restore the cluster’s availability. In such a disaster, we recommend you
@@ -131,16 +136,18 @@ However, if it is not possible to recover the cluster from a recent snapshot,
 it may be possible to use the Crate node CLI to construct a new cluster that
 contains some of the data from the failed cluster.
 
+.. _conf-env-after-disaster-unsafe-bootstrapping:
+
 Unsafe cluster bootstrapping
 ----------------------------
 
 If there is at least one remaining master-eligible node, but it is not possible
 to re-start a majority of the nodes, you can unsafely override the cluster’s
-voting configuration as if performing another cluster bootstrapping process.
+voting configuration as if performing another cluster-bootstrapping process.
 
-If you have a choice of nodes on which to run this tool then choose
+If you have a choice of nodes on which to run this tool, then choose
 the one with the largest term. If there is more than one node
-with the same term, choose the one with the largest version.
+with the same term, choose the one with the highest version.
 
 .. NOTE::
 
@@ -149,27 +156,27 @@ with the same term, choose the one with the largest version.
 
 **Example**
 If the first node reports (4, 12) and a second node reports (5, 3),
-then the second node is preferred since its term is larger. However if the
-second node reports (3, 17) then the first node is preferred since its term is
+then the second node is preferred since its term is larger. However, if the
+second node reports (3, 17), then the first node is preferred since its term is
 larger. If the second node reports (4, 10) then it has the same term as the
 first node but has a smaller version, so the first node is preferred.
 
 **Follow this sequence before using the unsafe-bootstrap tool**
 
-* Make sure you have definitely lost access to at least half of the
+* Make entirely sure you have lost access to at least half of the
   master-eligible nodes in the cluster and they cannot be repaired or recovered
   by moving their data paths to healthy hardware.
 
 * Stop all remaining nodes.
 
 * Choose one of the remaining master-eligible nodes to become the new elected
-  master as described in `Repurposing a node as a dedicated master node`_.
+  master, as described in `Repurposing a node as a dedicated master node`_.
 
 * On the chosen node, run the ``unsafe-bootstrap`` command as demonstrated
   below. Verify that the tool-reported master node was successfully
   bootstrapped.
 
-* Start this node and verify that it is elected as the master node.
+* Start this node and verify that it is the elected master node.
 
 * Run the ``detach-cluster`` tool as demonstrated below on every other node in
   the cluster.
@@ -185,12 +192,10 @@ first node but has a smaller version, so the first node is preferred.
 .. NOTE::
 
   Make sure that all other master-eligible nodes are also not running as the
-  tool will not check
-  ensure this itself.
+  tool does not check for not running master-eligible nodes itself.
 
 The message `Master node was successfully bootstrapped` means that the tool was
-able to complete its job. It does not mean that there has not been a
-data loss.
+able to complete its job. It does not say that there has not been a data loss.
 
 .. WARNING::
 
@@ -214,36 +219,36 @@ You can now analyze the state of the new node. On the node, run this command:
 
 ``crate-node unsafe-bootstrap``
 
-The tool will report the term and version of the cluster state, as following:
+The tool will report the term and version of the cluster state, as follows:
 
 .. code-block:: console
 
-Current node cluster state (term, version) pair is (4, 12)
+    Current node cluster state (term, version) pair is (4, 12)
 
-It will then ask for confirmation before taking action.
+It then asks for confirmation before taking action.
 
 Detaching a node from its cluster
 ---------------------------------
 
-When a node initially joins a cluster, the node’s unique cluster ID will be
-stored as metadata. This prevents the node from joining a cluster with a
-different cluster ID.
+When a node initially joins a cluster, the node’s unique cluster-ID is stored as
+metadata. Storing the nodes ID as metadata prevents the node from joining a
+cluster with a different cluster-ID.
 
-There are situations where it becomes necessary to reset a node’s cluster ID.
+There are situations where it becomes necessary to reset a node’s cluster-ID.
 If a cluster is not recoverable, it might be worth moving nodes to a new
-cluster. This is particularly useful when the voting configuration of a node has
-been reset, and a new cluster is bootstrapped.
+cluster. Moving nodes to a new cluster is particularly useful when the voting
+configuration of a node has been reset, and a new cluster is bootstrapped.
 
 .. WARNING::
 
   Moving nodes between clusters can lead to arbitrary data loss. Different
-  clusters can have completely different cluster metadata and there is no way to
-  safely merge the metadata of two clusters.
+  clusters can have utterly different cluster metadata, and there is no way to
+  merge the metadata of two clusters safely.
 
-To protect yourself against inadvertently joining the wrong clusters, each
-cluster creates a unique identifier at its initial start-up — known as the
-cluster UUID. Every node records the UUID of its cluster and refuses to join a
-cluster with a different UUID.
+Each cluster creates a unique identifier at its initial start-up to protect
+yourself against inadvertently joining the wrong clusters. This unique
+identifier is known as the cluster UUID. Every node records the UUID of its
+cluster and refuses to join a cluster with a different UUID.
 
 However, if a node’s cluster permanently failed then you may want to move the
 node into a new cluster.
@@ -268,13 +273,14 @@ unsafely-bootstrapped cluster.
 
 **Follow this sequence before using the detach-cluster tool**
 
-* Make sure you have definitely lost access to every one of the master-eligible
-  nodes in the cluster and they cannot be repaired or recovered by moving their
-  data paths to healthy hardware.
+* Make entirely sure you have lost access to each of the master-eligible
+  nodes in the cluster and that they cannot be repaired or recovered by moving
+  their data paths to healthy hardware.
 
 * Start a new cluster and verify that it is healthy. This cluster may comprise
   one or more new master-eligible nodes, or maybe an unsafely-bootstrapped
-  cluster formed in the section `Unsafe cluster bootstrapping`_.
+  cluster, formed in the section
+  :ref:`conf-env-re-purposing-nodes-unsafe-bootstrapping`.
 
 * Stop all remaining data nodes.
 
@@ -289,7 +295,7 @@ unsafely-bootstrapped cluster.
   cluster to find out if any data was lost during this process.
 
 The message `Node was successfully detached from the cluster` means that the
-detach-cluster tool was able to complete its job. It does not mean that there
+detach-cluster tool was able to complete its job. It does not say that there
 has not been a data loss.
 
 Parameters
@@ -306,7 +312,7 @@ Parameters
   another cluster.
 
 ``--ordinal <Integer>``
-Specify which node to target, if there is more than one node sharing a data
+Specify which node to target if there is more than one node sharing a data
 path. Defaults to 0, meaning to use the first node in the data path.
 
 ``-C <KeyValuePair>``
@@ -334,7 +340,7 @@ First update the settings in the crate.yml config file of the node to:
 
 .. NOTE::
 
-  Before you continue with the next step you need to stop CrateDB.
+  Before you continue with the next step, you need to stop CrateDB.
 
 Run ``crate-node repurpose`` to find and remove excess shard data:
 
@@ -363,7 +369,7 @@ First update the settings in the crate.yml config file of the node to:
 
 .. NOTE::
 
-  Before you continue with the next step you need to stop CrateDB.
+  Before you continue with the next step, you need to stop CrateDB.
 
 Run ``crate-node repurpose`` to find and remove excess shard data and table
 metadata:
@@ -375,12 +381,14 @@ metadata:
     Found 2 tables (2 shards and 2 table metadata) to clean up.
     Use -v to see list of paths and tables affected.
     Node is being re-purposed as no-master and no-data. Clean-up of table data
-    will be performed.
+    is performed.
 
     Do you want to proceed?
 
     Confirm [y/N] y
     Node successfully re-purposed to no-master and no-data.
+
+.. _conf-env-re-purposing-nodes-unsafe-bootstrapping:
 
 Unsafe cluster bootstrapping
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -396,15 +404,15 @@ lost three of them, leaving two nodes remaining.
 
 .. NOTE::
 
-Before you run ``crate-node unsafe-bootstrap`` you need to stop CrateDB.
+    Before you run ``crate-node unsafe-bootstrap`` you need to stop CrateDB.
 
 .. WARNING::
 
-    This tool can cause arbitrary data loss and its use should be your last
+    This tool can cause arbitrary data loss, and its use should be your last
     resort.
 
-* Run ``crate-node unsafe-bootstrap`` on the first remaining node
-  and answer ``n`` at the confirmation step.
+* Run ``crate-node unsafe-bootstrap`` on the first remaining node
+  and answer ``n`` at the confirmation step.
 
 .. code-block:: console
 
@@ -416,8 +424,8 @@ Before you run ``crate-node unsafe-bootstrap`` you need to stop CrateDB.
 
     Confirm [y/N] n
 
-*   Run ``crate-node unsafe-bootstrap`` on the second remaining node and
-    answer ``n`` at the confirmation step.
+* Run ``crate-node unsafe-bootstrap`` on the second remaining node
+  and answer ``n`` at the confirmation step.
 
 .. code-block:: console
 
@@ -432,8 +440,8 @@ Before you run ``crate-node unsafe-bootstrap`` you need to stop CrateDB.
 Since the second node has a greater term it has a fresher cluster state, so it
 is better to unsafely bootstrap the cluster using the second node.
 
-*   Run ``crate-node unsafe-bootstrap`` on the second remaining node and answer
-    ``y`` at the confirmation step.
+* Run ``crate-node unsafe-bootstrap`` on the second remaining node and answer
+  ``y`` at the confirmation step.
 
 .. code-block:: console
 
@@ -447,7 +455,7 @@ is better to unsafely bootstrap the cluster using the second node.
     Master node was successfully bootstrapped
 
 Detaching nodes from the failed cluster
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can now detach all remaining nodes from the failed cluster so they can join
 the new cluster.
@@ -458,9 +466,9 @@ from a snapshot. Also only run this tool if you have already unsafely
 bootstrapped a new cluster by running ``crate-node unsafe-bootstrap``
 on a master-eligible node that belonged to the same cluster as this node.
 
-.. NOTE: Before you continue with the next step you need to stop CrateDB.
+.. NOTE: Before you continue with the next step, you need to stop CrateDB.
 
-.. WARNING:: This tool can cause arbitrary data loss and its use should be your
+.. WARNING:: This tool can cause arbitrary data loss, and its use should be your
              last resort.
 
 Run ``crate-node detach-cluster`` and answer ``y`` at the confirmation step.
