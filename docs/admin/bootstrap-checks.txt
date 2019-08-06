@@ -50,7 +50,8 @@ Here's what needs to be configured:
 - **Memory lock**
    - Set hard and soft limit to unlimited
 - **Threads**
-   - Set hard and soft limit to 2048
+   - Set hard and soft limit to 4096 (CrateDB versions < 3.0.0 will also work
+     with 2048)
 - **Virtual memory**
    - Set hard and soft limit to unlimited (on Linux only)
 - **Memory map**
@@ -74,8 +75,8 @@ Edit ``/etc/security/limits.conf`` and configure these lines::
     crate soft memlock unlimited
     crate hard memlock unlimited
 
-    crate soft nproc 2048
-    crate hard nproc 2048
+    crate soft nproc 4096
+    crate hard nproc 4096
 
     crate soft as unlimited
     crate hard as unlimited
