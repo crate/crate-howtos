@@ -305,7 +305,7 @@ When the node is started again, it will be able to join a new cluster.
 
 .. _configuration file: https://crate.io/docs/crate/reference/en/latest/config/index.html
 .. _CRATE_HOME: https://crate.io/docs/crate/reference/en/latest/config/environment.html#application-variables
-.. _crate-node: https://crate.io/docs/crate/reference/en/latest/cli-tools.html#crate-node
+.. _crate-node: https://crate.io/docs/crate/reference/en/latest/cli-tools.html#cli-crate-node
 .. _data path: https://crate.io/docs/crate/reference/en/latest/config/environment.html#application-variables
 .. _discovery configuration: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery
 .. _node.data: https://crate.io/docs/crate/reference/en/latest/config/node.html#node-types
