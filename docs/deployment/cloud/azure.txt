@@ -184,3 +184,6 @@ We need to allow the ports CrateDB uses through the Windows Firewall
    :alt: Firewall configuration
 
 Start crate by running ``bin/crate``.
+
+.. _latest: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery
+.. _3.3: https://crate.io/docs/crate/reference/en/3.3/config/cluster.html#discovery
