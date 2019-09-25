@@ -34,8 +34,13 @@ Quick start
 Creating a cluster
 ------------------
 
-To get started with CrateDB and Docker on your dev machine, start by creating a
-`user-defined network`_, like so::
+To get started with CrateDB and Docker, we will create a three node cluster
+on your dev machine. The cluster will run on a dedicated network and will
+require the first two nodes, ``crate01`` and ``crate02``, to vote which one
+is the master. The third node, ``crate03``, will simply join the cluster
+with no vote.
+
+To create the `user-defined network`_, run the command::
 
     sh$ docker network create crate
 
@@ -50,21 +55,57 @@ You should then be able to see something like this:
     5b8e6fbe9ab6        host                host                local
     8baa149b6986        none                null                local
 
-Any CrateDB containers put into the ``crate`` network will be able to resolve
-other CrateDB containers by name.
+Any CrateDB container put into the ``crate`` network will be able to resolve
+other CrateDB containers by name. Each container will run a single node,
+itself identified by node name. For our purposes, container ``crate01``
+will run cluster node ``crate01``, container ``crate02`` will run cluster
+node ``crate02`` and container ``crate03`` will run cluster node ``crate03``.
 
-You can then create your first CrateDB container, like so::
+You can then create your first CrateDB container/node, like this::
 
-    sh$ docker run -d --name=crate01 \
-          --net=crate -p 4201:4200 --env CRATE_HEAP_SIZE=2g \
-          crate -Cnetwork.host=_site_
+    sh$ docker run --rm -it \
+          --name=crate01 \
+          --net=crate \
+          -p 4201:4200 \
+          --env CRATE_HEAP_SIZE=2g \
+          crate -Cnetwork.host=_site_ \
+                -Cnode.name=crate01 \
+                -Cdiscovery.seed_hosts=crate02,crate03 \
+                -Ccluster.initial_master_nodes=crate01,crate02 \
+                -Cgateway.expected_nodes=3  -Cgateway.recover_after_nodes=3
 
-Breaking it down, that command:
+Breaking the command down:
 
-- Creates and runs a container called ``crate01`` in detached mode
+- Creates and runs a container called ``crate01`` (--name) in detached
+  mode (-d). The container will automatically be removed on exit (--rm),
+  and all its internal data will be lost. If you would like to avoid this,
+  you can mount a dedicated volume (-v) for the container (each container
+  would need its own dedicated folder on your dev machine, see
+  :ref:`docker-compose` as reference)
 - Puts the container into the ``crate`` network and maps port ``4201`` on your
-  host machine to port ``4200`` on the container
-- Runs the command ``crate`` process inside the container
+  host machine to port ``4200`` on the container (admin UI)
+- Defines the environment variable ``CRATE_HEAP_SIZE`` which is used by CrateDB
+  to allocate 2G for its heap
+- Runs the command ``crate`` inside the container with parameters:
+    * ``network.host``: The ``_site_`` value results in the binding of the
+      CrateDB process to a site-local IP address, e.g. ``192.168.0.1``
+    * ``node.name``:  Defining the node's name as ``crate01`` (used by
+      master election)
+    * ``discovery.seed_hosts``: This parameter lists the other hosts in the
+      cluster. The format is a comma separated list of ``host:port`` entries,
+      where port defaults to setting ``transport.tcp.port``. Each node must
+      contain the name of all the other hosts in this list. Notice also that
+      any node in the cluster might be started at any time, and thus this will
+      lead to us seeing connection exceptions in the log files, however
+      eventually all nodes will be running and interconnected
+    * ``cluster.initial_master_nodes``: Defines the list of master-eligible
+      node names which will participate in the vote of the first master
+      (first bootstrap). If this parameter was not defined, it would
+      mean that it is expected that the node will join an already formed
+      cluster. Beyond the first election, this parameter ceases to bear meaning
+    * ``gateway.expected_nodes`` and ``gateway.recover_after_nodes``: We have
+      three nodes in the cluster and we want the cluster's state to be recovered
+      once all nodes are started
 
 .. NOTE::
 
@@ -79,6 +120,16 @@ Check the node is up with ``docker ps`` and you should see something like this:
     CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                                             NAMES
     f79116373877        crate               "/docker-entrypoin..."   16 seconds ago      Up 15 seconds       4300/tcp, 5432-5532/tcp, 0.0.0.0:4201->4200/tcp   crate01
 
+You can have a look at the container's logs in tail mode like this:
+
+.. code-block:: text
+
+    sh$ docker logs -f crate01
+
+.. NOTE::
+
+    To exit the logs view press ctrl+C.
+
 You can visit the admin UI in your browser with this URL:
 
 .. code-block:: text
@@ -88,35 +139,63 @@ You can visit the admin UI in your browser with this URL:
 Select the *Cluster* icon from the left hand navigation, and you should see a
 page that lists a single node.
 
-Let's add another node to our cluster.
+Let's add the second node, ``crate02``, to the cluster::
 
-Docker automatically resolves hostnames to container names within the
-user-defined ``crate`` network, so any subsequent nodes can access this node
-using the ``crate01`` hostname.
-
-So, let's create a second node, called ``crate02``, and configure it to ping
-``crate01`` for cluster discovery. Like so::
-
-    sh$ docker run -d --name=crate02 \
-          --net=crate -p 4202:4200 --env CRATE_HEAP_SIZE=2g \
+    sh$ docker run --rm -it \
+          --name=crate02 \
+          --net=crate \
+          -p 4202:4200 \
+          --env CRATE_HEAP_SIZE=2g \
           crate -Cnetwork.host=_site_ \
-                -Cdiscovery.seed_hosts=crate01
+                -Cnode.name=crate02 \
+                -Cdiscovery.seed_hosts=crate01,crate03 \
+                -Ccluster.initial_master_nodes=crate01,crate02 \
+                -Cgateway.expected_nodes=3  -Cgateway.recover_after_nodes=2
 
-Notice here how we also updated the port mapping, so that port ``4200`` on the
-container is mapped to ``4202`` on our host machine.
+Notice here that:
+
+- We updated the container and node name to ``crate02``
+- We updated the port mapping, so that port ``4202`` on your host is
+  mapped to ``4200`` on the container
+- We have set parameter ``discovery.seed_hosts`` to contain the other
+  hosts of the cluster
+- ``cluster.initial_master_nodes``:  In our scenario, we only want nodes
+  ``crate01`` and ``crate02`` to participate in the election of first
+  master, thus we leave it unchanged
+- ``gateway.expected_nodes`` and ``gateway.recover_after_nodes``: We have
+  three nodes in the cluster and we want the cluster's state to be recovered
+  once all nodes are started
 
 Now, if you go back to the admin UI you already have open, or visit the admin
 UI of the node you just created (located at ``http://localhost:4202/``) you
 should see two nodes.
 
-Success! You just created a CrateDB cluster with Docker.
+You can now add ``crate03`` like this::
 
-You can now add subsequent nodes, like so::
-
-    sh$ docker run -d --name=crate03 \
-          --net=crate -p 4203:4200  --env CRATE_HEAP_SIZE=2g \
+    sh$ docker run --rm -it \
+          --name=crate03 \
+          --net=crate -p 4203:4200  \
+          --env CRATE_HEAP_SIZE=2g \
           crate -Cnetwork.host=_site_ \
-                -Cdiscovery.seed_hosts=crate01,crate02
+                -Cnode.name=crate03 \
+                -Cdiscovery.seed_hosts=crate01,crate02 \
+                -Cgateway.expected_nodes=3 -Cgateway.recover_after_nodes=2
+
+Notice here that:
+
+- We updated the container and node name to ``crate03``
+- We updated the port mapping, so that port ``4203`` on your host is
+  mapped to ``4200`` on the container
+- We have set parameter ``discovery.seed_hosts`` to contain the other
+  hosts of the cluster
+- ``cluster.initial_master_nodes``:  In our scenario, we only want nodes
+  ``crate01`` and ``crate02`` to participate in the election of first
+  master, thus we don't need this setting
+- ``gateway.expected_nodes`` and ``gateway.recover_after_nodes``: We have
+  three nodes in the cluster and we want the cluster's state to be recovered
+  once all nodes are started
+
+Success! You just created a three nodes CrateDB cluster with Docker.
 
 .. NOTE::
 
@@ -151,7 +230,8 @@ You can also start a single node without any bootstrap checks by passing the
 ``-Cdiscovery.type=single-node`` option::
 
     sh$ docker run -d --name=crate01 \
-          --net=crate -p 4201:4200 --env CRATE_HEAP_SIZE=2g \
+          --net=crate -p 4201:4200 \
+          --env CRATE_HEAP_SIZE=2g \
           crate -Cnetwork.host=_site_ \
                 -Cdiscovery.type=single-node
 
@@ -181,6 +261,8 @@ and connect to three hosts named ``crate01``, ``crate02``, and ``crate03``
         --net=crate crate \
         crash --hosts crate01 crate02 crate03
 
+.. _docker-compose:
+
 Docker Compose
 ==============
 
@@ -192,26 +274,57 @@ Read about Docker Compose specifics `here <https://docs.docker.com/compose/>`_.
 
 .. code-block:: yaml
 
-    crate-1:
+    crate01:
       image: crate
+      container_name: crate01
+      hostname: crate01
       ports:
-        - "4200:4200"
-        - "5432:5432"
+        - 4201:4200
+      net: crate
       volumes:
-        - /mnt/data/crate:/data
+        - /tmp/crate/01:/data
+      command: >
+        crate -Cnetwork.host=_site_
+        -Cdiscovery.seed_hosts=crate02,crate03
+        -Ccluster.initial_master_nodes=crate01,crate02,crate03
       environment:
-        CRATE_HEAP_SIZE: 16g
-      command: crate -Cnode.name=crate-1
-    node:
-      build: .
-      ports:
-        - "8000:8000"
-      links:
-        - crate
+        - CRATE_HEAP_SIZE=2g
 
-In this example, we create one CrateDB instance with the ports manually
-allocated, a shared file system volume, an environment variable set for the
-heap size and override the default CrateDB command to give the node a name.
+    crate02:
+      image: crate
+      container_name: crate02
+      hostname: crate02
+      ports:
+        - 4202:4200
+      net: crate
+      volumes:
+        - /tmp/crate/02:/data
+      command: >
+        crate -Cnetwork.host=_site_
+        -Cdiscovery.seed_hosts=crate01,crate03
+        -Ccluster.initial_master_nodes=crate01,crate02,crate03
+      environment:
+        - CRATE_HEAP_SIZE=2g
+
+    crate03:
+      image: crate
+      container_name: crate03
+      hostname: crate03
+      ports:
+        - 4203:4200
+      net: crate
+      volumes:
+        - /tmp/crate/03:/data
+      command: >
+        crate -Cnetwork.host=_site_
+        -Cdiscovery.seed_hosts=crate01,crate02
+        -Ccluster.initial_master_nodes=crate01,crate02,crate03
+      environment:
+        - CRATE_HEAP_SIZE=2g
+
+In this example, we create three CrateDB instances with the ports manually
+allocated, a file system volume per instance, an environment variable set for the
+heap size, a dedicated network and a set of configuration parameters (`-C`).
 
 Best Practices
 ==============
