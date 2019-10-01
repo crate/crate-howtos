@@ -63,7 +63,7 @@ node ``crate02`` and container ``crate03`` will run cluster node ``crate03``.
 
 You can then create your first CrateDB container/node, like this::
 
-    sh$ docker run --rm -it \
+    sh$ docker run --rm -d \
           --name=crate01 \
           --net=crate \
           -p 4201:4200 \
@@ -141,7 +141,7 @@ page that lists a single node.
 
 Let's add the second node, ``crate02``, to the cluster::
 
-    sh$ docker run --rm -it \
+    sh$ docker run --rm -d \
           --name=crate02 \
           --net=crate \
           -p 4202:4200 \
@@ -150,7 +150,7 @@ Let's add the second node, ``crate02``, to the cluster::
                 -Cnode.name=crate02 \
                 -Cdiscovery.seed_hosts=crate01,crate03 \
                 -Ccluster.initial_master_nodes=crate01,crate02 \
-                -Cgateway.expected_nodes=3  -Cgateway.recover_after_nodes=2
+                -Cgateway.expected_nodes=3 -Cgateway.recover_after_nodes=2
 
 Notice here that:
 
@@ -172,7 +172,7 @@ should see two nodes.
 
 You can now add ``crate03`` like this::
 
-    sh$ docker run --rm -it \
+    sh$ docker run --rm -d \
           --name=crate03 \
           --net=crate -p 4203:4200  \
           --env CRATE_HEAP_SIZE=2g \
@@ -287,6 +287,7 @@ Read about Docker Compose specifics `here <https://docs.docker.com/compose/>`_.
         crate -Cnetwork.host=_site_
         -Cdiscovery.seed_hosts=crate02,crate03
         -Ccluster.initial_master_nodes=crate01,crate02,crate03
+        -Cgateway.expected_nodes=3 -Cgateway.recover_after_nodes=2
       environment:
         - CRATE_HEAP_SIZE=2g
 
@@ -303,6 +304,7 @@ Read about Docker Compose specifics `here <https://docs.docker.com/compose/>`_.
         crate -Cnetwork.host=_site_
         -Cdiscovery.seed_hosts=crate01,crate03
         -Ccluster.initial_master_nodes=crate01,crate02,crate03
+        -Cgateway.expected_nodes=3 -Cgateway.recover_after_nodes=2
       environment:
         - CRATE_HEAP_SIZE=2g
 
@@ -319,12 +321,16 @@ Read about Docker Compose specifics `here <https://docs.docker.com/compose/>`_.
         crate -Cnetwork.host=_site_
         -Cdiscovery.seed_hosts=crate01,crate02
         -Ccluster.initial_master_nodes=crate01,crate02,crate03
+        -Cgateway.expected_nodes=3 -Cgateway.recover_after_nodes=2
       environment:
         - CRATE_HEAP_SIZE=2g
 
 In this example, we create three CrateDB instances with the ports manually
 allocated, a file system volume per instance, an environment variable set for the
 heap size, a dedicated network and a set of configuration parameters (`-C`).
+In this case, the start order of the containers is not deterministic and we
+want all three containers to be up and running before the election for the
+master is performed.
 
 Best Practices
 ==============
