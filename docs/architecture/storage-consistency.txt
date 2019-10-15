@@ -33,10 +33,11 @@ marker.
 An arbitrary number of replica shards can be configured per table. Every
 operational replica holds a full synchronized copy of the primary shard.
 
-With read operations, there is no difference between executing the operation on
-the primary shard or on any of the replicas. CrateDB randomly assigns a shard
-when routing an operation. It is possible to configure this behavior if
-required, see our best practice guide on `multi zone setups`_ for more details.
+With read operations, there is no difference between executing the
+operation on the primary shard or on any of the replicas. CrateDB
+randomly assigns a shard when routing an operation. It is possible to
+configure this behavior if required, see our best practice guide on
+:ref:`multi zone setups <multi-zone-setup>` for more details.
 
 Write operations are handled differently than reads. Such operations are
 synchronous over all active replicas with the following flow:
@@ -214,7 +215,6 @@ flow for an ``ALTER TABLE`` statement which changes the schema of a table:
 .. _Elasticsearch: http://www.elasticsearch.org/
 .. _Lucene: http://lucene.apache.org/core/
 .. _WAL: http://en.wikipedia.org/wiki/Write-ahead_logging
-.. _multi zone setups: https://crate.io/docs/scale/multi_zone_setup
 .. _Optimistic Concurrency Control: https://crate.io/docs/crate/reference/sql/occ.html
 .. _internal identifier: https://crate.io/docs/crate/reference/sql/administration/system_columns.html#sql-administration-system-column-id
 .. _routing: https://crate.io/docs/crate/reference/sql/ddl/sharding.html#routing
