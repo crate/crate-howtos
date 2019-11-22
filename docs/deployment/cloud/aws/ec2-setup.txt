@@ -30,7 +30,7 @@ that are then used as unicast hosts for node discovery (see
 Basic Configuration
 ===================
 
-The most important step for EC2 discovery is that you have the launch your EC2
+The most important step for EC2 discovery is that you have to launch your EC2
 instances within the same security group. The rules of that security group must
 at least allow traffic on CrateDB's transport port (default ``4300``). This
 will allow CrateDB to accept and respond to pings from other CrateDB instances
