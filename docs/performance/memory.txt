@@ -4,15 +4,39 @@
 Memory configuration
 ====================
 
-In general, you should allocate as much memory as possible to CrateDB.
+CrateDB is a Java application running on top of a Java Virtual Machine (JVM).
+For optimal performance you must configure the amount of memory that is
+available to the JVM for **heap** allocations. The **heap** is a memory region
+used for allocations of objects. For example, if you invoke a ``SELECT``
+statement, parts of the result set are temporarily allocated in the **heap**.
 
-The amount of memory made allocated is called the *heap*.
+The amount of memory that CrateDB can use for heap allocations is set using the
+`CRATE_HEAP_SIZE`_ environment variable.
 
-If the heap is too small, some memory-intensive queries (such as those which
-need to hold many rows in memory) may fail with ``OutOfMemory`` exceptions.
+The right memory configuration depends on your workloads.
 
-However, there are two important limits on how large you should configure the
-heap.
+Consider the following when determining the right value:
+
+- The JVM has automatic memory management and frees up memory using `Garbage
+  Collection`_ (GC). CrateDB, as of version 4.1, defaults to use a garbage
+  collection implementation called `G1GC`_. This implementation performs well
+  for heap sizes ranging from several GB to ten or more. It tries to provide
+  the best balance between latency and throughput. Still, the garbage
+  collection times **increase** with a bigger heap, leading to **increased**
+  latency. Therefore, your heap size shouldn't be too large.
+
+- CrateDB needs to be able to hold all the structures required to process
+  queries in memory. The biggest offender are intermediate or final result
+  sets. Therefore, the heap region must be large enough to hold the biggest
+  result sets in memory. The size of the intermediate and final result sets
+  depend entirely on the type of queries you are running.
+
+- CrateDB also uses `Memory mapped files`_ via `Lucene`_. This reduces the
+  amount of heap space required and benefits from the file system cache.
+
+A good starting point for the heap space is 25% of the systems memory. However,
+it shouldn't be set above 30.5GB, see the limits section below.
+
 
 .. rubric:: Table of contents
 
@@ -23,18 +47,6 @@ heap.
 
 Limits
 ======
-
-50% of available RAM
---------------------
-
-CrateDB uses `Lucene`_ as an underlying storage engine. Both CrateDB and Lucene
-need a lot of memory, so it is important not to assign too much to CrateDB and
-forget about Lucene. If Lucene does not have enough memory, CrateDB may
-experience serious performance degradation.
-
-A good starting point is to configure the CrateDB heap at 50% of the available
-system memory, leaving the other 50% free for Lucene and other system
-processes. Lucene will use as much memory as is available.
 
 30.5 gigabytes total
 --------------------
@@ -79,3 +91,6 @@ node on the same host system as the primary shard.
 .. _HotSpot Java Virtual Machine: http://www.oracle.com/technetwork/java/javase/tech/index-jsp-136373.html
 .. _Lucene: https://lucene.apache.org/
 .. _x64 architectures: https://en.wikipedia.org/wiki/X86-64
+.. _Garbage Collection: https://en.wikipedia.org/wiki/Garbage_collection_(computer_science)
+.. _G1GC: https://docs.oracle.com/javase/9/gctuning/garbage-first-garbage-collector.htm#JSGCT-GUID-0394E76A-1A8F-425E-A0D0-B48A3DC82B42
+.. _Memory mapped files: https://en.wikipedia.org/wiki/Memory-mapped_file
