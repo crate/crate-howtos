@@ -1,10 +1,10 @@
-=============
-CrateDB Guide
-=============
+=====================
+CrateDB How-To Guides
+=====================
 
 |build-status| |docs|
 
-A collection of auxiliary documentation for CrateDB_.
+How-to guides for CrateDB_.
 
 Contributing
 ============
@@ -26,15 +26,15 @@ Looking for more help?
 .. _Crate.io: http://crate.io/
 .. _CrateDB: https://github.com/crate/crate
 .. _developer docs: DEVELOP.rst
+.. _project docs: https://crate.io/docs/crate/howtos/en/latest/
 .. _support channels: https://crate.io/support/
-.. _project docs: https://crate.io/docs/crate/guide/en/latest/
 
-.. |build-status| image:: https://img.shields.io/travis/crate/guide.svg?style=flat
+.. |build-status| image:: https://img.shields.io/travis/crate/crate-howtos.svg?style=flat
     :alt: build status
     :scale: 100%
     :target: https://travis-ci.org/crate/guide
 
-.. |docs| image:: https://readthedocs.org/projects/crate-guide/badge/?version=latest
+.. |docs| image:: https://readthedocs.org/projects/crate-howtos/badge/?version=latest
     :alt: Documentation Status
     :scale: 100%
-    :target: https://crate-guide.readthedocs.io/en/latest/?badge=latest
+    :target: https://crate-howtos.readthedocs.io/en/latest/?badge=latest
