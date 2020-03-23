@@ -32,7 +32,7 @@ Looking for more help?
 .. |build-status| image:: https://img.shields.io/travis/crate/crate-howtos.svg?style=flat
     :alt: build status
     :scale: 100%
-    :target: https://travis-ci.org/crate/guide
+    :target: https://travis-ci.org/crate/crate-howtos
 
 .. |docs| image:: https://readthedocs.org/projects/crate-howtos/badge/?version=latest
     :alt: Documentation Status
