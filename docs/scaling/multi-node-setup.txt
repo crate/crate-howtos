@@ -138,8 +138,8 @@ Master node election
 ====================
 
 In a CrateDB cluster, the master node is responsible for making changes to the
-global cluster state. The master node is elected as part of the
-:ref:`shared_nothing_master_node_election`.
+global cluster state. The master node is elected as part of the `master node
+election`_.
 
 CrateDB requires a *quorum* of nodes in the cluster before a master can be
 elected. This insures that multiple masters are not elected in the event of a
@@ -176,8 +176,8 @@ CrateDB versions 3.x and below
 The quorum must be configured manually.
 
 In a three node cluster, the quorum size
-(`discovery.zen.minimum_master_nodes`_) must be at least two. This is explained in the
-:ref:`quorum guide <shared_nothing_master_node_election>`.
+(`discovery.zen.minimum_master_nodes`_) must be at least two. This is explained
+in the `quorum guide`_.
 
 Configure a quorum of two, add this to your `configuration`_ file:
 
@@ -255,4 +255,6 @@ published settings can differ from the address of the actual host:
 .. _configuration: https://crate.io/docs/crate/reference/en/latest/config/index.html
 .. _discovery.zen.minimum_master_nodes: https://crate.io/docs/crate/reference/en/3.3/config/cluster.html#discovery-zen-minimum-master-nodes
 .. _latest: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery
+.. _master node election: https://crate.io/docs/crate/howtos/en/latest/architecture/shared-nothing.html#master-node-election
+.. _quorum guide: https://crate.io/docs/crate/howtos/en/latest/architecture/shared-nothing.html#master-node-election
 .. _split-brain: https://en.wikipedia.org/wiki/Split-brain_(computing)
