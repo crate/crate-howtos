@@ -23,13 +23,11 @@ massive amounts of machine data in real-time.
    :maxdepth: 3
    :titlesonly:
 
-   architecture/index
    deployment/index
    admin/index
    scaling/index
    performance/index
    best-practices/index
-   tools/index
 
 
 .. _Tutorials: https://crate.io/docs/crate/tutorials/en/latest/
