@@ -10,3 +10,10 @@ This section of the documentation covers reference architectures.
     :maxdepth: 1
 
     azure-functions
+
+.. rubric:: Data Analysis and Machine Learning
+
+.. toctree::
+    :maxdepth: 1
+
+    r
