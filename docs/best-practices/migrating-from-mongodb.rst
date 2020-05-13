@@ -56,7 +56,7 @@ A basic CREATE TABLE statement looks as follows::
     ... ) clustered into 5 shards with (number_of_replicas = 0);
     CREATE OK, 1 row affected (... sec)
 
-In CrateDB each field is indexed by default. So it is not necessary to create
+In CrateDB each field is indexed by default. It is not necessary to create
 any additional indices.
 
 However, if some fields are never used for filtering, indexing can be turned
@@ -100,9 +100,9 @@ the table and insert arbitrary objects into the obj column::
     +-------+----------+--------+----------------------+
     SELECT 1 row in set (... sec)
 
-But this has some limitations. For example timestamps in long format won't be
-recognised as timestamps. Due to this limitation it is recommended to specify
-fields up-front.
+However, this has some limitations. For example timestamps in long format
+won't be recognised as timestamps. Due to this limitation it is recommended
+to specify fields up-front.
 
 .. SEEALSO::
 

@@ -100,9 +100,9 @@ to the original result.
    across segments or shards. This is good enough for a modulo sampling
    operation.
 
-   Furthermore, the internal ID is basically available for free and doesn't
-   have to be read from the file system. This makes it an ideal candidate for
-   modulo based sampling.
+   Furthermore, the internal ID is already available and doesn't have to be
+   read from the file system. This makes it an ideal candidate for modulo
+   based sampling.
 
 .. _down-sampling: https://grisha.org/blog/2015/03/28/on-time-series/#downsampling
 .. _LIMITs: https://crate.io/docs/crate/reference/en/latest/sql/statements/select.html#limit

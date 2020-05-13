@@ -4,7 +4,7 @@
 Insert methods
 ==============
 
-There are multiple ways to insert data into a CrateDB database.
+CrateDB supports multiple ways to insert data.
 
 Some insert methods can be faster than others, depending on your setup.
 Choosing the best insert method is an easy way to improve insert performance.
@@ -19,7 +19,7 @@ Choosing the best insert method is an easy way to improve insert performance.
 Statement types
 ===============
 
-There are three types of insert statement:
+The three types of insert statements are:
 
 - :ref:`Single inserts <inserts_single_inserts>`
 - :ref:`UNNEST <inserts_unnest>`
@@ -142,9 +142,9 @@ This method of doing bulk inserts is usually slower than the ``UNNEST`` method,
 because parsing is more expensive. The query looks nicer for humans though.
 
 The only problem is that the structure of the insert statement is variable on
-the number of rows to insert. So, if you are inserting a variable number of
-rows, you have to prepare the SQL statement using some form of string
-concatenation each time.
+the number of rows to insert. If you are inserting a variable number of rows,
+you have to prepare the SQL statement using some form of string concatenation
+each time.
 
 Query string parameter substitution is recommended over string concatenation,
 and so the ``UNNEST`` method is recommended over the multiple value expressions
@@ -155,7 +155,7 @@ method.
 Client approaches
 =================
 
-There are three client approaches for doing inserts:
+The three client approaches for doing inserts are:
 
 - :ref:`Standard querying <inserts_standard_querying>`
 - :ref:`Bulk operations <inserts_bulk_operations>`

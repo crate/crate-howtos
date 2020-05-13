@@ -92,7 +92,7 @@ based on the assumption that your nodes have two CPUs each.
    If you are using `partitioned tables`_, note that each partition is
    clustered into as many shards as you configure for the table.
 
-   So, for example, a table with four shards and two partitions will have eight
+   For example, a table with four shards and two partitions will have eight
    shards that can be commonly queried across. But a query that only touches
    one partition will only query across four shards.
 
