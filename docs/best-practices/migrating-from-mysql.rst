@@ -13,7 +13,7 @@ Migrating from MySQL
 Introduction
 ============
 
-There are various ways to migrate your existing data from MySQL_ to CrateDB_.
+Various ways exist to migrate your existing data from MySQL_ to CrateDB_.
 However, these methods may differ in performance. A fast and reliable way to
 migrate is to use CrateDB's existing export and import tools.
 

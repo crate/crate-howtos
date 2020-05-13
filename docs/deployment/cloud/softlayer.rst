@@ -31,7 +31,7 @@ instances in real-time.
 A balanced instance configuration for a production CrateDB host could look
 similar like that:
 
-8x 2.0GHz cores = 32 GB memory = 100 GB local SSD storage 1000 Mbps
+8 × 2.0GHz cores = 32 GB memory = 100 GB local SSD storage 1000 Mbps
 public/private network interface
 
 We used `SaltStack <http://www.saltstack.com/>`_'s `Salt Cloud

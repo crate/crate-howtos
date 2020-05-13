@@ -47,7 +47,7 @@ If you're using an earlier version than CrateDB 3.0.0, you will have to enable
 statistics using:
 
     cr> SET GLOBAL stats.enabled = true;
-    SET OK, 1 row affected (... sec)
+    SET OK, 1 row affected ( … sec)
 
 When enabled, each syntactically correct request that got parsed and planned is
 listed in the **sys.jobs** table while it's executed::

@@ -13,9 +13,8 @@ Importing huge datasets into CrateDB
 Introduction
 ============
 
-Usually projects do not start from scratch, most of the time there is
-pre-existing data that needs to be imported and sometimes the amount of data is
-significant.
+Usually projects contain pre-existing data that needs to be imported and
+sometimes the amount of data is significant.
 
 Assuming that you have an existing application that generates a few hundred
 thousand records a day and you are about to migrate to a new stack with CrateDB
@@ -67,7 +66,7 @@ configuration will be used:
 :replicas:
   1
 
-So we recommend you choose the number of shards wisely. They depend on the
+We recommend you choose the number of shards wisely. They depend on the
 number of nodes in the cluster as well as on the amount of data that goes into
 the table.
 
@@ -387,7 +386,7 @@ if a few things are kept in mind. These are:
 - Import table partitions separately using the ``PARTITION`` clause in the
   ``COPY TO`` statement.
 
-And last but not least:
+Finally:
 
 - Import speed significantly increases with increasing disk I/O. Using SSDs for
   CrateDB is recommended anyway, but having one more disk (by adding another

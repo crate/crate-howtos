@@ -68,14 +68,14 @@ If the ``full`` minimum data availability is configured the cluster needs to
 contain enough nodes to hold the number of replicas that are configured even if
 one node is missing.
 
-So for example if there are only two nodes in a cluster and a table has one
+For example if there are only two nodes in a cluster and a table has one
 replica configured the ``graceful stop`` procedure will not succeed and abort
 as it won't be possible to relocate the replicas.
 
 If a table has a range configured as number of replicas this will take into
 account the upper number of replicas.
 
-So, with two nodes and 0-1 replicas, the ``graceful stop`` procedure will
+With two nodes and 0-1 replicas, the ``graceful stop`` procedure will
 abort.
 
 In short: for the ``full`` graceful stop to work the following has to be true::
@@ -271,7 +271,7 @@ Repeat step two, three, and four for all other nodes.
 Step 6: Enable allocations
 --------------------------
 
-Last but not least when all nodes are updated you can re-enable allocations
+Finally, when all nodes are updated you can re-enable allocations
 again that have been disabled in the first step:
 
 .. code-block:: psql

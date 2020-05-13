@@ -52,8 +52,8 @@ with at least one master node and one worker node.
 Managing Kubernetes
 ===================
 
-There are lots of different ways to `manage a Kubernetes deployment`_. Which
-one makes sense for you will depend on your situation.
+Kubernetes deployments can be `managed`_ in many different ways. Which one
+makes sense for you will depend on your situation.
 
 This section shows you three basic commands you can use to create and update a
 resource.
@@ -377,7 +377,7 @@ You can then use this in your controller configuration with something like this:
 .. _kubeadm: https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/
 .. _Kubernetes: https://kubernetes.io/
 .. _LoadBalancer: https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer
-.. _manage a Kubernetes deployment: https://kubernetes.io/docs/concepts/cluster-administration/manage-deployment/
+.. _managed: https://kubernetes.io/docs/concepts/cluster-administration/manage-deployment/
 .. _Minikube: https://kubernetes.io/docs/setup/minikube/
 .. _node discovery via DNS: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery-via-dns
 .. _persistent volume: https://kubernetes.io/docs/concepts/storage/persistent-volumes/

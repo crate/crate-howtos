@@ -198,8 +198,7 @@ The gateway persists cluster meta data on disk every time it changes. This data
 is stored persistently across full cluster restarts and recovered after nodes
 are restarted.
 
-There are three important settings that control how the gateway recovers the
-cluster state:
+Three important settings control how the gateway recovers the cluster state:
 
 ``gateway.recover_after_nodes`` defines the number of nodes that need to be
 started before any cluster state recovery will start. Ideally this value should
@@ -216,7 +215,7 @@ state is recovered. The value should be equal to the number of nodes in the
 cluster, because you want the cluster state to be recovered after all nodes are
 started.
 
-These settings cannot be changed when a cluster is running. So they need to be
+These settings cannot be changed when a cluster is running. They need to be
 set in the configuration file, e.g.:
 
 .. code-block:: yaml

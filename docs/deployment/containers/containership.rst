@@ -63,8 +63,8 @@ appended and you will see the CrateDB admin UI.
 Scaling
 =======
 
-There are two methods for scaling your cluster with ContainerShip, the number
-of containers per VM, or the number of VMs.
+Two methods exist for scaling your cluster with ContainerShip: the number
+of containers per VM or the number of VMs.
 
 To increase the number of VMs, simply click the 'Scale' button in the 'Follower
 Hosts' section on the *Cluster* page and increase the number of hosts.

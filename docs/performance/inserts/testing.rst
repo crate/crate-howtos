@@ -80,7 +80,7 @@ It's important to generate the fake data as a separate step so that our
 performance testing isn't also measuring the fake data generation, which in
 some situations, might actually end up being the performance bottleneck.
 
-Now, export the the fake data as JSON using `COPY TO`_:
+Now, export the fake data as JSON using `COPY TO`_:
 
 .. code-block:: psql
 

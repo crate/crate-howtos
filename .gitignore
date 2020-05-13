@@ -1,6 +1,9 @@
-_out/
+*.lint
 .DS_Store
+.build
+.env
 .idea
+.utils
 .venv
+_out/
 get-pip.py
-out/
