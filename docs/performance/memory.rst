@@ -52,38 +52,43 @@ Limits
 --------------------
 
 On `x64 architectures`_, the `HotSpot Java Virtual Machine`_ (JVM) uses a
-performance optimization technique called `Compressed Oops`_ that allows the
-JVM to address up to 32 gigabytes of memory.
+performance optimization technique called `Compressed Oops`_. This technique
+allows the JVM to use 4 byte instead of 8 byte for object references. This can
+save a lot of memory.
 
-If you configure the heap to more than 32 gigabytes, this performance
-optimization is disabled, and CrateDB will suffer performance degradation as a
-result.
+Unfortunately the JVM can only address up to about 32 GB of memory with
+`Compressed Oops` and the optimization is disabled if a HEAP of more than 32 GB
+is configured.
 
-On some JVMs this value is as low as 30.5 gigabytes.
+If `Compressed Oops` is disabled, the object overhead will increase compared to
+having it enabled. Because of this, a cluster that is configured to use 30 GB
+heap may have more real memory available for objects than a cluster that has
+only slightly more than 32GB of heap.
 
-For this reason, you should never configure the CrateDB heap to more than 30.5
-gigabytes.
+.. NOTE::
+  
+  On some JVMs this value is as low as 30.5 gigabytes.
+  To verify that Compressed Oops is enabled you can use the `jcmd` tool
+
+  ::
+
+      ↪  jcmd 624140 VM.info | grep "Compressed Oops"
+      Heap address: 0x0000000414200000, size: 16062 MB, Compressed Oops mode: Zero
+      based, Oop shift amount: 3
+
+  Here 624140 is the PID of the CrateDB progress.
+  If the output is empty, Compressed Oops are not in use.
+
+
+For this reason, you should aim to stay below 30.5 GB. If you want to use more
+than that, you will have to skip to a higher amount to offset the memory lost
+due to the lack of Compressed Oops.
 
 .. TIP::
 
     When configuring heap size via `CRATE_HEAP_SIZE`_, you can specify 30.5
     gigabytes with the value ``30500m``.
 
-If you are running CrateDB on a system with much more memory available, we
-recommend that you run multiple CrateDB nodes.
-
-In this instance, each CrateDB node should be configured with a heap size of
-30.5 gigabytes. However, in total, you should still leave 50% of the system
-memory for Lucene.
-
-You should also add this to your node configurations:
-
-.. code-block:: yaml
-
-    cluster.routing.allocation.same_shard.host: true
-
-This will prevent replica shards from being created on or moved to a CrateDB
-node on the same host system as the primary shard.
 
 .. _Compressed Oops: https://wiki.openjdk.java.net/display/HotSpot/CompressedOops
 .. _configurations: https://crate.io/docs/crate/reference/en/latest/config/index.html
