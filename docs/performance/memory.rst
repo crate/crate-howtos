@@ -5,6 +5,7 @@ Memory configuration
 ====================
 
 CrateDB is a Java application running on top of a Java Virtual Machine (JVM).
+
 For optimal performance you must configure the amount of memory that is
 available to the JVM for **heap** allocations. The **heap** is a memory region
 used for allocations of objects. For example, if you invoke a ``SELECT``
@@ -37,7 +38,6 @@ Consider the following when determining the right value:
 A good starting point for the heap space is 25% of the systems memory. However,
 it shouldn't be set above 30.5GB, see the limits section below.
 
-
 .. rubric:: Table of contents
 
 .. contents::
@@ -45,8 +45,10 @@ it shouldn't be set above 30.5GB, see the limits section below.
 
 .. _memory-limits:
 
+
 Limits
 ======
+
 
 30.5 gigabytes total
 --------------------
@@ -66,23 +68,24 @@ heap may have more real memory available for objects than a cluster that has
 only slightly more than 32GB of heap.
 
 .. NOTE::
-  
-  On some JVMs this value is as low as 30.5 gigabytes.
-  To verify that Compressed Oops is enabled you can use the `jcmd` tool
 
-  ::
+    On some JVMs this value is as low as 30.5 gigabytes. To verify that
+    *Compressed Oops* is enabled you can use the `jcmd` tool:
 
-      ↪  jcmd 624140 VM.info | grep "Compressed Oops"
-      Heap address: 0x0000000414200000, size: 16062 MB, Compressed Oops mode: Zero
-      based, Oop shift amount: 3
+    .. code-block:: console
 
-  Here 624140 is the PID of the CrateDB progress.
-  If the output is empty, Compressed Oops are not in use.
+        sh$ jcmd 624140 VM.info | grep "Compressed Oops"
 
+        Heap address: 0x0000000414200000, size: 16062 MB, Compressed Oops mode: Zero
+        based, Oop shift amount: 3
 
-For this reason, you should aim to stay below 30.5 GB. If you want to use more
-than that, you will have to skip to a higher amount to offset the memory lost
-due to the lack of Compressed Oops.
+    Here 624140 is the PID of the CrateDB progress. If the output is empty,
+    *Compressed Oops* are not in use.
+
+For this reason, you should aim to stay below 30.5 GB.
+
+If you want to use more than 30.5 GB, you should configure the total amount to
+offset the memory lost due to the lack of *Compressed Oops*.
 
 .. TIP::
 
@@ -93,9 +96,9 @@ due to the lack of Compressed Oops.
 .. _Compressed Oops: https://wiki.openjdk.java.net/display/HotSpot/CompressedOops
 .. _configurations: https://crate.io/docs/crate/reference/en/latest/config/index.html
 .. _CRATE_HEAP_SIZE: https://crate.io/docs/crate/reference/en/latest/config/environment.html#crate-heap-size
+.. _G1GC: https://docs.oracle.com/javase/9/gctuning/garbage-first-garbage-collector.htm#JSGCT-GUID-0394E76A-1A8F-425E-A0D0-B48A3DC82B42
+.. _Garbage Collection: https://en.wikipedia.org/wiki/Garbage_collection_(computer_science)
 .. _HotSpot Java Virtual Machine: http://www.oracle.com/technetwork/java/javase/tech/index-jsp-136373.html
 .. _Lucene: https://lucene.apache.org/
-.. _x64 architectures: https://en.wikipedia.org/wiki/X86-64
-.. _Garbage Collection: https://en.wikipedia.org/wiki/Garbage_collection_(computer_science)
-.. _G1GC: https://docs.oracle.com/javase/9/gctuning/garbage-first-garbage-collector.htm#JSGCT-GUID-0394E76A-1A8F-425E-A0D0-B48A3DC82B42
 .. _Memory mapped files: https://en.wikipedia.org/wiki/Memory-mapped_file
+.. _x64 architectures: https://en.wikipedia.org/wiki/X86-64
