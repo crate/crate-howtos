@@ -4,6 +4,13 @@ Reference Architectures
 
 This section of the documentation covers reference architectures.
 
+.. rubric:: Ingestion
+
+.. toctree::
+   :maxdepth: 1
+
+   kafka-connect
+
 .. rubric:: Enrichment
 
 .. toctree::
