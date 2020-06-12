@@ -9,10 +9,11 @@ Migrating from MongoDB
 .. contents::
    :local:
 
+
 Exporting data from MongoDB
 ===========================
 
-MongoDB ships with a commandline tool called mongoexport_. This tool can be
+MongoDB ships with a command line tool called mongoexport_. This tool can be
 used to export data in the ``MongoDB Extended JSON`` file format.
 
 The Extended JSON format is a custom format from MongoDB that includes type
@@ -41,6 +42,7 @@ Once the script is downloaded convert the data:
 .. SEEALSO::
 
  - `MongoDB Manual - Extended JSON <http://docs.mongodb.org/manual/reference/mongodb-extended-json/>`_
+
 
 Importing data into CrateDB
 ===========================
@@ -74,10 +76,10 @@ enable great full-text search capabilities. See `Indices and Fulltext Search`_
 for more information.
 
 CrateDB is able to dynamically extend the schema, so it is not necessary to
-define all columns up-front.
+define all columns up front.
 
 Given the table above, it is possible to insert new columns at the top level of
-the table and insert arbitrary objects into the obj column::
+the table and insert arbitrary objects into the **obj** column::
 
     cr> insert into mytable2 (name, obj, newcol, dummy) values
     ... ('Trillian', {gender = 'female'}, 2804, 'dummy');
@@ -100,9 +102,9 @@ the table and insert arbitrary objects into the obj column::
     +-------+----------+--------+----------------------+
     SELECT 1 row in set (... sec)
 
-However, this has some limitations. For example timestamps in long format
-won't be recognised as timestamps. Due to this limitation it is recommended
-to specify fields up-front.
+However, this has some limitations. For example timestamps in long format won't
+be recognised as timestamps. Due to this limitation it is recommended to
+specify fields up front.
 
 .. SEEALSO::
 

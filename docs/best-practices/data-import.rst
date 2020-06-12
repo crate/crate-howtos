@@ -10,6 +10,7 @@ Importing huge datasets into CrateDB
 .. contents::
    :local:
 
+
 Introduction
 ============
 
@@ -24,11 +25,13 @@ records into CrateDB as quickly as possible.
 This best practice example will guide you through the process and shows tips
 and tricks on how to import your data quickly and safely.
 
+
 Defining the data structure
 ===========================
 
-Before starting the import you'll have to consider how your table structure
-will look. Decisions made at this point will influence the import process later.
+Before starting the import you'll have to consider what your table structure
+will look like. Decisions made at this point will influence the import process
+later.
 
 For this example we have a simple single ``users`` table with 6 columns of
 various types::
@@ -53,6 +56,7 @@ various types::
 There's nothing wrong with this method and it does the job, but it's not very
 performant and therefore not what we want to use in a real world application.
 
+
 .. _import_shards_replicas:
 
 Shards and replicas
@@ -66,23 +70,24 @@ configuration will be used:
 :replicas:
   1
 
-We recommend you choose the number of shards wisely. They depend on the
-number of nodes in the cluster as well as on the amount of data that goes into
-the table.
+We recommend you choose the number of shards wisely. It depends on the number
+of nodes in the cluster as well as on the amount of data that goes into the
+table.
 
 .. CAUTION::
 
   Be careful, you cannot change the number of shards once the table is created!
 
-Assuming there are 6 nodes in the cluster, and we put 2 shards on each node
-giving us a total of 12 shards, which should be enough for millions of records.
+Assuming there are 6 nodes in the cluster, we put 2 shards on each node,
+giving us a total of 12 shards. This should be enough for millions of
+records.
 
-Shards can be thought of as "virtual nodes" - create enough for your needs for
-scaling, but use as few as possible to keep the resource overhead (such as file
+Shards can be thought of as "virtual nodes" - create enough for your scaling
+needs, but use as few as possible to keep the resource overhead (such as file
 descriptors and memory) as small as possible.
 
 More importantly, set the number of replicas as low as possible, ideally to
-zero while importing data. In case the import fails, we can drop the table and
+zero, while importing data. In case the import fails, we can drop the table and
 re-import again. When the import succeeds, adjust the number of replicas
 according to your availability requirements.
 
@@ -105,13 +110,14 @@ The ``CREATE TABLE`` statement now looks like::
 
   - `Replication`_
 
+
 Refresh interval
 ----------------
 
-Another simple, but very important tweak to speed up importing is to set the
+Another simple, but very important, tweak to speed up importing is to set the
 refresh interval of the table to 0. This will disable the periodic refresh of
-the table that is needed to minimise the effect of eventual consistency and
-therefore also minimise the overhead during import.
+the table that is needed to minimize the effect of eventual consistency and
+therefore also minimize the overhead during import.
 
 ::
 
@@ -152,6 +158,7 @@ value (time in ms)::
   - `Refresh`_
   - `refresh_interval`_
 
+
 Store level throttling
 ----------------------
 
@@ -171,8 +178,8 @@ completely by setting the ``indices.store.throttle.type`` to ``none``.
   cr> SET GLOBAL TRANSIENT indices.store.throttle.type = 'none';
   SET OK, 1 row affected (... sec)
 
-However if you still want to throttle the merging of segments during import you
-can increase the maximum bytes per second from its default of ``20mb`` to
+However, if you still want to throttle the merging of segments during import,
+you can increase the maximum bytes per second from its default of ``20mb`` to
 something like 100-200mb/s for SSD disks::
 
   cr> SET GLOBAL TRANSIENT indices.store.throttle.max_bytes_per_sec = '150mb';
@@ -190,12 +197,14 @@ After import don't forget to turn throttling on again by setting its value to
 
   - `indices.store.throttle`_
 
+
 Importing data using ``COPY FROM``
 ==================================
 
-Once the table is created it's time for the actual import. Use the ``COPY
+Once the table is created, it's time for the actual import. Use the ``COPY
 FROM`` command to import data into a table efficiently. For more in-depth
 documentation on ``COPY FROM`` see `COPY FROM`_.
+
 
 JSON import format
 ------------------
@@ -204,7 +213,6 @@ CrateDB has native support for ``JSON`` formatted data, where each line is a
 ``JSON`` string and represents a single record. Empty lines are skipped. The
 keys of the ``JSON`` objects are mapped to columns when imported - nonexistent
 columns will be created if necessary.
-.
 
 For example: ``users.json``
 
@@ -213,14 +221,16 @@ For example: ``users.json``
    {"id": 1, "name": "foo", "day_joined": 1408312800, "bio": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit.", "address": {"city": "Dornbirn", "country": "Austria"}}
    {"id": 2, "name": "bar", "day_joined": 1408312800, "bio": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit.", "address": {"city": "Berlin", "country": "Germany"}}
 
+
 ``COPY FROM``
 -------------
 
-Upon execution, each node will check the provided path *locally* if the file
-exists and import the data it contains. Consequently this command will check
-``/tmp/best_practice_data/`` on each node in the cluster to import data from a
-file called 'users.json'. Please note that if the file is not found the command
-will return successfully, reporting ``COPY OK, 0 rows affected (... sec)``.
+Upon execution, each node will check the provided path *locally* to see whether
+the file exists and to import the data it contains. Consequently this command
+will check ``/tmp/best_practice_data/`` on each node in the cluster to import
+data from a file called 'users.json'. Please note that if the file is not
+found, the command will return successfully, reporting
+``COPY OK, 0 rows affected (... sec)``.
 
 ::
 
@@ -240,17 +250,18 @@ will return successfully, reporting ``COPY OK, 0 rows affected (... sec)``.
 
 .. NOTE::
 
-  When importing data using ``COPY FROM`` CrateDB does not check if the types
-  from the columns and the types from the import file match. It does not cast
-  the types to their target but will always import the data as in the source
-  file(s).
+  When importing data using ``COPY FROM``, CrateDB does not check whether the
+  types from the columns and the types from the import file match. It does not
+  cast the types to their target but will always import the data as in the
+  source file(s).
+
 
 Bulk size
 .........
 
 The bulk size defines the amount of lines that are read at once and imported
 into the table. You can specify it in the ``WITH`` clause of the statement and
-defaults to 10 000 if not specified.
+defaults to 10,000 if not specified.
 
 For example::
 
@@ -274,12 +285,13 @@ dataset with a lot of columns and large values, it makes sense to decrease the
 ``bulk_size``. Setting ``bulk_size`` too high might consume a lot of node
 resources while a low ``bulk_size`` can increase the overhead per request.
 
+
 Compression
 ...........
 
 If you do not have your data locally to the nodes, but somewhere on the
-network, e.g. a NAS or on ``S3``, it's recommended to use ``gzip`` compressed
-files to reduce network traffic.
+network, e.g. on a NAS or on ``S3``, it's recommended to use ``gzip``
+compressed files to reduce network traffic.
 
 CrateDB does not automatically detect compression, so you'll need to specify
 ``gzip`` compression in the ``WITH`` clause.
@@ -295,11 +307,12 @@ For example::
   cr> REFRESH TABLE users;
   REFRESH OK, 1 row affected (... sec)
 
+
 Partitioned tables
 ==================
 
 Sometimes you want to split your table into partitions to be able to handle
-large datasets more efficiently (e.g. for queries to run on a reduced set of
+large datasets more efficiently (e.g., for queries to run on a reduced set of
 rows). To demonstrate data import into partitioned tables, we create partitions
 for every day (in production, this depends on your use case).
 
@@ -331,9 +344,10 @@ partition column.
   ... WITH (number_of_replicas = 0);
   CREATE OK, 1 row affected (... sec)
 
-To import data into partitioned tables efficiently you should import each table
-partition separately. Since the value of the table partition is not stored in
-the column of the table, the ``JSON`` source must not contain the column value.
+To import data into partitioned tables efficiently, you should import each
+table partition separately. Since the value of the table partition is not
+stored in the column of the table, the ``JSON`` source must not contain the
+column value.
 
 For example: ``users_1408312800.json``
 
@@ -350,15 +364,16 @@ statement using the ``PARTITION`` clause::
   COPY OK, 23 rows affected (... sec)
 
 This way, CrateDB does not need to resolve the partition for each row that is
-imported but can store it directly into the correct place resulting in a much
+imported, but can store it directly into the correct place resulting in a much
 faster import.
 
 However, it's still possible (but not recommended) to import into partitioned
-tables without the ``PARTITION`` clause and have the column value in the source.
+tables without the ``PARTITION`` clause and have the column value in the
+source.
 
 When importing data into a partitioned table with existing partitions, it may
-be wanted to apply import optimizations like e.g. disable the `Refresh
-Interval`_ only to newly created partitions. This can be done by altering the
+be desirable to apply import optimizations, like e.g. to disable the `Refresh
+Interval`_ only for newly created partitions. This can be done by altering the
 partitioned table *only* by using the `ALTER TABLE ONLY`_ statement.
 
 Similarly, the number of shards can be adjusted for newly created partitions to
@@ -371,11 +386,12 @@ adapt to the increasing data volume! Simply use ``ALTER TABLE users SET
   - Table creation of `PARTITIONED BY clause`_
   - `Alter a partitioned table`_
 
+
 Summary
 =======
 
 To sum up the points described above, importing huge datasets is not difficult
-if a few things are kept in mind. These are:
+as long as a few things are kept in mind. These are:
 
 - Reduce the number of replicas as much as possible, ideally to 0. Replication
   slows down the import process significantly.
@@ -390,7 +406,8 @@ Finally:
 
 - Import speed significantly increases with increasing disk I/O. Using SSDs for
   CrateDB is recommended anyway, but having one more disk (by adding another
-  node) in the cluster, can make quite a difference.
+  node) in the cluster can make quite a difference.
+
 
 Further reading
 ===============
