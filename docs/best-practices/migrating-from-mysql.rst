@@ -10,6 +10,7 @@ Migrating from MySQL
 .. contents::
    :local:
 
+
 Introduction
 ============
 
@@ -35,6 +36,7 @@ Sample data::
   ...  VALUES (1, 'foo', '2014-10-31 09:22:56', 'apple,banana'),
   ...   (2, 'bar', null, 'pear');
 
+
 Exporting data from MySQL
 =========================
 
@@ -50,8 +52,8 @@ Example::
   ...   LINES TERMINATED BY '\n'
   ...  FROM foo;
 
-Make sure fields are seperated by a comma (``,``), that values are quoted with
-a pair of ``"`` and that lines are terminated by the newline character ``\n``.
+Make sure fields are separated by a comma (``,``), that values are quoted with
+a pair of ``"``, and that lines are terminated by the newline character ``\n``.
 
 Note that we specify ``utf8`` as encoding for writing into the outfile. This is
 important because CrateDB requires ``utf8`` encoding.
@@ -69,16 +71,17 @@ You may need to set the character encoding of the client and ``mysqld`` in the
 All values written to ``csv`` are quoted and therefore interpreted as strings
 when read from the convert script later.
 
+
 Date/time types
 ---------------
 
 The standard output for `date/time types in MySQL
 <http://dev.mysql.com/doc/refman/5.0/en/date-and-time-types.html>`_ is a
-string, However, CrateDB uses a ``long`` type to store timestamps (millisecond
-precision). To prevent problems with dates that have timezone information, use
-MySQL's builtin ``UNIX_TIMESTAMP`` function to convert ``date``, ``time``,
-``datetime``, ``timestamp`` and ``year`` types into UNIX timestamps directly in
-the ``SELECT`` statement.
+string. However, CrateDB uses a ``long`` type to store timestamps (with
+millisecond precision). To prevent problems with dates that have timezone
+information, use MySQL's builtin ``UNIX_TIMESTAMP`` function to convert
+``date``, ``time``, ``datetime``, ``timestamp`` and ``year`` types into UNIX
+timestamps directly in the ``SELECT`` statement.
 
 The output of this function must be multiplied by ``1000`` (converting ``s`` to
 ``ms``) to obtain the correct ``long`` value that can be used for importing
@@ -96,6 +99,7 @@ Final export query::
   ...    FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
   ...    LINES TERMINATED BY '\n'
   ...  FROM foo;
+
 
 Converting CSV to JSON
 ======================
@@ -144,6 +148,7 @@ For help use the ``-h`` option:
 
   sh$ python mysql2crate.py -h
 
+
 Importing data into CrateDB
 ===========================
 
@@ -170,6 +175,7 @@ file into CrateDB.
 
    Read :ref:`efficient_data_import` for more information how to import huge
    datasets into CrateDB.
+
 
 Third-party tool: csvkit
 ========================
