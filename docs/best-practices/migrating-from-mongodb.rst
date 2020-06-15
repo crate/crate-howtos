@@ -13,7 +13,7 @@ Migrating from MongoDB
 Exporting data from MongoDB
 ===========================
 
-MongoDB ships with a command line tool called mongoexport_. This tool can be
+MongoDB ships with a command-line tool called mongoexport_. This tool can be
 used to export data in the ``MongoDB Extended JSON`` file format.
 
 The Extended JSON format is a custom format from MongoDB that includes type
