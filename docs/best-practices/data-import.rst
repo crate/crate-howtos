@@ -33,8 +33,8 @@ Before starting the import you'll have to consider what your table structure
 will look like. Decisions made at this point will influence the import process
 later.
 
-For this example we have a simple single ``users`` table with 6 columns of
-various types::
+For this example, say you have a simple single ``users`` table with 6 columns
+of various types::
 
   cr> CREATE TABLE users (
   ...   id INT primary key,
@@ -54,7 +54,8 @@ various types::
   DROP OK, 1 row affected (... sec)
 
 There's nothing wrong with this method and it does the job, but it's not very
-performant and therefore not what we want to use in a real world application.
+performant and therefore not what you would want to use in a real world
+application.
 
 
 .. _import_shards_replicas:
@@ -70,7 +71,7 @@ configuration will be used:
 :replicas:
   1
 
-We recommend you choose the number of shards wisely. It depends on the number
+You should choose the number of shards wisely. The choice depends on the number
 of nodes in the cluster as well as on the amount of data that goes into the
 table.
 
@@ -78,7 +79,7 @@ table.
 
   Be careful, you cannot change the number of shards once the table is created!
 
-Assuming there are 6 nodes in the cluster, we put 2 shards on each node,
+Assuming there are 6 nodes in the cluster, you can put 2 shards on each node,
 giving us a total of 12 shards. This should be enough for millions of
 records.
 
@@ -87,7 +88,7 @@ needs, but use as few as possible to keep the resource overhead (such as file
 descriptors and memory) as small as possible.
 
 More importantly, set the number of replicas as low as possible, ideally to
-zero, while importing data. In case the import fails, we can drop the table and
+zero, while importing data. If the import fails, you can drop the table and
 re-import again. When the import succeeds, adjust the number of replicas
 according to your availability requirements.
 
@@ -226,11 +227,11 @@ For example: ``users.json``
 -------------
 
 Upon execution, each node will check the provided path *locally* to see whether
-the file exists and to import the data it contains. Consequently this command
+the file exists and to import the data it contains. Consequently, this command
 will check ``/tmp/best_practice_data/`` on each node in the cluster to import
-data from a file called 'users.json'. Please note that if the file is not
-found, the command will return successfully, reporting
-``COPY OK, 0 rows affected (... sec)``.
+data from a file called ``users.json``. Please note that if the file is not
+found, the command will return successfully, reporting ``COPY OK, 0 rows
+affected (... sec)``.
 
 ::
 
@@ -252,8 +253,8 @@ found, the command will return successfully, reporting
 
   When importing data using ``COPY FROM``, CrateDB does not check whether the
   types from the columns and the types from the import file match. It does not
-  cast the types to their target but will always import the data as in the
-  source file(s).
+  cast the types to their target but will always import the data as given in
+  the source file.
 
 
 Bulk size
@@ -290,7 +291,7 @@ Compression
 ...........
 
 If you do not have your data locally to the nodes, but somewhere on the
-network, e.g. on a NAS or on ``S3``, it's recommended to use ``gzip``
+network - e.g., on a NAS or on ``S3`` - it's recommended to use ``gzip``
 compressed files to reduce network traffic.
 
 CrateDB does not automatically detect compression, so you'll need to specify
@@ -372,8 +373,8 @@ tables without the ``PARTITION`` clause and have the column value in the
 source.
 
 When importing data into a partitioned table with existing partitions, it may
-be desirable to apply import optimizations, like e.g. to disable the `Refresh
-Interval`_ only for newly created partitions. This can be done by altering the
+be desirable to apply import optimizations, such as to disable the `Refresh
+Interval`_, for newly created partitions only. This can be done by altering the
 partitioned table *only* by using the `ALTER TABLE ONLY`_ statement.
 
 Similarly, the number of shards can be adjusted for newly created partitions to
