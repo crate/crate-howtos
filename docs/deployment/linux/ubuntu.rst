@@ -6,42 +6,33 @@ Run CrateDB on Ubuntu
 
 CrateDB maintains packages for the following Ubuntu versions:
 
+- `Focal Fossa`_ (20.04)
 - `Bionic Beaver`_ (18.04)
 - `Xenial Xerus`_ (16.04)
 - `Trusty Tahr`_ (14.04)
-
-.. _Bionic Beaver: https://wiki.ubuntu.com/BionicBeaver/ReleaseNotes
-.. _Xenial Xerus: https://wiki.ubuntu.com/XenialXerus/ReleaseNotes
-.. _Trusty Tahr: https://wiki.ubuntu.com/TrustyTahr/ReleaseNotes
-
-.. NOTE::
-
-   CrateDB requires Java 11 or higher.
-
-   To run CrateDB on Ubuntu releases older than 18.04, you will need to install
-   Java from a third-party repository. This can be done by adding the openjdk
-   PPA::
-
-      sh$ sudo add-apt-repository ppa:openjdk-r/ppa
-      sh$ sudo apt-get update
-      sh$ sudo apt-get install -y openjdk-11-jre-headless
 
 .. rubric:: Table of contents
 
 .. contents::
    :local:
 
+
+Java
+====
+
+CrateDB requires Java 11 or higher.
+
+To run CrateDB on Ubuntu releases older than 18.04, you will need to install
+Java from a third-party repository. This can be done by adding the `OpenJDK`_
+PPA::
+
+    sh$ sudo add-apt-repository ppa:openjdk-r/ppa
+    sh$ sudo apt-get update
+    sh$ sudo apt-get install -y openjdk-11-jre-headless
+
+
 Configure Apt
 =============
-
-CrateDB 2.1.0 or higher
------------------------
-
-.. SEEALSO::
-
-   The official CrateDB repository only contains CrateDB 2.1.0 or higher.
-
-   Consult the section for `Older Versions`_ if necessary.
 
 Firstly, you will need to configure `Apt`_ (the Ubuntu package manager) to trust
 the CrateDB repository.
@@ -99,57 +90,6 @@ locally.
 
 You can now install CrateDB.
 
-Skip to `Install CrateDB`_.
-
-Older versions
---------------
-
-.. NOTE::
-
-   This method of installation has been deprecated and does not support CrateDB
-   2.1.0 or higher.
-
-For version of CrateDB older than 2.1.0, you will have to install from an
-official, but unmaintained, `PPA repository`_.
-
-.. _PPA repository: https://launchpad.net/ubuntu/+ppas
-
-Firstly, you will need to install package that allows you to add new PPA repositories:
-
-.. code-block:: sh
-
-   sh$ sudo apt-get install python-software-properties
-
-If you're running Xenial Xerus (16.04) or higher, you will also need to
-install this package:
-
-.. code-block:: sh
-
-   sh$ sudo apt-get install software-properties-common
-
-CrateDB provides a stable and a testing release channel. At this point, you
-should select which one you wish to use.
-
-Now, it will be possible to add the PPA repository, like so:
-
-.. code-block:: sh
-
-   sh$ sudo add-apt-repository ppa:crate/CHANNEL
-
-Here, replace ``CHANNEL`` with ``stable`` or ``testing``, depending on which
-release channel you plan to use.
-
-Once that is done, update Apt:
-
-.. code-block:: sh
-
-   sh$ sudo apt-get update
-
-You should see a success message. This indicates that the CrateDB release
-channel is correctly configured and the ``crate`` package has been registered
-locally.
-
-You can now install CrateDB.
 
 Install CrateDB
 ===============
@@ -171,10 +111,9 @@ You should be able to access it by visiting::
 
    If you're new to CrateDB, check out our our `first use`_ documentation.
 
-.. _first use: https://crate.io/docs/crate/getting-started/en/latest/first-use/index.html
 
-Controlling CrateDB
-===================
+Control CrateDB
+================
 
 With Xenial Xerus (15.04) and above, you can control the ``crate`` service like
 so:
@@ -198,14 +137,17 @@ In both instances, replace ``COMMAND`` with ``start``, ``stop``, ``restart``,
     :ref:`full restart upgrades <full_restart_upgrade>` before attempting to
     upgrade a running cluster.
 
+
 Configuration
 =============
+
 
 Configuration files
 -------------------
 
 The main CrateDB `configuration files`_ are located in the ``/etc/crate``
 directory.
+
 
 Environment
 -----------
@@ -234,6 +176,7 @@ Here's one example:
    # Force the JVM to use IPv4 stack
    CRATE_USE_IPV4=true
 
+
 Customized setups
 =================
 
@@ -244,7 +187,13 @@ A full list of package files can be obtained with this command::
 If you want to deviate from the way that the ``crate`` package integrates with
 your system, we recommend that you go with a `basic tarball installation`_.
 
-.. _basic tarball installation: https://crate.io/docs/crate/getting-started/en/latest/install-run/basic.html
+.. _basic tarball installation: https://crate.io/docs/crate/tutorials/en/latest/getting-started/install-run/basic.html
+.. _Bionic Beaver: https://wiki.ubuntu.com/BionicBeaver/ReleaseNotes
 .. _configuration files: https://crate.io/docs/crate/reference/en/latest/config/index.html
 .. _environment variables: https://crate.io/docs/crate/reference/en/latest/config/environment.html
+.. _first use: https://crate.io/docs/crate/getting-started/en/latest/first-use/index.html
+.. _Focal Fossa: https://wiki.ubuntu.com/FocalFossa/ReleaseNotes
+.. _OpenJDK: https://launchpad.net/~openjdk-r/+archive/ubuntu/ppa
 .. _sources: https://en.wikipedia.org/wiki/Source_(command)
+.. _Trusty Tahr: https://wiki.ubuntu.com/TrustyTahr/ReleaseNotes
+.. _Xenial Xerus: https://wiki.ubuntu.com/XenialXerus/ReleaseNotes
