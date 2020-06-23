@@ -4,6 +4,7 @@
 .env
 .idea
 .utils
+.clone
 .venv
 _out/
 get-pip.py
