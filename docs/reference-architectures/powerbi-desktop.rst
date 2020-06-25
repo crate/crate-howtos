@@ -1,6 +1,8 @@
-=============================
-CrateDB with Power BI Desktop
-=============================
+.. _cratedb-powerbi-desktop:
+
+=========================================
+Reports with CrateDB and Power BI Desktop
+=========================================
 
 
 Abstract
@@ -102,6 +104,13 @@ you have installed:
 If this is correct, you can add a User DSN by navigating to the User DSN tab
 and hitting *Add*. From the drivers, select *PostgreSQL Unicode(x64)* if you
 are using a 64-bit Windows. Otherwise, select *PostgreSQL Unicode(x32)*.
+
+.. note::
+   If you intend to use this connection in conjunction with an On-Premises
+   Data Gateway as detailed in our :ref:`CrateDB and Power BI
+   <cratedb-powerbi-service>` reference
+   architecture document, then you should create this DSN as a **System DSN**,
+   not a **User DSN**.
 
 .. figure:: powerbi-driver-select.png
    :align: center
