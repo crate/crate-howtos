@@ -24,4 +24,5 @@ This section of the documentation covers reference architectures.
     :maxdepth: 1
 
     r
-    powerbi
+    powerbi-desktop
+    powerbi-gateway
