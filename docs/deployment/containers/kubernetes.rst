@@ -302,7 +302,7 @@ CrateDB 3.0.5 cluster:
    configuration to your specific CrateDB version.
 
    Specifically, the ``discovery.zen.minimum_master_nodes`` setting is :ref:`no
-   longer used <master-node-election-4x>` in CrateDB versions 4.x and above.
+   longer used <discovery>` in CrateDB versions 4.x and above.
 
 .. SEEALSO::
 
@@ -312,7 +312,7 @@ CrateDB 3.0.5 cluster:
    :ref:`Configure memory <memory>` by hand for optimum performance.
 
    You must set memory map limits correctly. Consult the :ref:`bootstrap checks
-   <bootstrap_checks>` documentation for more information.
+   <bootstrap-checks>` documentation for more information.
 
 Persistent volume
 -----------------

@@ -45,7 +45,6 @@ it shouldn't be set above 30.5GB, see the limits section below.
 
 .. _memory-limits:
 
-
 Limits
 ======
 
@@ -92,8 +91,22 @@ offset the memory lost due to the lack of *Compressed Oops*.
     When configuring heap size via `CRATE_HEAP_SIZE`_, you can specify 30.5
     gigabytes with the value ``30500m``.
 
+.. _swap:
+
+Swap
+====
+
+CrateDB performs sub-optimally when the JVM starts swapping. To ensure that
+CrateDB never swaps, set the `bootstrap.memory_lock`_ property to ``true`` to
+lock the memory. You can configure this setting in your `configuration`_ file,
+like so:
+
+.. code-block:: yaml
+
+      bootstrap.memory_lock: true
 
 .. _Compressed Oops: https://wiki.openjdk.java.net/display/HotSpot/CompressedOops
+.. _configuration: https://crate.io/docs/crate/reference/en/latest/config/index.html
 .. _configurations: https://crate.io/docs/crate/reference/en/latest/config/index.html
 .. _CRATE_HEAP_SIZE: https://crate.io/docs/crate/reference/en/latest/config/environment.html#crate-heap-size
 .. _G1GC: https://docs.oracle.com/javase/9/gctuning/garbage-first-garbage-collector.htm#JSGCT-GUID-0394E76A-1A8F-425E-A0D0-B48A3DC82B42
@@ -101,4 +114,5 @@ offset the memory lost due to the lack of *Compressed Oops*.
 .. _HotSpot Java Virtual Machine: http://www.oracle.com/technetwork/java/javase/tech/index-jsp-136373.html
 .. _Lucene: https://lucene.apache.org/
 .. _Memory mapped files: https://en.wikipedia.org/wiki/Memory-mapped_file
+.. _bootstrap.memory_lock: https://crate.io/docs/crate/reference/en/latest/config/node.html#memory
 .. _x64 architectures: https://en.wikipedia.org/wiki/X86-64

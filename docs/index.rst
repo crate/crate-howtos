@@ -27,6 +27,7 @@ massive amounts of machine data in real-time.
    admin/index
    scaling/index
    performance/index
+   going-into-production
    best-practices/index
    reference-architectures/index
    integrations/index
