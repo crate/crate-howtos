@@ -92,13 +92,13 @@ Creating a DSN for CrateDB
 First, verify that you have installed the PostgreSQL ODBC driver by searching
 for and opening the ODBC Data Sources application for your architecture:
 
-.. figure:: powerbi-odbc-start-menu.png
+.. figure:: powerbi-start-menu.png
    :align: center
 
 Navigate to the drivers tab, where you should see the PostgreSQL ODBC drivers
 you have installed:
 
-.. figure:: powerbi-odbc-postgres-drivers.png
+.. figure:: powerbi-postgres-drivers.png
    :align: center
 
 If this is correct, you can add a User DSN by navigating to the User DSN tab
@@ -146,7 +146,7 @@ Connecting Power BI to CrateDB
 Once you have created the DSN, open up Power BI and click *Get Data* from the
 menu ribbon. Select *ODBC* from the list of available data sources:
 
-.. figure:: powerbi-odbc-source.png
+.. figure:: powerbi-source.png
    :align: center
 
 Select CrateDB from the DSN list and click *OK*:
