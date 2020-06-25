@@ -18,9 +18,10 @@ This section of the documentation covers reference architectures.
 
     azure-functions
 
-.. rubric:: Data Analysis and Machine Learning
+.. rubric:: Data Analysis, Visualization, and Machine Learning
 
 .. toctree::
     :maxdepth: 1
 
     r
+    powerbi
