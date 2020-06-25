@@ -23,6 +23,7 @@ massive amounts of machine data in real-time.
    :maxdepth: 3
    :titlesonly:
 
+   going-into-production
    deployment/index
    admin/index
    scaling/index
