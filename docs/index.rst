@@ -23,11 +23,11 @@ massive amounts of machine data in real-time.
    :maxdepth: 3
    :titlesonly:
 
-   going-into-production
    deployment/index
    admin/index
    scaling/index
    performance/index
+   going-into-production
    best-practices/index
    reference-architectures/index
    integrations/index

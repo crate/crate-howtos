@@ -12,8 +12,8 @@ Going into production
 
 .. _prod-auto-boot:
 
-Auto-bootstrapping in development mode
-======================================
+Bootstrapping in production mode
+================================
 
 
 .. _prod-config:

@@ -5,7 +5,7 @@ CrateDB multi-node setup
 ========================
 
 CrateDB is a distributed datastore and so in production, a cluster will
-typically consist of 3 or more nodes. CrateDB makes cluster setup as easy as
+typically consist of three or more nodes. CrateDB makes cluster setup as easy as
 possible, but there are things to note when building a new cluster.
 
 CrateDB is designed in a shared nothing architecture, in which all nodes are
@@ -17,6 +17,12 @@ single-node instance.
 
 .. contents::
    :local:
+
+
+Cluster bootstrapping
+=====================
+
+
 
 Node settings
 =============
