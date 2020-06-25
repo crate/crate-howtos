@@ -19,7 +19,7 @@ This document covers the essentials of running CrateDB on Docker.
 
 .. SEEALSO::
 
-    Guides for running CrateDB on :ref:`Docker Cloud <cratedb-docker-cloud>` and :ref:`Kubernetes <cratedb-kubernetes>`.
+    Guide for running CrateDB on :ref:`Kubernetes <cratedb-kubernetes>`.
 
     The official `CrateDB Docker image`_.
 
