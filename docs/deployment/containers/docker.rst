@@ -19,7 +19,7 @@ This document covers the essentials of running CrateDB on Docker.
 
 .. SEEALSO::
 
-    Guide for running CrateDB on :ref:`Kubernetes <cratedb-kubernetes>`.
+    A guide for running CrateDB on :ref:`Kubernetes <cratedb-kubernetes>`.
 
     The official `CrateDB Docker image`_.
 
@@ -457,7 +457,6 @@ everything at once like so::
 .. _CRATE_HEAP_SIZE: https://crate.io/docs/crate/reference/configuration.html#crate-heap-size
 .. _CrateDB Docker image: https://hub.docker.com/_/crate/
 .. _Discovery: https://crate.io/docs/crate/reference/configuration.html#discovery
-.. _Docker Cloud: https://crate.io/docs/install/containers/docker-cloud/
 .. _Docker Stack YAML file: https://docs.docker.com/docker-cloud/apps/stack-yaml-reference/
 .. _Docker Swarm: https://docs.docker.com/engine/swarm/
 .. _Docker volume: https://docs.docker.com/engine/tutorials/dockervolumes/
@@ -465,7 +464,6 @@ everything at once like so::
 .. _healthcheck: https://docs.docker.com/engine/reference/builder/#healthcheck
 .. _horizontally scalable: https://en.wikipedia.org/wiki/Scalability#Horizontal_and_vertical_scaling
 .. _Metadata Gateway: https://crate.io/docs/crate/reference/configuration.html#metadata-gateway
-.. _running CrateDB with Docker Cloud: https://crate.io/docs/crate/getting-started/en/latest/install/containers/docker_cloud.html
 .. _running Docker locally: https://crate.io/docs/install/containers/docker/
 .. _set the maximum memory: https://docs.docker.com/engine/admin/resource_constraints/#memory
 .. _set the maximum number of CPUs: https://docs.docker.com/engine/admin/resource_constraints/#cpu
