@@ -28,7 +28,7 @@ massive amounts of machine data in real-time.
    scaling/index
    performance/index
    best-practices/index
-   reference-architectures/index
+   integrations/index
 
 
 .. _Tutorials: https://crate.io/docs/crate/tutorials/en/latest/

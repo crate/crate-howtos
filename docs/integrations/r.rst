@@ -2,6 +2,9 @@
 CrateDB with R
 ==============
 
+This integration document details how to create a Machine Learning pipeline
+using R and CrateDB.
+
 Abstract
 ========
 

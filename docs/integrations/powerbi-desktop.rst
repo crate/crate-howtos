@@ -4,6 +4,8 @@
 Reports with CrateDB and Power BI Desktop
 =========================================
 
+This integration document details how to create data-driven reports and
+dashboards using CrateDB and Power BI Desktop.
 
 Abstract
 ========
@@ -15,6 +17,10 @@ create reports and dashboards from large datasets.
 By using CrateDB as a data source from which Power BI Desktop can draw data,
 users can set up powerful data warehousing and business intelligence
 reports.
+
+This can be done by installing the `PostgreSQL ODBC driver`_, creating a
+`DSN <Creating a DSN for CrateDB>`_ and connecting Power BI using the ODBC
+data source.
 
 
 Implementation
@@ -108,9 +114,8 @@ are using a 64-bit Windows. Otherwise, select *PostgreSQL Unicode(x32)*.
 .. note::
    If you intend to use this connection in conjunction with an On-Premises
    Data Gateway as detailed in our :ref:`CrateDB and Power BI
-   <cratedb-powerbi-service>` reference
-   architecture document, then you should create this DSN as a **System DSN**,
-   not a **User DSN**.
+   <cratedb-powerbi-service>` integration document, then you should create
+   this DSN as a **System DSN**, not a **User DSN**.
 
 .. figure:: powerbi-driver-select.png
    :align: center

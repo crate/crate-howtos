@@ -1,8 +1,9 @@
-=======================
-Reference Architectures
-=======================
+============
+Integrations
+============
 
-This section of the documentation covers reference architectures.
+This section of the documentation covers integrations of CrateDB with other
+tools.
 
 .. rubric:: Ingestion
 
