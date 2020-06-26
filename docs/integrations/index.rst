@@ -27,3 +27,4 @@ tools.
     r
     powerbi-desktop
     powerbi-gateway
+    ml-dist
