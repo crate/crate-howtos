@@ -2,7 +2,7 @@
 Data Ingestion using Kafka and Kafka Connect
 ============================================
 
-This reference architecture document details how to create an ingestion
+This integration document details how to create an ingestion
 pipeline from a `Kafka`_ source to a CrateDB sink, using the `Kafka Connect
 JDBC connector`_.
 
@@ -18,7 +18,7 @@ done using the supplementary component `Kafka Connect`_, which provides a set
 of connectors that can stream data to and from Kafka.
 
 Using the `Kafka Connect JDBC connector`_ with the PostgreSQL driver allows
-you to designate CrateDB as a sink target, with the following example connector 
+you to designate CrateDB as a sink target, with the following example connector
 definition:
 
 .. code-block:: json
@@ -55,8 +55,8 @@ where we have machine sensor data from a series of weather stations being
 ingested into a Kafka topic. This data could be used in a reactive sense: for
 example, a micro-controller could consume from this topic to turn on air
 conditioning if the temperature were to rise above a certain threshold. But
-besides this use of the data, we want to ingest them into CrateDB. This allows 
-us to do long-term data analytics to predict weather trends. Each payload from 
+besides this use of the data, we want to ingest them into CrateDB. This allows
+us to do long-term data analytics to predict weather trends. Each payload from
 each sensor looks like this:
 
 .. code-block:: json
@@ -291,7 +291,7 @@ Connect plugins:
 
 Two of the connector plugins listed should be of the class
 ``io.confluent.connect.jdbc``, one of which is the `Sink Connector`_ and one of
-which is the `Source Connector`_. You will be using the Sink Connector, as we 
+which is the `Source Connector`_. You will be using the Sink Connector, as we
 want CrateDB to act as a sink for Kafka records, rather than a source of Kafka
 records.
 
@@ -365,8 +365,8 @@ Here are the parameters in more detail:
 |                                  | when flattening nested structures.                                       |
 +----------------------------------+--------------------------------------------------------------------------+
 
-Many more `general Connector settings`_ as well as specific `JDBC Connector 
-settings`_ exist which can affect things like batch inserting, parallelization, 
+Many more `general Connector settings`_ as well as specific `JDBC Connector
+settings`_ exist which can affect things like batch inserting, parallelization,
 etc.
 
 You can now create a connector instance using this configuration:

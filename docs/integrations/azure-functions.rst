@@ -2,7 +2,7 @@
 Data Enrichment using Azure Functions
 =====================================
 
-This reference architecture document details how to create an enrichment
+This integration document details how to create an enrichment
 pipeline between data ingested into an Azure IoT Hub and CrateDB, using
 serverless Azure Functions.
 

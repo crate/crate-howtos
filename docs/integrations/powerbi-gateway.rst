@@ -4,6 +4,9 @@
 Real Time Reports with CrateDB and Power BI
 ===========================================
 
+This integration document details how to create online data-driven reports
+and dashboards using CrateDB and Power BI.
+
 
 Abstract
 ========
@@ -14,7 +17,9 @@ datasets which can then be refreshed periodically from CrateDB, ensuring that
 the reports and dashboards are up to date.
 
 This can be done using the `On-Premises Data Gateway`_ to act as a bridge
-between CrateDB and the Power BI service.
+between CrateDB and the Power BI service. You can then configure the data
+source on Power BI to refresh itself, using the gateway, on regular intervals
+and on demand.
 
 
 Implementation
@@ -25,10 +30,10 @@ Set Up
 ------
 
 This implementation will demonstrate real-time reports with CrateDB and Power
-BI by visualizing the data from the `World Economic Outlook survey`_. 
-Specifically, you will make a report using population figures from the survey 
-across different regions. You will also want to publish this report, so your 
-colleagues can view it, as well as to enable data refreshing so that your 
+BI by visualizing the data from the `World Economic Outlook survey`_.
+Specifically, you will make a report using population figures from the survey
+across different regions. You will also want to publish this report, so your
+colleagues can view it, as well as to enable data refreshing so that your
 report uses the latest data.
 
 
@@ -57,9 +62,9 @@ Creating a Report With CrateDB and Power BI Desktop
 ---------------------------------------------------
 
 Before you can publish your report, you need to have created it first.
-You can do this using the data from CrateDB. Please follow the 
-:ref:`CrateDB and PowerBI Desktop<cratedb-powerbi-desktop>`
-reference architecture guide to do this.
+You can do this using the data from CrateDB. Please follow the
+:ref:`CrateDB and PowerBI Desktop<cratedb-powerbi-desktop>` integration
+guide to do this.
 
 After running through that guide, we should have the following report:
 
