@@ -1,6 +1,8 @@
-=====================================
-Data Enrichment using Azure Functions
-=====================================
+.. _cratedb-azure-functions:
+
+===========================================================
+Data Enrichment using IoT Hubs, Azure Functions and CrateDB
+===========================================================
 
 This integration document details how to create an enrichment
 pipeline between data ingested into an Azure IoT Hub and CrateDB, using
