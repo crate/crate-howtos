@@ -31,6 +31,7 @@ massive amounts of machine data in real-time.
    best-practices/index
    reference-architectures/index
    integrations/index
+   troubleshooting/index
 
 
 .. _Tutorials: https://crate.io/docs/crate/tutorials/en/latest/
