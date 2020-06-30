@@ -42,10 +42,12 @@ experimentation purposes, this is probably your best bootstrapping option.
 .. CAUTION::
 
     Single host auto-bootstrapping is useful for development environments.
-
-    However, auto-bootstrapping is typically too slow for production use.
-    Additionally, for improved performance and resiliency, production CrateDB
-    clusters should be run with one node per host machine.
+    However, auto-bootstrapping is typically too slow for :ref:`production use
+    <going-into-production>`. Additionally, for improved performance and
+    resiliency, production CrateDB clusters should be run with :ref:`one node
+    per host machine <manual-bootstrapping>`. If you use multiple hosts, you
+    must configure your cluster with :ref:`manual bootstrapping
+    <manual-bootstrapping>`.
 
 .. WARNING::
 
@@ -173,7 +175,7 @@ Manual bootstrapping
 --------------------
 
 To run a CrateDB cluster across multiple hosts, you must manually configure the
-bootstrapping process by configuring nodes to:
+bootstrapping process by telling nodes to:
 
   a. :ref:`Discover other nodes <discovery>`, and
   b. :ref:`Elect a master node <master-node-election>`
@@ -321,7 +323,7 @@ The `cluster.name`_ setting allows you to create multiple separate clusters. A
 node will refuse to join a cluster if the respective cluster names do not
 match.
 
-By default, CrateDB sets the cluster name for you.
+By default, CrateDB sets the cluster name to ``crate`` for you.
 
 You can override this behavior by configuring a custom cluster name using the
 `node.name`_ setting in your `configuration`_ file, like so:
@@ -349,10 +351,12 @@ must specify a list of master-eligible nodes (:ref:`see below
 <master-node-election>`). To do this, you must be able to refer to nodes by
 name.
 
-By default, CrateDB sets the node name for you.
+By default, CrateDB sets the node name for you. However, if you configure the
+node names explicitly, you can specify a list of master-eligible nodes
+up-front.
 
-You can override this behavior by configuring a custom node name using the
-`node.name`_ setting in your `configuration`_ file, like so:
+You can configure a custom node name using the `node.name`_ setting in your
+`configuration`_ file, like so:
 
 .. code-block:: yaml
 
@@ -425,7 +429,6 @@ Edit the `transport.tcp.port`_ setting in your `configuration`_ file, like so:
 .. _cluster.name: https://crate.io/docs/crate/reference/en/latest/config/node.html#cluster-name
 .. _configuration: https://crate.io/docs/crate/reference/en/latest/config/index.html
 .. _CRATE_HOME: https://crate.io/docs/crate/reference/en/latest/config/environment.html#conf-env-crate-home
-.. _CRATE_HOME: https://crate.io/docs/crate/reference/en/latest/config/environment.html#conf-env-crate-home
 .. _daemon: https://en.wikipedia.org/wiki/Daemon_(computing)
 .. _discovery.seed_hosts: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery.seed_hosts
 .. _discovery.zen.minimum_master_nodes: https://crate.io/docs/crate/reference/en/3.3/config/cluster.html#discovery-zen-minimum-master-nodes
@@ -445,7 +448,6 @@ Edit the `transport.tcp.port`_ setting in your `configuration`_ file, like so:
 .. _More information about port settings: https://crate.io/docs/crate/reference/en/latest/config/node.html#ports
 .. _network.publish_host: https://crate.io/docs/crate/reference/en/latest/config/node.html#network-publish-host
 .. _node.master: https://crate.io/docs/crate/reference/en/latest/config/node.html#node.master
-.. _node.name: https://crate.io/docs/crate/reference/en/latest/config/node.html#node-name
 .. _node.name: https://crate.io/docs/crate/reference/en/latest/config/node.html#node-name
 .. _point of interest: https://en.wikipedia.org/wiki/Point_of_interest
 .. _quorum guide: https://crate.io/docs/crate/howtos/en/latest/architecture/shared-nothing.html#master-node-election
