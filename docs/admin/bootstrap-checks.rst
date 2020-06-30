@@ -1,6 +1,6 @@
 .. highlight:: sh
 
-.. _bootstrap_checks:
+.. _bootstrap-checks:
 
 ================
 Bootstrap checks
@@ -110,7 +110,7 @@ Garbage collection
 ==================
 
 CrateDB has been tested using the `CMS garbage collector`_ (default up to and
-including CrateDB 4.0) and `G1GC`_ (the default with CrateDB 4.1).  
+including CrateDB 4.0) and `G1GC`_ (the default with CrateDB 4.1).
 
 `G1GC` can also be used in earlier CrateDB versions, but should only be used in
 combination with Java 11 or later.

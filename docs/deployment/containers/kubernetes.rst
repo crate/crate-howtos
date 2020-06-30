@@ -312,7 +312,7 @@ CrateDB 3.0.5 cluster:
    :ref:`Configure memory <memory>` by hand for optimum performance.
 
    You must set memory map limits correctly. Consult the :ref:`bootstrap checks
-   <bootstrap_checks>` documentation for more information.
+   <bootstrap-checks>` documentation for more information.
 
 Persistent volume
 -----------------

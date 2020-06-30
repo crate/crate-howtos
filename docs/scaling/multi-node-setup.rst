@@ -10,7 +10,7 @@ as a cluster of three or more nodes.
 For development purposes, CrateDB can :ref:`auto-bootstrap
 <auto-bootstrapping>` a cluster when you run all nodes on the same host.
 Auto-bootstrapping requires zero configuration. However, in production
-environments, you must the bootstrapping process :ref:`manually
+environments, you must configure the bootstrapping process :ref:`manually
 <manual-bootstrapping>`.
 
 This guide shows you how to bootstrap a multi-node CrateDB cluster using the
@@ -42,9 +42,8 @@ experimentation purposes, this is probably your best bootstrapping option.
 .. CAUTION::
 
     Single host auto-bootstrapping is useful for development environments.
-    However, auto-bootstrapping is typically too slow for :ref:`production use
-    <going-into-production>`. Additionally, for improved performance and
-    resiliency, production CrateDB clusters should be run with :ref:`one node
+    However, for improved performance and resiliency, :ref:`production
+    <going-into-production>` CrateDB clusters should be run with :ref:`one node
     per host machine <manual-bootstrapping>`. If you use multiple hosts, you
     must configure your cluster with :ref:`manual bootstrapping
     <manual-bootstrapping>`.
@@ -52,7 +51,7 @@ experimentation purposes, this is probably your best bootstrapping option.
 .. WARNING::
 
     If you start multiple nodes on different hosts with auto-bootstrapping
-    enabled, you cannot, at a later point, bring those nodes together for form
+    enabled, you cannot, at a later point, bring those nodes together to form
     a single cluster--there is no way to merge CrateDB clusters without the
     risk of data loss.
 
@@ -60,14 +59,14 @@ experimentation purposes, this is probably your best bootstrapping option.
     whether they have formed independent clusters by visiting the `Admin UI`_
     (which runs on every node) and checking the `cluster browser`_.
 
-    If you find yourself with multiple independent clusters and you instead
-    want to form a single cluster, follow these steps:
+    If you find yourself with multiple independent clusters and instead want to
+    form a single cluster, follow these steps:
 
       1. `Back up your data`_
       2. Shut down all the nodes
       3. Completely wipe each node by deleting the contents of the ``data``
          directory under `CRATE_HOME`_
-      4. Follow in instructions in the next section (:ref:`manual bootstrapping
+      4. Follow the instructions in the next section (:ref:`manual bootstrapping
          <manual-bootstrapping>`)
       5. Restart all the nodes and verify that they have formed a single cluster
       6. Restore your data
@@ -100,10 +99,17 @@ Copy the expanded directory three times, one for each node:
 
     Each directory will function as `CRATE_HOME`_ for that node
 
-Because you want to run a multi-node cluster, you must configure the metadata
-gateway so that CrateDB knows how to recover its state. For a three-node cluster,
-set `gateway-expected-nodes`_ to ``3`` and set `gateway-recover-after-nodes`_
-to ``3``.
+Because you want to run a multi-node cluster, you should configure the metadata
+gateway so that CrateDB knows how to safely recover its state. Ideally, for a
+three-node cluster, set `gateway-expected-nodes`_ to ``3`` and set
+`gateway-recover-after-nodes`_ to ``3``.
+
+.. NOTE::
+
+    Configuring the metadata gateway is a safeguarding mechanism that is useful
+    for production clusters. It is not strictly necessary when running in
+    development. However, the `Admin UI`_ will issue warnings if the metadata
+    gateway is not configured.
 
 You can specify both settings in your `configuration`_ file, like so:
 
@@ -175,7 +181,7 @@ Manual bootstrapping
 --------------------
 
 To run a CrateDB cluster across multiple hosts, you must manually configure the
-bootstrapping process by telling nodes to:
+bootstrapping process by telling nodes how to:
 
   a. :ref:`Discover other nodes <discovery>`, and
   b. :ref:`Elect a master node <master-node-election>`
@@ -189,8 +195,8 @@ auto-bootstrapping).
 Discovery
 ~~~~~~~~~
 
-With CrateDB 4.x and above, you can configure a list of master-eligible nodes
-to `seed`_ the discovery process with the `discovery.seed_hosts`_ setting in your
+With CrateDB 4.x and above, you can configure a list of nodes to `seed`_ the
+discovery process with the `discovery.seed_hosts`_ setting in your
 `configuration`_ file. This setting should contain one identifier per
 master-eligible node, like so:
 

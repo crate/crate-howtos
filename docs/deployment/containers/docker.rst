@@ -210,8 +210,8 @@ Troubleshooting
 ---------------
 
 The most common issue when running CrateDB on Docker is a failing
-:ref:`bootstrap check <bootstrap_checks>`  because the *memory map limit*
-is too low. This can be :ref:`adjusted on the host system <bootstrap_checks>`.
+:ref:`bootstrap check <bootstrap-checks>`  because the *memory map limit*
+is too low. This can be :ref:`adjusted on the host system <bootstrap-checks>`.
 
 If the limit cannot be adjusted on the host system, the memory map limit check
 can be bypassed by passing the ``-Cnode.store.allow_mmapfs=false`` option to

@@ -15,15 +15,31 @@ document outlines the basics you need to consider when going into production.
 
 .. _prod-auto-boot:
 
-Manual bootstrapping
-====================
+Bootstrapping
+=============
 
-:ref:`Single host auto-bootstrapping <auto-bootstrapping>` is useful for
-development environments. However, auto-bootstrapping is typically too slow for
-production use. Additionally, for improved performance and resiliency,
-production CrateDB clusters should be run with one node per host machine. If
-you use multiple hosts, you must configure your cluster with :ref:`manual
-bootstrapping <manual-bootstrapping>`.
+The process of forming a cluster is known as *bootstrapping*. Consult the
+how-to guide on :ref:`CrateDB multi-node setups <multi_node_setup>` for an
+overview of the two different ways to bootstrap a cluster.
+
+If you have been using CrateDB for development on your local machine, there is
+a good chance you have been using :ref:`single host auto-bootstrapping
+<auto-bootstrapping>`.
+
+For improved performance and resiliency, production CrateDB clusters should be
+run with one node per host machine. To do this, you must manually configure the
+bootstrapping process by telling nodes how to:
+
+  a. :ref:`Discover other nodes <discovery>`, and
+  b. :ref:`Elect a master node <master-node-election>`
+
+This is known as *manual bootstrapping*. See the :ref:`how-to guide
+<manual-bootstrapping>` for more information about how bootstrap a cluster
+manually.
+
+Switching to a manual bootstrapping configuration is the first step towards
+going into production. The rest of this how-to guide covers additional things
+you may want to consider.
 
 
 .. _prod-config:
@@ -43,6 +59,10 @@ Paths
 
 In a production environment, you should change the default locations of the
 data and log folders to avoid accidental deletion.
+
+Path configuration is especially important if you are running CrateDB on
+Docker. Any data you want to persist between container restarts should be
+located on a mounted volume.
 
 .. SEEALSO::
 
@@ -93,17 +113,20 @@ communication. Because CrateDB uses a port range, if one port is busy, it will
 automatically try the next port.
 
 When using :ref:`multiple hosts <multi_node_setup>`, nodes must bind to a
-non-loopback address.
+non-loopback address. You can bind to a non-loopback address with the
+`network.host`_ setting.
 
-You can bind to a non-loopback address with the `network.host`_ setting.
-
-.. SEEALSO::
-
-    `Host settings`_
+When CrateDB is bound to a non-loopback address, the :ref:`bootstrap checks
+<bootstrap-checks>` are enforced. This may require changes to your operation
+system configuration.
 
 .. CAUTION::
 
       Never expose an unprotected CrateDB node to the public internet
+
+.. SEEALSO::
+
+    `Host settings`_
 
 
 .. _prod-config-heap:
@@ -134,7 +157,7 @@ Garbage collection
 ------------------
 
 CrateDB logs JVM garbage collection times using the built-in garbage collection
-logging of the JVM. You can configure this process the garbage collection
+logging of the JVM. You can configure this process with the garbage collection
 `environment variables`_.
 
 .. SEEALSO::
