@@ -13,10 +13,10 @@ document outlines the basics you need to consider when going into production.
    :local:
 
 
-.. _prod-auto-boot:
+.. _prod-bootstrapping:
 
-Bootstrapping
-=============
+Configure bootstrapping
+=======================
 
 The process of forming a cluster is known as *bootstrapping*. Consult the
 how-to guide on :ref:`CrateDB multi-node setups <multi_node_setup>` for an
@@ -38,74 +38,172 @@ This is known as *manual bootstrapping*. See the :ref:`how-to guide
 manually.
 
 Switching to a manual bootstrapping configuration is the first step towards
-going into production. The rest of this how-to guide covers additional things
-you may want to consider.
+going into production.
 
 
-.. _prod-config:
+.. _prod-naming:
 
-Additional considerations
-=========================
-
-The following setting can be changed in your `configuration`_ file or set via
-command-line arguments. Additionally, you can change some settings at
-`runtime`_.
+Naming
+======
 
 
-.. _prod-config-path:
+.. _prod-cluster-name:
 
-Paths
------
+Configure a logical cluster name
+--------------------------------
 
-In a production environment, you should change the default locations of the
-data and log folders to avoid accidental deletion.
+The `cluster.name`_ setting allows you to override the default cluster name of
+``crate``. You should use this setting to give a logical name to your cluster.
 
-Path configuration is especially important if you are running CrateDB on
-Docker. Any data you want to persist between container restarts should be
-located on a mounted volume.
+For example, add this to your `configuration`_ file:
 
-.. SEEALSO::
+.. code-block:: yaml
 
-    `Path settings`_
+    cluster.name: acme-prod
 
+The ``acme-prod`` name suggests that this cluster is the production cluster for
+the *Acme* organization. If *Acme* has a cluster running in a staging
+environment, you might want to name it ``acme-staging``. This way, you can
+differentiate your clusters by name (visible in the `Admin UI`_).
 
-.. _prod-config-cluster-name:
+.. TIP::
 
-Cluster name
-------------
-
-The `cluster.name`_ setting allows you to create multiple separate clusters. A
-node will refuse to join a cluster if the respective cluster names do not
-match.
-
-If you are running multiple clusters on the same network, you should set unique
-cluster names.
+    A node will refuse to join a cluster if the respective cluster names
+    do not match
 
 .. SEEALSO::
 
     :ref:`Cluster names for multi-node setups <multi-node-cluster-name>`
 
 
-.. _prod-config-node-name:
+.. _prod-node-names:
 
-Node name
----------
+Configure logical node names
+----------------------------
 
-By default, CrateDB sets the node name for you. However, if you configure the
-node names explicitly, you can specify a list of master-eligible nodes
-up-front.
+By default, CrateDB sets the node name for you. You can override this by
+configuring a explicit node name using the `node.name`_ setting in your
+`configuration`_ file.
 
-You can configure a custom node name using the `node.name`_ setting.
+Automatic nodes names are chosen the `sys.summits`_ table. This is useful in
+development when you don't care too much about cluster architecture. However,
+when going into production, you should give a logical name to each one of your
+nodes.
+
+CrateDB supports `multiple types of node`_, determined by the ``node.master``
+and ``node.data`` settings. You can use this to name your nodes according to
+their type. For instance:
 
 .. SEEALSO::
 
     :ref:`Node names for multi-node setups <multi-node-node-name>`
 
 
-.. _prod-config-network-host:
+.. _prod-node-md:
 
-Network host
-------------
+Multi-purpose nodes
+~~~~~~~~~~~~~~~~~~~
+
+A master-eligible node that also handles query execution loads can be
+configured like this:
+
+.. code-block:: yaml
+
+    node.master: true
+    node.data: true
+
+A good name for this node might be:
+
+.. code-block:: yaml
+
+    node.name: node-01-md
+
+Here, ``node`` is used as a base name with a sequence number of ``01``. Every
+node in the cluster should have a unique sequence number, irrespective of node
+type. The letters ``md`` indicate that this node has ``node.master`` and
+``node.data`` set to ``true``.
+
+
+.. _prod-node-d:
+
+Request handling and query execution nodes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+A node that handles only client requests and query execution (i.e., is not
+master-eligible) can be configured like this:
+
+.. code-block:: yaml
+
+    node.master: false
+    node.data: true
+
+A good name for this node might be:
+
+.. code-block:: yaml
+
+    node.name: node-02-d
+
+Here, ``node`` is used as a base name with a sequence number of ``02``. Every
+node in the cluster should have a unique sequence number, irrespective of node
+type. The letter ``d`` indicates that this node has ``node.data`` set to
+``true``.
+
+
+.. _prod-node-m:
+
+Cluster management nodes
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+A node that handles cluster management (i.e., is master-eligible) but does not
+handle query execution loads can be configured like this:
+
+.. code-block:: yaml
+
+    node.master: true
+    node.data: false
+
+A good name for this node might be:
+
+.. code-block:: yaml
+
+    node.name: node-01-m
+
+Here, ``node`` is used as a base name with a sequence number of ``03``. Every
+node in the cluster should have a unique sequence number, irrespective of node
+type. The letter ``m`` indicates that this node has ``node.master`` set to
+``true``.
+
+
+.. _prod-node:
+
+Request handling nodes
+~~~~~~~~~~~~~~~~~~~~~~
+
+A node that handles client requests but does not handle query execution loads
+or cluster management (i.e., is not master-eligible) can be configured like
+this:
+
+.. code-block:: yaml
+
+    node.master: false
+    node.data: false
+
+A good name for this node might be:
+
+.. code-block:: yaml
+
+    node.name: node-04
+
+Here, ``node`` is used as a base name with a sequence number of ``04``. Every
+node in the cluster should have a unique sequence number, irrespective of node
+type. The absense of any additional letters indicate that ``node.master``
+and ``node.data`` are set to ``false``.
+
+
+.. _prod-config-hostname:
+
+Bind nodes to logical hostnames
+===============================
 
 By default, CrateDB binds to the loopback address (i.e., `localhost`_). It
 listens on port 4200-4299 for HTTP traffic and port 4300-4399 for node-to-node
@@ -113,20 +211,80 @@ communication. Because CrateDB uses a port range, if one port is busy, it will
 automatically try the next port.
 
 When using :ref:`multiple hosts <multi_node_setup>`, nodes must bind to a
-non-loopback address. You can bind to a non-loopback address with the
-`network.host`_ setting.
-
-When CrateDB is bound to a non-loopback address, the :ref:`bootstrap checks
-<bootstrap-checks>` are enforced. This may require changes to your operation
-system configuration.
+non-loopback address.
 
 .. CAUTION::
 
       Never expose an unprotected CrateDB node to the public internet
 
+You can bind to a non-loopback address with the `network.host`_ setting in your
+`configuration`_ file, like so:
+
+.. code-block:: yaml
+
+    network.host: node-01-md.acme-prod.internal.example.com
+
+You can break down that hostname, as follows:
+
+- ``example.com`` -- Your example domain name
+- ``internal`` -- Your internal private network
+- ``acme-prod`` -- The cluster name
+- ``node-01-md`` -- The node name
+
+When CrateDB is bound to a non-loopback address, the :ref:`bootstrap checks
+<bootstrap-checks>` are enforced. This may require changes to your operation
+system configuration.
+
 .. SEEALSO::
 
     `Host settings`_
+
+
+.. _prod-config-paths:
+
+Configure persistent data paths
+===============================
+
+By default, all data is kept under the `CRATE_HOME`_ directory (which defaults
+to the installation directory). When you upgrade CrateDB, you will have to
+switch to a new installation directory.
+
+Instead of migrating data by hand each time, you should move the data
+directories off to an persistent location. You can do this using the
+`CRATE_HOME`_ environment variable and the `path settings`_ in your
+`configuration`_ file.
+
+For example, if you are running CrateDB on a `Unix-like`_ operating system, the
+`Filesystem Hierarchy Standard`_ recommends the ``/srv`` directory as the root
+for site-specific data.
+
+With this in mind, a good value for `CRATE_HOME`_ on a Unix-like system might
+be ``/srv/crate``. Make sure to set `CRATE_HOME` before running `bin/crate`_.
+
+Then, you could configure your data paths like this:
+
+.. code-block:: yaml
+
+    path.conf: /srv/crate/config
+    path.data: /srv/crate/data
+    path.logs: /srv/crate/logs
+    path.repo: /srv/crate/snapshots
+
+.. _Filesystem Hierarchy Standard: https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard
+.. _Unix-like: https://en.wikipedia.org/wiki/Unix-like
+
+Path configuration is especially important if you are running CrateDB on
+Docker. Persistent data should be located on a mounted volume.
+
+.. SEEALSO::
+
+    `Path settings`_
+
+
+.. _prod-jvm:
+
+Tune the JVM
+============
 
 
 .. _prod-config-heap:
@@ -136,11 +294,7 @@ Heap
 
 CrateDB is a Java application running on top of a Java Virtual Machine (JVM).
 The JVM uses a heap for memory allocations. For optimal performance, you must
-pay special attention to your heap configuration.
-
-.. SEEALSO::
-
-    :ref:`Optimizing memory performance <memory>`
+pay special attention to your :ref:`heap configuration <memory>`.
 
 By default, CrateDB configures the JVM to dump out of memory exceptions to the
 file or directory specified by `CRATE_HEAP_DUMP_PATH`_. You must make sure
@@ -156,13 +310,9 @@ there is enough disk space available for heap dumps at this location.
 Garbage collection
 ------------------
 
-CrateDB logs JVM garbage collection times using the built-in garbage collection
-logging of the JVM. You can configure this process with the garbage collection
-`environment variables`_.
-
-.. SEEALSO::
-
-    `Logging`_
+CrateDB logs JVM garbage collection times using the built-in *garbage
+collection* (GC) logging provided by the JVM. You can configure this process
+with the `GC logging environment variables`_.
 
 You must ensure that the log directory is on a fast-enough disk and has enough
 space. When using Docker, use a path on a mounted volume.
@@ -176,23 +326,28 @@ send debug logs to `STDERR`_ so that the container orchestrator handles the
 output.
 
 
+.. _Admin UI: https://crate.io/docs/crate/admin-ui/
+.. _bin/crate: https://crate.io/docs/crate/reference/en/latest/cli-tools.html#crate
 .. _cluster.name: https://crate.io/docs/crate/reference/en/latest/config/node.html#cluster-name
 .. _configuration: https://crate.io/docs/crate/reference/en/latest/config/index.html
 .. _CRATE_HEAP_DUMP_PATH: https://crate.io/docs/crate/reference/en/latest/config/environment.html#conf-env-dump-path
 .. _CRATE_HEAP_SIZE: https://crate.io/docs/crate/reference/en/latest/config/environment.html#crate-heap-size
+.. _CRATE_HOME: https://crate.io/docs/crate/reference/en/latest/config/environment.html#conf-env-crate-home
 .. _CRATE_JAVA_OPTS: https://crate.io/docs/crate/reference/en/latest/config/environment.html?#conf-env-java-opts
 .. _discovery: https://crate.io/docs/crate/reference/en/latest/concepts/shared-nothing.html#discovery
 .. _elect a master node: https://crate.io/docs/crate/reference/en/latest/concepts/shared-nothing.html#master-node-election
-.. _environment variables: https://crate.io/docs/crate/reference/en/latest/config/logging.html#environment-variables
+.. _GC logging environment variables: https://crate.io/docs/crate/reference/en/latest/config/logging.html#environment-variables
 .. _Host settings: https://crate.io/docs/crate/reference/en/latest/config/node.html#hosts
 .. _JVM environment variables: https://crate.io/docs/crate/reference/en/latest/config/environment.html#jvm-variables
 .. _limits: https://crate.io/docs/crate/howtos/en/latest/performance/memory.html#limits
 .. _localhost: https://en.wikipedia.org/wiki/Localhost
 .. _logging: https://crate.io/docs/crate/reference/en/latest/config/logging.html
+.. _multiple types of node: https://crate.io/docs/crate/reference/en/latest/config/node.html#node-types
 .. _network.host: https://crate.io/docs/crate/reference/en/latest/config/node.html#network-host
 .. _node.name: https://crate.io/docs/crate/reference/en/latest/config/node.html#node-name
 .. _path settings: https://crate.io/docs/crate/reference/en/latest/config/node.html#paths
 .. _RAID 0: https://en.wikipedia.org/wiki/Standard_RAID_levels#RAID_0
 .. _runtime: https://crate.io/docs/crate/reference/en/latest/admin/runtime-config.html#administration-runtime-config
 .. _STDERR: https://en.wikipedia.org/wiki/Standard_streams
+.. _sys.summits: https://crate.io/docs/crate/reference/en/latest/admin/system-information.html#summits
 .. _timeout settings: https://crate.io/docs/crate/reference/en/latest/config/node.html?#garbage-collection

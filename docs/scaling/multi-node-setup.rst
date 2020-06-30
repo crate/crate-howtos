@@ -317,27 +317,6 @@ You can filter hosts based on:
 
     `Microsoft Azure discovery settings`_
 
-.. _Microsoft Azure discovery settings: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery-on-microsoft-azure
-.. _resource group: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#conf-azure-discovery
-.. _tenant ID: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#conf-azure-discovery
-.. _application ID: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#conf-azure-discovery
-.. _network: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#conf-azure-discovery
-.. _Azure Virtual Machine API: https://docs.microsoft.com/en-us/rest/api/compute/virtualmachines
-.. _security groups: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery-ec2-groups
-.. _host types: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery-ec2-host-type
-.. _availability zones: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery-ec2-zones
-.. _EC2 instance tags: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery-ec2-tags
-.. _Amazon EC2 API: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Welcome.html
-.. _EC2 API: ttps://docs.aws.amazon.com/AWSEC2/latest/APIReference/Welcome.html
-.. _unicast hosts: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#unicast-host-discovery
-.. _SRV records: https://en.wikipedia.org/wiki/SRV_record
-.. _discovery.seed_providers: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery.seed_providers
-.. _DNS discovery settings: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery-via-dns
-.. _Amazon EC2 discovery settings: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#conf-ec2-discovery
-
-
-
-
 
 .. _master-node-election:
 
@@ -532,11 +511,17 @@ Edit the `transport.tcp.port`_ setting in your `configuration`_ file, like so:
 
     `More information about port settings`_
 
+
 .. _127.0.0.1:4200: http://127.0.0.1:4200/
 .. _127.0.0.1:4201: http://127.0.0.1:4201/
 .. _3.3: https://crate.io/docs/crate/reference/en/3.3/config/cluster.html#discovery
 .. _Admin UI: https://crate.io/docs/crate/admin-ui/
+.. _Amazon EC2 API: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Welcome.html
+.. _Amazon EC2 discovery settings: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#conf-ec2-discovery
 .. _Amazon EC2: https://crate.io/docs/crate/reference/en/4.1/config/cluster.html#discovery-on-amazon-ec2
+.. _application ID: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#conf-azure-discovery
+.. _availability zones: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery-ec2-zones
+.. _Azure Virtual Machine API: https://docs.microsoft.com/en-us/rest/api/compute/virtualmachines
 .. _Back up your data: https://crate.io/a/backing-up-and-restoring-cratedb/
 .. _bin/crate: https://crate.io/docs/crate/reference/en/latest/cli-tools.html#crate
 .. _cluster browser: https://crate.io/docs/crate/admin-ui/en/latest/cluster.html
@@ -547,21 +532,28 @@ Edit the `transport.tcp.port`_ setting in your `configuration`_ file, like so:
 .. _CRATE_HOME: https://crate.io/docs/crate/reference/en/latest/config/environment.html#conf-env-crate-home
 .. _daemon: https://en.wikipedia.org/wiki/Daemon_(computing)
 .. _discovery.seed_hosts: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery.seed_hosts
+.. _discovery.seed_providers: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery.seed_providers
 .. _discovery.zen.minimum_master_nodes: https://crate.io/docs/crate/reference/en/3.3/config/cluster.html#discovery-zen-minimum-master-nodes
 .. _discovery.zen.ping.unicast.hosts: https://crate.io/docs/crate/reference/en/3.3/config/cluster.html#unicast-host-discovery
+.. _DNS discovery settings: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery-via-dns
 .. _DNS: https://crate.io/docs/crate/reference/en/4.1/config/cluster.html#discovery-via-dns
+.. _EC2 API: ttps://docs.aws.amazon.com/AWSEC2/latest/APIReference/Welcome.html
+.. _EC2 instance tags: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery-ec2-tags
 .. _four different types of node: https://crate.io/docs/crate/reference/en/latest/config/node.html#node-types
 .. _full cluster restarts: https://crate.io/docs/crate/howtos/en/latest/admin/full-restart-upgrade.html
 .. _fully qualified domain name: https://en.wikipedia.org/wiki/Fully_qualified_domain_name
 .. _gateway-expected-nodes: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#gateway-expected-nodes
 .. _gateway-recover-after-nodes: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#gateway-recover-after-nodes
+.. _host types: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery-ec2-host-type
 .. _hostname: https://en.wikipedia.org/wiki/Hostname
 .. _latest: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery
 .. _master node election: https://crate.io/docs/crate/howtos/en/latest/architecture/shared-nothing.html#master-node-election
 .. _master: https://crate.io/docs/crate/reference/en/latest/concepts/shared-nothing.html#master-node-election
 .. _Metadata configuration settings: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#metadata
+.. _Microsoft Azure discovery settings: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery-on-microsoft-azure
 .. _Microsoft Azure: https://crate.io/docs/crate/reference/en/4.1/config/cluster.html#discovery-on-microsoft-azure
 .. _More information about port settings: https://crate.io/docs/crate/reference/en/latest/config/node.html#ports
+.. _network: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#conf-azure-discovery
 .. _network.publish_host: https://crate.io/docs/crate/reference/en/latest/config/node.html#network-publish-host
 .. _node.master: https://crate.io/docs/crate/reference/en/latest/config/node.html#node.master
 .. _node.name: https://crate.io/docs/crate/reference/en/latest/config/node.html#node-name
@@ -569,10 +561,15 @@ Edit the `transport.tcp.port`_ setting in your `configuration`_ file, like so:
 .. _quorum guide: https://crate.io/docs/crate/howtos/en/latest/architecture/shared-nothing.html#master-node-election
 .. _quorum size: https://crate.io/docs/crate/reference/en/latest/concepts/shared-nothing.html#master-node-election
 .. _quorum: https://en.wikipedia.org/wiki/Quorum_(distributed_computing)
+.. _resource group: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#conf-azure-discovery
 .. _runtime: https://crate.io/docs/crate/reference/en/latest/admin/runtime-config.html
+.. _security groups: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery-ec2-groups
 .. _seed: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery
 .. _split-brain: https://en.wikipedia.org/wiki/Split-brain_(computing)
+.. _SRV records: https://en.wikipedia.org/wiki/SRV_record
 .. _tarball method: https://crate.io/docs/crate/tutorials/en/latest/install-run/basic.html
+.. _tenant ID: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#conf-azure-discovery
 .. _transport.publish_port: https://crate.io/docs/crate/reference/en/latest/config/node.html#transport-publish-port
 .. _transport.tcp.port: https://crate.io/docs/crate/reference/en/latest/config/node.html#transport-tcp-port
+.. _unicast hosts: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#unicast-host-discovery
 .. _virtual console: https://en.wikipedia.org/wiki/Virtual_console
