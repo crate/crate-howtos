@@ -100,7 +100,7 @@ Copy the expanded directory three times, one for each node:
     Each directory will function as `CRATE_HOME`_ for that node
 
 Because you want to run a multi-node cluster, you should configure the metadata
-gateway so that CrateDB knows how to safely recover its state. Ideally, for a
+gateway so that CrateDB knows how to recover its state safely. Ideally, for a
 three-node cluster, set `gateway-expected-nodes`_ to ``3`` and set
 `gateway-recover-after-nodes`_ to ``3``.
 
@@ -108,8 +108,8 @@ three-node cluster, set `gateway-expected-nodes`_ to ``3`` and set
 
     Configuring the metadata gateway is a safeguarding mechanism that is useful
     for production clusters. It is not strictly necessary when running in
-    development. However, the `Admin UI`_ will issue warnings if the metadata
-    gateway is not configured.
+    development. However, the `Admin UI`_ will issue warnings if you have not
+    configured the metadata gateway.
 
 You can specify both settings in your `configuration`_ file, like so:
 
@@ -234,9 +234,8 @@ Unicast Host Discovery
 Instead of configuring seed hosts manually (:ref:`as above <discovery>`), you
 can configure CrateDB to fetch a list of seed hosts from an external source.
 
-The currently supported sources are: :ref:`DNS <discovery-dns>`,
-:ref:`Microsoft Azure <discovery-azure>`, and :ref:`Amazon EC2
-<discovery-ec2>`.
+The currently supported sources are :ref:`DNS <discovery-dns>`, :ref:`Microsoft
+Azure <discovery-azure>`, and :ref:`Amazon EC2 <discovery-ec2>`.
 
 
 .. _discovery-dns:
@@ -274,7 +273,7 @@ file like so:
 
     discovery.seed_providers: ec2
 
-CrateDB will perform a `Amazon EC2 API`_ query and use the results to generate
+CrateDB will perform an `Amazon EC2 API`_ query and use the results to generate
 a list of `unicast hosts`_ for node discovery.
 
 You can filter hosts based on:

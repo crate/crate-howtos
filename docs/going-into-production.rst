@@ -26,15 +26,15 @@ If you have been using CrateDB for development on your local machine, there is
 a good chance you have been using :ref:`single host auto-bootstrapping
 <auto-bootstrapping>`.
 
-For improved performance and resiliency, production CrateDB clusters should be
-run with one node per host machine. To do this, you must manually configure the
-bootstrapping process by telling nodes how to:
+For improved performance and resiliency, you should run production CrateDB
+clusters with one node per host machine. To do this, you must manually
+configure the bootstrapping process by telling nodes how to:
 
   a. :ref:`Discover other nodes <discovery>`, and
   b. :ref:`Elect a master node <master-node-election>`
 
-This is known as *manual bootstrapping*. See the :ref:`how-to guide
-<manual-bootstrapping>` for more information about how bootstrap a cluster
+This process is known as *manual bootstrapping*. See the :ref:`how-to guide
+<manual-bootstrapping>` for more information about how to bootstrap a cluster
 manually.
 
 Switching to a manual bootstrapping configuration is the first step towards
@@ -82,13 +82,13 @@ Configure logical node names
 ----------------------------
 
 By default, CrateDB sets the node name for you. You can override this by
-configuring a explicit node name using the `node.name`_ setting in your
+configuring an explicit node name using the `node.name`_ setting in your
 `configuration`_ file.
 
-Automatic nodes names are chosen from the `sys.summits`_ table. This is useful
-in development when the specifics of cluster architecture are less important.
-However, when going into production, you should give a logical name to each one
-of your nodes.
+CrateDB chooses automatic node names from the `sys.summits`_ table. This
+functionality is useful in development when the specifics of cluster
+architecture are less critical. However, when going into production, you
+should give each of your nodes a logical name.
 
 CrateDB supports `multiple types of node`_, determined by the ``node.master``
 and ``node.data`` settings. You can use this to name your nodes according to
@@ -104,8 +104,8 @@ their type. For instance:
 Multi-purpose nodes
 ~~~~~~~~~~~~~~~~~~~
 
-A master-eligible node that also handles query execution loads can be
-configured like this:
+You can configure a master-eligible node that also handles query execution loads
+like this:
 
 .. code-block:: yaml
 
@@ -118,9 +118,9 @@ A good name for this node might be:
 
     node.name: node-01-md
 
-Here, ``node`` is used as a base name with a sequence number of ``01``. Every
-node in the cluster should have a unique sequence number, independent of node
-type. The letters ``md`` indicate that this node has ``node.master`` and
+Here, ``node`` is a base name with a sequence number of ``01``. Every node in
+the cluster should have a unique sequence number, independent of the node type.
+The letters ``md`` indicate that this node has ``node.master`` and
 ``node.data`` set to ``true``.
 
 
@@ -129,8 +129,8 @@ type. The letters ``md`` indicate that this node has ``node.master`` and
 Request handling and query execution nodes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-A node that handles only client requests and query execution (i.e., is not
-master-eligible) can be configured like this:
+You can configure a node that only handles client requests and query execution
+(i.e., is not master-eligible) like this:
 
 .. code-block:: yaml
 
@@ -143,10 +143,9 @@ A good name for this node might be:
 
     node.name: node-02-d
 
-Here, ``node`` is used as a base name with a sequence number of ``02``. Every
-node in the cluster should have a unique sequence number, independent of node
-type. The letter ``d`` indicates that this node has ``node.data`` set to
-``true``.
+Here, ``node`` is a base name with a sequence number of ``02``. Every node in
+the cluster should have a unique sequence number, independent of the node type.
+The letter ``d`` indicates that this node has ``node.data`` set to ``true``.
 
 
 .. _prod-node-m:
@@ -154,8 +153,8 @@ type. The letter ``d`` indicates that this node has ``node.data`` set to
 Cluster management nodes
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-A node that handles cluster management (i.e., is master-eligible) but does not
-handle query execution loads can be configured like this:
+You can configure a node that handles cluster management (i.e., is
+master-eligible) but does not handle query execution loads like this:
 
 .. code-block:: yaml
 
@@ -168,10 +167,9 @@ A good name for this node might be:
 
     node.name: node-03-m
 
-Here, ``node`` is used as a base name with a sequence number of ``03``. Every
-node in the cluster should have a unique sequence number, independent of node
-type. The letter ``m`` indicates that this node has ``node.master`` set to
-``true``.
+Here, ``node`` is a base name with a sequence number of ``03``. Every node in
+the cluster should have a unique sequence number, independent of the node type.
+The letter ``m`` indicates that this node has ``node.master`` set to ``true``.
 
 
 .. _prod-node:
@@ -179,9 +177,8 @@ type. The letter ``m`` indicates that this node has ``node.master`` set to
 Request handling nodes
 ~~~~~~~~~~~~~~~~~~~~~~
 
-A node that handles client requests but does not handle query execution loads
-or cluster management (i.e., is not master-eligible) can be configured like
-this:
+You can configure a node that handles client requests but does not handle query
+execution loads or cluster management (i.e., is not master-eligible) like this:
 
 .. code-block:: yaml
 
@@ -194,10 +191,10 @@ A good name for this node might be:
 
     node.name: node-04
 
-Here, ``node`` is used as a base name with a sequence number of ``04``. Every
-node in the cluster should have a unique sequence number, independent of node
-type. The absense of any additional letters indicate that ``node.master``
-and ``node.data`` are set to ``false``.
+Here, ``node`` is a base name with a sequence number of ``04``. Every node in
+the cluster should have a unique sequence number, independent of the node type.
+The absense of any additional letters indicate that ``node.master`` and
+``node.data`` are set to ``false``.
 
 
 .. _prod-config-hostname:
@@ -231,9 +228,9 @@ You can break down that hostname, as follows:
 - ``acme-prod`` -- The cluster name
 - ``node-01-md`` -- The node name
 
-When CrateDB is bound to a non-loopback address, the :ref:`bootstrap checks
-<bootstrap-checks>` are enforced. This may require changes to your operation
-system configuration.
+When CrateDB is bound to a non-loopback address, CrateDB will enforce the
+:ref:`bootstrap checks <bootstrap-checks>`. These checks may require changes to
+your operating system configuration.
 
 .. SEEALSO::
 
@@ -245,12 +242,12 @@ system configuration.
 Configure persistent data paths
 ===============================
 
-By default, all data is kept under the `CRATE_HOME`_ directory (which defaults
-to the installation directory). When you upgrade CrateDB, you will have to
-switch to a new installation directory.
+By default, CrateDB keeps data under the `CRATE_HOME`_ directory (which
+defaults to the installation directory). When you upgrade CrateDB, you will
+have to switch to a new installation directory.
 
 Instead of migrating data by hand each time, you should move the data
-directories off to an persistent location. You can do this using the
+directories off to a persistent location. You can do this using the
 `CRATE_HOME`_ environment variable and the `path settings`_ in your
 `configuration`_ file.
 
