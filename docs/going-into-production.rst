@@ -108,7 +108,7 @@ Network host
 ------------
 
 By default, CrateDB binds to the loopback address (i.e., `localhost`_). It
-listens on port 4200-4300 for HTTP traffic and port 4300-4400 for node-to-node
+listens on port 4200-4299 for HTTP traffic and port 4300-4399 for node-to-node
 communication. Because CrateDB uses a port range, if one port is busy, it will
 automatically try the next port.
 
