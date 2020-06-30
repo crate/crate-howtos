@@ -85,10 +85,10 @@ By default, CrateDB sets the node name for you. You can override this by
 configuring a explicit node name using the `node.name`_ setting in your
 `configuration`_ file.
 
-Automatic nodes names are chosen the `sys.summits`_ table. This is useful in
-development when you don't care too much about cluster architecture. However,
-when going into production, you should give a logical name to each one of your
-nodes.
+Automatic nodes names are chosen from the `sys.summits`_ table. This is useful
+in development when the specifics of cluster architecture are less important.
+However, when going into production, you should give a logical name to each one
+of your nodes.
 
 CrateDB supports `multiple types of node`_, determined by the ``node.master``
 and ``node.data`` settings. You can use this to name your nodes according to
@@ -119,7 +119,7 @@ A good name for this node might be:
     node.name: node-01-md
 
 Here, ``node`` is used as a base name with a sequence number of ``01``. Every
-node in the cluster should have a unique sequence number, irrespective of node
+node in the cluster should have a unique sequence number, independent of node
 type. The letters ``md`` indicate that this node has ``node.master`` and
 ``node.data`` set to ``true``.
 
@@ -144,7 +144,7 @@ A good name for this node might be:
     node.name: node-02-d
 
 Here, ``node`` is used as a base name with a sequence number of ``02``. Every
-node in the cluster should have a unique sequence number, irrespective of node
+node in the cluster should have a unique sequence number, independent of node
 type. The letter ``d`` indicates that this node has ``node.data`` set to
 ``true``.
 
@@ -166,10 +166,10 @@ A good name for this node might be:
 
 .. code-block:: yaml
 
-    node.name: node-01-m
+    node.name: node-03-m
 
 Here, ``node`` is used as a base name with a sequence number of ``03``. Every
-node in the cluster should have a unique sequence number, irrespective of node
+node in the cluster should have a unique sequence number, independent of node
 type. The letter ``m`` indicates that this node has ``node.master`` set to
 ``true``.
 
@@ -195,7 +195,7 @@ A good name for this node might be:
     node.name: node-04
 
 Here, ``node`` is used as a base name with a sequence number of ``04``. Every
-node in the cluster should have a unique sequence number, irrespective of node
+node in the cluster should have a unique sequence number, independent of node
 type. The absense of any additional letters indicate that ``node.master``
 and ``node.data`` are set to ``false``.
 
@@ -296,7 +296,7 @@ CrateDB is a Java application running on top of a Java Virtual Machine (JVM).
 The JVM uses a heap for memory allocations. For optimal performance, you must
 pay special attention to your :ref:`heap configuration <memory>`.
 
-By default, CrateDB configures the JVM to dump out of memory exceptions to the
+By default, CrateDB configures the JVM to dump out-of-memory exceptions to the
 file or directory specified by `CRATE_HEAP_DUMP_PATH`_. You must make sure
 there is enough disk space available for heap dumps at this location.
 
