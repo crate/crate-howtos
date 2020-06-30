@@ -225,8 +225,118 @@ Alternatively, you can configure this at startup with a command-line option:
     `discovery.zen.ping.unicast.hosts`_ setting instead of
     `discovery.seed_hosts`_.
 
-CrateDB also supports node discovery via `DNS`_ as well as discovery via API
-for clusters running on `Amazon EC2`_ or `Microsoft Azure`_.
+
+.. _unicast-discovery:
+
+Unicast Host Discovery
+~~~~~~~~~~~~~~~~~~~~~~
+
+Instead of configuring seed hosts manually (:ref:`as above <discovery>`), you
+can configure CrateDB to fetch a list of seed hosts from an external source.
+
+The currently supported sources are: :ref:`DNS <discovery-dns>`,
+:ref:`Microsoft Azure <discovery-azure>`, and :ref:`Amazon EC2
+<discovery-ec2>`.
+
+
+.. _discovery-dns:
+
+Discovery via DNS
+^^^^^^^^^^^^^^^^^
+
+You can manage your seed hosts using `DNS`_.
+
+Configure the `discovery.seed_providers`_  setting in your `configuration`_
+file like so:
+
+.. code-block:: yaml
+
+    discovery.seed_providers: srv
+
+CrateDB will perform a DNS query using `SRV records`_ and use the results to
+generate a list of `unicast hosts`_ for node discovery.
+
+.. SEEALSO::
+
+    `DNS discovery settings`_
+
+.. _discovery-ec2:
+
+Discovery on Amazon EC2
+^^^^^^^^^^^^^^^^^^^^^^^
+
+You can manage your seed hosts using the `Amazon EC2 API`_.
+
+Configure the `discovery.seed_providers`_  setting in your `configuration`_
+file like so:
+
+.. code-block:: yaml
+
+    discovery.seed_providers: ec2
+
+CrateDB will perform a `Amazon EC2 API`_ query and use the results to generate
+a list of `unicast hosts`_ for node discovery.
+
+You can filter hosts based on:
+
+  - `Security groups`_
+  - `Host types`_
+  - `Availability zones`_
+  - `EC2 instance tags`_
+
+.. SEEALSO::
+
+    `Amazon EC2 discovery settings`_
+
+
+.. _discovery-azure:
+
+Discovery on Microsoft Azure
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+You can manage your seed hosts using the `Azure Virtual Machine API`_.
+
+Configure the `discovery.seed_providers`_  setting in your `configuration`_
+file like so:
+
+.. code-block:: yaml
+
+    discovery.seed_providers: azure
+
+CrateDB will perform an `Azure Virtual Machine API`_ query and use the results
+to generate a list of `unicast hosts`_ for node discovery.
+
+You can filter hosts based on:
+
+  - `Resource group`_
+  - `Tenant ID`_
+  - `Application ID`_
+  - `Network`_
+
+.. SEEALSO::
+
+    `Microsoft Azure discovery settings`_
+
+.. _Microsoft Azure discovery settings: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery-on-microsoft-azure
+.. _resource group: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#conf-azure-discovery
+.. _tenant ID: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#conf-azure-discovery
+.. _application ID: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#conf-azure-discovery
+.. _network: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#conf-azure-discovery
+.. _Azure Virtual Machine API: https://docs.microsoft.com/en-us/rest/api/compute/virtualmachines
+.. _security groups: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery-ec2-groups
+.. _host types: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery-ec2-host-type
+.. _availability zones: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery-ec2-zones
+.. _EC2 instance tags: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery-ec2-tags
+.. _Amazon EC2 API: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Welcome.html
+.. _EC2 API: ttps://docs.aws.amazon.com/AWSEC2/latest/APIReference/Welcome.html
+.. _unicast hosts: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#unicast-host-discovery
+.. _SRV records: https://en.wikipedia.org/wiki/SRV_record
+.. _discovery.seed_providers: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery.seed_providers
+.. _DNS discovery settings: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery-via-dns
+.. _Amazon EC2 discovery settings: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#conf-ec2-discovery
+
+
+
 
 
 .. _master-node-election:
