@@ -260,8 +260,8 @@ directories off to a persistent location. You can do this using the
     `Path settings`_
 
 For example, if you are running CrateDB on a `Unix-like`_ operating system, the
-`Filesystem Hierarchy Standard`_ (FHS) recommends the ``/srv`` directory as the root
-for site-specific data.
+`Filesystem Hierarchy Standard`_ (FHS) recommends the ``/srv`` directory as the
+root for site-specific data.
 
 With this in mind, if you are installing CrateDB by hand, a good value for
 `CRATE_HOME`_ on a Unix-like system might be ``/srv/crate``. Make sure to set
@@ -278,10 +278,11 @@ Then, you could configure your data paths like this:
 
 .. NOTE::
 
-    If you have installed CrateDB using a system package for Debian, Ubuntu, or
-    Red Hat, the `CRATE_HOME`_ variable (as well as some other data paths) are
-    configured for by the `systemd`_ *service* file. You can view the ``crate``
-    service file, like so:
+    If you have installed CrateDB using a system package for :ref:`Debian
+    <debian>`, :ref:`Ubuntu <ubuntu>`, or :ref:`Red Hat <red-hat>`, the
+    `CRATE_HOME`_ variable (as well as some other data paths) are configured
+    for by the `systemd`_ *service* file. You can view the ``crate`` service
+    file, like so:
 
     .. code-block:: console
 
@@ -367,7 +368,6 @@ output.
 .. _CRATE_HEAP_SIZE: https://crate.io/docs/crate/reference/en/latest/config/environment.html#crate-heap-size
 .. _CRATE_HOME: https://crate.io/docs/crate/reference/en/latest/config/environment.html#conf-env-crate-home
 .. _CRATE_JAVA_OPTS: https://crate.io/docs/crate/reference/en/latest/config/environment.html?#conf-env-java-opts
-.. _Debian: https://github.com/crate/distribute/blob/master/aptbuild/crate/SOURCES/debian/crate.service
 .. _discovery: https://crate.io/docs/crate/reference/en/latest/concepts/shared-nothing.html#discovery
 .. _elect a master node: https://crate.io/docs/crate/reference/en/latest/concepts/shared-nothing.html#master-node-election
 .. _Filesystem Hierarchy Standard: https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard
@@ -384,11 +384,9 @@ output.
 .. _path settings: https://crate.io/docs/crate/reference/en/latest/config/node.html#paths
 .. _path.data: https://crate.io/docs/crate/reference/en/latest/config/node.html#path-data
 .. _RAID 0: https://en.wikipedia.org/wiki/Standard_RAID_levels#RAID_0
-.. _Red Hat: https://github.com/crate/distribute/blob/master/rpmbuild/crate/SOURCES/crate-service
 .. _runtime: https://crate.io/docs/crate/reference/en/latest/admin/runtime-config.html#administration-runtime-config
 .. _STDERR: https://en.wikipedia.org/wiki/Standard_streams
 .. _sys.summits: https://crate.io/docs/crate/reference/en/latest/admin/system-information.html#summits
 .. _systemd: https://github.com/systemd/systemd
 .. _timeout settings: https://crate.io/docs/crate/reference/en/latest/config/node.html?#garbage-collection
-.. _Ubuntu: https://github.com/crate/distribute/blob/master/debuild/crate/SOURCES/debian/crate.service
 .. _Unix-like: https://en.wikipedia.org/wiki/Unix-like
