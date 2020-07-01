@@ -280,8 +280,12 @@ Then, you could configure your data paths like this:
 
     If you have installed CrateDB using a system package for Debian, Ubuntu, or
     Red Hat, the `CRATE_HOME`_ variable (as well as some other data paths) are
-    configured for by the `systemd`_ *service* file. View the source code
-    for `Debian`_, `Ubuntu`_, or `Red Hat`_ for the full details.
+    configured for by the `systemd`_ *service* file. You can view the ``crate``
+    service file, like so:
+
+    .. code-block:: console
+
+        sh$ systemctl cat crate
 
     System packages use of system-level directories instead of the
     ``/srv`` directory, which the FHS reserves for use by the local system
