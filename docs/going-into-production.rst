@@ -27,8 +27,8 @@ a good chance you have been using :ref:`single host auto-bootstrapping
 <auto-bootstrapping>`.
 
 For improved performance and resiliency, you should run production CrateDB
-clusters with one node per host machine. To do this, you must manually
-configure the bootstrapping process by telling nodes how to:
+clusters with three or more nodes and one node per host machine. To do this,
+you must manually configure the bootstrapping process by telling nodes how to:
 
   a. :ref:`Discover other nodes <discovery>`, and
   b. :ref:`Elect a master node <master-node-election>`
@@ -193,8 +193,8 @@ A good name for this node might be:
 
 Here, ``node`` is a base name with a sequence number of ``04``. Every node in
 the cluster should have a unique sequence number, independent of the node type.
-The absense of any additional letters indicate that ``node.master`` and
-``node.data`` are set to ``false``.
+The absence of any additional letters indicates that ``node.master`` and
+``node.data`` are ``false``.
 
 
 .. _prod-config-hostname:
@@ -221,10 +221,14 @@ You can bind to a non-loopback address with the `network.host`_ setting in your
 
     network.host: node-01-md.acme-prod.internal.example.com
 
-You can break down that hostname, as follows:
+The hostname ``node-01-md.acme-prod.internal.example.com`` must be configured
+using DNS. The `network.host` must then be set to match the DNS name.
 
-- ``example.com`` -- Your example domain name
-- ``internal`` -- Your internal private network
+You should use the hostname to describe each logically. To this end, the
+example hostname (above) has four components:
+
+- ``example.com`` -- The root domain name
+- ``internal`` -- The internal private network
 - ``acme-prod`` -- The cluster name
 - ``node-01-md`` -- The node name
 
@@ -251,12 +255,17 @@ directories off to a persistent location. You can do this using the
 `CRATE_HOME`_ environment variable and the `path settings`_ in your
 `configuration`_ file.
 
+.. SEEALSO::
+
+    `Path settings`_
+
 For example, if you are running CrateDB on a `Unix-like`_ operating system, the
-`Filesystem Hierarchy Standard`_ recommends the ``/srv`` directory as the root
+`Filesystem Hierarchy Standard`_ (FHS) recommends the ``/srv`` directory as the root
 for site-specific data.
 
-With this in mind, a good value for `CRATE_HOME`_ on a Unix-like system might
-be ``/srv/crate``. Make sure to set `CRATE_HOME` before running `bin/crate`_.
+With this in mind, if you are installing CrateDB by hand, a good value for
+`CRATE_HOME`_ on a Unix-like system might be ``/srv/crate``. Make sure to set
+`CRATE_HOME` before running `bin/crate`_.
 
 Then, you could configure your data paths like this:
 
@@ -267,19 +276,38 @@ Then, you could configure your data paths like this:
     path.logs: /srv/crate/logs
     path.repo: /srv/crate/snapshots
 
+.. NOTE::
 
-Path configuration is especially important if you are running CrateDB on
-Docker. Persistent data should be located on a mounted volume.
+    If you have installed CrateDB using a system package for Debian, Ubuntu, or
+    Red Hat, the `CRATE_HOME`_ variable (as well as some other data paths) are
+    configured for by the `systemd`_ *service* file. View the source code
+    for `Debian`_, `Ubuntu`_, or `Red Hat`_ for the full details.
+
+    System packages use of system-level directories instead of the
+    ``/srv`` directory, which the FHS reserves for use by the local system
+    administrator.
+
+    This setup is fine for production clusters. However, because the ``data``
+    directory holds table data and cluster metadata, you may want to configure
+    `path.data`_ to point to a mounted volume, giving you the option to
+    optimize the underlying storage mechanism for performance. For example:
+
+    .. code-block:: yaml
+
+        path.data: /srv/crate/data
+
+    In this example, you can configure ``/srv/crate`` as a mount point.
 
 .. TIP::
 
-    You should take care size the data storage volume according to your needs.
-    You should also use storage with high `IOPS`_ to improve CrateDB
-    performance.
+    You should take care size your data storage volumes according to your
+    needs. You should also use storage with high `IOPS`_ when possible to
+    improve CrateDB performance.
 
-.. SEEALSO::
+.. WARNING::
 
-    `Path settings`_
+    Docker containers are stateless by design. You should configure all data
+    paths to point to a mounted volume to avoid data loss.
 
 
 .. _prod-jvm:
@@ -335,6 +363,7 @@ output.
 .. _CRATE_HEAP_SIZE: https://crate.io/docs/crate/reference/en/latest/config/environment.html#crate-heap-size
 .. _CRATE_HOME: https://crate.io/docs/crate/reference/en/latest/config/environment.html#conf-env-crate-home
 .. _CRATE_JAVA_OPTS: https://crate.io/docs/crate/reference/en/latest/config/environment.html?#conf-env-java-opts
+.. _Debian: https://github.com/crate/distribute/blob/master/aptbuild/crate/SOURCES/debian/crate.service
 .. _discovery: https://crate.io/docs/crate/reference/en/latest/concepts/shared-nothing.html#discovery
 .. _elect a master node: https://crate.io/docs/crate/reference/en/latest/concepts/shared-nothing.html#master-node-election
 .. _Filesystem Hierarchy Standard: https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard
@@ -349,9 +378,13 @@ output.
 .. _network.host: https://crate.io/docs/crate/reference/en/latest/config/node.html#network-host
 .. _node.name: https://crate.io/docs/crate/reference/en/latest/config/node.html#node-name
 .. _path settings: https://crate.io/docs/crate/reference/en/latest/config/node.html#paths
+.. _path.data: https://crate.io/docs/crate/reference/en/latest/config/node.html#path-data
 .. _RAID 0: https://en.wikipedia.org/wiki/Standard_RAID_levels#RAID_0
+.. _Red Hat: https://github.com/crate/distribute/blob/master/rpmbuild/crate/SOURCES/crate-service
 .. _runtime: https://crate.io/docs/crate/reference/en/latest/admin/runtime-config.html#administration-runtime-config
 .. _STDERR: https://en.wikipedia.org/wiki/Standard_streams
 .. _sys.summits: https://crate.io/docs/crate/reference/en/latest/admin/system-information.html#summits
+.. _systemd: https://github.com/systemd/systemd
 .. _timeout settings: https://crate.io/docs/crate/reference/en/latest/config/node.html?#garbage-collection
+.. _Ubuntu: https://github.com/crate/distribute/blob/master/debuild/crate/SOURCES/debian/crate.service
 .. _Unix-like: https://en.wikipedia.org/wiki/Unix-like
