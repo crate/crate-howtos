@@ -221,8 +221,8 @@ You can bind to a non-loopback address with the `network.host`_ setting in your
 
     network.host: node-01-md.acme-prod.internal.example.com
 
-The hostname ``node-01-md.acme-prod.internal.example.com`` must be configured
-using DNS. The `network.host` must then be set to match the DNS name.
+You must configure the ``node-01-md.acme-prod.internal.example.com`` hostname
+using DNS. You must then set `network.host`_ to match the DNS name.
 
 You should use the hostname to describe each logically. To this end, the
 example hostname (above) has four components:
