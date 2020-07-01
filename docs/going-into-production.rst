@@ -267,11 +267,15 @@ Then, you could configure your data paths like this:
     path.logs: /srv/crate/logs
     path.repo: /srv/crate/snapshots
 
-.. _Filesystem Hierarchy Standard: https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard
-.. _Unix-like: https://en.wikipedia.org/wiki/Unix-like
 
 Path configuration is especially important if you are running CrateDB on
 Docker. Persistent data should be located on a mounted volume.
+
+.. TIP::
+
+    You should take care size the data storage volume according to your needs.
+    You should also use storage with high `IOPS`_ to improve CrateDB
+    performance.
 
 .. SEEALSO::
 
@@ -333,8 +337,10 @@ output.
 .. _CRATE_JAVA_OPTS: https://crate.io/docs/crate/reference/en/latest/config/environment.html?#conf-env-java-opts
 .. _discovery: https://crate.io/docs/crate/reference/en/latest/concepts/shared-nothing.html#discovery
 .. _elect a master node: https://crate.io/docs/crate/reference/en/latest/concepts/shared-nothing.html#master-node-election
+.. _Filesystem Hierarchy Standard: https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard
 .. _GC logging environment variables: https://crate.io/docs/crate/reference/en/latest/config/logging.html#environment-variables
 .. _Host settings: https://crate.io/docs/crate/reference/en/latest/config/node.html#hosts
+.. _IOPS: https://en.wikipedia.org/wiki/IOPS
 .. _JVM environment variables: https://crate.io/docs/crate/reference/en/latest/config/environment.html#jvm-variables
 .. _limits: https://crate.io/docs/crate/howtos/en/latest/performance/memory.html#limits
 .. _localhost: https://en.wikipedia.org/wiki/Localhost
@@ -348,3 +354,4 @@ output.
 .. _STDERR: https://en.wikipedia.org/wiki/Standard_streams
 .. _sys.summits: https://crate.io/docs/crate/reference/en/latest/admin/system-information.html#summits
 .. _timeout settings: https://crate.io/docs/crate/reference/en/latest/config/node.html?#garbage-collection
+.. _Unix-like: https://en.wikipedia.org/wiki/Unix-like
