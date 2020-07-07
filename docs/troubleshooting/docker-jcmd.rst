@@ -258,7 +258,7 @@ Example
 Java Flight Recording
 ---------------------
 
-:Command: ``jcmd <PID> JFR.start name=<NAME> duration=<DURATION> filename=<PATH>``
+:Command: ``jcmd <PID> JFR.start name=<NAME> duration=<DURATION> filename=<PATH> settings=profile``
 
 Example
 .......
