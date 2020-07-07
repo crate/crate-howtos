@@ -1,3 +1,5 @@
+.. _troubleshooting:
+
 ===============
 Troubleshooting
 ===============
@@ -9,5 +11,5 @@ A collection of guides and tools for troubleshooting CrateDB.
 .. toctree::
    :maxdepth: 1
 
-   jcmd-in-docker
+   docker-jcmd
 

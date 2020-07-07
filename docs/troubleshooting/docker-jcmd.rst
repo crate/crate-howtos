@@ -1,10 +1,12 @@
-============================================================
-Troubleshooting the ``crate`` Docker container with ``jcmd``
-============================================================
+.. _jcmd-docker:
+
+====================================
+Troubleshooting Docker with ``jcmd``
+====================================
 
 You can find a lot of troubleshooting guides for Java applications out there on
 the internet that explain how to perform a heap dump, thread dump, and so on.
-Since CrateDB is written in Java, these tools can of course also be used to 
+Since CrateDB is written in Java, these tools can of course also be used to
 troubleshoot CrateDB instances in case something goes awry.
 
 Most of these guides, however, explain how to use tools (such as ``jcmd``) on
@@ -12,16 +14,21 @@ Java applications running directly as process on the operating system. Fewer of
 them cover how to apply ``jcmd`` commands inside a Docker container.
 
 When it comes to troubleshooting the ``crate`` Docker container, things work a
-bit differently. This document explains why the 'usual' way to run ``jcmd`` 
-does not work and how to solve it. It does not, however, explain how to analyze 
+bit differently. This document explains why the 'usual' way to run ``jcmd``
+does not work and how to solve it. It does not, however, explain how to analyze
 the output (since that is identical to non-containerized applications)!
+
+.. rubric:: Table of contents
+
+.. contents::
+   :local:
 
 
 Introduction
 ============
 
-``jcmd`` has been the successor of multiple tools (``jstack``, ``jinfo``, 
-``jmap``) since JDK 8. It can be used to perform various diagnostic tasks on a 
+``jcmd`` has been the successor of multiple tools (``jstack``, ``jinfo``,
+``jmap``) since JDK 8. It can be used to perform various diagnostic tasks on a
 running Java application.
 
 .. code-block:: console
@@ -71,7 +78,7 @@ it as ``root`` with full privileges.
    	at jdk.jcmd/sun.tools.jcmd.JCmd.executeCommandForPid(JCmd.java:115)
    	at jdk.jcmd/sun.tools.jcmd.JCmd.main(JCmd.java:99)
 
-The same happens when you try to run it as user ``crate``, which owns the 
+The same happens when you try to run it as user ``crate``, which owns the
 process:
 
 .. code-block:: console
@@ -98,10 +105,10 @@ process runs as user ``crate``, since **CrateDB must be run as a non-root
 user**.
 
 This is done by ``chroot`` ing with user ``crate`` (``chroot --userspec=1000 /
-"$@"``), because this does not spawn an additional process for changing the 
-user - unlike ``su crate -c "$@"``, where ``su`` would result in the process 
-with PID ``1`` and the crate command would be a child-process with a different 
-PID. This is not what one wants in a Docker container, where the application 
+"$@"``), because this does not spawn an additional process for changing the
+user - unlike ``su crate -c "$@"``, where ``su`` would result in the process
+with PID ``1`` and the crate command would be a child-process with a different
+PID. This is not what one wants in a Docker container, where the application
 must (?) run as PID 1.
 
 With that knowledge in mind, you can use ``chroot`` to execute the ``jcmd``
@@ -114,7 +121,7 @@ command as well.
    OpenJDK 64-Bit Server VM version 13.0.1+9
    JDK 13.0.1
 
-``jcmd <PID> help`` lists all available commands that you can now start using 
+``jcmd <PID> help`` lists all available commands that you can now start using
 for troubleshooting CrateDB inside the Docker container.
 
 .. code-block:: console
