@@ -1,8 +1,8 @@
 .. _jcmd-docker:
 
-====================================
-Troubleshooting Docker with ``jcmd``
-====================================
+===============================================
+Troubleshooting CrateDB on Docker with ``jcmd``
+===============================================
 
 You can find a lot of troubleshooting guides for Java applications out there on
 the internet that explain how to perform a heap dump, thread dump, and so on.
