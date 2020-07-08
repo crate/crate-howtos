@@ -91,9 +91,9 @@ Copy the expanded directory three times, one for each node:
 
 .. code-block:: console
 
-    sh$ cp -R crate-*/ node1
-    sh$ cp -R crate-*/ node2
-    sh$ cp -R crate-*/ node3
+    sh$ cp -R crate-*/ node-01
+    sh$ cp -R crate-*/ node-02
+    sh$ cp -R crate-*/ node-03
 
 .. TIP::
 
@@ -142,7 +142,7 @@ changing into each node directory and running the `bin/crate`_ script.
 
     When you run `bin/crate`_, the script sets `CRATE_HOME`_ to your current
     directory. This directory must be the root of a CrateDB installation (e.g.,
-    ``node1``, ``node2``, or ``node3``).
+    ``node-01``, ``node-02``, or ``node-03``).
 
 .. TIP::
 
@@ -155,7 +155,7 @@ changing into each node directory and running the `bin/crate`_ script.
     .. rst-class:: open
 
       1. Start a virtual console. In that virtual console, change into the
-         ``node1`` directory and run `bin/crate`_. Leave this process running.
+         ``node-01`` directory and run `bin/crate`_. Leave this process running.
 
       2. Start a second virtual console. In that virtual console, change into
          the ``node2`` directory and run `bin/crate`_. Leave this process
@@ -203,7 +203,7 @@ master-eligible node, like so:
 .. code-block:: yaml
 
     discovery.seed_hosts:
-      - node1.example.com:4300
+      - node-01.example.com:4300
       - 10.0.1.102:4300
       - 10.0.1.103:4300
 
@@ -212,7 +212,7 @@ Alternatively, you can configure this at startup with a command-line option:
 .. code-block:: console
 
     sh$ bin/crate \
-            -Cdiscovery.seed_hosts=node1.example.com,10.0.1.102,10.0.1.103
+            -Cdiscovery.seed_hosts=node-01.example.com,10.0.1.102,10.0.1.103
 
 .. NOTE::
 
@@ -333,7 +333,7 @@ setting should contain one identifier per master-eligible node, like so:
 .. code-block:: yaml
 
     cluster.initial_master_nodes:
-      - node1.example.com
+      - node-01.example.com
       - 10.0.1.102
       - 10.0.1.103
 
@@ -342,7 +342,7 @@ Alternatively, you can configure this at startup with a command-line option:
 .. code-block:: console
 
     sh$ bin/crate \
-            -Ccluster.initial_master_nodes=node1.example.com,10.0.1.102,10.0.1.10
+            -Ccluster.initial_master_nodes=node-01.example.com,10.0.1.102,10.0.1.10
 
 .. WARNING::
 
@@ -442,19 +442,18 @@ Node name
 
 If you are :ref:`manually bootstrapping <manual-bootstrapping>` a cluster, you
 must specify a list of master-eligible nodes (:ref:`see below
-<master-node-election>`). To do this, you must be able to refer to nodes by
-name.
+<master-node-election>`). To do this, you must refer to nodes by node name,
+hostname, or IP address.
 
-By default, CrateDB sets the node name for you. However, if you configure the
-node names explicitly, you can specify a list of master-eligible nodes
-up-front.
+By default, CrateDB sets the node name to a random value from the
+`sys.summits`_ table.
 
-You can configure a custom node name using the `node.name`_ setting in your
-`configuration`_ file, like so:
+You can override this behavior by configuring a custom node name using the
+`node.name`_ setting in your `configuration`_ file, like so:
 
 .. code-block:: yaml
 
-    node.name: node1
+    node.name: node-01
 
 Alternatively, you can configure this setting at startup with a command-line
 option:
@@ -462,7 +461,7 @@ option:
 .. code-block:: console
 
     sh$ bin/crate \
-            -Cnode.name=node1
+            -Cnode.name=node-01
 
 
 .. _master-eligible-nodes:
@@ -503,7 +502,7 @@ Edit the `transport.tcp.port`_ setting in your `configuration`_ file, like so:
     .. code-block:: yaml
 
         # External access
-        network.publish_host: node1.example.com
+        network.publish_host: node-01.example.com
         transport.publish_port: 4321
 
 .. SEEALSO::
@@ -566,6 +565,7 @@ Edit the `transport.tcp.port`_ setting in your `configuration`_ file, like so:
 .. _seed: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery
 .. _split-brain: https://en.wikipedia.org/wiki/Split-brain_(computing)
 .. _SRV records: https://en.wikipedia.org/wiki/SRV_record
+.. _sys.summits: https://crate.io/docs/crate/reference/en/latest/admin/system-information.html#summits
 .. _tarball method: https://crate.io/docs/crate/tutorials/en/latest/install-run/basic.html
 .. _tenant ID: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#conf-azure-discovery
 .. _transport.publish_port: https://crate.io/docs/crate/reference/en/latest/config/node.html#transport-publish-port
