@@ -20,7 +20,12 @@ CrateDB maintains packages for the following Ubuntu versions:
 Java
 ====
 
-CrateDB requires Java 11 or higher.
+CrateDB requires a `Java virtual machine`_ (JVM) to run.
+
+CrateDB versions 4.2 and above include a JVM and do not require a separate
+installation.
+
+Earlier versions require Java 11 to be installed.
 
 To run CrateDB on Ubuntu releases older than 18.04, you will need to install
 Java from a third-party repository. This can be done by adding the `OpenJDK`_
@@ -193,6 +198,7 @@ your system, we recommend that you go with a `basic tarball installation`_.
 .. _environment variables: https://crate.io/docs/crate/reference/en/latest/config/environment.html
 .. _first use: https://crate.io/docs/crate/getting-started/en/latest/first-use/index.html
 .. _Focal Fossa: https://wiki.ubuntu.com/FocalFossa/ReleaseNotes
+.. _Java virtual machine: https://en.wikipedia.org/wiki/Java_virtual_machine
 .. _OpenJDK: https://launchpad.net/~openjdk-r/+archive/ubuntu/ppa
 .. _sources: https://en.wikipedia.org/wiki/Source_(command)
 .. _Trusty Tahr: https://wiki.ubuntu.com/TrustyTahr/ReleaseNotes
