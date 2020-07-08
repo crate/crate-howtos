@@ -420,7 +420,7 @@ match.
 By default, CrateDB sets the cluster name to ``crate`` for you.
 
 You can override this behavior by configuring a custom cluster name using the
-`node.name`_ setting in your `configuration`_ file, like so:
+`cluster.name`_ setting in your `configuration`_ file, like so:
 
 .. code-block:: yaml
 
