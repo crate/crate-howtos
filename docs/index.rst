@@ -25,7 +25,7 @@ massive amounts of machine data in real-time.
 
    deployment/index
    admin/index
-   scaling/index
+   clustering/index
    performance/index
    going-into-production
    best-practices/index
