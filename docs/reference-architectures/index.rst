@@ -11,4 +11,5 @@ CrateDB for various use-cases.
    :maxdepth: 1
 
    cratedb-azure-iot
+   distributed-ml
 

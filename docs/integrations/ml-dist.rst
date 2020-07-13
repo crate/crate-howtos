@@ -1,3 +1,5 @@
+.. _cratedb-distributed-ml:
+
 =====================================================
 Distributed Deep-Learning with CrateDB and TensorFlow
 =====================================================
