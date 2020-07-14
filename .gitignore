@@ -1,10 +1,11 @@
-*.lint
-.DS_Store
+_out/
 .build
+.clone
+.crate-docs-build
+.DS_Store
 .env
 .idea
 .utils
-.clone
 .venv
-_out/
+*.lint
 get-pip.py
