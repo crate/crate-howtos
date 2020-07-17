@@ -34,6 +34,12 @@ For Red Hat Linux 7, run:
 
 .. code-block:: sh
 
+   sh$ sudo rpm -Uvh https://cdn.crate.io/downloads/yum/7/x86_64/crate-release-7.0-1.x86_64.rpm
+
+For CrateDB versions < 4.2.0, run:
+
+.. code-block:: sh
+
    sh$ sudo rpm -Uvh https://cdn.crate.io/downloads/yum/7/noarch/crate-release-7.0-1.noarch.rpm
 
 The above commands will create the ``/etc/yum.repos.d/crate.repo``
