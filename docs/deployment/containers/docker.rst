@@ -81,11 +81,11 @@ Breaking the command down:
   and all its internal data will be lost. If you would like to avoid this,
   you can mount a dedicated volume (-v) for the container (each container
   would need its own dedicated folder on your dev machine, see
-  :ref:`docker-compose` as reference)
+  :ref:`docker-compose` as reference).
 - Puts the container into the ``crate`` network and maps port ``4201`` on your
-  host machine to port ``4200`` on the container (admin UI)
+  host machine to port ``4200`` on the container (admin UI).
 - Defines the environment variable ``CRATE_HEAP_SIZE`` which is used by CrateDB
-  to allocate 2G for its heap
+  to allocate 2G for its heap.
 - Runs the command ``crate`` inside the container with parameters:
     * ``network.host``: The ``_site_`` value results in the binding of the
       CrateDB process to a site-local IP address.
@@ -154,13 +154,13 @@ Now add the second node, ``crate02``, to the cluster::
 
 Notice here that:
 
-- You updated the container and node name to ``crate02``
+- You updated the container and node name to ``crate02``.
 - You updated the port mapping, so that port ``4202`` on your host is mapped
-  to ``4200`` on the container
+  to ``4200`` on the container.
 - You set the parameter ``discovery.seed_hosts`` to contain the other hosts of
-  the cluster
+  the cluster.
 - ``cluster.initial_master_nodes``:  Since only nodes ``crate01`` and ``crate02``
-  will participate in the election of the first master, this setting is unchanged
+  will participate in the election of the first master, this setting is unchanged.
 
 Now, if you go back to the admin UI you opened earlier, or visit the admin UI
 of the node you just created (located at ``http://localhost:4202/``) you
@@ -179,14 +179,14 @@ You can now add ``crate03`` like this::
 
 Notice here that:
 
-- You updated the container and node name to ``crate03``
+- You updated the container and node name to ``crate03``.
 - You updated the port mapping, so that port ``4203`` on your host is mapped
-  to ``4200`` on the container
+  to ``4200`` on the container.
 - You set parameter ``discovery.seed_hosts`` to contain the other hosts of the
-  cluster
+  cluster.
 - ``cluster.initial_master_nodes``:  This setting is removed since only nodes
   ``crate01`` and ``crate02`` will participate in the election of the first
-  master
+  master.
 
 
 Success! You just created a three-node CrateDB cluster with Docker.
@@ -336,18 +336,18 @@ define your services like this:
         environment:
           - CRATE_HEAP_SIZE=2g
 
-In file above:
+In the file above:
 
-- You specified the latest `compose file version`_ 
+- You specified the latest `compose file version`_. 
 - You created three CrateDB services which pulls the latest CrateDB Docker
-  image and maps the ports manually
+  image and maps the ports manually.
 - You created a file system volume per instance and defined a set of
-  configuration parameters (`-C`)
-- You defined some deploy settings and an environment variable for the heap size 
+  configuration parameters (`-C`).
+- You defined some deploy settings and an environment variable for the heap size.
 - Network settings no longer need to be defined in the latest compose file
-  version because a `default network`_ will be created
+  version because a `default network`_ will be created.
 - The start order of the containers is not deterministic and you want all
-  three containers to be up and running before the election of the master node
+  three containers to be up and running before the election of the master node.
 
 Best Practices
 ==============
@@ -439,7 +439,7 @@ Memory
 ------
 
 You must calculate and explicitly `set the maximum memory`_ that the container
-can use. This is dependant on your host system and should typically be as high
+can use. This is dependent on your host system and should typically be as high
 as possible.
 
 You must then calculate the appropriate heap size (typically half the container's
@@ -452,7 +452,7 @@ CPU
 ---
 
 You must calculate and explicitly `set the maximum number of CPUs`_ that the
-container can use. This is dependant on your host system and should typically
+container can use. This is dependent on your host system and should typically
 be as high as possible.
 
 Combined configuration
