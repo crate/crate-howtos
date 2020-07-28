@@ -104,8 +104,8 @@ Breaking the command down:
       that the node will join an already formed cluster. This parameter is only
       relevant for the first election.
     * ``gateway.expected_nodes`` and ``gateway.recover_after_nodes``: Specifies
-      how many nodes you want in the cluster and how the cluster's state should
-      be recovered once all nodes are started.
+      how many nodes you expect in the cluster and how many nodes must be 
+      discovered before the cluster state is recovered.
 
 .. NOTE::
 
@@ -343,7 +343,7 @@ In file above:
   image and maps the ports manually
 - You created a file system volume per instance and defined a set of
   configuration parameters (`-C`)
-- You set some deploy settings and an environment variable for the heap size 
+- You defined some deploy settings and an environment variable for the heap size 
 - Network settings no longer need to be defined in the latest compose file
   version because a `default network`_ will be created
 - The start order of the containers is not deterministic and you want all
@@ -421,9 +421,10 @@ You can do that by editing your `Docker Stack YAML file`_:
 Resource constraints
 ====================
 
-It is important that you set resource constraints when you are running CrateDB
-inside Docker. Current versions of the JVM are unable to detect that they are
-running inside a container, and as a result, `the detected limits are wrong`_.
+To avoid overallocation of resources, you may want to consider setting
+constraints on CPU and memory if you plan to run multiple CrateDB containers
+on a single machine.
+
 
 Bootstrap checks
 ----------------
@@ -458,7 +459,8 @@ Combined configuration
 ----------------------
 
 If you want the container to use a maximum of 1.5 CPUs, a maximum of 2 GB
-memory, with a heap size of 1 GB, you could configure everything at once::
+memory, with a heap size of 1 GB, you could configure everything at once. For
+example::
 
     $ docker run -d \
         --cpus 1.5 \
@@ -487,5 +489,4 @@ memory, with a heap size of 1 GB, you could configure everything at once::
 .. _set the maximum number of CPUs: https://docs.docker.com/engine/admin/resource_constraints/#cpu
 .. _shared-nothing architecture : https://en.wikipedia.org/wiki/Shared-nothing_architecture
 .. _spinning up your first CrateDB instance: https://crate.io/docs/crate/getting-started/en/latest/install/containers/docker.html
-.. _the detected limits are wrong: https://developers.redhat.com/blog/2017/03/14/java-inside-docker/
 .. _user-defined network: https://docs.docker.com/engine/userguide/networking/#user-defined-networks
