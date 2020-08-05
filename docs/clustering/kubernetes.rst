@@ -135,7 +135,7 @@ Clustering behavior
    The following only applies to CrateDB versions 3.x and below.
 
    The ``discovery.zen.minimum_master_nodes`` setting is :ref:`no longer used
-   <discovery>` in CrateDB versions 4.x and above.
+   <node-discovery>` in CrateDB versions 4.x and above.
 
 The `discovery.zen.minimum_master_nodes`_ setting affects `metadata
 master`_ election.
