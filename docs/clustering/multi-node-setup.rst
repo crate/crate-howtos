@@ -9,12 +9,11 @@ as a cluster of three or more nodes.
 
 For development purposes, CrateDB can :ref:`auto-bootstrap
 <auto-bootstrapping>` a cluster when you run all nodes on the same host.
-Auto-bootstrapping requires zero configuration. However, in production
-environments, you must configure the bootstrapping process :ref:`manually
-<manual-bootstrapping>`.
+But in production environments, you must configure the bootstrapping process
+:ref:`manually <manual-bootstrapping>`.
 
-This guide shows you how to bootstrap a multi-node CrateDB cluster using the
-method of your choice.
+This guide shows you how to bootstrap (set up) a multi-node CrateDB cluster
+using different methods.
 
 .. rubric:: Table of contents
 
@@ -27,46 +26,54 @@ method of your choice.
 Cluster bootstrapping
 =====================
 
+Starting a CrateDB cluster for the first time requires the initial list of
+master-eligible nodes to be defined. This is known as *cluster bootstrapping*.
+
+This process is only necessary the first time a cluster starts because:
+
+- nodes that are already part of a cluster will remember this information if
+  the cluster restarts
+
+- new nodes that need to join a cluster will obtain this information from the
+  cluster's elected master node
 
 .. _auto-bootstrapping:
 
-Single host auto-bootstrapping
+Single-host auto-bootstrapping
 ------------------------------
 
 If you start up several nodes (with default configuration) on a single host,
-they will automatically discover one another and form a cluster.
+the nodes will automatically discover one another and form a cluster. This
+does not require any configuration.
 
 If you want to run CrateDB on your local machine for development or
-experimentation purposes, this is probably your best bootstrapping option.
+experimentation purposes, this is probably your best option.
 
 .. CAUTION::
 
-    Single host auto-bootstrapping is useful for development environments.
-    However, for improved performance and resiliency, :ref:`production
+    For better performance and resiliency, :ref:`production
     <going-into-production>` CrateDB clusters should be run with :ref:`one node
     per host machine <manual-bootstrapping>`. If you use multiple hosts, you
-    must configure your cluster with :ref:`manual bootstrapping
-    <manual-bootstrapping>`.
+    must :ref:`manually bootstrap <manual-bootstrapping>` your cluster.
 
 .. WARNING::
 
     If you start multiple nodes on different hosts with auto-bootstrapping
-    enabled, you cannot, at a later point, bring those nodes together to form
-    a single cluster--there is no way to merge CrateDB clusters without the
-    risk of data loss.
+    enabled, you cannot, at a later point, merge those nodes together to form
+    a single cluster without the risk of data loss.
 
     If you have multiple nodes running on different hosts, you can check
-    whether they have formed independent clusters by visiting the `Admin UI`_
+    whether they have formed independent clusters by visiting the `admin UI`_
     (which runs on every node) and checking the `cluster browser`_.
 
-    If you find yourself with multiple independent clusters and instead want to
+    If you end up with multiple independent clusters and instead want to
     form a single cluster, follow these steps:
 
       1. `Back up your data`_
       2. Shut down all the nodes
       3. Completely wipe each node by deleting the contents of the ``data``
          directory under `CRATE_HOME`_
-      4. Follow the instructions in the next section (:ref:`manual bootstrapping
+      4. Follow the instructions in :ref:`manual bootstrapping
          <manual-bootstrapping>`)
       5. Restart all the nodes and verify that they have formed a single cluster
       6. Restore your data
@@ -74,105 +81,75 @@ experimentation purposes, this is probably your best bootstrapping option.
 
 .. _auto-bootstrapping-tarball:
 
-Tarball install
-~~~~~~~~~~~~~~~
+Tarball installation
+^^^^^^^^^^^^^^^^^^^^
 
-If you're installing CrateDB using the `tarball method`_, you can start a
-single host three-node cluster with auto-bootstrapping by following these
+If you are installing CrateDB using the `tarball method`_, you can start a
+single-host three-node cluster with auto-bootstrapping by following these
 instructions.
 
-Unpack the tarball:
+1. Unpack the tarball:
 
-.. code-block:: console
+   .. code-block:: console
 
-    sh$ tar -xzf crate-*.tar.gz
+       sh$ tar -xzf crate-*.tar.gz
 
-Copy the expanded directory three times, one for each node:
+2. You should configure the :ref:`metadata gateway <metadata-gateway>` so that
+   CrateDB knows how to recover its state safely. Ideally, for a three-node
+   cluster, set `gateway.expected_nodes`_ to **3** and set
+   `gateway.recover_after_nodes`_ to **3**. You can specify these settings in
+   the `configuration`_ file of the unpacked directory. 
 
-.. code-block:: console
+   .. NOTE::
 
-    sh$ cp -R crate-*/ node-01
-    sh$ cp -R crate-*/ node-02
-    sh$ cp -R crate-*/ node-03
+      Configuring the `metadata gateway`_ is a safeguarding mechanism that is
+      useful for production clusters. It is not strictly necessary when running
+      in development. However, the `admin UI`_ will issue warnings if you have
+      not configured the metadata gateway.
 
-.. TIP::
+   .. SEEALSO::
 
-    Each directory will function as `CRATE_HOME`_ for that node
+       The :ref:`metadata gateway <metadata-gateway>` section includes examples. 
 
-Because you want to run a multi-node cluster, you should configure the metadata
-gateway so that CrateDB knows how to recover its state safely. Ideally, for a
-three-node cluster, set `gateway-expected-nodes`_ to ``3`` and set
-`gateway-recover-after-nodes`_ to ``3``.
+3. Copy the unpacked directory into a new directory, three times, one for each
+   node. For example:
 
-.. NOTE::
+   .. code-block:: console
 
-    Configuring the metadata gateway is a safeguarding mechanism that is useful
-    for production clusters. It is not strictly necessary when running in
-    development. However, the `Admin UI`_ will issue warnings if you have not
-    configured the metadata gateway.
+       sh$ cp -R crate-*/ node-01
+       sh$ cp -R crate-*/ node-02
+       sh$ cp -R crate-*/ node-03
 
-You can specify both settings in your `configuration`_ file, like so:
+   .. TIP::
 
-.. code-block:: yaml
+      Each directory will function as `CRATE_HOME`_ for that node
 
-    gateway:
-      recover_after_nodes: 3
-      expected_nodes: 3
+4. Start up all three nodes by changing into each node directory and running
+   the `bin/crate`_ script.
 
-Alternatively, you can configure this setting at startup with command-line
-options:
+   .. CAUTION::
 
-.. code-block:: console
+       You must change into the appropriate node directory before running the
+       `bin/crate`_ script.
 
-    sh$ bin/crate \
-        -Cgateway.expected_nodes=3 \
-        -Cgateway.recover_after_nodes=3
+       When you run `bin/crate`_, the script sets `CRATE_HOME`_ to your current
+       directory. This directory must be the root of a CrateDB installation.
 
-.. SEEALSO::
+   .. TIP::
 
-    `Metadata configuration settings`_
+       Because you are supposed to run `bin/crate`_ as a `daemon`_ (i.e., a
+       long-running process), the most straightforward way to run multiple
+       nodes for testing purposes is to start a new terminal session for each
+       node. In each session, change into the appropriate node directory, run
+       `bin/crate`_, and leave this process running. You should now have
+       multiple concurrent `bin/crate`_ processes.
 
-Pick your preferred method of configuration and start up all three nodes by
-changing into each node directory and running the `bin/crate`_ script.
+5. Visit the `admin UI`_ on one of the nodes. Check the `cluster browser`_ to
+   verify that the cluster has auto-bootstrapped with three nodes. You should see
+   something like this:
 
-.. CAUTION::
-
-    You must change into the appropriate node directory before running the
-    `bin/crate`_ script.
-
-    When you run `bin/crate`_, the script sets `CRATE_HOME`_ to your current
-    directory. This directory must be the root of a CrateDB installation (e.g.,
-    ``node-01``, ``node-02``, or ``node-03``).
-
-.. TIP::
-
-    Because you are supposed to run `bin/crate`_ as a `daemon`_ (i.e., a
-    long-running process), the most straightforward way to run multiple nodes
-    by hand for testing purposes is to start a new `virtual console`_ for each node.
-
-    For example:
-
-    .. rst-class:: open
-
-      1. Start a virtual console. In that virtual console, change into the
-         ``node-01`` directory and run `bin/crate`_. Leave this process running.
-
-      2. Start a second virtual console. In that virtual console, change into
-         the ``node2`` directory and run `bin/crate`_. Leave this process
-         running.
-
-      3. Start a third virtual console. In that virtual console, change into
-         the ``node3`` directory and run `bin/crate`_. Leave this process
-         running.
-
-      You should now have three concurrent `bin/crate`_ processes.
-
-Visit the `Admin UI`_ on one of the nodes. Check the `cluster browser`_ to
-verify that the cluster has auto-bootstrapped with three nodes. You should see
-something like this:
-
-.. image:: ../_assets/img/multi-node-cluster.png
-   :alt: The CrateDB Admin UI showing a multi-node cluster
+   .. image:: ../_assets/img/multi-node-cluster.png
+      :alt: The CrateDB Admin UI showing a multi-node cluster
 
 
 .. _manual-bootstrapping:
@@ -183,22 +160,25 @@ Manual bootstrapping
 To run a CrateDB cluster across multiple hosts, you must manually configure the
 bootstrapping process by telling nodes how to:
 
-  a. :ref:`Discover other nodes <discovery>`, and
+  a. :ref:`Discover other nodes <node-discovery>`
   b. :ref:`Elect a master node <master-node-election>`
 
 You must also configure the :ref:`metadata gateway <metadata-gateway>` (as with
 auto-bootstrapping).
 
 
-.. _discovery:
+.. _node-discovery:
 
-Discovery
-~~~~~~~~~
+Node discovery
+^^^^^^^^^^^^^^
 
-With CrateDB 4.x and above, you can configure a list of nodes to `seed`_ the
-discovery process with the `discovery.seed_hosts`_ setting in your
+Seeding manually
+""""""""""""""""
+
+With CrateDB 4.x and above, you can configure a list of nodes to `seed the
+discovery process`_ with the ``discovery.seed_hosts`` setting in your
 `configuration`_ file. This setting should contain one identifier per
-master-eligible node, like so:
+master-eligible node. For example:
 
 .. code-block:: yaml
 
@@ -207,7 +187,8 @@ master-eligible node, like so:
       - 10.0.1.102:4300
       - 10.0.1.103:4300
 
-Alternatively, you can configure this at startup with a command-line option:
+Alternatively, you can configure this at startup with a command-line option.
+For example:
 
 .. code-block:: console
 
@@ -223,112 +204,80 @@ Alternatively, you can configure this at startup with a command-line option:
 
     If you are using CrateDB 3.x or below, you can use the
     `discovery.zen.ping.unicast.hosts`_ setting instead of
-    `discovery.seed_hosts`_.
+    ``discovery.seed_hosts``.
 
 
 .. _unicast-discovery:
 
-Unicast Host Discovery
-~~~~~~~~~~~~~~~~~~~~~~
+Unicast host discovery
+""""""""""""""""""""""
 
-Instead of configuring seed hosts manually (:ref:`as above <discovery>`), you
-can configure CrateDB to fetch a list of seed hosts from an external source.
+Instead of configuring seed hosts manually (:ref:`as above <node-discovery>`),
+you can configure CrateDB to fetch a list of seed hosts from an external source.
 
-The currently supported sources are :ref:`DNS <discovery-dns>`, :ref:`Microsoft
-Azure <discovery-azure>`, and :ref:`Amazon EC2 <discovery-ec2>`.
+The currently supported sources are:
 
+1. `DNS`_
 
-.. _discovery-dns:
+   To enable DNS discovery, configure the ``discovery.seed_providers`` setting
+   in your `configuration`_ file to ``srv``:
 
-Discovery via DNS
-^^^^^^^^^^^^^^^^^
+   .. code-block:: yaml
 
-You can manage your seed hosts using `DNS`_.
+       discovery.seed_providers: srv
 
-Configure the `discovery.seed_providers`_  setting in your `configuration`_
-file like so:
+   CrateDB will perform a DNS query using `SRV records`_ and use the results to
+   generate a list of `unicast hosts`_ for node discovery.
 
-.. code-block:: yaml
+2. `Amazon EC2`_
 
-    discovery.seed_providers: srv
+   To enable Amazon EC2 discovery, configure the ``discovery.seed_providers``
+   setting in your `configuration`_ file:
 
-CrateDB will perform a DNS query using `SRV records`_ and use the results to
-generate a list of `unicast hosts`_ for node discovery.
+   .. code-block:: yaml
 
-.. SEEALSO::
+       discovery.seed_providers: ec2
 
-    `DNS discovery settings`_
+   CrateDB will perform an `Amazon EC2 API`_ query and use the results to
+   generate a list of `unicast hosts`_ for node discovery.
 
-.. _discovery-ec2:
+3. `Microsoft Azure`_
 
-Discovery on Amazon EC2
-^^^^^^^^^^^^^^^^^^^^^^^
+   To enable Microsoft Azure discovery, configure the ``discovery.seed_providers``
+   setting in your `configuration`_ file:
 
-You can manage your seed hosts using the `Amazon EC2 API`_.
+   .. code-block:: yaml
 
-Configure the `discovery.seed_providers`_  setting in your `configuration`_
-file like so:
+       discovery.seed_providers: azure
 
-.. code-block:: yaml
-
-    discovery.seed_providers: ec2
-
-CrateDB will perform an `Amazon EC2 API`_ query and use the results to generate
-a list of `unicast hosts`_ for node discovery.
-
-You can filter hosts based on:
-
-  - `Security groups`_
-  - `Host types`_
-  - `Availability zones`_
-  - `EC2 instance tags`_
-
-.. SEEALSO::
-
-    `Amazon EC2 discovery settings`_
-
-
-.. _discovery-azure:
-
-Discovery on Microsoft Azure
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-You can manage your seed hosts using the `Azure Virtual Machine API`_.
-
-Configure the `discovery.seed_providers`_  setting in your `configuration`_
-file like so:
-
-.. code-block:: yaml
-
-    discovery.seed_providers: azure
-
-CrateDB will perform an `Azure Virtual Machine API`_ query and use the results
-to generate a list of `unicast hosts`_ for node discovery.
-
-You can filter hosts based on:
-
-  - `Resource group`_
-  - `Tenant ID`_
-  - `Application ID`_
-  - `Network`_
-
-.. SEEALSO::
-
-    `Microsoft Azure discovery settings`_
+   CrateDB will perform an `Azure Virtual Machine API`_ query and use the results
+   to generate a list of `unicast hosts`_ for node discovery.
 
 
 .. _master-node-election:
 
 Master node election
-~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^
 
 The master node is responsible for making changes to the global cluster state.
-The cluster elects the master node from the configured list of master-eligible
-nodes during `master node election`_.
+The cluster `elects the master node`_ from the configured list of
+master-eligible nodes the first time a cluster is bootstrapped. This is not
+necessary if nodes are added later or are restarted.
 
-You can define the initial set of master-edible nodes with the
+In development mode, with no discovery settings configured, master election is
+performed by the nodes themselves, but this auto-bootstrapping is designed to
+aid development and is not safe for production. In production you must
+explicitly list the names or IP addresses of the master-eligible nodes whose
+votes should be counted in the very first election.
+
+If initial master nodes are not set, then new nodes will expect to be able to
+discover an existing cluster. If a node cannot find a cluster to join, then it
+will periodically log a warning message indicating that the master is not
+discovered or elected yet.
+
+You can define the initial set of master-eligible nodes with the
 `cluster.initial_master_nodes`_ setting in your `configuration`_ file. This
-setting should contain one identifier per master-eligible node, like so:
+setting should contain one identifier per master-eligible node. For example:
 
 .. code-block:: yaml
 
@@ -337,7 +286,8 @@ setting should contain one identifier per master-eligible node, like so:
       - 10.0.1.102
       - 10.0.1.103
 
-Alternatively, you can configure this at startup with a command-line option:
+Alternatively, you can configure this at startup with a command-line option.
+For example:
 
 .. code-block:: console
 
@@ -346,7 +296,7 @@ Alternatively, you can configure this at startup with a command-line option:
 
 .. WARNING::
 
-    You don't have to configure `cluster.initial_master_nodes`_ on every node.
+    You do not have to configure `cluster.initial_master_nodes`_ on every node.
     However, you must configure `cluster.initial_master_nodes`_ identically
     whenever you do configure it, otherwise CrateDB may form multiple
     independent clusters (which may result in data loss).
@@ -366,21 +316,20 @@ the quorum size using the `discovery.zen.minimum_master_nodes`_ setting.
     the `quorum guide`_ for detailed information about quorum size
     considerations.
 
-If you configure fewer master-eligible nodes than the ideal quorum
-size, CrateDB will issue a warning (visible in the logs and the `Admin UI`_).
+If you configure fewer master-eligible nodes than the ideal quorum size,
+CrateDB will issue a warning (visible in the logs and the `admin UI`_).
 
 
 .. _metadata-gateway:
 
 Metadata gateway
-~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^
 
-Because you want to run a multi-node cluster, you must configure the metadata
-gateway so that CrateDB knows how to recover its state. For a three-node
-cluster, set `gateway-expected-nodes`_ to ``3`` and set
-`gateway-recover-after-nodes`_ to ``3``.
+When running a multi-node cluster, you must configure the `metadata gateway`_
+so that CrateDB knows how to recover its state. For a three-node cluster, set
+`gateway.expected_nodes`_ to **3** and `gateway.recover_after_nodes`_ to **3**.
 
-You can specify both settings in your `configuration`_ file, like so:
+You can specify both settings in your `configuration`_ file:
 
 .. code-block:: yaml
 
@@ -420,7 +369,7 @@ match.
 By default, CrateDB sets the cluster name to ``crate`` for you.
 
 You can override this behavior by configuring a custom cluster name using the
-`cluster.name`_ setting in your `configuration`_ file, like so:
+`cluster.name`_ setting in your `configuration`_ file:
 
 .. code-block:: yaml
 
@@ -441,7 +390,7 @@ Node name
 ---------
 
 If you are :ref:`manually bootstrapping <manual-bootstrapping>` a cluster, you
-must specify a list of master-eligible nodes (:ref:`see below
+must specify a list of master-eligible nodes (:ref:`see above
 <master-node-election>`). To do this, you must refer to nodes by node name,
 hostname, or IP address.
 
@@ -449,7 +398,7 @@ By default, CrateDB sets the node name to a random value from the
 `sys.summits`_ table.
 
 You can override this behavior by configuring a custom node name using the
-`node.name`_ setting in your `configuration`_ file, like so:
+`node.name`_ setting in your `configuration`_ file. For example:
 
 .. code-block:: yaml
 
@@ -471,7 +420,7 @@ Master-eligibility
 
 If you are :ref:`manually bootstrapping <manual-bootstrapping>` a cluster, any
 nodes you :ref:`list as master-eligible <master-node-election>` must have a
-`node.master`_ value of ``true``. (This is the default value.)
+`node.master`_ value of ``true``. This is the default value.
 
 
 .. _inter-node-comms:
@@ -484,7 +433,7 @@ port is known as the *transport port*, and it must be accessible from every
 node.
 
 If you prefer, you can specify a port range instead of a single port number.
-Edit the `transport.tcp.port`_ setting in your `configuration`_ file, like so:
+Edit the `transport.tcp.port`_ setting in your `configuration`_ file:
 
 .. code-block:: yaml
 
@@ -512,13 +461,9 @@ Edit the `transport.tcp.port`_ setting in your `configuration`_ file, like so:
 
 .. _127.0.0.1:4200: http://127.0.0.1:4200/
 .. _127.0.0.1:4201: http://127.0.0.1:4201/
-.. _3.3: https://crate.io/docs/crate/reference/en/3.3/config/cluster.html#discovery
-.. _Admin UI: https://crate.io/docs/crate/admin-ui/
+.. _admin UI: https://crate.io/docs/crate/admin-ui/
 .. _Amazon EC2 API: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Welcome.html
-.. _Amazon EC2 discovery settings: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#conf-ec2-discovery
-.. _Amazon EC2: https://crate.io/docs/crate/reference/en/4.1/config/cluster.html#discovery-on-amazon-ec2
-.. _application ID: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#conf-azure-discovery
-.. _availability zones: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery-ec2-zones
+.. _Amazon EC2: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery-on-amazon-ec2
 .. _Azure Virtual Machine API: https://docs.microsoft.com/en-us/rest/api/compute/virtualmachines
 .. _Back up your data: https://crate.io/a/backing-up-and-restoring-cratedb/
 .. _bin/crate: https://crate.io/docs/crate/reference/en/latest/cli-tools.html#crate
@@ -529,46 +474,30 @@ Edit the `transport.tcp.port`_ setting in your `configuration`_ file, like so:
 .. _configuration: https://crate.io/docs/crate/reference/en/latest/config/index.html
 .. _CRATE_HOME: https://crate.io/docs/crate/reference/en/latest/config/environment.html#conf-env-crate-home
 .. _daemon: https://en.wikipedia.org/wiki/Daemon_(computing)
-.. _discovery.seed_hosts: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery.seed_hosts
-.. _discovery.seed_providers: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery.seed_providers
 .. _discovery.zen.minimum_master_nodes: https://crate.io/docs/crate/reference/en/3.3/config/cluster.html#discovery-zen-minimum-master-nodes
 .. _discovery.zen.ping.unicast.hosts: https://crate.io/docs/crate/reference/en/3.3/config/cluster.html#unicast-host-discovery
-.. _DNS discovery settings: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery-via-dns
-.. _DNS: https://crate.io/docs/crate/reference/en/4.1/config/cluster.html#discovery-via-dns
-.. _EC2 API: ttps://docs.aws.amazon.com/AWSEC2/latest/APIReference/Welcome.html
-.. _EC2 instance tags: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery-ec2-tags
-.. _four different types of node: https://crate.io/docs/crate/reference/en/latest/config/node.html#node-types
+.. _DNS: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery-via-dns
 .. _full cluster restarts: https://crate.io/docs/crate/howtos/en/latest/admin/full-restart-upgrade.html
-.. _fully qualified domain name: https://en.wikipedia.org/wiki/Fully_qualified_domain_name
-.. _gateway-expected-nodes: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#gateway-expected-nodes
-.. _gateway-recover-after-nodes: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#gateway-recover-after-nodes
-.. _host types: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery-ec2-host-type
+.. _gateway.expected_nodes: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#gateway-expected-nodes
+.. _gateway.recover_after_nodes: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#gateway-recover-after-nodes
 .. _hostname: https://en.wikipedia.org/wiki/Hostname
 .. _latest: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery
-.. _master node election: https://crate.io/docs/crate/howtos/en/latest/architecture/shared-nothing.html#master-node-election
-.. _master: https://crate.io/docs/crate/reference/en/latest/concepts/shared-nothing.html#master-node-election
+.. _elects the master node: https://crate.io/docs/crate/reference/en/latest/concepts/shared-nothing.html#master-node-election
 .. _Metadata configuration settings: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#metadata
-.. _Microsoft Azure discovery settings: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery-on-microsoft-azure
-.. _Microsoft Azure: https://crate.io/docs/crate/reference/en/4.1/config/cluster.html#discovery-on-microsoft-azure
+.. _metadata gateway: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#metadata-gateway
+.. _Microsoft Azure: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery-on-microsoft-azure
 .. _More information about port settings: https://crate.io/docs/crate/reference/en/latest/config/node.html#ports
-.. _network: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#conf-azure-discovery
 .. _network.publish_host: https://crate.io/docs/crate/reference/en/latest/config/node.html#network-publish-host
 .. _node.master: https://crate.io/docs/crate/reference/en/latest/config/node.html#node.master
 .. _node.name: https://crate.io/docs/crate/reference/en/latest/config/node.html#node-name
-.. _point of interest: https://en.wikipedia.org/wiki/Point_of_interest
 .. _quorum guide: https://crate.io/docs/crate/howtos/en/latest/architecture/shared-nothing.html#master-node-election
 .. _quorum size: https://crate.io/docs/crate/reference/en/latest/concepts/shared-nothing.html#master-node-election
 .. _quorum: https://en.wikipedia.org/wiki/Quorum_(distributed_computing)
-.. _resource group: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#conf-azure-discovery
-.. _runtime: https://crate.io/docs/crate/reference/en/latest/admin/runtime-config.html
-.. _security groups: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery-ec2-groups
-.. _seed: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery
+.. _seed the discovery process: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery
 .. _split-brain: https://en.wikipedia.org/wiki/Split-brain_(computing)
 .. _SRV records: https://en.wikipedia.org/wiki/SRV_record
 .. _sys.summits: https://crate.io/docs/crate/reference/en/latest/admin/system-information.html#summits
 .. _tarball method: https://crate.io/docs/crate/tutorials/en/latest/install-run/basic.html
-.. _tenant ID: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#conf-azure-discovery
 .. _transport.publish_port: https://crate.io/docs/crate/reference/en/latest/config/node.html#transport-publish-port
 .. _transport.tcp.port: https://crate.io/docs/crate/reference/en/latest/config/node.html#transport-tcp-port
 .. _unicast hosts: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#unicast-host-discovery
-.. _virtual console: https://en.wikipedia.org/wiki/Virtual_console

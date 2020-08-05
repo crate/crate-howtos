@@ -30,7 +30,7 @@ For improved performance and resiliency, you should run production CrateDB
 clusters with three or more nodes and one node per host machine. To do this,
 you must manually configure the bootstrapping process by telling nodes how to:
 
-  a. :ref:`Discover other nodes <discovery>`, and
+  a. :ref:`Discover other nodes <node-discovery>`
   b. :ref:`Elect a master node <master-node-election>`
 
 This process is known as *manual bootstrapping*. See the :ref:`how-to guide
