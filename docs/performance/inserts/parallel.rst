@@ -24,6 +24,7 @@ response before sending another insert.
    :ref:`inserts_bulk_operations` are a good fit. In many cases, you will see
    even better performance from bulk opperations.
 
+
 .. rubric:: Table of contents
 
 .. contents::
@@ -33,19 +34,32 @@ Example
 =======
 
 Suppose we have a stream of data we want to persist into CrateDB.
-You can parallelize this in Java using a
-`CompletableFuture`_ object, like so:
+You can parallelize this in Java using a `CompletableFuture`_ object in order to
+issue insert statements concurrently (non-blocking).
+
+As the java JDBC `Connection`_ is not thread-safe, each insert must use a
+dedicated connection.
+
+A common solution for avoiding over-instantiating connection objects is the use
+of a pooled JDBC `DataSource`_ like `HikariCP`_, `vibur-dbcp`_, or
+`commons-dbcp`_.
+
+In the following example, `HikariCP`_ is used as a `DataSource`_:
 
 .. code-block:: java
 
+    HikariDataSource ds = new HikariDataSource();
+    ds.setJdbcUrl("crate://localhost:5432/doc?user=crate");
+
+    List<CompletableFuture<Integer>> futures = new ArrayList<>();
     IntStream.iterate(0, i -> i + 2)
         .limit(1000)
         .forEach(i -> {
             CompletableFuture<Integer> insertFuture =
                 CompletableFuture.supplyAsync(() -> {
-                    try {
-                        PreparedStatement stmt =
-                          connection.prepareStatement("INSERT INTO my_table VALUES (?)");
+                    try (Connection conn = ds.getConnection()) {
+                        PreparedStatement stmt = conn
+                            .prepareStatement("INSERT INTO t1 (id) VALUES (?)");
                         stmt.setInt(1, i);
                         return stmt.executeUpdate();
                     } catch (SQLException e) {
@@ -53,14 +67,21 @@ You can parallelize this in Java using a
                     }
                 });
 
-            insertFuture.whenComplete((Integer result, Throwable failure) -> {
-                if (failure == null) {
-                    // use row count
-                } else {
-                    // handle insert failure
-                }
-            });
+            futures.add(insertFuture);
         });
+
+        // Wait for all futures to complete and aggregate each row count
+        CompletableFuture<Integer> rowCountFuture = CompletableFuture
+                .allOf(futures.toArray(new CompletableFuture[0]))
+                .thenApply(ignored -> {
+                    Integer cnt = 0;
+                    for (CompletableFuture<Integer> future : futures) {
+                        cnt += future.join();
+                    }
+                    return cnt;
+                });
+        int rowCount = rowCountFuture.get();
+
 
 Inserts will be executed asynchronously by the `commmonPool`_ object.
 
@@ -90,7 +111,10 @@ throughput of your cluster with different setups and under different loads.
 
 .. _A record: https://en.wikipedia.org/wiki/List_of_DNS_record_types?
 .. _commmonPool: https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ForkJoinPool.html#commonPool--
+.. _commons-dbcp: https://commons.apache.org/proper/commons-dbcp/
 .. _CompletableFuture: https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html
+.. _Connection: https://docs.oracle.com/javase/8/docs/api/java/sql/Connection.html
+.. _DataSource: https://docs.oracle.com/javase/8/docs/api/javax/sql/DataSource.html
 .. _Executor: https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Executor.html
 .. _HAProxy: http://www.haproxy.org/
 .. _HikariCP: https://github.com/brettwooldridge/HikariCP
@@ -98,3 +122,4 @@ throughput of your cluster with different setups and under different loads.
 .. _PHP PDO client: https://crate.io/docs/clients/pdo/en/latest/
 .. _Python client: https://crate.io/docs/clients/python/en/latest/
 .. _supplyAsync: https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html#supplyAsync-java.util.function.Supplier-java.util.concurrent.Executor-
+.. _vibur-dbcp: https://www.vibur.org/
