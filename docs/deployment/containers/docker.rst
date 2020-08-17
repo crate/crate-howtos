@@ -283,6 +283,7 @@ define your services like this:
                   "-Ccluster.name=crate-docker-cluster",
                   "-Cnode.name=cratedb01",
                   "-Cnode.data=true",
+                  "-Cnetwork.host=_site_",
                   "-Cdiscovery.seed_hosts=cratedb02,cratedb03",
                   "-Ccluster.initial_master_nodes=cratedb01,cratedb02,cratedb03",
                   "-Cgateway.expected_nodes=3",
@@ -304,6 +305,7 @@ define your services like this:
                   "-Ccluster.name=crate-docker-cluster",
                   "-Cnode.name=cratedb02",
                   "-Cnode.data=true",
+                  "-Cnetwork.host=_site_",
                   "-Cdiscovery.seed_hosts=cratedb01,cratedb03",
                   "-Ccluster.initial_master_nodes=cratedb01,cratedb02,cratedb03",
                   "-Cgateway.expected_nodes=3",
@@ -325,6 +327,7 @@ define your services like this:
                   "-Ccluster.name=crate-docker-cluster",
                   "-Cnode.name=cratedb03",
                   "-Cnode.data=true",
+                  "-Cnetwork.host=_site_",
                   "-Cdiscovery.seed_hosts=cratedb01,cratedb02",
                   "-Ccluster.initial_master_nodes=cratedb01,cratedb02,cratedb03",
                   "-Cgateway.expected_nodes=3",
@@ -345,7 +348,9 @@ In the file above:
   configuration parameters (`-C`).
 - You defined some deploy settings and an environment variable for the heap size.
 - Network settings no longer need to be defined in the latest compose file
-  version because a `default network`_ will be created.
+  version because a `default bridge network`_ will be created. If you are 
+  using multiple hosts and want to use an overlay network, you will need to
+  explicitly define that. 
 - The start order of the containers is not deterministic and you want all
   three containers to be up and running before the election of the master node.
 
@@ -474,7 +479,7 @@ example::
 .. _containerization: https://www.docker.com/resources/what-container
 .. _CRATE_HEAP_SIZE: https://crate.io/docs/crate/reference/configuration.html#crate-heap-size
 .. _CrateDB Docker image: https://hub.docker.com/_/crate/
-.. _default network: https://docs.docker.com/network/#network-drivers
+.. _default bridge network: https://docs.docker.com/network/#network-drivers
 .. _Discovery: https://crate.io/docs/crate/reference/configuration.html#discovery
 .. _Docker Stack YAML file: https://docs.docker.com/docker-cloud/apps/stack-yaml-reference/
 .. _Docker Swarm: https://docs.docker.com/engine/swarm/
