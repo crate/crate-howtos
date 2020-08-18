@@ -332,19 +332,24 @@ configuration snippet like this:
 
 .. code-block:: yaml
 
+    apiVersion: storage.k8s.io/v1
     kind: StorageClass
-    apiVersion: storage.k8s.io/v1beta1
     metadata:
-      # The name chosen here can be used to create volume claims.
-      name: azure-premium-managed-disk
       labels:
+        addonmanager.kubernetes.io/mode: Reconcile
+        app.kubernetes.io/managed-by: kube-addon-manager
+        app.kubernetes.io/name: crate-premium
+        app.kubernetes.io/part-of: infrastructure
+        app.kubernetes.io/version: "0.1"
         storage-tier: premium
         volume-type: ssd
-        addonmanager.kubernetes.io/mode: Reconcile
-    provisioner: kubernetes.io/azure-disk
+      name: crate-premium
     parameters:
       kind: Managed
       storageaccounttype: Premium_LRS
+    provisioner: kubernetes.io/azure-disk
+    reclaimPolicy: Delete
+    volumeBindingMode: Immediate
 
 You can then use this in your controller configuration with something like this:
 
@@ -358,7 +363,7 @@ You can then use this in your controller configuration with something like this:
             # This will create one 100GB read-write Azure Managed Disks volume
             # for every CrateDB pod.
             accessModes: [ "ReadWriteOnce" ]
-            storageClassName: azure-premium-managed-disk
+            storageClassName: crate-premium
             resources:
               requests:
                 storage: 100g
