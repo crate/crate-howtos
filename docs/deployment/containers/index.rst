@@ -12,5 +12,3 @@ takes minutes and your valuable data is always in sync and available.
 
    docker
    kubernetes
-   coreos
-   containership
