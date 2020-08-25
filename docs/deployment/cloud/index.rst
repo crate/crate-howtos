@@ -13,5 +13,3 @@ systems capable of running Java.
 
    aws/index
    azure
-   softlayer
-   packet
