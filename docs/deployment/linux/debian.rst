@@ -4,11 +4,17 @@
 Run CrateDB on Debian GNU/Linux
 ===============================
 
-CrateDB maintains packages for the follow Debian versions:
+CrateDB actively maintains packages for the following Debian versions:
 
+- `Buster`_ (10.x)
 - `Stretch`_ (9.x)
+- `Jessie`_ (8.x) (legacy)
+- `Wheezy`_ (7.x) (legacy)
 
-.. _Stretch: https://www.debian.org/releases/stretch/
+.. CAUTION::
+
+    Packages for distributions marked as *legacy* are not actively maintained
+    and no longer receive updates.
 
 This document will walk you through the process of installing and configuring
 the CrateDB Debian package.
@@ -71,8 +77,8 @@ Then, edit it, and add the following:
    deb-src https://cdn.crate.io/downloads/apt/CHANNEL/ CODENAME main
 
 Here, replace ``CHANNEL`` as above, and then, additionally, replace
-``CODENAME`` with the codename of your distribution, which be ``wheezy``,
-``jessie``, or ``stretch``.
+``CODENAME`` with the codename of your distribution (e.g., ``buster``,
+``stretch``, ``jessie``, or ``wheezy``)
 
 Once that is done, update Apt:
 
@@ -172,7 +178,13 @@ A full list of package files can be obtained with this command::
 If you want to deviate from the way that the ``crate`` package integrates with
 your system, we recommend that you go with a `basic tarball installation`_.
 
+
 .. _basic tarball installation: https://crate.io/docs/crate/getting-started/en/latest/install-run/basic.html
+.. _Buster: https://www.debian.org/releases/buster/
 .. _configuration files: https://crate.io/docs/crate/reference/en/latest/config/index.html
 .. _environment variables: https://crate.io/docs/crate/reference/en/latest/config/environment.html
+.. _Jessie: https://www.debian.org/releases/jessie/
 .. _sources: https://en.wikipedia.org/wiki/Source_(command)
+.. _Stretch: https://www.debian.org/releases/stretch/
+.. _Wheezy: https://www.debian.org/releases/wheezy/
+
