@@ -11,6 +11,7 @@ tools.
    :maxdepth: 1
 
    kafka-connect
+   streamsets
 
 .. rubric:: Enrichment
 
