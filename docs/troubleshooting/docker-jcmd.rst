@@ -33,7 +33,7 @@ running Java application.
 
 .. code-block:: console
 
-   $ jcmd -h
+   $ /crate/jdk/bin/jcmd -h
    Usage: jcmd <pid | main class> <command ...|PerfCounter.print|-f file>
       or: jcmd -l
       or: jcmd -h
@@ -60,7 +60,7 @@ the container.
 .. code-block:: console
 
    $ docker exec -ti b768001196c /bin/bash
-   [root@b768001196ce data]# $JAVA_HOME/bin/jcmd -l
+   [root@b768001196ce data]# /crate/jdk/bin/jcmd -l
    1 io.crate.bootstrap.CrateDB -Cpath.home=/crate -Cnode.name=debug
    106 jdk.jcmd/sun.tools.jcmd.JCmd -l
 
@@ -69,7 +69,7 @@ it as ``root`` with full privileges.
 
 .. code-block:: console
 
-   [root@b768001196ce data]# $JAVA_HOME/bin/jcmd 1 VM.version
+   [root@b768001196ce data]# /crate/jdk/bin/jcmd 1 VM.version
    1:
    com.sun.tools.attach.AttachNotSupportedException: Unable to open socket file /proc/1/root/tmp/.java_pid1: target process 1 doesn't respond within 10500ms or HotSpot VM not loaded
    	at jdk.attach/sun.tools.attach.VirtualMachineImpl.<init>(VirtualMachineImpl.java:100)
@@ -83,7 +83,7 @@ process:
 
 .. code-block:: console
 
-   [root@b768001196ce data]# su crate -c "$JAVA_HOME/bin/jcmd 1 VM.version"
+   [root@b768001196ce data]# su crate -c "/crate/jdk/bin/jcmd 1 VM.version"
    1:
    com.sun.tools.attach.AttachNotSupportedException: Unable to open socket file /proc/1/root/tmp/.java_pid1: target process 1 doesn't respond within 10500ms or HotSpot VM not loaded
    	at jdk.attach/sun.tools.attach.VirtualMachineImpl.<init>(VirtualMachineImpl.java:100)
@@ -116,7 +116,7 @@ command as well.
 
 .. code-block:: console
 
-   [root@b768001196ce data]# chroot --userspec=1000 / $JAVA_HOME/bin/jcmd 1 VM.version
+   [root@b768001196ce data]# chroot --userspec=1000 / /crate/jdk/bin/jcmd 1 VM.version
    1:
    OpenJDK 64-Bit Server VM version 13.0.1+9
    JDK 13.0.1
@@ -126,7 +126,7 @@ for troubleshooting CrateDB inside the Docker container.
 
 .. code-block:: console
 
-   [root@b768001196ce data]# chroot --userspec=1000 / $JAVA_HOME/bin/jcmd 1 help
+   [root@b768001196ce data]# chroot --userspec=1000 / /crate/jdk/bin/jcmd 1 help
    1:
    The following commands are available:
    Compiler.CodeHeap_Analytics
@@ -185,14 +185,14 @@ explicitly attaching to it, you can combine the ``docker exec`` command with the
 
 .. code-block:: console
 
-   $ docker exec -ti <ID> /bin/bash -c "chroot --userspec=1000 / \$JAVA_HOME/bin/jcmd 1 <CMD>"
+   $ docker exec -ti <ID> /bin/bash -c "chroot --userspec=1000 / /crate/jdk/bin/jcmd 1 <CMD>"
 
 For example, running ``GC.heap_info`` on Docker container with ID
 ``b768001196ce``:
 
 .. code-block:: console
 
-   $ docker exec -ti b768001196ce /bin/bash -c "chroot --userspec=1000 / \$JAVA_HOME/bin/jcmd 1 GC.heap_info"
+   $ docker exec -ti b768001196ce /bin/bash -c "chroot --userspec=1000 / /crate/jdk/bin/jcmd 1 GC.heap_info"
    1:
     garbage-first heap   total 524288K, used 129716K [0x00000000e0000000, 0x0000000100000000)
      region size 1024K, 126 young (129024K), 22 survivors (22528K)
@@ -214,7 +214,7 @@ Example
 
 .. code-block:: console
 
-   $ docker exec -ti b768001196ce /bin/bash -c "chroot --userspec=1000 / \$JAVA_HOME/bin/jcmd 1 Thread.print"
+   $ docker exec -ti b768001196ce /bin/bash -c "chroot --userspec=1000 / /crate/jdk/bin/jcmd 1 Thread.print"
    1:
    ...
 
@@ -229,7 +229,7 @@ Example
 
 .. code-block:: console
 
-   $ docker exec -ti b768001196ce /bin/bash -c "chroot --userspec=1000 / \$JAVA_HOME/bin/jcmd 1 GC.heap_info"
+   $ docker exec -ti b768001196ce /bin/bash -c "chroot --userspec=1000 / /crate/jdk/bin/jcmd 1 GC.heap_info"
    1:
    ...
 
@@ -244,7 +244,7 @@ Example
 
 .. code-block:: console
 
-   $ docker exec -ti b768001196ce /bin/bash -c "chroot --userspec=1000 / \$JAVA_HOME/bin/jcmd 1 GC.heap_dump /data/crate.hprof"
+   $ docker exec -ti b768001196ce /bin/bash -c "chroot --userspec=1000 / /crate/jdk/bin/jcmd 1 GC.heap_dump /data/crate.hprof"
    1:
    Heap dump file created
 
@@ -265,7 +265,7 @@ Example
 
 .. code-block:: console
 
-   $ docker exec -ti b768001196ce /bin/bash -c "chroot --userspec=1000 / \$JAVA_HOME/bin/jcmd 1 JFR.start name=recording1 duration=60s filename=/data/recording1.jfr"
+   $ docker exec -ti b768001196ce /bin/bash -c "chroot --userspec=1000 / /crate/jdk/bin/jcmd 1 JFR.start name=recording1 duration=60s filename=/data/recording1.jfr"
    1:
    Started recording 1. The result will be written to:
 
