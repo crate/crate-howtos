@@ -238,16 +238,20 @@ CrateDB 3.0.5 cluster:
           # It defines the container to run in each pod.
           containers:
           - name: crate
-            # Use the CrateDB 3.0.5 Docker image.
-            image: crate:3.0.5
+            # Use the CrateDB 4.2.4 Docker image.
+            image: crate:4.2.4
             # Pass in configuration to CrateDB via command-line options.
-            # Notice that we are configuring CrateDB unicast host discovery
-            # using the SRV records provided by Kubernetes.
+            # We are setting the name of the node's explicitly, which is
+            # needed to determine the initial master nodes. These are set to
+            # the name of the pod.
+            # We are using the SRV records provided by Kubernetes to discover
+            # nodes within the cluster.
             command:
               - /docker-entrypoint.sh
+              - -Cnode.name=${POD_NAME}
               - -Ccluster.name=${CLUSTER_NAME}
-              - -Cdiscovery.zen.minimum_master_nodes=2
-              - -Cdiscovery.zen.hosts_provider=srv
+              - -Ccluster.initial_master_nodes=crate-0,crate-1,crate-2
+              - -Cdiscovery.seed_providers=srv
               - -Cdiscovery.srv.query=_crate-internal._tcp.crate-internal-service.${NAMESPACE}.svc.cluster.local
               - -Cgateway.recover_after_nodes=2
               - -Cgateway.expected_nodes=${EXPECTED_NODES}
