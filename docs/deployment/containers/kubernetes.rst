@@ -246,8 +246,7 @@ CrateDB 3.0.5 cluster:
             # the name of the pod.
             # We are using the SRV records provided by Kubernetes to discover
             # nodes within the cluster.
-            command:
-              - /docker-entrypoint.sh
+            args:
               - -Cnode.name=${POD_NAME}
               - -Ccluster.name=${CLUSTER_NAME}
               - -Ccluster.initial_master_nodes=crate-0,crate-1,crate-2
