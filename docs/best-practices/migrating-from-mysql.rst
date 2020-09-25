@@ -5,12 +5,6 @@
 Migrating from MySQL
 ====================
 
-.. rubric:: Table of contents
-
-.. contents::
-   :local:
-
-
 Introduction
 ============
 
@@ -18,23 +12,29 @@ Various ways exist to migrate your existing data from MySQL_ to CrateDB_.
 However, these methods may differ in performance. A fast and reliable way to
 migrate is to use CrateDB's existing export and import tools.
 
-This best practice example shows how to migrate your data without any hassle.
+.. rubric:: Table of contents
 
-We are assuming we have an existing table ``foo`` in MySQL with the following
-schema::
+.. contents::
+   :local:
 
-  cr> CREATE TABLE foo (
-  ...  id integer primary key,
-  ...  name varchar(255),
-  ...  date datetime,
-  ...  fruits set('apple', 'pear', 'banana')
-  ... ) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+Setting up the example table
+============================
 
-Sample data::
+In this example, you have an existing table ``foo`` in MySQL with the
+following schema::
 
-  cr> INSERT INTO foo (id, name, date, fruits)
-  ...  VALUES (1, 'foo', '2014-10-31 09:22:56', 'apple,banana'),
-  ...   (2, 'bar', null, 'pear');
+  mysql> CREATE TABLE foo (
+  ...       id integer primary key,
+  ...       name varchar(255),
+  ...       date datetime,
+  ...       fruits set('apple', 'pear', 'banana')
+  ...    ) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+
+To import sample data into ``foo``::
+
+  mysql> INSERT INTO foo (id, name, date, fruits)
+  ...    VALUES (1, 'foo', '2014-10-31 09:22:56', 'apple,banana'),
+  ...           (2, 'bar', null, 'pear');
 
 
 Exporting data from MySQL
@@ -45,21 +45,21 @@ write to a file using the ``csv`` format.
 
 Example::
 
-  cr> SELECT id, name
-  ...  INTO OUTFILE '/tmp/dump.csv'
-  ...   CHARACTER SET utf8
-  ...   FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
-  ...   LINES TERMINATED BY '\n'
-  ...  FROM foo;
+  mysql> SELECT id, name
+  ...    INTO OUTFILE '/tmp/dump.csv'
+  ...      CHARACTER SET utf8
+  ...      FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+  ...      LINES TERMINATED BY '\n'
+  ...    FROM foo;
 
 Make sure fields are separated by a comma (``,``), that values are quoted with
 a pair of ``"``, and that lines are terminated by the newline character ``\n``.
 
-Note that we specify ``utf8`` as encoding for writing into the outfile. This is
+Note that you specify ``utf8`` as encoding for writing into the outfile. This is
 important because CrateDB requires ``utf8`` encoding.
 
 You may need to set the character encoding of the client and ``mysqld`` in the
-``my.cnf``, too:
+``my.cnf``:
 
 .. code-block:: ini
 
@@ -72,8 +72,8 @@ All values written to ``csv`` are quoted and therefore interpreted as strings
 when read from the convert script later.
 
 
-Date/time types
----------------
+Converting date/time types
+--------------------------
 
 The standard output for `date/time types in MySQL
 <http://dev.mysql.com/doc/refman/5.0/en/date-and-time-types.html>`_ is a
@@ -89,87 +89,28 @@ into CrateDB.
 
 ::
 
-  cr> SELECT UNIX_TIMESTAMP(datetime_column)*1000 from table_name;
+  mysql> SELECT UNIX_TIMESTAMP(datetime_column)*1000 from table_name;
 
-Final export query::
+The final export query::
 
-  cr> SELECT id, name, UNIX_TIMESTAMP(date)*1000, fruits
-  ...  INTO OUTFILE '/tmp/dump.csv'
-  ...    CHARACTER SET utf8
-  ...    FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
-  ...    LINES TERMINATED BY '\n'
-  ...  FROM foo;
-
-
-Converting CSV to JSON
-======================
-
-Use the Python script (`csv2json.py`_) to convert the exported CSV file into a
-CrateDB compatible JSON file. The source file needs to be ``utf8`` encoded.
-
-The script requires ``csv`` input from ``stdin`` and prints the converted lines
-to ``stdout``. Each line is a separate JSON string.
-
-The ``--columns`` argument specifies the column names and column types for the
-conversion.
-
-The format for this argument is:
-
-.. code-block:: sh
-
-  column_name:column_type
-
-where ``column_name`` must match the column name and ``column_type`` must match
-the JSON type that the value should be converted to. Supported ``column_type``
-values are:
-
-.. code-block:: sh
-
-  string
-  short
-  int
-  integer
-  long
-  float
-  double
-  array
-  timestamp (same as long)
-
-For our example the usage looks like:
-
-.. code-block:: sh
-
-  sh$ cat /tmp/dump.csv | python mysql2crate.py - \
-  ...     --columns id:int name:str date:timestamp fruits:array > /tmp/import.json
-
-For help use the ``-h`` option:
-
-.. code-block:: sh
-
-  sh$ python mysql2crate.py -h
+  mysql> SELECT id, name, UNIX_TIMESTAMP(date)*1000, fruits
+  ...    INTO OUTFILE '/tmp/dump.csv'
+  ...      CHARACTER SET utf8
+  ...      FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+  ...      LINES TERMINATED BY '\n'
+  ...    FROM foo;
 
 
 Importing data into CrateDB
 ===========================
 
-The column names need to match the names specified by the ``--columns``
-argument.
+Use the ``COPY FROM`` statement to import your CSV file into CrateDB.
+
+For more in-depth documentation on ``COPY FROM``, see `COPY FROM`_.
 
 ::
 
-  cr> CREATE TABLE foo_imported (
-  ...  id int,
-  ...  name string,
-  ...  date timestamp,
-  ...  fruits array(string)
-  ... );
-
-Finally use the ``COPY FROM`` statement to import your newly generated json
-file into CrateDB.
-
-::
-
-  cr> COPY foo_imported FROM '/tmp/import.json' WITH (bulk_size=1000);
+  cr> COPY foo_imported FROM '/tmp/dump.csv' WITH (bulk_size=1000);
 
 .. SEEALSO::
 
@@ -184,7 +125,7 @@ The tools provided by `csvkit`_ allow you to directly insert CSV data into
 CrateDB via SQLAlchemy, using CrateDB’s native driver to create the table,
 guess the corresponding data types, and insert any data found in the CSV file.
 
-The simplest way to do so is like this:
+For example:
 
 .. code-block:: sh
 
@@ -195,9 +136,9 @@ The simplest way to do so is like this:
   See also the documentation of `csvsql`_. To use the SQLAlchemy driver of
   CrateDB, the latest version of the `CrateDB Python package`_ is required.
 
-.. _`MySQL`: http://mysql.com
-.. _`CrateDB`: https://crate.io
-.. _`csv2json.py`: https://github.com/crate/crate-utils/tree/master/migrations/mysql
-.. _`csvkit`: https://csvkit.readthedocs.io/en/540/index.html
-.. _`csvsql`: https://csvkit.readthedocs.io/en/540/scripts/csvsql.html
-.. _`CrateDB Python package`: https://pypi.python.org/pypi/crate
+.. _MySQL: http://mysql.com
+.. _COPY FROM: https://crate.io/docs/crate/reference/sql/reference/copy_from.html
+.. _CrateDB: https://crate.io
+.. _csvkit: https://csvkit.readthedocs.io/en/540/index.html
+.. _csvsql: https://csvkit.readthedocs.io/en/540/scripts/csvsql.html
+.. _CrateDB Python package: https://pypi.python.org/pypi/crate
