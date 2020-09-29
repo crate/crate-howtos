@@ -22,7 +22,7 @@ osx: &osx
 docs: &docs
   stage: "Documentation"
   script:
-    - cd docs && make check
+    - cd docs && make check && make qa
 
 matrix:
   include:
