@@ -2,6 +2,7 @@ _out/
 .build
 .clone
 .crate-docs-build
+.crate-docs
 .DS_Store
 .env
 .idea
