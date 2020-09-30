@@ -1,3 +1,6 @@
+.. meta::
+    :last-reviewed: 2020-08-17
+
 .. _multi-zone-setup:
 
 ========================
@@ -8,9 +11,9 @@ If possible, we recommend running all CrateDB nodes of a cluster inside the
 same physical space to minimize network latency and maximize speed between the
 nodes. These factors can have a significant impact on the performance of
 CrateDB clusters. This is especially true when running clusters in multiple
-regions. 
+regions.
 
-This is because replicas are written *synchronously* and making a `write 
+This is because replicas are written *synchronously* and making a `write
 operation`_ wait for all the replicas to write somewhere in a data center
 hundreds of miles away can lead to noticeable latency and cause the cluster to
 slow down.
@@ -41,7 +44,7 @@ For a multi-zone setup, CrateDB clusters need to fulfill the following:
 
 To achieve these requirements, make use of `shard allocation awareness`_, which
 allows you to configure `shard`_ and replica allocation. If you are new to setting
-up a multi-node CrateDB cluster, you should read our :ref:`multi-node setup 
+up a multi-node CrateDB cluster, you should read our :ref:`multi-node setup
 <multi_node_setup>` guide first.
 
 .. _tag-assignments:
@@ -89,8 +92,8 @@ For example:
 Allocation awareness
 ====================
 
-Once you have assigned zone tags, they can be set as attributes for `shard 
-allocation awareness`_ with the 
+Once you have assigned zone tags, they can be set as attributes for `shard
+allocation awareness`_ with the
 ``cluster.routing.allocation.awareness.attributes`` setting.
 
 For example, use the ``zone`` tag that you just assigned to your node as an
@@ -112,7 +115,7 @@ them accordingly:
     node.attr.zone: us-west-1
     cluster.routing.allocation.awareness.attributes: zone
 
-Now start your cluster and then `create a table`_ with 6 shards and 1 replica. 
+Now start your cluster and then `create a table`_ with 6 shards and 1 replica.
 
 As an example, you can create such a table by executing a statement like this
 in the `CrateDB Shell`_:
@@ -152,10 +155,10 @@ value, it only executes the request on `shards`_ allocated on nodes with the sam
 This means you need to know the different ``zone`` attribute values to force
 awareness on nodes.
 
-You can force `awareness`_ on certain attributes with the 
+You can force `awareness`_ on certain attributes with the
 ``cluster.routing.allocation.awareness.force.*.values`` setting, where ``*``
 is a placeholder for the awareness attribute, which can be defined using the
-``cluster.routing.allocation.awareness.attributes`` setting. 
+``cluster.routing.allocation.awareness.attributes`` setting.
 
 For example, to force awareness on the pre-configured ``zone`` attribute for
 the ``us-east-1`` and ``us-west-1`` values, you can put the following in your

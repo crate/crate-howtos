@@ -1,3 +1,6 @@
+.. meta::
+    :last-reviewed: 2020-07-13
+
 ========================================
 Distributed Machine Learning At The Edge
 ========================================

@@ -1,3 +1,6 @@
+.. meta::
+    :last-reviewed: 2020-07-13
+
 .. _cratedb-distributed-ml:
 
 =====================================================
@@ -8,15 +11,15 @@ Distributed Deep-Learning with CrateDB and TensorFlow
 Abstract
 ========
 
-Using deep learning algorithms for Machine Learning use cases has become more 
-and more common in the world of data science. A common library used for solving 
-deep learning problems is `TensorFlow`_. It can be used to generate predictions 
-based on various machine data features. 
+Using deep learning algorithms for Machine Learning use cases has become more
+and more common in the world of data science. A common library used for solving
+deep learning problems is `TensorFlow`_. It can be used to generate predictions
+based on various machine data features.
 
-CrateDB can easily be integrated into a Machine Learning application as a data 
-source, as well as serving as a data store for the resulting predictions. The 
-connection to CrateDB can be established using the `Psycopg2`_ and `Pandas`_ 
-library. Preparing the data can be done with `Sklearn`_. This guide will 
+CrateDB can easily be integrated into a Machine Learning application as a data
+source, as well as serving as a data store for the resulting predictions. The
+connection to CrateDB can be established using the `Psycopg2`_ and `Pandas`_
+library. Preparing the data can be done with `Sklearn`_. This guide will
 demonstrate the process.
 
 
@@ -30,7 +33,7 @@ Set Up
 For this distributed machine learning implementation, you will be using a
 `Kaggle`_ data set called `pump_sensor_data`_.
 
-The dataset contains data gathered from 52 sensors. These data rows come with 
+The dataset contains data gathered from 52 sensors. These data rows come with
 a timestamp and a machine-status attached to them. There are three unique
 states the machine can have:
 - ``normal``
@@ -39,7 +42,7 @@ states the machine can have:
 
 The data is stored in the CrateDB table ``ml.pump_sensors``.
 
-Using this sensor data, you can predict whether the machine will fail within a 
+Using this sensor data, you can predict whether the machine will fail within a
 specified time period in the future.
 
 Using this data with TensorFlow, you will want to accomplish the following:
@@ -47,10 +50,10 @@ Using this data with TensorFlow, you will want to accomplish the following:
 1. Retrieve data from CrateDB.
 2. Show extracts of what the data looks like.
 3. Prepare the data and build a machine learning model that will predict
-   whether the machine will fail within a specified time window in the 
+   whether the machine will fail within a specified time window in the
    future.
 4. Save the previously built model on AWS S3.
-5. Retrieve the model from AWS S3, predict sample data and insert the 
+5. Retrieve the model from AWS S3, predict sample data and insert the
    results into the CrateDB table ``ml.pump_sensors_predictions``.
 
 
@@ -82,15 +85,15 @@ contains:
     - The `matplotlib`_ library
 
 The data from `pump_sensor_data`_ was cleaned before it was inserted into
-CrateDB: in this case, renaming a column that was missing a name and filling in 
+CrateDB: in this case, renaming a column that was missing a name and filling in
 all the missing values with -1.
 
 
 CrateDB
 -------
 
-In this first step, you need to make sure that you create the table that holds 
-the pump sensor dataset as well as the table that will be storing the 
+In this first step, you need to make sure that you create the table that holds
+the pump sensor dataset as well as the table that will be storing the
 predictions:
 
 .. code-block:: sql
@@ -196,15 +199,15 @@ First, you can load the data into our Python context with ``Psycopg2`` and
         query = "SELECT * FROM ml.pump_sensors;"
         df = sqlio.read_sql_query(query, conn)
 
-Once the data has been loaded into a dataframe, you can now start to prepare 
-the data. This is so you can train a `Multilayer Perceptron`_ (MLP) to classify 
+Once the data has been loaded into a dataframe, you can now start to prepare
+the data. This is so you can train a `Multilayer Perceptron`_ (MLP) to classify
 the machine status within a given time window.
 
-You can make an assumption and combine the two labels ``RECOVERING`` and 
-``BROKEN`` into a single label: ``BROKEN``. With this, you can say the machine 
-is in either the state ``NORMAL`` or the state ``BROKEN``. Then you can 
-binarize the labels so you can use them in the MLP. Additionally, you need to 
-extract the sensor columns and split the data into train and test data frames, 
+You can make an assumption and combine the two labels ``RECOVERING`` and
+``BROKEN`` into a single label: ``BROKEN``. With this, you can say the machine
+is in either the state ``NORMAL`` or the state ``BROKEN``. Then you can
+binarize the labels so you can use them in the MLP. Additionally, you need to
+extract the sensor columns and split the data into train and test data frames,
 while normalizing their values between (0,1).
 
 .. code-block:: python
@@ -234,8 +237,8 @@ while normalizing their values between (0,1).
     test_data_cols = df_test.iloc[:, 2:54]
     norm_test_data_cols = min_max_scaler.transform(test_data_cols)
 
-The next step would be to define your time steps for the data. Let's take an 
-input time of 60 minutes and try to predict whether the machine will fail in 
+The next step would be to define your time steps for the data. Let's take an
+input time of 60 minutes and try to predict whether the machine will fail in
 the next 12 hours. After defining these, you can create data pairs for training
 the MLP model that fit into the time steps.
 
@@ -272,8 +275,8 @@ the MLP model that fit into the time steps.
         else:
             break
 
-Now that you have created your training data pairs, you can start with 
-splitting the pairs into two sets: x and y. Set x will be used to train the 
+Now that you have created your training data pairs, you can start with
+splitting the pairs into two sets: x and y. Set x will be used to train the
 model and set y will be used to verify the model's accuracy.
 
 .. code-block:: python
@@ -295,9 +298,9 @@ model and set y will be used to verify the model's accuracy.
         x_train[index, 0:input_len] = x
         y_train[index] = y
 
-After creating your training data frames, you can now continue with creating 
-the MLP model. For this example, use three layers, with the `ReLU`_ activation 
-function for the first two layers. You can prevent the model degrading over 
+After creating your training data frames, you can now continue with creating
+the MLP model. For this example, use three layers, with the `ReLU`_ activation
+function for the first two layers. You can prevent the model degrading over
 successive epochs by stopping training, using the ``EarlyStopping`` callback.
 
 .. code-block:: python
@@ -338,13 +341,13 @@ successive epochs by stopping training, using the ``EarlyStopping`` callback.
 .. figure:: mlp_model_train_loss.png
    :align: left
 
-This figure shows us the loss of each epoch. In the first 200 epochs it is 
-slowly going down, while starting to go up again at around the 250 epoch mark. 
+This figure shows us the loss of each epoch. In the first 200 epochs it is
+slowly going down, while starting to go up again at around the 250 epoch mark.
 The EarlyStopping, that should stop the training when degrading, does not stop
-it here because it needs to degrade consistently over (in this case) 50 epochs 
+it here because it needs to degrade consistently over (in this case) 50 epochs
 to be stopped.
 
-Now that you have your MLP model, you can start preparing the test data to 
+Now that you have your MLP model, you can start preparing the test data to
 verify the accuracy of the model.
 
 .. code-block:: python
@@ -393,19 +396,19 @@ with the model to generate predictions and to estimate the model's accuracy.
     [1] train_acc: 0.9827990531921387
     [2] test_acc:  0.8741965293884277
 
-The accuracy will vary slightly between the different executions. The training 
-accuracy is nearly perfect, while the test accuracy is at 87%. These 
-percentages apply when the training input is 60 minutes and the prediction 
-output is for the next 720 minutes (12 hours). The results also vary depending 
+The accuracy will vary slightly between the different executions. The training
+accuracy is nearly perfect, while the test accuracy is at 87%. These
+percentages apply when the training input is 60 minutes and the prediction
+output is for the next 720 minutes (12 hours). The results also vary depending
 on how many epochs one uses and the size of the timesteps.
 
 
 Saving A Model To S3
 --------------------
 
-The next step is to save the model to a AWS S3 Bucket, so the model can be 
-accessed from other applications. Since the data you want to predict will not 
-be normalized like the model, you also need to save the ``MinMaxScaler`` you 
+The next step is to save the model to a AWS S3 Bucket, so the model can be
+accessed from other applications. Since the data you want to predict will not
+be normalized like the model, you also need to save the ``MinMaxScaler`` you
 created previously alongside the TensorFlow model.
 
 .. code-block:: python
@@ -448,7 +451,7 @@ Predicting With Pre-Trained Model
 Now you can switch to another application. The following code should be put
 into a different Python file than the above.
 
-As the model is saved in an AWS S3 Bucket, you can load it from there and use 
+As the model is saved in an AWS S3 Bucket, you can load it from there and use
 it to predict pump sensor data without having to first train a model.
 
 .. code-block:: python
@@ -507,7 +510,7 @@ to make predictions from new sets of sensor data.
 
     [1] [0.8614458441734314, 0.8530051112174988, 0.8502672910690308, 0.8750132918357849, 0.8636448979377747, ...]
 
-Here you can see the first few predicted values. Everything ≥ 0.5 would mean 
+Here you can see the first few predicted values. Everything ≥ 0.5 would mean
 that the machine is in a NORMAL state, while < 0.5 would mean it is BROKEN.
 
 
@@ -530,11 +533,11 @@ our CrateDB instance.
             for entry in predictions:
                 cur.execute(query, (float(entry), time.time(), model_name))
 
-With this, you have successfully used a deep learning algorithm, namely a 
-multilayer perceptron. Using CrateDB to store raw data and model predictions, 
-alongside using S3 for blob storage, you have created a distributed 
-architecture where applications can use various pieces of this Machine Learning 
-pipeline. The training and prediction stages are decoupled, and can be 
+With this, you have successfully used a deep learning algorithm, namely a
+multilayer perceptron. Using CrateDB to store raw data and model predictions,
+alongside using S3 for blob storage, you have created a distributed
+architecture where applications can use various pieces of this Machine Learning
+pipeline. The training and prediction stages are decoupled, and can be
 distributed across different machines, contexts, and scenarios.
 
 
