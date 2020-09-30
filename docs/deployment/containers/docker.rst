@@ -1,3 +1,6 @@
+.. meta::
+    :last-reviewed: 2020-08-17
+
 .. highlight:: sh
 
 .. _cratedb-docker:
@@ -58,7 +61,7 @@ You should then be able to see something like this:
 Any CrateDB container put into the ``crate`` network will be able to resolve
 other CrateDB containers by name. Each container will run a single node, which
 is identified by its node name. In this guide, container ``crate01`` will run
-node ``crate01``, container ``crate02`` will run node ``crate02``, and 
+node ``crate01``, container ``crate02`` will run node ``crate02``, and
 container ``crate03`` will run cluster node ``crate03``.
 
 You can then create your first CrateDB container and node, like this::
@@ -104,7 +107,7 @@ Breaking the command down:
       that the node will join an already formed cluster. This parameter is only
       relevant for the first election.
     * ``gateway.expected_nodes`` and ``gateway.recover_after_nodes``: Specifies
-      how many nodes you expect in the cluster and how many nodes must be 
+      how many nodes you expect in the cluster and how many nodes must be
       discovered before the cluster state is recovered.
 
 .. NOTE::
@@ -267,12 +270,12 @@ Read about Docker Compose specifics `here <https://docs.docker.com/compose/>`_.
 
 You can define the services that make up your app in a `docker-compose.yml`
 file. To recreate the three-node cluster in the previous example, you can
-define your services like this: 
+define your services like this:
 
 .. code-block:: yaml
 
     version: '3.8'
-    services:   
+    services:
       cratedb01:
         image: crate:latest
         ports:
@@ -287,14 +290,14 @@ define your services like this:
                   "-Cdiscovery.seed_hosts=cratedb02,cratedb03",
                   "-Ccluster.initial_master_nodes=cratedb01,cratedb02,cratedb03",
                   "-Cgateway.expected_nodes=3",
-                  "-Cgateway.recover_after_nodes=2"] 
+                  "-Cgateway.recover_after_nodes=2"]
         deploy:
           replicas: 1
           restart_policy:
             condition: on-failure
         environment:
           - CRATE_HEAP_SIZE=2g
-      
+
       cratedb02:
         image: crate:latest
         ports:
@@ -309,16 +312,16 @@ define your services like this:
                   "-Cdiscovery.seed_hosts=cratedb01,cratedb03",
                   "-Ccluster.initial_master_nodes=cratedb01,cratedb02,cratedb03",
                   "-Cgateway.expected_nodes=3",
-                  "-Cgateway.recover_after_nodes=2"]  
+                  "-Cgateway.recover_after_nodes=2"]
         deploy:
           replicas: 1
           restart_policy:
             condition: on-failure
         environment:
           - CRATE_HEAP_SIZE=2g
-      
+
       cratedb03:
-        image: crate:latest    
+        image: crate:latest
         ports:
           - "4203:4200"
         volumes:
@@ -341,16 +344,16 @@ define your services like this:
 
 In the file above:
 
-- You specified the latest `compose file version`_. 
+- You specified the latest `compose file version`_.
 - You created three CrateDB services which pulls the latest CrateDB Docker
   image and maps the ports manually.
 - You created a file system volume per instance and defined a set of
   configuration parameters (`-C`).
 - You defined some deploy settings and an environment variable for the heap size.
 - Network settings no longer need to be defined in the latest compose file
-  version because a `default bridge network`_ will be created. If you are 
+  version because a `default bridge network`_ will be created. If you are
   using multiple hosts and want to use an overlay network, you will need to
-  explicitly define that. 
+  explicitly define that.
 - The start order of the containers is not deterministic and you want all
   three containers to be up and running before the election of the master node.
 
@@ -435,9 +438,9 @@ Bootstrap checks
 ----------------
 
 When using CrateDB with Docker, CrateDB binds by default to any site-local IP
-address on the system (i.e. 192.168.0.1). This performs a number of checks 
+address on the system (i.e. 192.168.0.1). This performs a number of checks
 during bootstrap. The settings listed in `Bootstrap Checks`_ must be addressed on
-the Docker **host system** in order to start CrateDB successfully and when 
+the Docker **host system** in order to start CrateDB successfully and when
 `going into production`_.
 
 Memory

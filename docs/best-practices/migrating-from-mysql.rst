@@ -1,4 +1,8 @@
+.. meta::
+    :last-reviewed: 2020-09-29
+
 .. highlight:: psql
+
 .. _migrating_from_mysql:
 
 ====================

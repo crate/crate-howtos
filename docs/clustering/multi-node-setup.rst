@@ -1,3 +1,6 @@
+.. meta::
+    :last-reviewed: 2020-08-17
+
 .. _multi_node_setup:
 
 ========================
@@ -98,7 +101,7 @@ instructions.
    CrateDB knows how to recover its state safely. Ideally, for a three-node
    cluster, set `gateway.expected_nodes`_ to **3** and set
    `gateway.recover_after_nodes`_ to **3**. You can specify these settings in
-   the `configuration`_ file of the unpacked directory. 
+   the `configuration`_ file of the unpacked directory.
 
    .. NOTE::
 
@@ -109,7 +112,7 @@ instructions.
 
    .. SEEALSO::
 
-       The :ref:`metadata gateway <metadata-gateway>` section includes examples. 
+       The :ref:`metadata gateway <metadata-gateway>` section includes examples.
 
 3. Copy the unpacked directory into a new directory, three times, one for each
    node. For example:

@@ -1,3 +1,6 @@
+.. meta::
+    :last-reviewed: 2020-08-31
+
 .. highlight:: psql
 
 ======================

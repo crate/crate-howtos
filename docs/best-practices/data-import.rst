@@ -1,4 +1,8 @@
+.. meta::
+    :last-reviewed: 2020-09-29
+
 .. highlight:: psql
+
 .. _efficient_data_import:
 
 ====================================
@@ -153,7 +157,7 @@ value (time in ms)::
 Importing the data
 ==================
 
-Once the table is created, you can start importing the data. 
+Once the table is created, you can start importing the data.
 
 JSON import format
 ------------------
@@ -265,7 +269,7 @@ Splitting tables into partitions
 
 Sometimes you want to split your table into partitions to be able to handle
 large datasets more efficiently (i.e. for queries to run on a reduced set of
-rows). 
+rows).
 
 Partitions can be created using the ``CREATE TABLE`` statement using the
 ``PARTITIONED BY`` clause.
