@@ -14,111 +14,69 @@ CrateDB maintains packages for the following Ubuntu versions:
 - `Xenial Xerus`_ (16.04)
 - `Trusty Tahr`_ (14.04)
 
-.. rubric:: Table of contents
-
-.. contents::
-   :local:
-
-
-Java
-====
-
-CrateDB requires a `Java virtual machine`_ (JVM) to run.
-
-CrateDB versions 4.2 and above include a JVM and do not require a separate
-installation.
-
-Earlier versions require Java 11 to be installed.
-
-To run CrateDB on Ubuntu releases older than 18.04, you will need to install
-Java from a third-party repository. This can be done by adding the `OpenJDK`_
-PPA::
-
-    sh$ sudo add-apt-repository ppa:openjdk-r/ppa
-    sh$ sudo apt-get update
-    sh$ sudo apt-get install -y openjdk-11-jre-headless
-
-
-Configure Apt
+Prerequisites
 =============
 
-Firstly, you will need to configure `Apt`_ (the Ubuntu package manager) to trust
-the CrateDB repository.
+.. note::
 
-.. _Apt: https://wiki.debian.org/Apt
+   CrateDB versions 4.2 and above include a JVM and do not require a separate
+   installation. Skip to :ref:`Install CrateDB`
 
-Download the CrateDB GPG key:
-
-.. code-block:: sh
-
-   sh$ wget https://cdn.crate.io/downloads/deb/DEB-GPG-KEY-crate
-
-And then add the key to Apt:
+CrateDB requires a `Java virtual machine`_ (JVM) to run. Earlier versions require Java 11 to be installed. 
+To run CrateDB on Ubuntu releases older than 18.04, you will need to install
+Java from a third-party repository. This can be done by adding the `OpenJDK`_
+PPA
 
 .. code-block:: sh
 
-   sh$ sudo apt-key add DEB-GPG-KEY-crate
+   sh$ sudo add-apt-repository ppa:openjdk-r/ppa
+   sh$ sudo apt update
+   sh$ sudo apt install -y openjdk-11-jre-headless
 
-CrateDB provides a stable release and a testing release channel. At this point,
-you should select which one you wish to use.
 
-Create an Apt configuration file, like so:
-
-.. code-block:: sh
-
-   sh$ sudo touch /etc/apt/sources.list.d/crate-CHANNEL.list
-
-Here, replace ``CHANNEL`` with ``stable`` or ``testing``, depending on which
-type of release channel you plan to use.
-
-Then, edit it, and add the following:
-
-.. code-block:: text
-
-   deb https://cdn.crate.io/downloads/deb/CHANNEL/ CODENAME main
-   deb-src https://cdn.crate.io/downloads/deb/CHANNEL/ CODENAME main
-
-Here, replace ``CHANNEL`` as above, and then, additionally, replace
-``CODENAME`` with the codename of your distribution, which can be round by
-running:
-
-.. code-block:: sh
-
-   sh$ source /etc/os-release && echo $UBUNTU_CODENAME
-
-Once that is done, update Apt:
-
-.. code-block:: sh
-
-   sh$ sudo apt-get update
-
-You should see a success message. This indicates that the CrateDB release
-channel is correctly configured and the ``crate`` package has been registered
-locally.
-
-You can now install CrateDB.
-
+.. _Install CrateDB:
 
 Install CrateDB
 ===============
 
-With everything set up, you can install CrateDB, like so:
+You need to configure `Apt`_ to trust and add the CrateDB repositories:
+
+.. _Apt: https://wiki.debian.org/Apt
+
 
 .. code-block:: sh
 
-   sh$ sudo apt-get install crate
+   # Download the CrateDB GPG key
+   sh$ wget https://cdn.crate.io/downloads/deb/DEB-GPG-KEY-crate
+
+   # Add the key to Apt
+   sh$ sudo apt-key add DEB-GPG-KEY-crate
+
+   # Add CrateDB repositories to Apt
+   sh$ sudo add-apt-repository "deb https://cdn.crate.io/downloads/deb/stable/ $(lsb_release -cs) main"
+
+   # `lsb_release -cs` returns the codename of your OS
+
+.. NOTE::
+
+   CrateDB provides a stable release and a testing release channel. If you want to use the testing channel
+   replace ``stable`` with ``testing`` in the command above.
+
+Once that is done, update Apt and install CrateDB
+
+.. code-block:: sh
+
+   sh$ sudo apt update
+   sh$ sudo apt install crate
 
 After the installation is finished, the ``crate`` service should be
-up-and-running.
-
-You should be able to access it by visiting::
+up-and-running. You should be able to access it from your local machine by visiting::
 
   http://localhost:4200/
 
-.. SEEALSO::
-
-   If you're new to CrateDB, check out our our `first use`_ documentation.
-
+.. CAUTION::
+   When you are installing via Apt, CrateDB automatically starts as a single-node cluster and you won't be able to add additional nodes.
+   In order to form a multi-node cluster, you will need to remove the cluster state after changing the configuration.
 
 Control CrateDB
 ================
@@ -162,7 +120,6 @@ Environment
 
 The CrateDB startup script `sources`_ `environment variables`_ from the
 ``/etc/default/crate`` file.
-
 Here's one example:
 
 .. code-block:: sh
@@ -190,7 +147,7 @@ Customized setups
 
 A full list of package files can be obtained with this command::
 
-     sh$ dpkg-query -L crate
+   sh$ dpkg-query -L crate
 
 If you want to deviate from the way that the ``crate`` package integrates with
 your system, we recommend that you go with a `basic tarball installation`_.
