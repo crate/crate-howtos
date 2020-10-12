@@ -76,7 +76,6 @@ Then, edit it, and add the following:
 .. code-block:: text
 
    deb https://cdn.crate.io/downloads/deb/CHANNEL/ CODENAME main
-   deb-src https://cdn.crate.io/downloads/deb/CHANNEL/ CODENAME main
 
 Here, replace ``CHANNEL`` as above, and then, additionally, replace
 ``CODENAME`` with the codename of your distribution, which can be round by
