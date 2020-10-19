@@ -1,1 +1,1 @@
-crate-docs-theme==0.11.0b1
+crate-docs-theme==0.11.0b2
