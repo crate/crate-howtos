@@ -10,22 +10,22 @@ tools.
 .. toctree::
    :maxdepth: 1
 
-   kafka-connect
-   streamsets
+   Apache Kafka <kafka-connect>
+   StreamSets <streamsets>
 
 .. rubric:: Enrichment
 
 .. toctree::
     :maxdepth: 1
 
-    azure-functions
+    Azure IoT Hub and Functions <azure-functions>
 
 .. rubric:: Data Analysis, Visualization, and Machine Learning
 
 .. toctree::
     :maxdepth: 1
 
-    r
-    powerbi-desktop
-    powerbi-gateway
-    ml-dist
+    R <r>
+    PowerBI Desktop <powerbi-desktop>
+    PowerBI Real Time Reports <powerbi-gateway>
+    TensorFlow <ml-dist>
