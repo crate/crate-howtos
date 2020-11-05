@@ -1,15 +1,8 @@
-.. meta::
-    :last-reviewed: 2020-07-13
-
 .. _cratedb-distributed-ml:
 
 =====================================================
 Distributed Deep-Learning with CrateDB and TensorFlow
 =====================================================
-
-
-Abstract
-========
 
 Using deep learning algorithms for Machine Learning use cases has become more
 and more common in the world of data science. A common library used for solving
@@ -541,18 +534,18 @@ pipeline. The training and prediction stages are decoupled, and can be
 distributed across different machines, contexts, and scenarios.
 
 
-.. _TensorFlow: https://www.tensorflow.org/
-.. _Psycopg2: https://pypi.org/project/psycopg2/
-.. _Pandas: https://pandas.pydata.org/
-.. _Sklearn: https://scikit-learn.org/stable/
-.. _Kaggle: https://www.kaggle.com/
-.. _pump_sensor_data: https://www.kaggle.com/nphantawee/pump-sensor-data
 .. _A running CrateDB cluster: https://crate.io/docs/crate/tutorials/en/latest/getting-started/index.html
 .. _An AWS S3 storage bucket: https://aws.amazon.com/s3/
-.. _Python: https://www.python.org/
-.. _numpy: https://numpy.org/
-.. _Multilayer Perceptron: https://en.wikipedia.org/wiki/Multilayer_perceptron
-.. _ReLU: https://en.wikipedia.org/wiki/Rectifier_(neural_networks)
 .. _boto3: https://boto3.amazonaws.com/v1/documentation/api/latest/index.html
 .. _joblib: https://joblib.readthedocs.io/en/latest/index.html
+.. _Kaggle: https://www.kaggle.com/
 .. _matplotlib: https://matplotlib.org/
+.. _Multilayer Perceptron: https://en.wikipedia.org/wiki/Multilayer_perceptron
+.. _numpy: https://numpy.org/
+.. _Pandas: https://pandas.pydata.org/
+.. _Psycopg2: https://pypi.org/project/psycopg2/
+.. _pump_sensor_data: https://www.kaggle.com/nphantawee/pump-sensor-data
+.. _Python: https://www.python.org/
+.. _ReLU: https://en.wikipedia.org/wiki/Rectifier_(neural_networks)
+.. _Sklearn: https://scikit-learn.org/stable/
+.. _TensorFlow: https://www.tensorflow.org/

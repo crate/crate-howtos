@@ -1,6 +1,3 @@
-.. meta::
-    :last-reviewed: 2020-09-29
-
 .. highlight:: psql
 
 .. _migrating_from_mysql:
@@ -8,9 +5,6 @@
 ====================
 Migrating from MySQL
 ====================
-
-Introduction
-============
 
 Various ways exist to migrate your existing data from MySQL_ to CrateDB_.
 However, these methods may differ in performance. A fast and reliable way to
@@ -20,6 +14,7 @@ migrate is to use CrateDB's existing export and import tools.
 
 .. contents::
    :local:
+
 
 Setting up the example table
 ============================
@@ -140,9 +135,10 @@ For example:
   See also the documentation of `csvsql`_. To use the SQLAlchemy driver of
   CrateDB, the latest version of the `CrateDB Python package`_ is required.
 
-.. _MySQL: http://mysql.com
+
 .. _COPY FROM: https://crate.io/docs/crate/reference/sql/reference/copy_from.html
+.. _CrateDB Python package: https://pypi.python.org/pypi/crate
 .. _CrateDB: https://crate.io
 .. _csvkit: https://csvkit.readthedocs.io/en/540/index.html
 .. _csvsql: https://csvkit.readthedocs.io/en/540/scripts/csvsql.html
-.. _CrateDB Python package: https://pypi.python.org/pypi/crate
+.. _MySQL: http://mysql.com

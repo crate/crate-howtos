@@ -1,6 +1,3 @@
-.. meta::
-    :last-reviewed: 2020-09-10
-
 .. _cratedb-streamsets:
 
 ================================================================
@@ -151,11 +148,11 @@ You can verify that the data is now in CrateDB:
     +----------+--------------------+--------------------+
     SELECT 1 row in set (0.050 sec)
 
-.. _StreamSets Data Collector: https://streamsets.com/products/dataops-platform/data-collector/
-.. _CrateDB JDBC driver: https://crate.io/docs/jdbc/en/latest/
-.. _New York taxi dataset: https://streamsets.com/documentation/datacollector/latest/help/datacollector/UserGuide/Tutorial/BeforeYouBegin.html?hl=nyc_taxi_data/
+
 .. _A running and accessable CrateDB cluster: https://crate.io/docs/crate/tutorials/en/latest/getting-started/index.html
 .. _A running and accessable StreamSets Data Collector: https://streamsets.com/products/dataops-platform/data-collector/download/
 .. _Bintray Repository: https://bintray.com/crate/crate/crate-jdbc/view/files/io/crate/crate-jdbc-standalone/#files/io/crate/crate-jdbc-standalone/
+.. _CrateDB JDBC driver: https://crate.io/docs/jdbc/en/latest/
 .. _external libraries: https://streamsets.com/documentation/datacollector/latest/help/datacollector/UserGuide/Configuration/ExternalLibs.html
-
+.. _New York taxi dataset: https://streamsets.com/documentation/datacollector/latest/help/datacollector/UserGuide/Tutorial/BeforeYouBegin.html?hl=nyc_taxi_data/
+.. _StreamSets Data Collector: https://streamsets.com/products/dataops-platform/data-collector/

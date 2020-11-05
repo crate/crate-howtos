@@ -1,6 +1,3 @@
-.. meta::
-    :last-reviewed: 2020-07-01
-
 .. _memory:
 
 ====================
@@ -45,6 +42,7 @@ it shouldn't be set above 30.5GB, see the limits section below.
 
 .. contents::
    :local:
+
 
 .. _memory-limits:
 
@@ -94,6 +92,7 @@ offset the memory lost due to the lack of *Compressed Oops*.
     When configuring heap size via `CRATE_HEAP_SIZE`_, you can specify 30.5
     gigabytes with the value ``30500m``.
 
+
 .. _swap:
 
 Swap
@@ -108,6 +107,8 @@ like so:
 
       bootstrap.memory_lock: true
 
+
+.. _bootstrap.memory_lock: https://crate.io/docs/crate/reference/en/latest/config/node.html#memory
 .. _Compressed Oops: https://wiki.openjdk.java.net/display/HotSpot/CompressedOops
 .. _configuration: https://crate.io/docs/crate/reference/en/latest/config/index.html
 .. _configurations: https://crate.io/docs/crate/reference/en/latest/config/index.html
@@ -117,5 +118,4 @@ like so:
 .. _HotSpot Java Virtual Machine: http://www.oracle.com/technetwork/java/javase/tech/index-jsp-136373.html
 .. _Lucene: https://lucene.apache.org/
 .. _Memory mapped files: https://en.wikipedia.org/wiki/Memory-mapped_file
-.. _bootstrap.memory_lock: https://crate.io/docs/crate/reference/en/latest/config/node.html#memory
 .. _x64 architectures: https://en.wikipedia.org/wiki/X86-64

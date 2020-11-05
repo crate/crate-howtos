@@ -1,6 +1,3 @@
-.. meta::
-    :last-reviewed: 2020-08-17
-
 .. highlight:: sh
 
 .. _cratedb-docker:
@@ -31,8 +28,10 @@ This document covers the essentials of running CrateDB on Docker.
 .. contents::
    :local:
 
+
 Quick start
 ===========
+
 
 Creating a cluster
 ------------------
@@ -200,6 +199,7 @@ Success! You just created a three-node CrateDB cluster with Docker.
    in the admin UI. For a more robust cluster, you should, at the very least,
    configure the `Metadata Gateway`_ and `Discovery`_ settings.
 
+
 .. _docker-troubleshooting:
 
 Troubleshooting
@@ -235,6 +235,7 @@ You can also start a single node without any bootstrap checks by passing the
 
    This means that the node cannot form a cluster with any other nodes.
 
+
 Taking it further
 -----------------
 
@@ -243,6 +244,7 @@ using the ``-C`` flag, as shown in the examples above.
 
 Check out the `Docker docs <https://docs.docker.com/engine/reference/run/>`_
 for more Docker-specific features that CrateDB can leverage.
+
 
 CrateDB Shell
 -------------
@@ -256,6 +258,7 @@ and connect to three hosts named ``crate01``, ``crate02``, and ``crate03``
     $ docker run --rm -ti \
         --net=crate crate \
         crash --hosts crate01 crate02 crate03
+
 
 .. _docker-compose:
 
@@ -357,8 +360,10 @@ In the file above:
 - The start order of the containers is not deterministic and you want all
   three containers to be up and running before the election of the master node.
 
+
 Best Practices
 ==============
+
 
 One container per host
 ----------------------
@@ -371,6 +376,7 @@ to the host ports so that the host acts like a native installation. For example:
 
     $ docker run -d -p 4200:4200 -p 4300:4300 -p 5432:5432 crate \
         crate -Cnetwork.host=_site_
+
 
 Persistent data directory
 -------------------------
@@ -388,6 +394,7 @@ path to your host machine's ``data`` directory.
 
 See the `Docker volume`_ documentation for more help.
 
+
 Custom configuration
 --------------------
 
@@ -404,6 +411,7 @@ Here is an example of how you could mount the ``crate.yml`` config file::
 
 Here, ``/srv/crate/config/crate.yml`` is an example path, and should be
 replaced with the path to your host machine's ``crate.yml`` file.
+
 
 Troubleshooting
 ===============
@@ -424,6 +432,7 @@ You can do that by editing your `Docker Stack YAML file`_:
     healthcheck:
       disable: true
 
+
 .. _resource_constraints:
 
 Resource constraints
@@ -443,6 +452,7 @@ during bootstrap. The settings listed in `Bootstrap Checks`_ must be addressed o
 the Docker **host system** in order to start CrateDB successfully and when
 `going into production`_.
 
+
 Memory
 ------
 
@@ -456,12 +466,14 @@ which in turn passes it to the JVM.
 
 It is not necessary to configure swap memory since CrateDB does not use swap.
 
+
 CPU
 ---
 
 You must calculate and explicitly `set the maximum number of CPUs`_ that the
 container can use. This is dependent on your host system and should typically
 be as high as possible.
+
 
 Combined configuration
 ----------------------
@@ -476,6 +488,7 @@ example::
         --env CRATE_HEAP_SIZE=1g \
         crate \
         crate -Cnetwork.host=_site_
+
 
 .. _Bootstrap Checks: https://crate.io/docs/crate/howtos/en/latest/admin/bootstrap-checks.html
 .. _compose file version: https://docs.docker.com/compose/compose-file/compose-versioning/

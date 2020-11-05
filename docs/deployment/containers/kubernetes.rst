@@ -1,6 +1,3 @@
-.. meta::
-    :last-reviewed: 2020-08-17
-
 .. _cratedb-kubernetes:
 
 =========================
@@ -37,6 +34,7 @@ Together, Docker and Kubernetes are a fantastic way to deploy and scale CrateDB.
 .. contents::
    :local:
 
+
 Prerequisites
 =============
 
@@ -51,6 +49,7 @@ with at least one master node and one worker node.
 
    Alternatively, cloud services such as `Azure Kubernetes Service`_ or the
    `Amazon Kubernetes Service`_ can do this for you.
+
 
 Managing Kubernetes
 ===================
@@ -90,11 +89,13 @@ restart your pods with the new configuration one-by-one.
     resources are deleted and recreated, and the pods will come back up with no
     data.
 
+
 Configuration
 =============
 
 This section provides four Kubernetes `configuration`_ snippets that can be
 used to create a three-node CrateDB cluster.
+
 
 Services
 --------
@@ -109,6 +110,7 @@ constituent pods may come and go.
 
 For our purposes, we define two services: an `internal service`_ and an
 `external service`_.
+
 
 Internal service
 ................
@@ -137,6 +139,7 @@ Here's an example configuration snippet:
       selector:
         # Apply this to all nodes with the `app:crate` label.
         app: crate
+
 
 External service
 ................
@@ -175,6 +178,7 @@ Here's an example configuration snippet:
    load balancers.
 
    For local development, `Minikube`_ provides a LoadBalancer service.
+
 
 Controller
 ----------
@@ -320,6 +324,7 @@ CrateDB 3.0.5 cluster:
    You must set memory map limits correctly. Consult the :ref:`bootstrap checks
    <bootstrap-checks>` documentation for more information.
 
+
 Persistent volume
 -----------------
 
@@ -329,6 +334,7 @@ with `persistent volumes`_.
 
 There are many different ways to provide persistent volumes, and so the specific
 configuration will depend on your setup.
+
 
 Microsoft Azure
 ...............
@@ -373,6 +379,7 @@ You can then use this in your controller configuration with something like this:
             resources:
               requests:
                 storage: 100g
+
 
 .. _Amazon Kubernetes Service: https://aws.amazon.com/eks/
 .. _Azure Kubernetes Service: https://azure.microsoft.com/en-us/services/kubernetes-service/

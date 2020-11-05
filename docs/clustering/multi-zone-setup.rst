@@ -1,6 +1,3 @@
-.. meta::
-    :last-reviewed: 2020-08-17
-
 .. _multi-zone-setup:
 
 ========================
@@ -27,6 +24,7 @@ to set up a multi-zone CrateDB cluster.
 .. contents::
    :local:
 
+
 .. _multi-zone-requirements:
 
 Multi-zone requirements
@@ -46,6 +44,7 @@ To achieve these requirements, make use of `shard allocation awareness`_, which
 allows you to configure `shard`_ and replica allocation. If you are new to setting
 up a multi-node CrateDB cluster, you should read our :ref:`multi-node setup
 <multi_node_setup>` guide first.
+
 
 .. _tag-assignments:
 
@@ -86,6 +85,7 @@ For example:
 
    These tags and settings cannot be changed at runtime and need to be
    set on startup.
+
 
 .. _allocation-awareness:
 
@@ -142,6 +142,7 @@ still allocate the replicas on nodes with the same ``zone`` value to avoid
    awareness attributes. To avoid such allocations, you can :ref:`force the
    awareness <force-awareness>`.
 
+
 .. _force-awareness:
 
 Force awareness
@@ -185,16 +186,17 @@ zones and regions. However, be aware of the drawbacks that a multi-region
 setup can have. These include latency and also security issues between
 non-encrypted node-to-node traffic if the traffic escapes a "trusted" network.
 
+
 .. _awareness: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#awareness
+.. _configuration guide: https://crate.io/docs/reference/configuration.html
+.. _configuration: https://crate.io/docs/crate/reference/en/latest/config/index.html
 .. _CrateDB Shell: https://crate.io/docs/crate/crash/en/latest/
 .. _create a table: https://crate.io/docs/crate/reference/en/latest/general/ddl/create-table.html
-.. _configuration: https://crate.io/docs/crate/reference/en/latest/config/index.html
-.. _configuration guide: https://crate.io/docs/reference/configuration.html
 .. _node custom attributes: https://crate.io/docs/crate/reference/en/latest/config/node.html#custom-attributes
 .. _replica: https://crate.io/docs/crate/reference/en/latest/general/ddl/replication.html
 .. _replicas: https://crate.io/docs/crate/reference/en/latest/general/ddl/replication.html
+.. _shard allocation awareness: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#awareness
 .. _shard: https://crate.io/docs/crate/reference/en/latest/general/ddl/sharding.html
 .. _shards: https://crate.io/docs/crate/reference/en/latest/general/ddl/sharding.html
-.. _shard allocation awareness: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#awareness
 .. _unassigned shards: https://crate.io/docs/crate/howtos/en/latest/performance/sharding.html#under-allocation-is-bad
 .. _write operation: https://crate.io/docs/crate/reference/en/latest/concepts/storage-consistency.html#data-storage

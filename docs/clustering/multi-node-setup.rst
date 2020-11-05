@@ -1,6 +1,3 @@
-.. meta::
-    :last-reviewed: 2020-08-17
-
 .. _multi_node_setup:
 
 ========================
@@ -39,6 +36,7 @@ This process is only necessary the first time a cluster starts because:
 
 - new nodes that need to join a cluster will obtain this information from the
   cluster's elected master node
+
 
 .. _auto-bootstrapping:
 
@@ -174,6 +172,7 @@ auto-bootstrapping).
 
 Node discovery
 ^^^^^^^^^^^^^^
+
 
 Seeding manually
 """"""""""""""""
@@ -480,12 +479,12 @@ Edit the `transport.tcp.port`_ setting in your `configuration`_ file:
 .. _discovery.zen.minimum_master_nodes: https://crate.io/docs/crate/reference/en/3.3/config/cluster.html#discovery-zen-minimum-master-nodes
 .. _discovery.zen.ping.unicast.hosts: https://crate.io/docs/crate/reference/en/3.3/config/cluster.html#unicast-host-discovery
 .. _DNS: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery-via-dns
+.. _elects the master node: https://crate.io/docs/crate/reference/en/latest/concepts/shared-nothing.html#master-node-election
 .. _full cluster restarts: https://crate.io/docs/crate/howtos/en/latest/admin/full-restart-upgrade.html
 .. _gateway.expected_nodes: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#gateway-expected-nodes
 .. _gateway.recover_after_nodes: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#gateway-recover-after-nodes
 .. _hostname: https://en.wikipedia.org/wiki/Hostname
 .. _latest: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery
-.. _elects the master node: https://crate.io/docs/crate/reference/en/latest/concepts/shared-nothing.html#master-node-election
 .. _Metadata configuration settings: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#metadata
 .. _metadata gateway: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#metadata-gateway
 .. _Microsoft Azure: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery-on-microsoft-azure
