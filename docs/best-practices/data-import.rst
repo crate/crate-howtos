@@ -1,6 +1,3 @@
-.. meta::
-    :last-reviewed: 2020-09-29
-
 .. highlight:: psql
 
 .. _efficient_data_import:
@@ -8,9 +5,6 @@
 ====================================
 Importing huge datasets into CrateDB
 ====================================
-
-Introduction
-============
 
 Projects often contain pre-existing data that needs to be imported and
 sometimes the amount of data is significant.
@@ -32,6 +26,7 @@ import your data quickly and safely.
 
 Configuring your tables
 =======================
+
 
 Defining the data structure
 ---------------------------
@@ -158,6 +153,7 @@ Importing the data
 ==================
 
 Once the table is created, you can start importing the data.
+
 
 JSON import format
 ------------------
@@ -371,14 +367,15 @@ Further reading
 
   - `Import/Export`_
 
+
+.. _Alter a partitioned table: https://crate.io/docs/crate/reference/sql/partitioned_tables.html#alter
+.. _ALTER TABLE ONLY: https://crate.io/docs/crate/reference/sql/partitioned_tables.html#alter-table-only
 .. _CLUSTERED clause: http://crate.io/docs/crate/reference/sql/reference/create_table.html#clustered-clause
-.. _Replication: https://crate.io/docs/crate/reference/sql/ddl/replication.html#replication
-.. _Refresh: https://crate.io/docs/crate/reference/sql/refresh.html
+.. _COPY FROM: https://crate.io/docs/crate/reference/sql/reference/copy_from.html
+.. _Import/Export: https://crate.io/docs/crate/reference/sql/dml.html#import-export
+.. _PARTITIONED BY clause: https://crate.io/docs/crate/reference/sql/reference/create_table.html#partitioned-by-clause
+.. _partitioned tables: https://crate.io/docs/crate/reference/sql/partitioned_tables.html
 .. _refresh interval: https://crate.io/docs/crate/reference/sql/refresh.html
 .. _refresh_interval: https://crate.io/docs/crate/reference/sql/reference/create_table.html#refresh-interval
-.. _COPY FROM: https://crate.io/docs/crate/reference/sql/reference/copy_from.html
-.. _ALTER TABLE ONLY: https://crate.io/docs/crate/reference/sql/partitioned_tables.html#alter-table-only
-.. _partitioned tables: https://crate.io/docs/crate/reference/sql/partitioned_tables.html
-.. _PARTITIONED BY clause: https://crate.io/docs/crate/reference/sql/reference/create_table.html#partitioned-by-clause
-.. _Alter a partitioned table: https://crate.io/docs/crate/reference/sql/partitioned_tables.html#alter
-.. _Import/Export: https://crate.io/docs/crate/reference/sql/dml.html#import-export
+.. _Refresh: https://crate.io/docs/crate/reference/sql/refresh.html
+.. _Replication: https://crate.io/docs/crate/reference/sql/ddl/replication.html#replication

@@ -1,6 +1,3 @@
-.. meta::
-    :last-reviewed: 2020-08-31
-
 .. highlight:: psql
 
 ======================
@@ -135,9 +132,10 @@ After the table has been created the file can be imported using
 There is an entire section dedicated on how to do a data import efficiently.
 Continue reading there: :ref:`efficient_data_import`.
 
-.. _Indices and Fulltext Search: https://crate.io/docs/crate/reference/sql/ddl/indices_full_search.html
-.. _Data Definition: https://crate.io/docs/crate/reference/sql/ddl/index.html
-.. _CREATE TABLE: https://crate.io/docs/crate/reference/sql/reference/create_table.html
+
 .. _COPY FROM: https://crate.io/docs/crate/reference/sql/reference/copy_from.html
+.. _CREATE TABLE: https://crate.io/docs/crate/reference/sql/reference/create_table.html
+.. _Data Definition: https://crate.io/docs/crate/reference/sql/ddl/index.html
+.. _Indices and Fulltext Search: https://crate.io/docs/crate/reference/sql/ddl/indices_full_search.html
 .. _MongoDB Extended JSON: http://docs.mongodb.org/manual/reference/mongodb-extended-json/
 .. _MongoDB migration tool: https://github.com/crate/mongodb-cratedb-migration-tool

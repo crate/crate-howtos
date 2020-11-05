@@ -1,6 +1,3 @@
-.. meta::
-    :last-reviewed: 2020-08-21
-
 .. _debian:
 
 ===============================
@@ -35,6 +32,7 @@ the CrateDB Debian package.
 
 .. contents::
    :local:
+
 
 Configure Apt
 =============
@@ -116,6 +114,7 @@ You should be able to access it by visiting::
 
 .. _first use: https://crate.io/docs/crate/getting-started/en/latest/first-use/index.html
 
+
 Controlling CrateDB
 ===================
 
@@ -135,14 +134,17 @@ so on.
     :ref:`full restart upgrades <full_restart_upgrade>` before attempting to
     upgrade a running cluster.
 
+
 Configuration
 =============
+
 
 Configuration files
 -------------------
 
 The main CrateDB `configuration files`_ are located in the ``/etc/crate``
 directory.
+
 
 Environment
 -----------
@@ -170,6 +172,7 @@ Here's one example:
 
    # Force the JVM to use IPv4 stack
    CRATE_USE_IPV4=true
+
 
 Customized setups
 =================

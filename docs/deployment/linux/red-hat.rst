@@ -1,6 +1,3 @@
-.. meta::
-    :last-reviewed: 2020-07-17
-
 .. _red-hat:
 
 ============================
@@ -19,6 +16,7 @@ Both of these work with RedHat Enterprise Linux, CentOS, and Scientific Linux.
 
 .. contents::
    :local:
+
 
 Configure YUM
 =============
@@ -59,6 +57,7 @@ This is because the testing repository's configuration marks it as disabled.
 If you would like to enable to testing repository, open the ``crate.repo`` file
 and set ``enabled=1`` under the ``[crate-testing]`` section.
 
+
 Install CrateDB
 ===============
 
@@ -69,6 +68,7 @@ With everything set up, you can install CrateDB, like so:
    yum install crate
 
 CrateDB is now installed, but not running.
+
 
 Running and controlling CrateDB
 ===============================
@@ -101,14 +101,17 @@ You should be able to access it by visiting::
     :ref:`full restart upgrades <full_restart_upgrade>` before attempting to
     upgrade a running cluster.
 
+
 Configuration
 =============
+
 
 Configuration files
 -------------------
 
 The main CrateDB configuration files are located in the ``/etc/crate``
 directory.
+
 
 Environment
 -----------
@@ -141,6 +144,7 @@ Here's one example:
    # Force the JVM to use IPv4 stack
    CRATE_USE_IPV4=true
 
+
 Customized setups
 =================
 
@@ -150,5 +154,6 @@ A full list of package files can be obtained with this command::
 
 If you want to deviate from the way that the ``crate`` package integrates with
 your system, we recommend that you go with a `basic tarball installation`_.
+
 
 .. _basic tarball installation: https://crate.io/docs/crate/getting-started/en/latest/install-run/basic.html

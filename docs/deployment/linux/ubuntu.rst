@@ -1,6 +1,3 @@
-.. meta::
-    :last-reviewed: 2020-07-09
-
 .. _ubuntu:
 
 =====================
@@ -15,12 +12,13 @@ CrateDB maintains packages for the following versions:
 - `Ubuntu 14.04.6`_ (Trusty Tahr)
 
 This guide will show you how to install, control, and configure a single-node
-CrateDB on a local Ubuntu system. 
+CrateDB on a local Ubuntu system.
+
 
 Prerequisites
 =============
 
-CrateDB requires a `Java virtual machine`_ (JVM) to run. 
+CrateDB requires a `Java virtual machine`_ (JVM) to run.
 
 CrateDB versions 4.2+ include a JVM and do not require a separate Java
 installation. You can skip to :ref:`install CrateDB`.
@@ -28,7 +26,7 @@ installation. You can skip to :ref:`install CrateDB`.
 Earlier CrateDB versions require Java 11 to be installed. To run CrateDB on
 Ubuntu releases older than 18.04, you need to install Java from a third-party
 repository. This can be done by adding the `OpenJDK`_ PPA (Personal Package
-Archive): 
+Archive):
 
 .. code-block:: sh
 
@@ -62,7 +60,7 @@ CrateDB repositories:
 
    CrateDB provides a *stable release* and a *testing release* channel. To use
    the testing channel, replace ``stable`` with ``testing`` in the command
-   above. You can read more about our `release workflow`_. 
+   above. You can read more about our `release workflow`_.
 
 
 Now update Apt:
@@ -92,6 +90,7 @@ visiting::
    cluster and you won't be able to add additional nodes. In order to form a
    multi-node cluster, you will need to remove the cluster state after
    changing the configuration.
+
 
 Control CrateDB
 ===============
@@ -126,6 +125,7 @@ Configure CrateDB
 
 In order to configure CrateDB, take note of the configuration file
 location and the available environment variables.
+
 
 Configuration files
 -------------------

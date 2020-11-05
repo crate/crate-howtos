@@ -1,6 +1,3 @@
-.. meta::
-    :last-reviewed: 2020-07-01
-
 .. highlight:: sh
 
 .. _bootstrap-checks:
@@ -31,14 +28,17 @@ run, but it is still a good idea to follow these instructions.
 .. contents::
    :local:
 
+
 System settings
 ===============
+
 
 Official packages
 -----------------
 
 If you are using one of the official packages, all of the necessary operating
 system configuration is handled for you.
+
 
 Tarball
 -------
@@ -63,6 +63,7 @@ Here's what needs to be configured:
 You might be able to set these limits per process or per user, depending on
 your operating system and setup. And for this to take effect, you may also have
 to set these limits for the superuser.
+
 
 Linux
 .....
@@ -109,6 +110,7 @@ This command will this reload all settings from ``/etc/sysctl.conf``.
     Note, however, this setting will be reset to the value in
     ``/etc/sysctl.conf`` when your system next boots.
 
+
 Garbage collection
 ==================
 
@@ -118,11 +120,11 @@ including CrateDB 4.0) and `G1GC`_ (the default with CrateDB 4.1).
 `G1GC` can also be used in earlier CrateDB versions, but should only be used in
 combination with Java 11 or later.
 
-
 .. WARNING::
 
    Other garbage collectors have not been tested with CrateDB and we do not
    support using other GCs in production.
+
 
 .. _CMS garbage collector: https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/cms.html
 .. _G1GC: https://docs.oracle.com/javase/9/gctuning/garbage-first-garbage-collector.htm

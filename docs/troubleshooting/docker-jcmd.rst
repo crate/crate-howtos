@@ -1,6 +1,3 @@
-.. meta::
-    :last-reviewed: 2020-09-07
-
 .. _jcmd-docker:
 
 ===============================================
@@ -212,6 +209,7 @@ Thread Dump
 
 :Command: ``jcmd <PID> Thread.print``
 
+
 Example
 .......
 
@@ -227,6 +225,7 @@ Heap Info
 
 :Command: ``jcmd <PID> GC.heap_info``
 
+
 Example
 .......
 
@@ -241,6 +240,7 @@ Heap Dump
 ---------
 
 :Command: ``jcmd <PID> GC.heap_dump <PATH>``
+
 
 Example
 .......
@@ -262,6 +262,7 @@ Java Flight Recording
 ---------------------
 
 :Command: ``jcmd <PID> JFR.start name=<NAME> duration=<DURATION> filename=<PATH> settings=profile``
+
 
 Example
 .......

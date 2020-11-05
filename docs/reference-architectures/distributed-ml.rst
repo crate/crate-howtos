@@ -1,6 +1,3 @@
-.. meta::
-    :last-reviewed: 2020-07-13
-
 ========================================
 Distributed Machine Learning At The Edge
 ========================================
@@ -45,5 +42,6 @@ This architecture makes use of the following components and CrateDB integrations
 6. Prometheus `Alertmanager`_ triggering an alert to users if the prediction
    layer's predictions fall within dangerous thresholds.
 
-.. _Prometheus: https://www.prometheus.io
+
 .. _Alertmanager: https://www.prometheus.io/docs/alerting/latest/alertmanager/
+.. _Prometheus: https://www.prometheus.io
