@@ -352,12 +352,12 @@ can go through it step by step:
 	};
 
 .. _WKT: https://en.wikipedia.org/wiki/Well-known_text
-.. _Visual Studio Code: https://docs.microsoft.com/en-us/azure/azure-functions/functions-creathttps://docs.microsoft.com/en-us/azure/azure-functions/functions-develop-locale-first-function-vs-code?pivots=programming-language-javascript
+.. _Visual Studio Code: https://code.visualstudio.com/
 .. _directly from VSCode: https://scotch.io/tutorials/getting-started-with-azure-functions-using-vs-code-zero-to-deploy
-.. _Azure CLI: https://docs.microsoft.com/en-us/azure/azure-functions/functions-create-first-azure-function-azure-cli
+.. _Azure CLI: https://docs.microsoft.com/en-us/azure/azure-functions/create-first-function-cli-csharp
 .. _node-postgres:  https://www.npmjs.com/package/pg
 .. _Azure Event Hubs bindings for Azure Functions documentation: https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-event-hubs-trigger?tabs=javascript
-.. _CrateDB cluster: https://crate.io/docs/crate/tutorials/en/latest/getting-started/index.html
+.. _CrateDB cluster: https://crate.io/docs/crate/howtos/en/latest/deployment/cloud/azure.html
 .. _IoT Hub: https://azure.microsoft.com/en-us/services/iot-hub/
 .. _data simulators: https://docs.microsoft.com/en-us/azure/iot-accelerators/quickstart-device-simulation-deploy
 .. _development environment for Azure Functions: https://docs.microsoft.com/en-us/azure/azure-functions/functions-develop-local

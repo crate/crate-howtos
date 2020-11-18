@@ -7,8 +7,8 @@ Services in the world. It offers a wide variety of options including Windows
 servers, containers, application images and much more.
 
 Getting CrateDB working on Azure with Linux or Windows is a simple process. You
-can use Azure's management console or CLI interface (`Learn how to install here
-<https://azure.microsoft.com/en-us/documentation/articles/xplat-cli-install/>`_).
+can use Azure's management console or CLI interface (`Learn how to install
+here`_).
 
 .. rubric:: Table of contents
 
@@ -93,7 +93,6 @@ To Install CrateDB, ssh into your VMs and follow `the standard process for
 Linux installation`_, this will automatically start an instance of CrateDB,
 which we will need to restart after the next step.
 
-.. _the standard process for Linux installation: https://crate.io/docs/crate/getting-started/en/latest/install/linux.html
 
 Configure CrateDB
 -----------------
@@ -126,9 +125,7 @@ Uncomment / add these lines:
 +-----------------+-----------+---------------------------------------+
 
 Note You might want to try DNS based discovery for inter-node communication,
-`find more details
-<https://crate.io/docs/reference/configuration.html#discovery-via-dns>`_ in our
-documentation.
+`find more details`_ in our documentation.
 
 Uncomment and set the cluster name
 
@@ -158,8 +155,7 @@ Install CrateDB
 
 *Note that these instructions should be followed on each VM in your cluster.*
 
-To install CrateDB on Windows Server, you will need a `Java JDK installed
-<http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html>`_.
+To install CrateDB on Windows Server, you will need a `Java JDK installed`_.
 Ensure that the ``JAVA*HOME`` environment variable is set.
 
 .. image:: azure-envvar.png
@@ -168,7 +164,6 @@ Ensure that the ``JAVA*HOME`` environment variable is set.
 Next `download the CrateDB Tarball`_, expand it and move to a convenient
 location.
 
-.. _download the CrateDB Tarball: https://crate.io/docs/crate/getting-started/en/latest/install/local/tarball.html
 
 Configure CrateDB and Windows
 -----------------------------
@@ -185,5 +180,12 @@ We need to allow the ports CrateDB uses through the Windows Firewall
 
 Start crate by running ``bin/crate``.
 
-.. _latest: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery
+
 .. _3.3: https://crate.io/docs/crate/reference/en/3.3/config/cluster.html#discovery
+.. _download the CrateDB Tarball: https://crate.io/docs/crate/tutorials/en/latest/install-run/basic.html
+.. _find more details: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery-via-dns
+.. _Java JDK installed: https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html
+.. _latest: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery
+.. _Learn how to install here: https://docs.microsoft.com/en-us/cli/azure/install-azure-cli
+.. _the standard process for Linux installation:  https://crate.io/docs/crate/tutorials/en/latest/install-run/linux.html
+

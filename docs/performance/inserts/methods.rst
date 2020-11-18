@@ -279,6 +279,6 @@ throughput of your cluster with different setups and under different loads.
 .. _PostgreSQL wire protocol: https://crate.io/docs/crate/reference/en/latest/protocols/postgres.html
 .. _single inserts: https://crate.io/docs/crate/reference/sql/dml.html#inserting-data
 .. _SQL HTTP endpoint: https://crate.io/docs/crate/reference/protocols/http.html
-.. _the JDBC client: https://crate.io/docs/clients/jdbc/en/latest/
+.. _the JDBC client: https://crate.io/docs/jdbc/en/latest/
 .. _translog.durability: https://crate.io/docs/crate/reference/en/latest/sql/reference/create_table.html#translog-durability
 .. _UNNEST: https://crate.io/docs/crate/reference/en/latest/sql/table_functions.html#unnest-array-array

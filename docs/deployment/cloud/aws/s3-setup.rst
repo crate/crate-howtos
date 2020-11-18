@@ -99,9 +99,9 @@ within the policy:
      ]
   }
 
-.. _`Amazon S3`: http://aws.amazon.com/s3
-.. _`sign the requests`: http://docs.aws.amazon.com/general/latest/gr/signing_aws_api_requests.html
-.. _`IAM roles`: http://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html
-.. _`AWS guide`: http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html
-.. _`AWS principals`: http://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements.html#Principal
-.. _`AWS policy examples`: http://docs.aws.amazon.com/AmazonS3/latest/dev/example-bucket-policies.html
+.. _`Amazon S3`: https://aws.amazon.com/s3/
+.. _`sign the requests`: https://docs.aws.amazon.com/general/latest/gr/signing_aws_api_requests.html
+.. _`IAM roles`: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html
+.. _`AWS guide`: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html
+.. _`AWS principals`: https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html
+.. _`AWS policy examples`: https://docs.aws.amazon.com/AmazonS3/latest/dev/example-bucket-policies.html

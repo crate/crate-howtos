@@ -418,7 +418,7 @@ send debug logs to `STDERR`_ so that the container orchestrator handles the
 output.
 
 
-.. _Admin UI: https://crate.io/docs/crate/admin-ui/
+.. _Admin UI: https://crate.io/docs/crate/admin-ui/en/latest/
 .. _bin/crate: https://crate.io/docs/crate/reference/en/latest/cli-tools.html#crate
 .. _cluster.name: https://crate.io/docs/crate/reference/en/latest/config/node.html#cluster-name
 .. _configuration: https://crate.io/docs/crate/reference/en/latest/config/index.html

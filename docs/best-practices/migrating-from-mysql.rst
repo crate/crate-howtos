@@ -74,13 +74,12 @@ when read from the convert script later.
 Converting date/time types
 --------------------------
 
-The standard output for `date/time types in MySQL
-<http://dev.mysql.com/doc/refman/5.0/en/date-and-time-types.html>`_ is a
-string. However, CrateDB uses a ``long`` type to store timestamps (with
-millisecond precision). To prevent problems with dates that have timezone
-information, use MySQL's builtin ``UNIX_TIMESTAMP`` function to convert
-``date``, ``time``, ``datetime``, ``timestamp`` and ``year`` types into UNIX
-timestamps directly in the ``SELECT`` statement.
+The standard output for `date/time types in MySQL`_ is a string. However,
+CrateDB uses a ``long`` type to store timestamps (with millisecond precision).
+To prevent problems with dates that have timezone information, use MySQL's
+builtin ``UNIX_TIMESTAMP`` function to convert ``date``, ``time``,
+``datetime``, ``timestamp`` and ``year`` types into UNIX timestamps directly in
+the ``SELECT`` statement.
 
 The output of this function must be multiplied by ``1000`` (converting ``s`` to
 ``ms``) to obtain the correct ``long`` value that can be used for importing
@@ -137,8 +136,9 @@ For example:
 
 
 .. _COPY FROM: https://crate.io/docs/crate/reference/sql/reference/copy_from.html
-.. _CrateDB Python package: https://pypi.python.org/pypi/crate
-.. _CrateDB: https://crate.io
+.. _CrateDB Python package: https://pypi.org/project/crate/
+.. _CrateDB: https://crate.io/
 .. _csvkit: https://csvkit.readthedocs.io/en/540/index.html
 .. _csvsql: https://csvkit.readthedocs.io/en/540/scripts/csvsql.html
-.. _MySQL: http://mysql.com
+.. _date/time types in MySQL: https://dev.mysql.com/doc/refman/8.0/en/date-and-time-types.html
+.. _MySQL: https://www.mysql.com/

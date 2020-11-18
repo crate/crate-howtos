@@ -286,5 +286,5 @@ more possibilities to get diagnostic information using the ``jcmd`` command.
 You can find more information about the utility at the `jcmd documentation`_.
 
 
-.. _entrypoint: https://github.com/crate/docker-crate/blob/master/amd64/crate/docker-entrypoint.sh#L19-L22
+.. _entrypoint: https://github.com/crate/docker-crate/blob/master/docker-entrypoint.sh
 .. _jcmd documentation: https://docs.oracle.com/javase/8/docs/technotes/guides/troubleshoot/tooldescr006.html#BABEHABG

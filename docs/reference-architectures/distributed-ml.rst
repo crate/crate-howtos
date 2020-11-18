@@ -44,4 +44,4 @@ This architecture makes use of the following components and CrateDB integrations
 
 
 .. _Alertmanager: https://www.prometheus.io/docs/alerting/latest/alertmanager/
-.. _Prometheus: https://www.prometheus.io
+.. _Prometheus: https://prometheus.io/

@@ -35,4 +35,4 @@ massive amounts of machine data in real-time.
 
 
 .. _Tutorials: https://crate.io/docs/crate/tutorials/en/latest/
-.. _GitHub: https://github.com/crate/guide
+.. _GitHub: https://github.com/crate/crate-howtos

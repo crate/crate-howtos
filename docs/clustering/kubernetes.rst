@@ -203,17 +203,17 @@ Control`_.
     scale to handle a load spike quickly.
 
 
-.. _adjust this number carefully: https://crate.io/docs/crate/reference/en/latest/admin/system-information.html#minimum-master-nodes
+.. _adjust this number carefully: https://crate.io/docs/crate/reference/en/3.3/config/cluster.html#discovery-zen-minimum-master-nodes
 .. _containerization: https://www.docker.com/resources/what-container
-.. _CrateDB Admin UI: https://crate.io/docs/clients/admin-ui/en/latest/
+.. _CrateDB Admin UI: https://crate.io/docs/crate/admin-ui/en/latest/
 .. _CrateDB Docker image: https://hub.docker.com/_/crate/
 .. _deleted and recreated: https://kubernetes.io/docs/concepts/cluster-administration/manage-deployment/#disruptive-updates
-.. _discovery.zen.minimum_master_nodes: https://crate.io/docs/crate/reference/en/latest/admin/system-information.html#minimum-master-nodes
+.. _discovery.zen.minimum_master_nodes: https://crate.io/docs/crate/reference/en/3.3/config/cluster.html#discovery-zen-minimum-master-nodes
 .. _Docker: https://www.docker.com/
 .. _gateway.expected_nodes: https://crate.io/docs/crate/reference/en/latest/admin/system-information.html#recovery-expected-nodes
 .. _gateway.recover_after_nodes: https://crate.io/docs/crate/reference/en/latest/admin/system-information.html#recovery-after-nodes
-.. _horizontally scalable: https://en.wikipedia.org/wiki/Scalability#Horizontal_and_vertical_scaling
-.. _imperative command: https://kubernetes.io/docs/concepts/overview/object-management-kubectl/overview/#imperative-commands
+.. _horizontally scalable: https://en.wikipedia.org/wiki/Scalability#Horizontal_(scale_out)_and_vertical_scaling_(scale_up)
+.. _imperative command: https://kubernetes.io/docs/concepts/overview/working-with-objects/object-management/#imperative-commands
 .. _kubectl: https://kubernetes.io/docs/reference/kubectl/overview/
 .. _Kubernetes: https://kubernetes.io/
 .. _metadata master: https://crate.io/docs/crate/guide/en/latest/architecture/shared-nothing.html#cluster-state-management
@@ -221,7 +221,7 @@ Control`_.
 .. _namespace: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/
 .. _node check: https://crate.io/docs/crate/reference/en/latest/admin/system-information.html#description-of-checked-node-settings
 .. _persistent volumes: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
-.. _pods: https://kubernetes.io/docs/concepts/workloads/pods/pod/
+.. _pods: https://kubernetes.io/docs/concepts/workloads/pods/
 .. _rolling update strategy: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#rolling-updates
 .. _runtime configuration: https://crate.io/docs/crate/reference/en/latest/admin/runtime-config.html#administration-runtime-config
 .. _shared-nothing architecture : https://en.wikipedia.org/wiki/Shared-nothing_architecture

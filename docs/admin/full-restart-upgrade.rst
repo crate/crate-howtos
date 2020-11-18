@@ -63,6 +63,6 @@ Once the CrateDB software on node in the cluster has been updated, start the
 appropriate to your setup.
 
 .. _Arch Linux AUR package: https://aur.archlinux.org/packages/crate/
-.. _back up your data: https://crate.io/a/backing-up-and-restoring-crate/
+.. _back up your data: https://crate.io/docs/crate/reference/en/latest/admin/snapshots.html
 .. _install: https://crate.io/docs/install/local/linux/
 .. _release directory: https://cdn.crate.io/downloads/releases/
