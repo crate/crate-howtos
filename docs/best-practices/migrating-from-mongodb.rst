@@ -137,5 +137,5 @@ Continue reading there: :ref:`efficient_data_import`.
 .. _CREATE TABLE: https://crate.io/docs/crate/reference/sql/reference/create_table.html
 .. _Data Definition: https://crate.io/docs/crate/reference/sql/ddl/index.html
 .. _Indices and Fulltext Search: https://crate.io/docs/crate/reference/sql/ddl/indices_full_search.html
-.. _MongoDB Extended JSON: http://docs.mongodb.org/manual/reference/mongodb-extended-json/
+.. _MongoDB Extended JSON: https://docs.mongodb.com/manual/reference/mongodb-extended-json/
 .. _MongoDB migration tool: https://github.com/crate/mongodb-cratedb-migration-tool

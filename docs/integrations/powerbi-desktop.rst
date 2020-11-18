@@ -188,10 +188,9 @@ The pie chart will be updated automatically, and will produce the following:
 
 .. _business intelligence: https://en.wikipedia.org/wiki/Business_intelligence
 .. _World Economic Outlook survey: https://www.imf.org/en/Publications/WEO
-.. _A running and accessable CrateDB cluster: https://crate.io/docs/crate/tutorials/en/latest/getting-started/index.html
+.. _A running and accessable CrateDB cluster: https://crate.io/docs/crate/howtos/en/latest/deployment/index.html
 .. _Power BI Desktop: https://powerbi.microsoft.com/en-us/desktop/
 .. _PostgreSQL ODBC driver: https://odbc.postgresql.org/
 .. _downloads section: https://www.postgresql.org/ftp/odbc/versions/msi/
 .. _raw data: https://www.imf.org/external/pubs/ft/weo/2017/01/weodata/index.aspx
 .. _preprocessed archive: https://crate.io/wp-content/uploads/2018/11/copy_from_population_data.zip
-

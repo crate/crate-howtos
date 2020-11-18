@@ -172,10 +172,10 @@ your system, you can do a `basic tarball installation`_.
 
 
 .. _Apt: https://wiki.debian.org/Apt
-.. _basic tarball installation: https://crate.io/docs/crate/tutorials/en/latest/getting-started/install-run/basic.html
+.. _basic tarball installation: https://crate.io/docs/crate/tutorials/en/latest/install-run/basic.html
 .. _configuration files: https://crate.io/docs/crate/reference/en/latest/config/index.html
 .. _environment variables: https://crate.io/docs/crate/reference/en/latest/config/environment.html
-.. _first use: https://crate.io/docs/crate/getting-started/en/latest/first-use/index.html
+.. _first use: https://crate.io/docs/crate/tutorials/en/latest/first-use.html
 .. _Java virtual machine: https://en.wikipedia.org/wiki/Java_virtual_machine
 .. _OpenJDK: https://launchpad.net/~openjdk-r/+archive/ubuntu/ppa
 .. _release workflow: https://github.com/crate/crate/blob/master/devs/docs/release.rst

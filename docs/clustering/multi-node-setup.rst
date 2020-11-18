@@ -463,7 +463,7 @@ Edit the `transport.tcp.port`_ setting in your `configuration`_ file:
 
 .. _127.0.0.1:4200: http://127.0.0.1:4200/
 .. _127.0.0.1:4201: http://127.0.0.1:4201/
-.. _admin UI: https://crate.io/docs/crate/admin-ui/
+.. _admin UI: https://crate.io/docs/crate/admin-ui/en/latest/
 .. _Amazon EC2 API: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Welcome.html
 .. _Amazon EC2: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery-on-amazon-ec2
 .. _Azure Virtual Machine API: https://docs.microsoft.com/en-us/rest/api/compute/virtualmachines
@@ -471,7 +471,7 @@ Edit the `transport.tcp.port`_ setting in your `configuration`_ file:
 .. _bin/crate: https://crate.io/docs/crate/reference/en/latest/cli-tools.html#crate
 .. _cluster browser: https://crate.io/docs/crate/admin-ui/en/latest/cluster.html
 .. _cluster: https://crate.io/docs/crate/reference/en/latest/concepts/shared-nothing.html
-.. _cluster.initial_master_nodes: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#cluster_initial_master_nodes
+.. _cluster.initial_master_nodes: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#cluster-initial-master-nodes
 .. _cluster.name: https://crate.io/docs/crate/reference/en/latest/config/node.html#cluster-name
 .. _configuration: https://crate.io/docs/crate/reference/en/latest/config/index.html
 .. _CRATE_HOME: https://crate.io/docs/crate/reference/en/latest/config/environment.html#conf-env-crate-home
@@ -490,7 +490,7 @@ Edit the `transport.tcp.port`_ setting in your `configuration`_ file:
 .. _Microsoft Azure: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery-on-microsoft-azure
 .. _More information about port settings: https://crate.io/docs/crate/reference/en/latest/config/node.html#ports
 .. _network.publish_host: https://crate.io/docs/crate/reference/en/latest/config/node.html#network-publish-host
-.. _node.master: https://crate.io/docs/crate/reference/en/latest/config/node.html#node.master
+.. _node.master: https://crate.io/docs/crate/reference/en/latest/config/node.html#node-master
 .. _node.name: https://crate.io/docs/crate/reference/en/latest/config/node.html#node-name
 .. _quorum guide: https://crate.io/docs/crate/howtos/en/latest/architecture/shared-nothing.html#master-node-election
 .. _quorum size: https://crate.io/docs/crate/reference/en/latest/concepts/shared-nothing.html#master-node-election

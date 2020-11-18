@@ -53,10 +53,6 @@ Using ``none``, there is no data-availability guarantee. The node will stop,
 possibly leaving the cluster in the critical ``red`` state if the node
 contained a primary that has no replicas that can take over.
 
-.. CAUTION::
-
-   If you are upgrading from 0.54 to 0.55, please read the `accompanying
-   notes`_ for the 0.55 release.
 
 Requirements
 ============
@@ -279,11 +275,11 @@ again that have been disabled in the first step:
   cr> SET GLOBAL TRANSIENT "cluster.routing.allocation.enable" = 'all';
   SET OK, 1 row affected (... sec)
 
-.. _accompanying notes: https://crate.io/a/upgrade-your-cluster-to-0-55/
-.. _back up your data: https://crate.io/a/backing-up-and-restoring-crate/
-.. _versions: https://crate.io/docs/crate/reference/sql/system.html#version
-.. _release notes: https://crate.io/docs/crate/reference/release_notes/index.html
-.. _Signal Handling: https://crate.io/docs/crate/reference/cli.html#signal-handling
-.. _SET: https://crate.io/docs/crate/reference/sql/reference/set.html
-.. _Graceful Stop: https://crate.io/docs/crate/reference/configuration.html#graceful-stop
+
+.. _back up your data: https://crate.io/docs/crate/reference/en/latest/admin/snapshots.html
+.. _versions: https://crate.io/docs/crate/reference/en/latest/sql/system.html#version
+.. _release notes: https://crate.io/docs/crate/reference/en/latest/appendices/release-notes/index.html
+.. _Signal Handling: https://crate.io/docs/crate/reference/en/latest/cli-tools.html#signal-handling
+.. _SET: https://crate.io/docs/crate/reference/en/latest/sql/statements/set.html
+.. _Graceful Stop: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#graceful-stop
 .. _Decommission Statement: https://crate.io/docs/crate/reference/en/latest/sql/statements/alter-cluster.html#decommission-nodeid-nodename

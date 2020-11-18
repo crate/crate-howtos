@@ -8,8 +8,6 @@ CrateDB maintains the official RPM repositories for:
 
 - `Red Hat Linux 7`_
 
-.. _Red Hat Linux 7: https://www.redhat.com/en/resources/whats-new-red-hat-enterprise-linux-7
-
 Both of these work with RedHat Enterprise Linux, CentOS, and Scientific Linux.
 
 .. rubric:: Table of contents
@@ -52,8 +50,6 @@ should select which one you wish to use.
 By default, `YUM`_ (Red Hat's package manager) will use the stable repository.
 This is because the testing repository's configuration marks it as disabled.
 
-.. _YUM: https://access.redhat.com/solutions/9934
-
 If you would like to enable to testing repository, open the ``crate.repo`` file
 and set ``enabled=1`` under the ``[crate-testing]`` section.
 
@@ -93,8 +89,6 @@ You should be able to access it by visiting::
 
    If you're new to CrateDB, check out our our `first use`_ documentation.
 
-.. _first use: https://crate.io/docs/crate/getting-started/en/latest/first-use/index.html
-
 .. CAUTION::
 
     Be sure to read the guide to :ref:`rolling upgrades <rolling_upgrade>` and
@@ -118,8 +112,6 @@ Environment
 
 The CrateDB startup script `sources`_ environment variables from the
 ``/etc/sysconfig/crate`` file.
-
-.. _sources: https://en.wikipedia.org/wiki/Source_(command)
 
 You can use this mechanism to configure CrateDB.
 
@@ -156,4 +148,8 @@ If you want to deviate from the way that the ``crate`` package integrates with
 your system, we recommend that you go with a `basic tarball installation`_.
 
 
-.. _basic tarball installation: https://crate.io/docs/crate/getting-started/en/latest/install-run/basic.html
+.. _basic tarball installation: https://crate.io/docs/crate/tutorials/en/latest/install-run/basic.html
+.. _first use: https://crate.io/docs/crate/tutorials/en/latest/first-use.html
+.. _Red Hat Linux 7: https://www.redhat.com/en/resources/whats-new-red-hat-enterprise-linux-7
+.. _sources: https://en.wikipedia.org/wiki/Source_(command)
+.. _YUM: https://access.redhat.com/solutions/9934

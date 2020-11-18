@@ -197,11 +197,11 @@ updated periodically.
 
 .. _Power BI service: https://powerbi.microsoft.com/en-us/
 .. _World Economic Outlook survey: https://www.imf.org/en/Publications/WEO
-.. _A running and accessable CrateDB cluster: https://crate.io/docs/crate/tutorials/en/latest/getting-started/index.html
+.. _A running and accessable CrateDB cluster: https://crate.io/docs/crate/howtos/en/latest/deployment/index.html
 .. _Power BI Desktop: https://powerbi.microsoft.com/en-us/desktop/
 .. _Microsoft Work/School account: https://support.microsoft.com/en-ca/help/4013943/sign-in-using-work-or-school-account
 .. _Power BI Pro/Trial account: https://app.powerbi.com/signupredirect?pbi_source=web
 .. _On-Premises Data Gateway: https://docs.microsoft.com/en-us/power-bi/connect-data/service-gateway-onprem
 .. _install: https://docs.microsoft.com/en-us/data-integration/gateway/service-gateway-install
 .. _configure: https://docs.microsoft.com/en-us/data-integration/gateway/service-gateway-app
-.. _refresh the datasets: https://docs.microsoft.com/en-us/power-bi/refresh-data
+.. _refresh the datasets: https://docs.microsoft.com/en-us/power-bi/connect-data/refresh-data

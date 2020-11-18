@@ -300,4 +300,4 @@ to restore. Suppose you make nightly backups, the command::
 shows you last week's snapshots along with their name, the stored indices, and
 how long they took.
 
-.. _`reference documentation about system tables`: https://crate.io/docs/crate/reference/sql/system.html#Allocations
+.. _reference documentation about system tables: https://crate.io/docs/crate/reference/en/latest/admin/system-information.html#allocations

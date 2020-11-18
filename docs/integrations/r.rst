@@ -360,7 +360,7 @@ CrateDB.
 .. _R: https://www.r-project.org/
 .. _RPostgreSQL: https://cran.r-project.org/web/packages/RPostgreSQL/index.html
 .. _iris classification problem: https://en.wikipedia.org/wiki/Iris_flower_data_set
-.. _A running CrateDB cluster: https://crate.io/docs/crate/tutorials/en/latest/getting-started/index.html
+.. _A running CrateDB cluster: https://crate.io/docs/crate/howtos/en/latest/deployment/index.html
 .. _RStudio: https://rstudio.com/
 .. _caret: https://cran.r-project.org/web/packages/caret/index.html
 .. _Linear Discriminant Analysis: https://en.wikipedia.org/wiki/Linear_discriminant_analysis

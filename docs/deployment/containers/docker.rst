@@ -493,21 +493,21 @@ example::
 .. _Bootstrap Checks: https://crate.io/docs/crate/howtos/en/latest/admin/bootstrap-checks.html
 .. _compose file version: https://docs.docker.com/compose/compose-file/compose-versioning/
 .. _containerization: https://www.docker.com/resources/what-container
-.. _CRATE_HEAP_SIZE: https://crate.io/docs/crate/reference/configuration.html#crate-heap-size
+.. _CRATE_HEAP_SIZE: https://crate.io/docs/crate/reference/en/latest/config/environment.html#conf-env-heap-size
 .. _CrateDB Docker image: https://hub.docker.com/_/crate/
 .. _default bridge network: https://docs.docker.com/network/#network-drivers
-.. _Discovery: https://crate.io/docs/crate/reference/configuration.html#discovery
+.. _Discovery: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery
 .. _Docker Stack YAML file: https://docs.docker.com/docker-cloud/apps/stack-yaml-reference/
 .. _Docker Swarm: https://docs.docker.com/engine/swarm/
 .. _Docker volume: https://docs.docker.com/engine/tutorials/dockervolumes/
 .. _Docker: https://www.docker.com/
 .. _going into production: https://crate.io/docs/crate/howtos/en/latest/going-into-production.html
 .. _healthcheck: https://docs.docker.com/engine/reference/builder/#healthcheck
-.. _horizontally scalable: https://en.wikipedia.org/wiki/Scalability#Horizontal_and_vertical_scaling
-.. _Metadata Gateway: https://crate.io/docs/crate/reference/configuration.html#metadata-gateway
-.. _running Docker locally: https://crate.io/docs/install/containers/docker/
-.. _set the maximum memory: https://docs.docker.com/engine/admin/resource_constraints/#memory
-.. _set the maximum number of CPUs: https://docs.docker.com/engine/admin/resource_constraints/#cpu
+.. _horizontally scalable: https://en.wikipedia.org/wiki/Scalability#Horizontal_(scale_out)_and_vertical_scaling_(scale_up)
+.. _Metadata Gateway: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#metadata-gateway
+.. _running Docker locally: https://crate.io/docs/crate/tutorials/en/latest/install-run/docker.html
+.. _set the maximum memory: https://docs.docker.com/config/containers/resource_constraints/#memory
+.. _set the maximum number of CPUs: https://docs.docker.com/config/containers/resource_constraints/#cpu
 .. _shared-nothing architecture : https://en.wikipedia.org/wiki/Shared-nothing_architecture
-.. _spinning up your first CrateDB instance: https://crate.io/docs/crate/getting-started/en/latest/install/containers/docker.html
-.. _user-defined network: https://docs.docker.com/engine/userguide/networking/#user-defined-networks
+.. _spinning up your first CrateDB instance: https://crate.io/docs/crate/tutorials/en/latest/install-run/docker.html
+.. _user-defined network: https://docs.docker.com/network/bridge/

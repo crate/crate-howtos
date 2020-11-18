@@ -390,9 +390,9 @@ You can then use this in your controller configuration with something like this:
 .. _CrateDB Docker image: https://hub.docker.com/_/crate/
 .. _Docker: https://www.docker.com/
 .. _familiarity with Kubernetes: https://kubernetes.io/docs/tutorials/kubernetes-basics/
-.. _horizontally scalable: https://en.wikipedia.org/wiki/Scalability#Horizontal_and_vertical_scaling
+.. _horizontally scalable: https://en.wikipedia.org/wiki/Scalability#Horizontal_(scale_out)_and_vertical_scaling_(scale_up)
 .. _Ingress: https://kubernetes.io/docs/concepts/services-networking/ingress/
-.. _kubeadm: https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/
+.. _kubeadm: https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/
 .. _Kubernetes: https://kubernetes.io/
 .. _LoadBalancer: https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer
 .. _managed: https://kubernetes.io/docs/concepts/cluster-administration/manage-deployment/
@@ -400,7 +400,7 @@ You can then use this in your controller configuration with something like this:
 .. _node discovery via DNS: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery-via-dns
 .. _persistent volume: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
 .. _persistent volumes: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
-.. _pod: https://kubernetes.io/docs/concepts/workloads/pods/pod/
+.. _pod: https://kubernetes.io/docs/concepts/workloads/pods/
 .. _rolling update strategy: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#rolling-updates
 .. _service: https://kubernetes.io/docs/concepts/services-networking/service/
 .. _services: https://kubernetes.io/docs/concepts/services-networking/service/

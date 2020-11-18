@@ -26,8 +26,6 @@ the CrateDB Debian package.
    If you're just getting started with CrateDB, we also provide a `one-step
    Linux installer`_ .
 
-.. _one-step Linux installer: https://crate.io/docs/crate/getting-started/en/latest/install-run/special/linux.html
-
 .. rubric:: Table of contents
 
 .. contents::
@@ -39,8 +37,6 @@ Configure Apt
 
 Firstly, you will need to upgrade `Apt`_ (the Debian package manager) with HTTPS
 support, like so:
-
-.. _Apt: https://wiki.debian.org/Apt
 
 .. code-block:: sh
 
@@ -111,8 +107,6 @@ You should be able to access it by visiting::
 .. SEEALSO::
 
    If you're new to CrateDB, check out our our `first use`_ documentation.
-
-.. _first use: https://crate.io/docs/crate/getting-started/en/latest/first-use/index.html
 
 
 Controlling CrateDB
@@ -185,12 +179,14 @@ If you want to deviate from the way that the ``crate`` package integrates with
 your system, we recommend that you go with a `basic tarball installation`_.
 
 
-.. _basic tarball installation: https://crate.io/docs/crate/getting-started/en/latest/install-run/basic.html
+.. _Apt: https://wiki.debian.org/Apt
+.. _basic tarball installation: https://crate.io/docs/crate/tutorials/en/latest/install-run/basic.html
 .. _Buster: https://www.debian.org/releases/buster/
 .. _configuration files: https://crate.io/docs/crate/reference/en/latest/config/index.html
 .. _environment variables: https://crate.io/docs/crate/reference/en/latest/config/environment.html
+.. _first use: https://crate.io/docs/crate/tutorials/en/latest/first-use.html
 .. _Jessie: https://www.debian.org/releases/jessie/
+.. _one-step Linux installer: https://crate.io/docs/crate/tutorials/en/latest/install-run/linux.html
 .. _sources: https://en.wikipedia.org/wiki/Source_(command)
 .. _Stretch: https://www.debian.org/releases/stretch/
 .. _Wheezy: https://www.debian.org/releases/wheezy/
-

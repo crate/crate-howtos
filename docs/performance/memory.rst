@@ -112,10 +112,10 @@ like so:
 .. _Compressed Oops: https://wiki.openjdk.java.net/display/HotSpot/CompressedOops
 .. _configuration: https://crate.io/docs/crate/reference/en/latest/config/index.html
 .. _configurations: https://crate.io/docs/crate/reference/en/latest/config/index.html
-.. _CRATE_HEAP_SIZE: https://crate.io/docs/crate/reference/en/latest/config/environment.html#crate-heap-size
+.. _CRATE_HEAP_SIZE: https://crate.io/docs/crate/reference/en/latest/config/environment.html#conf-env-heap-size
 .. _G1GC: https://docs.oracle.com/javase/9/gctuning/garbage-first-garbage-collector.htm#JSGCT-GUID-0394E76A-1A8F-425E-A0D0-B48A3DC82B42
 .. _Garbage Collection: https://en.wikipedia.org/wiki/Garbage_collection_(computer_science)
-.. _HotSpot Java Virtual Machine: http://www.oracle.com/technetwork/java/javase/tech/index-jsp-136373.html
+.. _HotSpot Java Virtual Machine: https://www.oracle.com/java/technologies/javase/javase-core-technologies-apis.html
 .. _Lucene: https://lucene.apache.org/
 .. _Memory mapped files: https://en.wikipedia.org/wiki/Memory-mapped_file
 .. _x64 architectures: https://en.wikipedia.org/wiki/X86-64
