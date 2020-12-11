@@ -6,6 +6,13 @@ Testing inserts performance
 
 The easiest way to test inserts performance is with the `cr8`_ tool.
 
+.. NOTE::
+
+    The `cr8`_ tool is not maintained by Crate.IO.
+
+    The `clients and tools`_ section has more information about the maintenance
+    status of various CrateDB-related software.
+
 Inserts generally scale linearly with cluster size, so it's a good idea start
 by testing insert performance on a single node.
 
@@ -139,3 +146,4 @@ understand the performance profile of your setup.
 
 .. _COPY TO: https://crate.io/docs/crate/reference/en/latest/sql/reference/copy_to.html
 .. _cr8: https://github.com/mfussenegger/cr8/
+.. _clients and tools: https://crate.io/docs/crate/clients-tools/en/latest/
