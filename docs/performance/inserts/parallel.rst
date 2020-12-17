@@ -116,7 +116,7 @@ throughput of your cluster with different setups and under different loads.
 .. _Connection: https://docs.oracle.com/javase/8/docs/api/java/sql/Connection.html
 .. _DataSource: https://docs.oracle.com/javase/8/docs/api/javax/sql/DataSource.html
 .. _Executor: https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Executor.html
-.. _HAProxy: http://www.haproxy.org/
+.. _HAProxy: https://www.haproxy.org/
 .. _HikariCP: https://github.com/brettwooldridge/HikariCP
 .. _JDBC client: https://crate.io/docs/clients/jdbc/en/latest/
 .. _PHP PDO client: https://crate.io/docs/clients/pdo/en/latest/
