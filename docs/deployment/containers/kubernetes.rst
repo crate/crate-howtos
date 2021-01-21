@@ -291,6 +291,10 @@ CrateDB 3.0.5 cluster:
               value: "3"
             - name: CLUSTER_NAME
               value: "my-crate"
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
             - name: NAMESPACE
               valueFrom:
                 fieldRef:
