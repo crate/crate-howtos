@@ -418,6 +418,16 @@ send debug logs to `STDERR`_ so that the container orchestrator handles the
 output.
 
 
+.. _prod-wire-encryption:
+
+Configure wire encryption
+=========================
+
+For security reasons, most production clusters should use wire encryption for
+network traffic between nodes and clients. Check out the reference manual on
+`secured communications`_ for more information.
+
+
 .. _Admin UI: https://crate.io/docs/crate/admin-ui/en/latest/
 .. _bin/crate: https://crate.io/docs/crate/reference/en/latest/cli-tools.html#crate
 .. _cluster.name: https://crate.io/docs/crate/reference/en/latest/config/node.html#cluster-name
@@ -444,6 +454,7 @@ output.
 .. _path.data: https://crate.io/docs/crate/reference/en/latest/config/node.html#path-data
 .. _RAID 0: https://en.wikipedia.org/wiki/Standard_RAID_levels#RAID_0
 .. _runtime: https://crate.io/docs/crate/reference/en/latest/admin/runtime-config.html#administration-runtime-config
+.. _secured communications: https://crate.io/docs/crate/reference/en/latest/admin/ssl.html
 .. _STDERR: https://en.wikipedia.org/wiki/Standard_streams
 .. _sys.summits: https://crate.io/docs/crate/reference/en/latest/admin/system-information.html#summits
 .. _systemd: https://github.com/systemd/systemd
