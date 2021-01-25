@@ -317,22 +317,39 @@ directories off to a persistent location. You can do this using the
 
     `Path settings`_
 
-For example, if you are running CrateDB on a `Unix-like`_ operating system, the
-`Filesystem Hierarchy Standard`_ (FHS) recommends the ``/srv`` directory as the
-root for site-specific data.
+If you are following the `shared-nothing`_ approach to deployment, the best way
+to handle persistent data is to keep it on an external volume. This allows you
+to persist data beyond the lifespan of an individual virtual machine or
+container.
 
-With this in mind, if you are installing CrateDB by hand, a good value for
-`CRATE_HOME`_ on a Unix-like system might be ``/srv/crate``. Make sure to set
-`CRATE_HOME` before running `bin/crate`_.
+.. CAUTION::
+
+    This is required if you are using Docker, which is stateless by design.
+    Failing to persist data to a mounted volume will result in data loss when
+    the container is stopped.
+
+.. TIP::
+
+    Using an external volume for persistence also allows you to optimize the
+    underlying storage mechanism for performance.
+
+    You should take care to size your data storage volumes according to your
+    needs. You should also use storage with high `IOPS`_ when possible to
+    improve CrateDB performance.
+
+On a Unix-like system, you might mount an external volume to a path like
+``/var/lib/crate``. If you are installing CrateDB by hand, you can then set
+`CRATE_HOME`_ to ``/var/lib/crate``. Make sure to set ``CRATE_HOME`` before
+running `bin/crate`_.
 
 Then, you could configure your data paths like this:
 
 .. code-block:: yaml
 
-    path.conf: /srv/crate/config
-    path.data: /srv/crate/data
-    path.logs: /srv/crate/logs
-    path.repo: /srv/crate/snapshots
+    path.conf: /var/lib/crate/config
+    path.data: /var/lib/crate/data
+    path.logs: /var/lib/crate/logs
+    path.repo: /var/lib/crate/snapshots
 
 .. NOTE::
 
@@ -345,32 +362,6 @@ Then, you could configure your data paths like this:
     .. code-block:: console
 
         sh$ systemctl cat crate
-
-    System packages use of system-level directories instead of the
-    ``/srv`` directory, which the FHS reserves for use by the local system
-    administrator.
-
-    This setup is fine for production clusters. However, because the ``data``
-    directory holds table data and cluster metadata, you may want to configure
-    `path.data`_ to point to a mounted volume, giving you the option to
-    optimize the underlying storage mechanism for performance. For example:
-
-    .. code-block:: yaml
-
-        path.data: /srv/crate/data
-
-    In this example, you can configure ``/srv/crate`` as a mount point.
-
-.. TIP::
-
-    You should take care size your data storage volumes according to your
-    needs. You should also use storage with high `IOPS`_ when possible to
-    improve CrateDB performance.
-
-.. WARNING::
-
-    Docker containers are stateless by design. You should configure all data
-    paths to point to a mounted volume to avoid data loss.
 
 
 .. _prod-jvm:
@@ -455,6 +446,7 @@ network traffic between nodes and clients. Check out the reference manual on
 .. _RAID 0: https://en.wikipedia.org/wiki/Standard_RAID_levels#RAID_0
 .. _runtime: https://crate.io/docs/crate/reference/en/latest/admin/runtime-config.html#administration-runtime-config
 .. _secured communications: https://crate.io/docs/crate/reference/en/latest/admin/ssl.html
+.. _shared-nothing: https://en.wikipedia.org/wiki/Shared-nothing_architecture
 .. _STDERR: https://en.wikipedia.org/wiki/Standard_streams
 .. _sys.summits: https://crate.io/docs/crate/reference/en/latest/admin/system-information.html#summits
 .. _systemd: https://github.com/systemd/systemd
