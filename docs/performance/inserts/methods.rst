@@ -14,6 +14,7 @@ Choosing the best insert method is an easy way to improve insert performance.
 .. contents::
    :local:
 
+
 .. _insert_statement_types:
 
 Statement types
@@ -28,6 +29,7 @@ The three types of insert statements are:
 Each type of statement can be issued using any of the three types of
 :ref:`client approaches <inserts_client_approaches>`, which we cover in
 the next section.
+
 
 .. _inserts_single_inserts:
 
@@ -62,6 +64,7 @@ insert workloads.
 In addition, lots of internal traffic will congest your network, which will
 slow down any network-based cluster operations (i.e. inserts, distributed
 reads, replication, and cluster management).
+
 
 .. _inserts_unnest:
 
@@ -123,6 +126,16 @@ For example, using the CrateDB Python client, the following is possible:
 Here, you can vary the number of rows being inserted without having to change
 the prepared statement.
 
+.. WARNING::
+
+    When inserting using ``UNNEST``, CrateDB may drop rows that produce errors
+    without returning an error message. This happens when the ``SELECT`` using
+    ``UNNEST`` affects rows with invalid column names, or with data types that
+    are not internally consistent. This behavior can produce inconsistencies
+    and unexpected results. Refer to the `UNNEST reference documentation`_ for
+    more detail.
+
+
 .. _inserts_multiple_values:
 
 Multiple value expressions
@@ -150,6 +163,7 @@ Query string parameter substitution is recommended over string concatenation,
 and so the ``UNNEST`` method is recommended over the multiple value expressions
 method.
 
+
 .. _inserts_client_approaches:
 
 Client approaches
@@ -163,6 +177,7 @@ The three client approaches for doing inserts are:
 
 Each client approach can be used to insert :ref:`any type of insert statement
 <insert_statement_types>`.
+
 
 .. _inserts_standard_querying:
 
@@ -179,6 +194,7 @@ For example, using the CrateDB Python client, here's a :ref:`single insert
 .. code-block:: python
 
    client.execute("INSERT INTO my_table (column_a) VALUES (?)", ["value 1"])
+
 
 .. _inserts_bulk_operations:
 
@@ -206,6 +222,7 @@ with ``UNNEST`` statements or statements with :ref:`multiple value expressions
 
 Bulk operations are typically done with :ref:`single insert statements
 <inserts_single_inserts>` as an alternative to the ``UNNEST`` method.
+
 
 .. _inserts_prepared_statements:
 
@@ -250,6 +267,7 @@ should be comparable to standard querying with both the :ref:`UNNEST
 method<inserts_unnest>` and :ref:`multiple value expressions
 <inserts_multiple_values>`.
 
+
 Testing
 =======
 
@@ -271,6 +289,7 @@ Try out different setups and re-run the test.
 At the end of this process, you will have a better understanding of the
 throughput of your cluster with different setups and under different loads.
 
+
 .. _addBatch: https://docs.oracle.com/javase/7/docs/api/java/sql/Statement.html#addBatch(java.lang.String)
 .. _benchmarking: https://crate.io/a/insert-boost-on-replicas/
 .. _bulk operations: https://crate.io/docs/crate/reference/protocols/http.html#bulk-operations
@@ -282,3 +301,4 @@ throughput of your cluster with different setups and under different loads.
 .. _the JDBC client: https://crate.io/docs/jdbc/en/latest/
 .. _translog.durability: https://crate.io/docs/crate/reference/en/latest/sql/reference/create_table.html#translog-durability
 .. _UNNEST: https://crate.io/docs/crate/reference/en/latest/sql/table_functions.html#unnest-array-array
+.. _UNNEST reference documentation: https://crate.io/docs/crate/reference/en/4.3/sql/statements/insert.html?highlight=unnest#insert-from-dynamic-queries-constraints
