@@ -338,26 +338,41 @@ container.
     improve CrateDB performance.
 
 On a Unix-like system, you might mount an external volume to a path like
-``/var/lib/crate``. If you are installing CrateDB by hand, you can then set
-`CRATE_HOME`_ to ``/var/lib/crate``. Make sure to set ``CRATE_HOME`` before
+``/opt/cratedb``. If you are installing CrateDB by hand, you can then set
+`CRATE_HOME`_ to ``/opt/cratedb``. Make sure to set ``CRATE_HOME`` before
 running `bin/crate`_.
 
-Then, you could configure your data paths like this:
+Then, you could configure your `data paths`_ like this:
 
 .. code-block:: yaml
 
-    path.conf: /var/lib/crate/config
-    path.data: /var/lib/crate/data
-    path.logs: /var/lib/crate/logs
-    path.repo: /var/lib/crate/snapshots
+    path.conf: /opt/cratedb/config
+    path.data: /opt/cratedb/data
+    path.logs: /opt/cratedb/logs
+    path.repo: /opt/cratedb/snapshots
+
+Here, the values given for ``path.conf``, ``path.data``, and ``path.logs``
+reflect the default paths when ``CRATE_HOME`` is set to ``/opt/cratedb``. The
+example above configures them for illustrative purposes. You do not have to
+configure these settings if you are happy with the defaults.
 
 .. NOTE::
 
+    Normally, configuration files, data files, log files, and so on would be
+    kept under specialized directories such as ``/etc``, ``/var/lib``, and
+    ``/var/log`` (see the `Linux Filesystem Hierarchy`_ for more information).
+
+    However, if you want to customize your installation to make use of a single
+    external volume, it is necessary to bring these directories together under
+    a single mount point. You can do this by relocating all data directories
+    under your mount point (``/opt/cratedb`` in the example above). Other
+    approaches are possible (for example, using `symbolic links`_).
+
     If you have installed CrateDB using a system package for :ref:`Debian
     <debian>`, :ref:`Ubuntu <ubuntu>`, or :ref:`Red Hat <red-hat>`, the
-    `CRATE_HOME`_ variable (as well as some other data paths) are configured
-    for by the `systemd`_ *service* file. You can view the ``crate`` service
-    file, like so:
+    `CRATE_HOME`_ variable (as well as some data paths) are configured for by
+    the `systemd`_ *service file*. You can view the ``crate`` service file,
+    like so:
 
     .. code-block:: console
 
@@ -428,6 +443,7 @@ network traffic between nodes and clients. Check out the reference manual on
 .. _CRATE_HEAP_SIZE: https://crate.io/docs/crate/reference/en/latest/config/environment.html#crate-heap-size
 .. _CRATE_HOME: https://crate.io/docs/crate/reference/en/latest/config/environment.html#conf-env-crate-home
 .. _CRATE_JAVA_OPTS: https://crate.io/docs/crate/reference/en/latest/config/environment.html?#conf-env-java-opts
+.. _data paths: https://crate.io/docs/crate/reference/en/4.4/config/node.html#paths
 .. _discovery: https://crate.io/docs/crate/reference/en/latest/concepts/shared-nothing.html#discovery
 .. _elect a master node: https://crate.io/docs/crate/reference/en/latest/concepts/shared-nothing.html#master-node-election
 .. _Filesystem Hierarchy Standard: https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard
@@ -436,6 +452,7 @@ network traffic between nodes and clients. Check out the reference manual on
 .. _IOPS: https://en.wikipedia.org/wiki/IOPS
 .. _JVM environment variables: https://crate.io/docs/crate/reference/en/latest/config/environment.html#jvm-variables
 .. _limits: https://crate.io/docs/crate/howtos/en/latest/performance/memory.html#limits
+.. _Linux Filesystem Hierarchy: https://tldp.org/LDP/Linux-Filesystem-Hierarchy/html/index.html
 .. _localhost: https://en.wikipedia.org/wiki/Localhost
 .. _logging: https://crate.io/docs/crate/reference/en/latest/config/logging.html
 .. _multiple types of node: https://crate.io/docs/crate/reference/en/latest/config/node.html#node-types
@@ -448,6 +465,7 @@ network traffic between nodes and clients. Check out the reference manual on
 .. _secured communications: https://crate.io/docs/crate/reference/en/latest/admin/ssl.html
 .. _shared-nothing: https://en.wikipedia.org/wiki/Shared-nothing_architecture
 .. _STDERR: https://en.wikipedia.org/wiki/Standard_streams
+.. _symbolic links: https://en.wikipedia.org/wiki/Symbolic_link
 .. _sys.summits: https://crate.io/docs/crate/reference/en/latest/admin/system-information.html#summits
 .. _systemd: https://github.com/systemd/systemd
 .. _timeout settings: https://crate.io/docs/crate/reference/en/latest/config/node.html?#garbage-collection
