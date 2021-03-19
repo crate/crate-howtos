@@ -45,7 +45,7 @@ Prerequisites
   collector.
 
 To install the CrateDB JDBC driver, download the latest standalone version
-from Crate.io's `Bintray Repository`_. Once downloaded, the JDBC driver can be
+from Crate.io's `Maven Repository`_. Once downloaded, the JDBC driver can be
 installed for StreamSets. We recommend following the StreamSet's tutorial on
 installing `external libraries`_, but you can also include the CrateDB JDBC
 driver JAR file in the StreamSet's classpath if you wish to provide it that
@@ -151,7 +151,7 @@ You can verify that the data is now in CrateDB:
 
 .. _A running and accessable CrateDB cluster: https://crate.io/docs/crate/howtos/en/latest/deployment/index.html
 .. _A running and accessable StreamSets Data Collector: https://streamsets.com/products/dataops-platform/data-collector/
-.. _Bintray Repository: https://bintray.com/crate/crate/crate-jdbc/view/files/io/crate/crate-jdbc-standalone/
+.. _Maven Repository: https://repo1.maven.org/maven2/io/crate/crate-jdbc-standalone/
 .. _CrateDB JDBC driver: https://crate.io/docs/jdbc/en/latest/
 .. _external libraries: https://streamsets.com/documentation/datacollector/latest/help/datacollector/UserGuide/Configuration/ExternalLibs.html
 .. _New York taxi dataset: https://streamsets.com/documentation/datacollector/latest/help/datacollector/UserGuide/Tutorial/BeforeYouBegin.html?hl=nyc_taxi_data/
