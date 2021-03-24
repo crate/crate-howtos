@@ -13,9 +13,9 @@ CrateDB `calculates the shard ID`_ for every row to be inserted when executing
 the operation. Insert requests are then grouped and sent to the nodes that hold
 each primary shard.
 
-There are a number of different ways to reduce the processing overhead of these
-steps. Either by eliminating needless repetition of steps, or by reducing the
-work needed to be done by one of the steps.
+You can reduce the processing overhead by either eliminating the needless
+repetition of some steps or by reducing the work needed to be done by one or
+more steps.
 
 This section of the guide will show you how.
 

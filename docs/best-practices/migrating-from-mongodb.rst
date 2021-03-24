@@ -131,8 +131,9 @@ This can be useful for collections with complex or heavily-nested schemas.
 After the table has been created the file can be imported using
 `COPY FROM`_.
 
-There is an entire section dedicated on how to do a data import efficiently.
-Continue reading there: :ref:`bulk-inserts`.
+.. SEEALSO::
+
+    :ref:`bulk-inserts`
 
 
 .. _COPY FROM: https://crate.io/docs/crate/reference/sql/reference/copy_from.html

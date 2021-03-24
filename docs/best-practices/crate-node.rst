@@ -56,8 +56,8 @@ To repurpose a node, first of all, you must stop the node.
 Then, update the settings `node.data`_ and `node.master`_ in the ``crate.yml``
 `configuration file`_ as needed.
 
-There are four combinations of ``node.data`` and ``node.master`` configuration
-settings, each corresponding to a different type of node:
+The ``node.data`` and ``node.master`` settings can be configured in four
+different ways, each corresponding to a different type of node:
 
 +-------------------+------------------------+-----------------------------+
 | Role              | Configuration          | After repurposing           |
