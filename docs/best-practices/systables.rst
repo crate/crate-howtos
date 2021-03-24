@@ -226,9 +226,12 @@ the **_node** system column that is available for this table. As an example::
     +-------------------...+------------...+----------+
     SELECT ... in set (... sec)
 
-lists the hosts and tables with the highest number of rows inside a single
-shard. There's a lot of additional information available for shards. To find
-out more about them, see our :ref:`documentation <import_shards_replicas>`.
+This query lists the hosts and tables with the highest number of rows inside a
+single shard.
+
+.. SEEALSO::
+
+    :ref:`Bulk import: Shards and replicas <bulk-shards-replicas>`
 
 
 Step 5: Analyze allocation problems

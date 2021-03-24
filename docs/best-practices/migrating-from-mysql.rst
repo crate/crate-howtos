@@ -1,6 +1,6 @@
 .. highlight:: psql
 
-.. _migrating_from_mysql:
+.. _migrating-mysql:
 
 ====================
 Migrating from MySQL
@@ -112,7 +112,7 @@ For more in-depth documentation on ``COPY FROM``, see `COPY FROM`_.
 
 .. SEEALSO::
 
-   Read :ref:`efficient_data_import` for more information how to import huge
+   Read :ref:`bulk-inserts` for more information how to import huge
    datasets into CrateDB.
 
 

@@ -1,4 +1,4 @@
-.. _insert_methods:
+.. _insert-methods:
 
 ==============
 Insert methods
@@ -201,7 +201,7 @@ For example, using the CrateDB Python client, here's a :ref:`single insert
 Bulk operations
 ---------------
 
-You can use the `bulk operations`_ feature of the CrateDB HTTP endpoint to
+You can use the `bulk operations`_ feature of the `CrateDB HTTP endpoint`_ to
 perform many inserts in a single operation.
 
 The advantages are the same as using the :ref:`UNNEST method<inserts_unnest>`:
@@ -222,6 +222,10 @@ with ``UNNEST`` statements or statements with :ref:`multiple value expressions
 
 Bulk operations are typically done with :ref:`single insert statements
 <inserts_single_inserts>` as an alternative to the ``UNNEST`` method.
+
+.. SEEALSO::
+
+    :ref:`Performance: Bulk inserts <bulk-inserts>`
 
 
 .. _inserts_prepared_statements:
@@ -294,11 +298,12 @@ throughput of your cluster with different setups and under different loads.
 .. _benchmarking: https://crate.io/a/insert-boost-on-replicas/
 .. _bulk operations: https://crate.io/docs/crate/reference/protocols/http.html#bulk-operations
 .. _cr8: https://github.com/mfussenegger/cr8/
+.. _CrateDB HTTP endpoint: https://crate.io/docs/crate/reference/en/latest/interfaces/http.html
 .. _executeBatch: https://docs.oracle.com/javase/7/docs/api/java/sql/Statement.html#executeBatch()
 .. _PostgreSQL wire protocol: https://crate.io/docs/crate/reference/en/latest/protocols/postgres.html
 .. _single inserts: https://crate.io/docs/crate/reference/sql/dml.html#inserting-data
 .. _SQL HTTP endpoint: https://crate.io/docs/crate/reference/protocols/http.html
 .. _the JDBC client: https://crate.io/docs/jdbc/en/latest/
 .. _translog.durability: https://crate.io/docs/crate/reference/en/latest/sql/reference/create_table.html#translog-durability
-.. _UNNEST: https://crate.io/docs/crate/reference/en/latest/sql/table_functions.html#unnest-array-array
 .. _UNNEST reference documentation: https://crate.io/docs/crate/reference/en/4.3/sql/statements/insert.html?highlight=unnest#insert-from-dynamic-queries-constraints
+.. _UNNEST: https://crate.io/docs/crate/reference/en/latest/sql/table_functions.html#unnest-array-array
