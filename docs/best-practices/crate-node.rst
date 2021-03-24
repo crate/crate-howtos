@@ -310,7 +310,7 @@ When the node is started again, it will be able to join a new cluster.
 .. _discovery configuration: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery
 .. _node.data: https://crate.io/docs/crate/reference/en/latest/config/node.html#node-types
 .. _node.master: https://crate.io/docs/crate/reference/en/latest/config/node.html#node-types
-.. _quorum: https://crate.io/docs/crate/guide/en/latest/architecture/shared-nothing.html#master-node-election
+.. _quorum: https://crate.io/docs/crate/reference/en/master/concepts/clustering.html#master-node-election
 .. _repurpose command: https://crate.io/docs/crate/reference/en/latest/admin/cli-tools.html#repurpose
 .. _role: https://crate.io/docs/crate/reference/en/latest/config/node.html#node-types
 .. _snapshot: https://crate.io/docs/crate/reference/en/latest/admin/snapshots.html

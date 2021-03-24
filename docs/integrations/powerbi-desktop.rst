@@ -19,8 +19,8 @@ users can set up powerful data warehousing and business intelligence
 reports.
 
 This can be done by installing the `PostgreSQL ODBC driver`_, creating a
-`DSN <Creating a DSN for CrateDB>`_ and connecting Power BI using the ODBC
-data source.
+:ref:`DSN <powerbi-desktop-dsn>` and connecting Power BI using the ODBC data
+source.
 
 
 Implementation
@@ -91,6 +91,8 @@ To insert the data into CrateDB::
     | {"id": "...", "name": "Hoher Riffler"} | file:///path/to/population_data3_.json.gz |        309980 |           0 | {}     |
     +----------------------------------------+-------------------------------------------+---------------+-------------+--------+
 
+
+.. _powerbi-desktop-dsn:
 
 Creating a DSN for CrateDB
 --------------------------
