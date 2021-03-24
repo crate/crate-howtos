@@ -26,9 +26,10 @@ Set Up
 For this distributed machine learning implementation, you will be using a
 `Kaggle`_ data set called `pump_sensor_data`_.
 
-The dataset contains data gathered from 52 sensors. These data rows come with
-a timestamp and a machine-status attached to them. There are three unique
-states the machine can have:
+The dataset contains data gathered from 52 sensors. These data rows come with a
+timestamp and a machine-status attached to them. A machine can have three
+unique states:
+
 - ``normal``
 - ``broken``
 - ``recovering``.

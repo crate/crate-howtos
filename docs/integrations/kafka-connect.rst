@@ -10,12 +10,12 @@ JDBC connector`_.
 Abstract
 ========
 
-Kafka is a popular stream processing software used for building scalable
-data processing pipelines and applications. There are many use cases where a
-user might want the data from a Kafka topic (or several topics) ingested into a
-CrateDB cluster for further enrichment, analysis or visualization. This can be
-done using the supplementary component `Kafka Connect`_, which provides a set
-of connectors that can stream data to and from Kafka.
+Kafka is a popular stream processing software used for building scalable data
+processing pipelines and applications. Many different use-cases might involve
+wanting to ingest the data from a Kafka topic (or several topics) into a
+CrateDB for further enrichment, analysis or visualization. This can be done
+using the supplementary component `Kafka Connect`_, which provides a set of
+connectors that can stream data to and from Kafka.
 
 Using the `Kafka Connect JDBC connector`_ with the PostgreSQL driver allows
 you to designate CrateDB as a sink target, with the following example connector

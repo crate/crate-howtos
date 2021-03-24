@@ -333,10 +333,10 @@ Persistent volume
 -----------------
 
 As mentioned in the `Controller`_ section, CrateDB containers must be able to
-retain state between restarts and rescheduling. Stateful containers can be achieved
-with `persistent volumes`_.
+retain state between restarts and rescheduling. Stateful containers can be
+achieved with `persistent volumes`_.
 
-There are many different ways to provide persistent volumes, and so the specific
+Persistent volumes can be provisioned in many different ways, so the specific
 configuration will depend on your setup.
 
 

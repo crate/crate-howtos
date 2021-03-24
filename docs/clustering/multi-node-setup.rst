@@ -9,8 +9,8 @@ as a cluster of three or more nodes.
 
 For development purposes, CrateDB can :ref:`auto-bootstrap
 <auto-bootstrapping>` a cluster when you run all nodes on the same host.
-But in production environments, you must configure the bootstrapping process
-:ref:`manually <manual-bootstrapping>`.
+However, in production environments, you must configure the bootstrapping
+process :ref:`manually <manual-bootstrapping>`.
 
 This guide shows you how to bootstrap (set up) a multi-node CrateDB cluster
 using different methods.
