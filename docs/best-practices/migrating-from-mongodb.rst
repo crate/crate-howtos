@@ -1,5 +1,7 @@
 .. highlight:: psql
 
+.. _migrating-mongodb:
+
 ======================
 Migrating from MongoDB
 ======================
@@ -130,7 +132,7 @@ After the table has been created the file can be imported using
 `COPY FROM`_.
 
 There is an entire section dedicated on how to do a data import efficiently.
-Continue reading there: :ref:`efficient_data_import`.
+Continue reading there: :ref:`bulk-inserts`.
 
 
 .. _COPY FROM: https://crate.io/docs/crate/reference/sql/reference/copy_from.html

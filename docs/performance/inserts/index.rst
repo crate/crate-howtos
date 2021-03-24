@@ -25,6 +25,7 @@ This section of the guide will show you how.
    :maxdepth: 2
 
    methods
+   bulk
    parallel
    tuning
    testing
