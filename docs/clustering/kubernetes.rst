@@ -216,7 +216,7 @@ Control`_.
 .. _imperative command: https://kubernetes.io/docs/concepts/overview/working-with-objects/object-management/#imperative-commands
 .. _kubectl: https://kubernetes.io/docs/reference/kubectl/overview/
 .. _Kubernetes: https://kubernetes.io/
-.. _metadata master: https://crate.io/docs/crate/guide/en/latest/architecture/shared-nothing.html#cluster-state-management
+.. _metadata master: https://crate.io/docs/crate/reference/en/latest/concepts/shared-nothing.html#cluster-state-management
 .. _metadata: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#metadata-gateway
 .. _namespace: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/
 .. _node check: https://crate.io/docs/crate/reference/en/latest/admin/system-information.html#description-of-checked-node-settings

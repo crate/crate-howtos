@@ -443,11 +443,11 @@ Finally, you can verify that data is flowing into the CrateDB table:
 .. _Kafka Connect JDBC connector: https://docs.confluent.io/current/connect/kafka-connect-jdbc/index.html
 .. _Confluent Platform: https://docs.confluent.io/current/cli/index.html
 .. _Avro schema: https://avro.apache.org/docs/current/spec.html
-.. _PostgreSQL Kafka Connect JDBC driver: https://docs.confluent.io/current/connect/kafka-connect-jdbc/index.html#postgresql-database
+.. _PostgreSQL Kafka Connect JDBC driver: https://docs.confluent.io/kafka-connect-jdbc/current/index.html#postgresql-database
 .. _Sink Connector: https://docs.confluent.io/current/connect/kafka-connect-jdbc/sink-connector/index.html
 .. _Source Connector: https://docs.confluent.io/current/connect/kafka-connect-jdbc/source-connector/index.html
 .. _Kafka Connect Transformation: https://docs.confluent.io/current/connect/transforms/index.html
-.. _Flatten Transformation: https://docs.confluent.io/current/connect/transforms/flatten.html#flatten
+.. _Flatten Transformation: https://docs.confluent.io/current/connect/transforms/flatten.html
 .. _general Connector settings: https://docs.confluent.io/2.0.0/connect/userguide.html#configuring-connectors
 .. _JDBC Connector settings: https://docs.confluent.io/current/connect/kafka-connect-jdbc/sink-connector/sink_config_options.html
 .. _Kafka Connect: https://docs.confluent.io/current/connect/index.html
