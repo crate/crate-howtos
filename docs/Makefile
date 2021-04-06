@@ -79,8 +79,8 @@ BUILD_JSON    := build.json
 BUILD_REPO    := https://github.com/crate/crate-docs.git
 LATEST_BUILD  := https://github.com/crate/crate-docs/releases/latest
 CLONE_DIR     := .crate-docs
-SRC_DIR       := $(CLONE_DIR)/src
-SELF_SRC      := $(TOP_DIR)/src
+SRC_DIR       := $(CLONE_DIR)/common-build
+SELF_SRC      := $(TOP_DIR)/common-build
 SELF_MAKEFILE := $(SELF_SRC)/rules.mk
 SRC_MAKE      := $(MAKE) -f $(SRC_DIR)/rules.mk
 
@@ -100,7 +100,7 @@ LATEST_VERSION := $(shell curl -sI --connect-timeout 2 '$(LATEST_BUILD)' | \
 # Skip if no version could be determined (i.e., because of a network error)
 ifneq ($(LATEST_VERSION),)
 # Only issue a warning if there is a version mismatch
-ifeq ($(BUILD_VERSION),$(LATEST_VERSION))
+ifneq ($(BUILD_VERSION),$(LATEST_VERSION))
 define version_warning
 You are using Crate Docs version $(BUILD_VERSION), however version \
 $(LATEST_VERSION) is available. You should consider upgrading. Follow the \
