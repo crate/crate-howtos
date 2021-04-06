@@ -505,9 +505,9 @@ example::
 .. _healthcheck: https://docs.docker.com/engine/reference/builder/#healthcheck
 .. _horizontally scalable: https://en.wikipedia.org/wiki/Scalability#Horizontal_(scale_out)_and_vertical_scaling_(scale_up)
 .. _Metadata Gateway: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#metadata-gateway
-.. _running Docker locally: https://crate.io/docs/crate/tutorials/en/latest/install-run/docker.html
+.. _running Docker locally: https://crate.io/docs/crate/tutorials/en/latest/install.html#docker
 .. _set the maximum memory: https://docs.docker.com/config/containers/resource_constraints/#memory
 .. _set the maximum number of CPUs: https://docs.docker.com/config/containers/resource_constraints/#cpu
 .. _shared-nothing architecture : https://en.wikipedia.org/wiki/Shared-nothing_architecture
-.. _spinning up your first CrateDB instance: https://crate.io/docs/crate/tutorials/en/latest/install-run/docker.html
+.. _spinning up your first CrateDB instance: https://crate.io/docs/crate/tutorials/en/latest/install.html#docker
 .. _user-defined network: https://docs.docker.com/network/bridge/

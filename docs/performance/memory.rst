@@ -89,7 +89,7 @@ offset the memory lost due to the lack of *Compressed Oops*.
 
 .. TIP::
 
-    When configuring heap size via `CRATE_HEAP_SIZE`_, you can specify 30.5
+    When configuring the heap size via `CRATE_HEAP_SIZE`_, you can specify 30.5
     gigabytes with the value ``30500m``.
 
 
@@ -113,7 +113,7 @@ like so:
 .. _configuration: https://crate.io/docs/crate/reference/en/latest/config/index.html
 .. _configurations: https://crate.io/docs/crate/reference/en/latest/config/index.html
 .. _CRATE_HEAP_SIZE: https://crate.io/docs/crate/reference/en/latest/config/environment.html#conf-env-heap-size
-.. _G1GC: https://docs.oracle.com/javase/9/gctuning/garbage-first-garbage-collector.htm#JSGCT-GUID-0394E76A-1A8F-425E-A0D0-B48A3DC82B42
+.. _G1GC: https://docs.oracle.com/javase/10/gctuning/garbage-first-garbage-collector.htm
 .. _Garbage Collection: https://en.wikipedia.org/wiki/Garbage_collection_(computer_science)
 .. _HotSpot Java Virtual Machine: https://www.oracle.com/java/technologies/javase/javase-core-technologies-apis.html
 .. _Lucene: https://lucene.apache.org/
