@@ -499,7 +499,7 @@ Edit the `transport.tcp.port`_ setting in your `configuration`_ file:
 .. _split-brain: https://en.wikipedia.org/wiki/Split-brain_(computing)
 .. _SRV records: https://en.wikipedia.org/wiki/SRV_record
 .. _sys.summits: https://crate.io/docs/crate/reference/en/latest/admin/system-information.html#summits
-.. _tarball method: https://crate.io/docs/crate/tutorials/en/latest/install-run/basic.html
+.. _tarball method: https://crate.io/docs/crate/tutorials/en/latest/install.html#ad-hoc-installation-unix-windows
 .. _transport.publish_port: https://crate.io/docs/crate/reference/en/latest/config/node.html#transport-publish-port
 .. _transport.tcp.port: https://crate.io/docs/crate/reference/en/latest/config/node.html#transport-tcp-port
 .. _unicast hosts: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#unicast-host-discovery

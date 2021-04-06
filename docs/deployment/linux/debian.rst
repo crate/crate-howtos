@@ -180,13 +180,13 @@ your system, we recommend that you go with a `basic tarball installation`_.
 
 
 .. _Apt: https://wiki.debian.org/Apt
-.. _basic tarball installation: https://crate.io/docs/crate/tutorials/en/latest/install-run/basic.html
+.. _basic tarball installation: https://crate.io/docs/crate/tutorials/en/latest/install.html#ad-hoc-installation-unix-windows
 .. _Buster: https://www.debian.org/releases/buster/
 .. _configuration files: https://crate.io/docs/crate/reference/en/latest/config/index.html
 .. _environment variables: https://crate.io/docs/crate/reference/en/latest/config/environment.html
 .. _first use: https://crate.io/docs/crate/tutorials/en/latest/first-use.html
 .. _Jessie: https://www.debian.org/releases/jessie/
-.. _one-step Linux installer: https://crate.io/docs/crate/tutorials/en/latest/install-run/linux.html
+.. _one-step Linux installer: https://crate.io/docs/crate/tutorials/en/latest/install.html#ad-hoc-installation-unix-windows
 .. _sources: https://en.wikipedia.org/wiki/Source_(command)
 .. _Stretch: https://www.debian.org/releases/stretch/
 .. _Wheezy: https://www.debian.org/releases/wheezy/

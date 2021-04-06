@@ -172,7 +172,7 @@ your system, you can do a `basic tarball installation`_.
 
 
 .. _Apt: https://wiki.debian.org/Apt
-.. _basic tarball installation: https://crate.io/docs/crate/tutorials/en/latest/install-run/basic.html
+.. _basic tarball installation: https://crate.io/docs/crate/tutorials/en/latest/install.html#ad-hoc-installation-unix-windows
 .. _configuration files: https://crate.io/docs/crate/reference/en/latest/config/index.html
 .. _environment variables: https://crate.io/docs/crate/reference/en/latest/config/environment.html
 .. _first use: https://crate.io/docs/crate/tutorials/en/latest/first-use.html

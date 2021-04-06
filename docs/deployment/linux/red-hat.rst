@@ -148,7 +148,7 @@ If you want to deviate from the way that the ``crate`` package integrates with
 your system, we recommend that you go with a `basic tarball installation`_.
 
 
-.. _basic tarball installation: https://crate.io/docs/crate/tutorials/en/latest/install-run/basic.html
+.. _basic tarball installation: https://crate.io/docs/crate/tutorials/en/latest/install.html#ad-hoc-installation-unix-windows
 .. _first use: https://crate.io/docs/crate/tutorials/en/latest/first-use.html
 .. _Red Hat Linux 7: https://www.redhat.com/en/resources/whats-new-red-hat-enterprise-linux-7
 .. _sources: https://en.wikipedia.org/wiki/Source_(command)

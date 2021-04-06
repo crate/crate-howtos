@@ -109,4 +109,4 @@ to the original result.
 .. _Lucene segment: https://stackoverflow.com/a/2705123
 .. _modulo (%) operation: https://crate.io/docs/crate/reference/en/latest/general/builtins/arithmetic.html
 .. _normal distribution: https://en.wikipedia.org/wiki/Normal_distribution
-.. _sub-selects: https://crate.io/docs/crate/reference/en/latest/sql/statements/select.html#sub-select
+.. _sub-selects: https://crate.io/docs/crate/reference/en/latest/sql/statements/select.html#subselect

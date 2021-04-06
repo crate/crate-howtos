@@ -414,10 +414,10 @@ For exmaple::
 .. _COPY FROM: https://crate.io/docs/crate/reference/en/latest/sql/reference/copy_from.html
 .. _CrateDB Reference\: Alter a partitioned table: https://crate.io/docs/crate/reference/en/latest/sql/partitioned_tables.html#alter
 .. _CrateDB Reference\: Import and export: https://crate.io/docs/crate/reference/en/latest/general/dml.html#import-and-export
-.. _CrateDB Reference\: PARTITIONED BY: https://crate.io/docs/crate/reference/en/latest/sql/reference/create_table.html#partitioned-by-clause
+.. _CrateDB Reference\: PARTITIONED BY: https://crate.io/docs/crate/reference/en/latest/sql/statements/create-table.html#partitioned-by
 .. _CrateDB Reference\: Partitioned tables: https://crate.io/docs/crate/reference/en/latest/sql/partitioned_tables.html
-.. _distributed database: https://crate.io/docs/crate/reference/en/4.4/concepts/shared-nothing.html
-.. _drop: https://crate.io/docs/crate/reference/en/4.4/sql/statements/drop-table.html?highlight=drop
+.. _distributed database: https://crate.io/docs/crate/reference/en/latest/concepts/clustering.html
+.. _drop: https://crate.io/docs/crate/reference/en/4.4/sql/statements/drop-table.html
 .. _gzip: https://www.gnu.org/software/gzip/
 .. _IOPS: https://en.wikipedia.org/wiki/IOPS
 .. _JSON lines: https://jsonlines.org/
