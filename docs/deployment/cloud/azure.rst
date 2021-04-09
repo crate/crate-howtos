@@ -182,7 +182,7 @@ Start crate by running ``bin/crate``.
 
 
 .. _3.3: https://crate.io/docs/crate/reference/en/3.3/config/cluster.html#discovery
-.. _download the CrateDB Tarball: https://crate.io/docs/crate/tutorials/en/latest/install.html#ad-hoc-installation-unix-windows
+.. _download the CrateDB Tarball: https://crate.io/docs/crate/tutorials/en/latest/install.html#install-adhoc
 .. _find more details: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery-via-dns
 .. _Java JDK installed: https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html
 .. _latest: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery
