@@ -2,6 +2,8 @@
 CrateDB How-To Guides
 =====================
 
+|ci| |rtd| |build|
+
 How-to guides for CrateDB_.
 
 Contributing
@@ -26,3 +28,17 @@ Looking for more help?
 .. _developer docs: DEVELOP.rst
 .. _project docs: https://crate.io/docs/crate/howtos/en/latest/
 .. _support channels: https://crate.io/support/
+
+
+.. |ci| image:: https://github.com/crate/crate-howtos/actions/workflows/docs.yml/badge.svg
+    :alt: CI status
+    :scale: 100%
+    :target: https://github.com/crate/crate-howtos/actions/workflows/docs.yml
+
+.. |rtd| image:: https://readthedocs.org/projects/crate-howtos/badge/?version=latest
+    :alt: Read The Docs status
+    :target: https://readthedocs.org/projects/crate-howtos
+
+.. |build| image:: https://img.shields.io/endpoint.svg?color=blue&url=https%3A%2F%2Fraw.githubusercontent.com%2Fcrate%2Fcrate-howtos%2Fmaster%2Fdocs%2Fbuild.json
+    :alt: Build version
+    :target: https://github.com/crate/crate-howtos/blob/master/docs/build.json
