@@ -316,7 +316,7 @@ can go through it step by step:
 
 	        // Set the specific column depending on whether the type is manned or unmanned
 	        if (satelliteType === undefined) {
-	            context.log("Satellite type missing", error);
+	            context.log("Satellite type missing");
 	            context.log(`'${JSON.stringify(eventHubMessages[i])}'`);
 	            continue;
 	        } else if (satelliteType === 'manned') {
