@@ -362,6 +362,10 @@ The following JSON document can be used as a test message:
 
   {"input": "{\"id\": \"Zero Gravitas\", \"type\": \"unmanned\", \"location\": {\"longitude\": -164.5984,\"latitude\": -24.9734},\"timestamp\": 1588240576000}"}
 
+To test the deployed Azure Function against an actual IoT hub, you can install
+VSCode's `Azure IoT Hub extension`_. Its documentation describes how to create
+a new device and send a device-to-cloud (D2C) message for testing purposes.
+
 .. _WKT: https://en.wikipedia.org/wiki/Well-known_text
 .. _Visual Studio Code: https://code.visualstudio.com/
 .. _directly from VSCode: https://scotch.io/tutorials/getting-started-with-azure-functions-using-vs-code-zero-to-deploy
@@ -374,3 +378,4 @@ The following JSON document can be used as a test message:
 .. _data simulators: https://docs.microsoft.com/en-us/azure/iot-accelerators/quickstart-device-simulation-deploy
 .. _development environment for Azure Functions: https://docs.microsoft.com/en-us/azure/azure-functions/functions-develop-local
 .. _debugging: https://code.visualstudio.com/docs/editor/debugging
+.. _Azure IoT Hub extension: https://marketplace.visualstudio.com/items?itemName=vsciot-vscode.azure-iot-toolkit
