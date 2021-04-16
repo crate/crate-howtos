@@ -78,7 +78,7 @@ Prerequisites
 
 In order to deploy this architecture, there are several prerequisites:
 
-- An `IoT Hub`_ with data flowing into it. Azure have some useful
+- An `IoT Hub`_ with data flowing into it. Azure has some useful
   `data simulators`_.
 - A `development environment for Azure Functions`_
 - A running `CrateDB cluster`_
@@ -272,7 +272,7 @@ can go through it step by step:
 	});
 
 
-	// This is the our Azure Function that will be called when new event hub messages are processed.
+	// This is our Azure Function that will be called when new event hub messages are processed.
 	// It receives the context, an object that provides us information and functions to do with the context
 	// of the invocation, as well as an array of event hub messages.
 	module.exports = async function (context, eventHubMessages) {
@@ -283,7 +283,7 @@ can go through it step by step:
 	    let unmanned = []
 	    let debugs = []
 
-	    // Iterate over the recieved event hub messages
+	    // Iterate over the received event hub messages
 	    for (var i = 0; i < eventHubMessages.length; i++) {
 
 	        // Extract the timestamp from the message
