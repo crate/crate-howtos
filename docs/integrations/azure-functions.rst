@@ -227,8 +227,9 @@ project. It should have the following content:
 	  }
 
 The ``AzureWebJobsStorage`` value can be obtained by navigating to your storage
-account, selecting "Access keys" and copying one of the shown connection
+account, selecting "Access keys", and copying one of the shown connection
 strings.
+
 The ``EventHubConnectionString`` can be copied from the
 "Event Hub-compatible endpoint" field under the IoT hub's "Built-in endpoints"
 section. Ensure that the event hub connection string includes the
@@ -246,7 +247,7 @@ These settings **are not** deployed when you deploy the Azure Function. Instead,
 before you deploy, you should set up an Azure Function Application within the
 Azure Portal. You can do this `directly from VSCode`_, or using the
 `Azure CLI`_. All settings shown above within the ``Values`` object need to be set
-up within the Azure Function App's **Application Settings** which can be found
+up within the Azure Function App's **Application Settings**, which can be found
 under the "Configuration" menu item.
 
 index.js
@@ -268,7 +269,7 @@ can go through it step by step:
 	const SINK_COLUMN_MANNED = process.env['SinkColumnManned'];
 	const SINK_COLUMN_DEBUG = "debug";
 
-	// A pool of connections to CrateDB that our Azure Function can utilise.
+	// A pool of connections to CrateDB that our Azure Function can utilize.
 	// Notice that this instantiation takes place outside of our Azure Function itself.
 	// This means we can use this pool across multiple Azure Function evocations.
 	const cratePool = new Pool({
