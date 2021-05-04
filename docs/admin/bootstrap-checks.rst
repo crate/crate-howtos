@@ -115,9 +115,9 @@ Garbage collection
 ==================
 
 CrateDB has been tested using the `CMS garbage collector`_ (default up to and
-including CrateDB 4.0) and `G1GC`_ (the default with CrateDB 4.1).
+including CrateDB 4.0) and the `G1 garbage collector`_ (the default with CrateDB 4.1).
 
-`G1GC` can also be used in earlier CrateDB versions, but should only be used in
+``G1GC`` can also be used in earlier CrateDB versions, but should only be used in
 combination with Java 11 or later.
 
 .. WARNING::
@@ -127,4 +127,4 @@ combination with Java 11 or later.
 
 
 .. _CMS garbage collector: https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/cms.html
-.. _G1GC: https://docs.oracle.com/javase/9/gctuning/garbage-first-garbage-collector.htm
+.. _G1 garbage collector: https://docs.oracle.com/javase/10/gctuning/garbage-first-garbage-collector.htm

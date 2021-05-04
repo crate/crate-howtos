@@ -78,8 +78,9 @@ Prerequisites
 
 In order to deploy this architecture, there are several prerequisites:
 
-- An `IoT Hub`_ with data flowing into it. Azure have some useful
+- An `Azure IoT Hub`_ with data flowing into it. Azure has some useful
   `data simulators`_.
+- An `Azure storage account`_
 - A `development environment for Azure Functions`_
 - A running `CrateDB cluster`_
 
@@ -112,7 +113,7 @@ Azure Function
 
 You should first create an environment for your function application. Following
 the documentation for whichever environment you would develop in (for example,
-`Visual Studio Code`_ ), you should have a folder structure like this::
+`Visual Studio Code`_), you should have a folder structure like this::
 
 	ReferenceArchitectureProject
 	 | - IoTHubToCrateDBFunction
@@ -163,7 +164,8 @@ things like event hub names, consumer groups, etc.
 	  }]
 	}
 
-Here are the parameters in more detail:
+Except for ``consumerGroup``, all values can be kept as-is and do not need to
+be customized. Here are the parameters in more detail:
 
 +-------------------+----------------------------------------------------------+
 | Parameter         | Description                                              |
@@ -181,7 +183,8 @@ Here are the parameters in more detail:
 +-------------------+----------------------------------------------------------+
 | ``eventHubName``  | The name of the event hub. The event hub name value      |
 |                   | in the connection string overwrites this parameter       |
-|                   | at runtime, if it is set.                                |
+|                   | at runtime, so you can leave this default value          |
+|                   | unchanged.                                               |
 +-------------------+----------------------------------------------------------+
 | ``connection``    | The name of the Azure Function application setting       |
 |                   | that contains our event hub's namespace                  |
@@ -223,13 +226,18 @@ project. It should have the following content:
 	    }
 	  }
 
-The ``AzureWebJobsStorage`` and ``EventHubConnectionString`` connection strings
-should be replaced with the relevant ones that you can find in the Azure
-Portal, ensuring that the event hub connection string includes the
+The ``AzureWebJobsStorage`` value can be obtained by navigating to your storage
+account, selecting "Access keys", and copying one of the shown connection
+strings.
+
+The ``EventHubConnectionString`` can be copied from the
+"Event Hub-compatible endpoint" field under the IoT hub's "Built-in endpoints"
+section. Ensure that the event hub connection string includes the
 ``EntityPath=EVENTHUBNAME`` at the end of it.
 
 The ``CrateConnectionString`` should be of the form
-``postgres://username:password@cratedbaddress:5432``.
+``postgres://username:password@cratedbaddress:5432``. If the CrateDB cluster
+requires SSL, append `?ssl=true`.
 
 ``SinkTable`` is the name of the table you will be ingesting data into, with the
 ``SinkColumnManned`` and ``SinkColumnUnmanned`` parameters defining what columns
@@ -238,8 +246,9 @@ you will ingest manned and unmanned satellite data into, respectively.
 These settings **are not** deployed when you deploy the Azure Function. Instead,
 before you deploy, you should set up an Azure Function Application within the
 Azure Portal. You can do this `directly from VSCode`_, or using the
-`Azure CLI`_. These settings would then need to be set up within the Azure
-Function's **Application Settings**.
+`Azure CLI`_. All settings shown above within the ``Values`` object need to be set
+up within the Azure Function App's **Application Settings**, which can be found
+under the "Configuration" menu item.
 
 index.js
 ........
@@ -260,8 +269,7 @@ can go through it step by step:
 	const SINK_COLUMN_MANNED = process.env['SinkColumnManned'];
 	const SINK_COLUMN_DEBUG = "debug";
 
-
-	// A pool of connections to CrateDB that our Azure Function can utilise.
+	// A pool of connections to CrateDB that our Azure Function can utilize.
 	// Notice that this instantiation takes place outside of our Azure Function itself.
 	// This means we can use this pool across multiple Azure Function evocations.
 	const cratePool = new Pool({
@@ -271,36 +279,30 @@ can go through it step by step:
 	    query_timeout: 30000,
 	});
 
-
-	// This is the our Azure Function that will be called when new event hub messages are processed.
+	// This is the Azure Function that will be called when new event hub messages are processed.
 	// It receives the context, an object that provides us information and functions to do with the context
 	// of the invocation, as well as an array of event hub messages.
 	module.exports = async function (context, eventHubMessages) {
-
 	    // Initialise empty arrays for storing rows
 	    let timestamps = []
 	    let manned = []
 	    let unmanned = []
 	    let debugs = []
 
-	    // Iterate over the recieved event hub messages
+	    // Iterate over the received event hub messages
 	    for (var i = 0; i < eventHubMessages.length; i++) {
-
 	        // Extract the timestamp from the message
 	        let timestamp = eventHubMessages[i]['timestamp'];
 	        if (timestamp === undefined) {
-	            context.log("Timestamp missing", error);
+	            context.log("Timestamp missing");
 	            context.log(`'${JSON.stringify(eventHubMessages[i])}'`);
 	            continue;
 	        }
 
 	        // Getting the enqueued time of the event hub payload for debugging purposes
 	        let debug = {
-	            'enqueued_time': context.bindingData.enqueuedTimeUtcArray[i]
+	            'enqueued_time': context.bindingData.enqueuedTimeUtc
 	        };
-
-	        // Create a new payload object with the timestamp and JSONified debug object.
-	        let payload = new Payload(timestamp, `'${JSON.stringify(debug)}'`);
 
 	        // Extract the satellite type
 	        let satelliteType = eventHubMessages[i]['type'];
@@ -315,16 +317,16 @@ can go through it step by step:
 
 	        // Set the specific column depending on whether the type is manned or unmanned
 	        if (satelliteType === undefined) {
-	            context.log("Satellite type missing", error);
-	            context.log(`'${JSON.stringify(context.bindingData.propertiesArray[i])}'`);
+	            context.log("Satellite type missing");
+	            context.log(`'${JSON.stringify(eventHubMessages[i])}'`);
 	            continue;
 	        } else if (satelliteType === 'manned') {
-	            timestamps.push(timestamps)
+	            timestamps.push(timestamp)
 	            manned.push(`'${JSON.stringify(eventHubMessages[i])}'`)
 	            unmanned.push("null")
 	            debugs.push(`'${JSON.stringify(debug)}'`)
 	        } else if (satelliteType === 'unmanned') {
-	            timestamps.push(timestamps)
+	            timestamps.push(timestamp)
 	            manned.push("null")
 	            unmanned.push(`'${JSON.stringify(eventHubMessages[i])}'`)
 	            debugs.push(`'${JSON.stringify(debug)}'`)
@@ -333,7 +335,6 @@ can go through it step by step:
 	            context.log(`'${JSON.stringify(eventHubMessages[i])}'`);
 	        }
 	    };
-
 
 	    // Construct SQL insertion statement
 	    // We do it this way so we can bulk insert the whole payload of event hub messages at once, rather than inserting row by row.
@@ -351,6 +352,21 @@ can go through it step by step:
 	        .finally(() => crateClient.release());
 	};
 
+Testing
+.......
+
+Before deploying the function, you can test it locally. For VSCode, please see
+the documentation's `debugging`_ section for details.
+The following JSON document can be used as a test message:
+
+.. code-block:: javascript
+
+  {"input": "{\"id\": \"Zero Gravitas\", \"type\": \"unmanned\", \"location\": {\"longitude\": -164.5984,\"latitude\": -24.9734},\"timestamp\": 1588240576000}"}
+
+To test the deployed Azure Function against an actual IoT hub, you can install
+VSCode's `Azure IoT Hub extension`_. Its documentation describes how to create
+a new device and send a device-to-cloud (D2C) message for testing purposes.
+
 .. _WKT: https://en.wikipedia.org/wiki/Well-known_text
 .. _Visual Studio Code: https://code.visualstudio.com/
 .. _directly from VSCode: https://scotch.io/tutorials/getting-started-with-azure-functions-using-vs-code-zero-to-deploy
@@ -358,6 +374,9 @@ can go through it step by step:
 .. _node-postgres:  https://www.npmjs.com/package/pg
 .. _Azure Event Hubs bindings for Azure Functions documentation: https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-event-hubs-trigger?tabs=javascript
 .. _CrateDB cluster: https://crate.io/docs/crate/howtos/en/latest/deployment/cloud/azure.html
-.. _IoT Hub: https://azure.microsoft.com/en-us/services/iot-hub/
+.. _Azure IoT Hub: https://azure.microsoft.com/en-us/services/iot-hub/
+.. _Azure storage account: https://docs.microsoft.com/en-us/azure/storage/common/storage-account-overview
 .. _data simulators: https://docs.microsoft.com/en-us/azure/iot-accelerators/quickstart-device-simulation-deploy
 .. _development environment for Azure Functions: https://docs.microsoft.com/en-us/azure/azure-functions/functions-develop-local
+.. _debugging: https://code.visualstudio.com/docs/editor/debugging
+.. _Azure IoT Hub extension: https://marketplace.visualstudio.com/items?itemName=vsciot-vscode.azure-iot-toolkit

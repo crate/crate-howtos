@@ -39,16 +39,11 @@ For help, run:
 
       reset   Reset the build cache
 
-You must install `fswatch`_ to use the ``dev`` target.
-
 
 Continuous integration and deployment
 -------------------------------------
 
-|build| |travis| |rtd|
-
-Travis CI is `configured`_ to run ``make check`` from the ``docs`` directory.
-Please do not merge pull requests until the tests pass.
+CI is configured to run ``make check`` from the ``docs`` directory.
 
 `Read the Docs`_ (RTD) automatically deploys the documentation whenever a
 configured branch is updated.
@@ -58,21 +53,6 @@ release version), please contact the `@crate/tech-writing`_ team.
 
 
 .. _@crate/tech-writing: https://github.com/orgs/crate/teams/tech-writing
-.. _configured: https://github.com/crate/crate-howtos/blob/master/.travis.yml
-.. _fswatch: https://github.com/emcrisostomo/fswatch
 .. _Read the Docs: http://readthedocs.org
 .. _ReStructuredText: http://docutils.sourceforge.net/rst.html
 .. _Sphinx: http://sphinx-doc.org/
-
-
-.. |build| image:: https://img.shields.io/endpoint.svg?color=blue&url=https%3A%2F%2Fraw.githubusercontent.com%2Fcrate%2Fcrate-howtos%2Fmaster%2Fdocs%2Fbuild.json
-    :alt: Build version
-    :target: https://github.com/crate/crate-howtos/blob/master/docs/build.json
-
-.. |travis| image:: https://img.shields.io/travis/crate/crate-howtos.svg?style=flat
-    :alt: Travis CI status
-    :target: https://travis-ci.org/crate/crate-howtos
-
-.. |rtd| image:: https://readthedocs.org/projects/crate-howtos/badge/?version=latest
-    :alt: Read The Docs status
-    :target: https://readthedocs.org/projects/crate-howtos
