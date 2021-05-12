@@ -104,16 +104,18 @@ development stack can be done via:
 
 .. code-block:: console
 
-   $ confluent local start
+   $ confluent local services start
 
    Starting zookeeper
    zookeeper is [UP]
-   Starting kafka
-   kafka is [UP]
-   Starting schema-registry
-   schema-registry is [UP]
-   Starting connect
-   connect is [UP]
+   Starting Kafka
+   Kafka is [UP]
+   Starting Schema Registry
+   Schema Registry is [UP]
+   Starting Kafka REST
+   Kafka REST is [UP]
+   Starting Connect
+   Connect is [UP]
 
 Next, you should define the `Avro schema`_ that your producers, in this case
 weather sensors, will produce. Given the structure described in the setup
@@ -230,7 +232,7 @@ You can verify that the simulator is working by consuming from the Kafka topic:
 
 .. code-block:: console
 
-   $ confluent local consume metrics -- --from-beginning --value-format avro
+   $ confluent local services kafka consume metrics --from-beginning --value-format avro
 
    {"id":"sensor-13","timestamp":1.59180096E9,"payload":{"temperature":-1.8094289,"humidity":0.06487691,"pressure":1019.0834,"luminosity":41412.7}}
    {"id":"sensor-5","timestamp":1.59180096E9,"payload":{"temperature":15.625463,"humidity":39.6379,"pressure":1009.4658,"luminosity":58013.066}}
@@ -271,9 +273,8 @@ Connect plugins:
 
 .. code-block:: console
 
-   $ confluent local list plugins
-   HTTP/1.1 200 OK
-
+   $ confluent local services connect plugin list
+    Available Connect Plugins:
     [
        ...
        {
@@ -373,7 +374,7 @@ You can now create a connector instance using this configuration:
 
 .. code-block:: console
 
-   $ confluent local load cratedb-connector -- -d cratedb_connector.json
+   $ confluent local services connect connector load cratedb-connector -c cratedb_connector.json
 
    {
      "name": "cratedb-connector",
@@ -398,7 +399,7 @@ is running:
 
 .. code-block:: console
 
-   $ confluent local status cratedb-connector
+   $ confluent local services connect connector status cratedb-connector
 
    {
      "name": "cratedb-connector",
