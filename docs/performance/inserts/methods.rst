@@ -296,14 +296,14 @@ throughput of your cluster with different setups and under different loads.
 
 .. _addBatch: https://docs.oracle.com/javase/7/docs/api/java/sql/Statement.html#addBatch(java.lang.String)
 .. _benchmarking: https://crate.io/a/insert-boost-on-replicas/
-.. _bulk operations: https://crate.io/docs/crate/reference/protocols/http.html#bulk-operations
+.. _bulk operations: https://crate.io/docs/crate/reference/en/latest/interfaces/http.html#bulk-operations
 .. _cr8: https://github.com/mfussenegger/cr8/
 .. _CrateDB HTTP endpoint: https://crate.io/docs/crate/reference/en/latest/interfaces/http.html
 .. _executeBatch: https://docs.oracle.com/javase/7/docs/api/java/sql/Statement.html#executeBatch()
 .. _PostgreSQL wire protocol: https://crate.io/docs/crate/reference/en/latest/protocols/postgres.html
-.. _single inserts: https://crate.io/docs/crate/reference/sql/dml.html#inserting-data
+.. _single inserts: https://crate.io/docs/crate/reference/en/latest/general/dml.html#dml-inserting-data
 .. _SQL HTTP endpoint: https://crate.io/docs/crate/reference/protocols/http.html
 .. _the JDBC client: https://crate.io/docs/jdbc/en/latest/
 .. _translog.durability: https://crate.io/docs/crate/reference/en/latest/sql/reference/create_table.html#translog-durability
-.. _UNNEST reference documentation: https://crate.io/docs/crate/reference/en/4.3/sql/statements/insert.html?highlight=unnest#insert-from-dynamic-queries-constraints
+.. _UNNEST reference documentation: https://crate.io/docs/crate/reference/en/latest/sql/statements/insert.html?highlight=unnest#description
 .. _UNNEST: https://crate.io/docs/crate/reference/en/latest/sql/table_functions.html#unnest-array-array
