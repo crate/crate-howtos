@@ -187,7 +187,7 @@ setup can have. These include latency and also security issues between
 non-encrypted node-to-node traffic if the traffic escapes a "trusted" network.
 
 
-.. _awareness: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#awareness
+.. _awareness: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#routing-allocation
 .. _configuration guide: https://crate.io/docs/reference/configuration.html
 .. _configuration: https://crate.io/docs/crate/reference/en/latest/config/index.html
 .. _CrateDB Shell: https://crate.io/docs/crate/crash/en/latest/
@@ -195,7 +195,7 @@ non-encrypted node-to-node traffic if the traffic escapes a "trusted" network.
 .. _node custom attributes: https://crate.io/docs/crate/reference/en/latest/config/node.html#custom-attributes
 .. _replica: https://crate.io/docs/crate/reference/en/latest/general/ddl/replication.html
 .. _replicas: https://crate.io/docs/crate/reference/en/latest/general/ddl/replication.html
-.. _shard allocation awareness: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#awareness
+.. _shard allocation awareness: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#routing-allocation
 .. _shard: https://crate.io/docs/crate/reference/en/latest/general/ddl/sharding.html
 .. _shards: https://crate.io/docs/crate/reference/en/latest/general/ddl/sharding.html
 .. _unassigned shards: https://crate.io/docs/crate/howtos/en/latest/performance/sharding.html#under-allocation-is-bad
