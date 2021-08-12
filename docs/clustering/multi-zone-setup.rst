@@ -180,12 +180,14 @@ nodes.
    with the ``zone`` attribute set to ``us-west-1`` will the replica shards be
    allocated.
 
-By using these settings correctly and understanding the concepts behind them,
-you should be able to set up a functioning cluster that spans across multiple
-zones and regions. However, be aware of the drawbacks that a multi-region
-setup can have. These include latency and also security issues between
-non-encrypted node-to-node traffic if the traffic escapes a "trusted" network.
+   If traffic between zones leaves a secured network, please be sure to
+   :ref:`set up encryption <crate-reference:admin_ssl>` for CrateDB's
+   intra-node transport protocol.
 
+By using all mentioned settings correctly and understanding the concepts behind
+them, you should be able to set up a functioning cluster that spans across
+multiple zones and regions. However, be aware of the drawbacks that a
+multi-region setup can have, specifically in regards to latency.
 
 .. _awareness: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#routing-allocation
 .. _configuration guide: https://crate.io/docs/reference/configuration.html
