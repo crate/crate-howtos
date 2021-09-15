@@ -36,7 +36,8 @@ Consider the following when determining the right value:
   amount of heap space required and benefits from the file system cache.
 
 A good starting point for the heap space is 25% of the systems memory. However,
-it shouldn't be set above 30.5GB, see the limits section below.
+it shouldn't be set below 1GB and not above 30.5GB, see the limits section
+below.
 
 .. rubric:: Table of contents
 
