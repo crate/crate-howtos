@@ -118,5 +118,5 @@ It's a good idea to benchmark your particular setup so as to find the sweet
 spot.
 
 .. _we have found: https://crate.io/a/big-cluster-insights-ingesting/
-.. _Sharding: https://crate.io/docs/crate/reference/sql/ddl/sharding.html
-.. _partitioned tables: https://crate.io/docs/crate/reference/sql/partitioned_tables.html
+.. _Sharding: https://crate.io/docs/crate/reference/en/latest/sql/ddl/sharding.html
+.. _partitioned tables: https://crate.io/docs/crate/reference/en/latest/sql/partitioned_tables.html
