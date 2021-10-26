@@ -14,7 +14,7 @@ Introduction
 ============
 
 When running CrateDB in a cloud environment such as `Amazon EC2`_ (Elastic
-Cloud Compute) you usually face the problem that CrateDB's default discovery
+Compute Cloud) you usually face the problem that CrateDB's default discovery
 mechanism does not work out of the box.
 
 Luckily, CrateDB has several built-in mechanisms for unicast host discovery,
@@ -72,12 +72,12 @@ site-local address::
 Authentication
 --------------
 
-For that it is recommended to create a separate user that has only the necessary
-permissions to describe instances. First, you need to create an IAM role in
-order to assign the instances later on. This `AWS guide`_ gives you a short
-description of how you can create a policy ofer CLI or the AWS management
+For that, it is recommended to create a separate user that has only the
+necessary permissions to describe instances. First, you need to create an IAM
+role in order to assign the instances later on. This `AWS guide`_ gives you a
+short description of how you can create a policy via the CLI or AWS management
 console. An example policy file is attached below and should at least contain
-this API permissions/actions:
+these API permissions/actions:
 
 .. code-block:: json
 
@@ -102,7 +102,7 @@ to this role on startup.
 .. NOTE::
 
   The same environment variables are used when performing ``COPY FROM`` and
-  ``COPY TO``. This means that if you use want these statement you'll have
+  ``COPY TO``. This means that if you want to use these statements you'll have
   to extend the permissions of that EC2 user.
 
 You could also provide them as system properties or as settings in the
@@ -114,7 +114,7 @@ You could also provide them as system properties or as settings in the
   Note that the env variables need to be provided for the user that runs the
   CrateDB process, which is usually the user ``crate`` in production.
 
-Now you are ready to start your CrateDB instances and they will discovery each
+Now you are ready to start your CrateDB instances and they will discover each
 other automatically. Use the `AWS CLI`_ or the `AWS Console`_ to run instances
 and assign them with an IAM role. Note that all CrateDB instances of the same
 region will join the cluster as long as their cluster name is equal and they are
@@ -123,8 +123,8 @@ able to communicate to each other over the transport port.
 Production Setup
 ================
 
-For a production setup the best way to filter instances for discovery is via
-security group. This requires that you create a separate security group for
+For a production setup, the best way to filter instances for discovery is via
+a security group. This requires that you create a separate security group for
 each cluster and allow TCP traffic on transport port ``4300`` (or other, if set
 to a different port) only from within the group.
 
@@ -133,9 +133,9 @@ to a different port) only from within the group.
     :width: 100%
 
 Since the instances that belong to the same CrateDB cluster have the same
-security group then, you can easly filter instances by that group.
+security group then, you can easily filter instances by that group.
 
-For example when you launch your instances with the security group
+For example, when you launch your instances with the security group
 ``sg-crate-demo``, your CrateDB setting would be::
 
   discovery.ec2.groups: sg-crate-demo
@@ -148,7 +148,7 @@ See also `discovery.ec2.groups`_.
 Optional Filters
 ================
 
-Sometimes however, you will want to have a more flexible setup. In this case
+Sometimes, however, you will want to have a more flexible setup. In this case,
 there are a few other settings that can be set.
 
 .. _filter-by-tags:
@@ -156,14 +156,14 @@ there are a few other settings that can be set.
 Filter by Tags
 --------------
 
-The E2 discovery mechanism can additionaly filter machines by instance tags.
-Tags are key-value pairs that can be assigned to an instance as meta data when
+The E2 discovery mechanism can additionally filter machines by instance tags.
+Tags are key-value pairs that can be assigned to an instance as metadata when
 it is launched.
 
 A good example usage of tags is to assign environment and usage type
 information.
 
-Let's assume you have pool of several instances tagged with ``env`` and
+Let's assume you have a pool of several instances tagged with ``env`` and
 ``type``, where ``env`` is either ``dev`` or ``production`` and ``type`` is
 either ``app`` or ``database``.
 
@@ -194,7 +194,7 @@ See also `discovery.ec2.tags`_.
 Filter by Availability Zones
 ----------------------------
 
-A third possible way to filter instances is via availability zone. Let's say
+A third possible way to filter instances is via availability zones. Let's say
 you have several clusters for the same tenant in different availability zones
 (e.g. ``us-west-1`` and ``us-west-2``), you can launch the instance with the
 same security group (e.g. ``sg-crate-demo``) and filter the instances used for
