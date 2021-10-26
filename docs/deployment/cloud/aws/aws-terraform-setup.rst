@@ -128,15 +128,16 @@ The AWS-specific variables need to be adjusted according to your environment:
 
 Execution
 =========
-Once all variables are configured properly, you can instruct Terraform to list
-the resources it is going to create based on the configuration:
+
+Once all variables are configured properly, Terraform needs to be initialized:
 
 .. code-block:: bash
 
   terraform init
 
-At this point, no resources got created yet. To proceed with executing the shown
-plan, apply it:
+To proceed with executing the creation of resources, apply the configuration.
+There will be a final confirmation prompt before any changes are applied to your
+AWS account:
 
 .. code-block:: bash
 
@@ -185,7 +186,7 @@ to destroy all associated resources:
 .. _crate-terraform: https://www.github.com/crate/crate-terraform
 .. _Terraform's installation guide: https://www.terraform.io/downloads.html
 .. _git's installation guide: https://git-scm.com/downloads
-.. _AWS provider: https://registry.terraform.io/providers/hashicorp/aws/latest/docs#authentication
+.. _AWS provider: https://registry.terraform.io/providers/hashicorp/aws/latest/docs
 .. _List of available AWS regions: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-available-regions
 .. _How to view VPC properties: https://docs.aws.amazon.com/vpc/latest/userguide/working-with-vpcs.html#view-vpc
 .. _How to view subnet properties: https://docs.aws.amazon.com/vpc/latest/userguide/working-with-vpcs.html#view-subnet
