@@ -12,3 +12,4 @@ servers, containers, application images and much more.
    :maxdepth: 1
 
    vm-setup
+   azure-terraform-setup
