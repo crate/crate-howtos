@@ -52,6 +52,9 @@ with the following content:
   module "cratedb-cluster" {
     source = "github.com/crate/crate-terraform.git/azure"
 
+    # The Azure subscription ID
+    subscription_id = "x-y-z"
+
     # Global configuration items for naming/tagging resources
     config = {
       project_name = "example-project"
@@ -101,9 +104,12 @@ The Azure-specific variables need to be adjusted according to your environment:
 +--------------------------+--------------------------------------------------------------+----------------------------------+
 | Variable                 | Explanation                                                  | How to obtain                    |
 +==========================+==============================================================+==================================+
+| ``subscription_id``      | The ID of the Azure subscription to use for creating the     | ``az account list``              |
+|                          | resource group in                                            |                                  |
++---------------+----------+--------------------------------------------------------------+----------------------------------+
 | ``location``             | The geographical region in which to create the Azure         | ``az account list-locations``    |
 |                          | resources                                                    |                                  |
-+--------------++----------+--------------------------------------------------------------+----------------------------------+
++---------------+----------+--------------------------------------------------------------+----------------------------------+
 | ``storage_account_type`` | Storage Account Type of the disk containing the CrateDB      | `List of Storage Account Types`_ |
 |                          | data directory                                               |                                  |
 +--------------------------+--------------------------------------------------------------+----------------------------------+
@@ -112,15 +118,16 @@ The Azure-specific variables need to be adjusted according to your environment:
 
 Execution
 =========
-Once all variables are configured properly, you can instruct Terraform to list
-the resources it is going to create based on the configuration:
+
+Once all variables are configured properly, Terraform needs to be initialized:
 
 .. code-block:: bash
 
   terraform init
 
-At this point, no resources got created yet. To proceed with executing the shown
-plan, apply it:
+To proceed with executing the creation of resources, apply the configuration.
+There will be a final confirmation prompt before any changes are applied to your
+Azure account:
 
 .. code-block:: bash
 
