@@ -14,4 +14,5 @@ best use of its capabilities.
    :maxdepth: 1
 
    ec2-setup
+   terraform-setup
    s3-setup
