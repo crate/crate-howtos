@@ -12,4 +12,4 @@ system capable of running Java.
    :titlesonly:
 
    aws/index
-   azure
+   azure/index

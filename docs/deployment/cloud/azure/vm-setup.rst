@@ -1,10 +1,8 @@
-==============================
-Run CrateDB on Microsoft Azure
-==============================
+.. _vm_setup:
 
-Microsoft Azure is the second largest and fastest growing provider of Cloud
-Services in the world. It offers a wide variety of options including Windows
-servers, containers, application images and much more.
+============================
+Running CrateDB on Azure VMs
+============================
 
 Getting CrateDB working on Azure with Linux or Windows is a simple process. You
 can use Azure's management console or CLI interface (`Learn how to install

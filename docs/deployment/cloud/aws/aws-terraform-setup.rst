@@ -1,4 +1,4 @@
-.. _terraform_setup:
+.. _aws_terraform_setup:
 
 =============================
 Running CrateDB via Terraform
@@ -44,62 +44,62 @@ following prerequisites should be fulfilled:
 
 Deployment configuration
 ========================
-To parametize the CrateDB Terraform configuration, create a new file `main.tf`
+To parametize the CrateDB Terraform configuration, create a new file ``main.tf``
 with the following content:
 
 .. code-block::
 
-	module "cratedb-cluster" {
-	  source = "github.com/crate/crate-terraform.git/aws"
+  module "cratedb-cluster" {
+    source = "github.com/crate/crate-terraform.git/aws"
 
-	  # Global configuration items for naming/tagging resources
-	  config = {
-	    project_name = "example-project"
-	    environment  = "test"
-	    owner        = "Crate.IO"
-	    team         = "Customer Engineering"
-	  }
+    # Global configuration items for naming/tagging resources
+    config = {
+      project_name = "example-project"
+      environment  = "test"
+      owner        = "Crate.IO"
+      team         = "Customer Engineering"
+    }
 
-	  # CrateDB-specific configuration
-	  crate = {
-	    # Java Heap size in GB available to CrateDB
-	    heap_size_gb = 2
+    # CrateDB-specific configuration
+    crate = {
+      # Java Heap size in GB available to CrateDB
+      heap_size_gb = 2
 
-	    cluster_name = "crate-cluster"
+      cluster_name = "crate-cluster"
 
-	    # The number of nodes the cluster will consist of
-	    cluster_size = 2
+      # The number of nodes the cluster will consist of
+      cluster_size = 2
 
-	    # Enables a self-signed SSL certificate
-	    ssl_enable = true
-	  }
+      # Enables a self-signed SSL certificate
+      ssl_enable = true
+    }
 
-	  # The disk size in GB to use for CrateDB's data directory
-	  disk_size_gb = 512
+    # The disk size in GB to use for CrateDB's data directory
+    disk_size_gb = 512
 
-	  # The AWS region
-	  region = "eu-central-1"
+    # The AWS region
+    region = "eu-central-1"
 
-	  # The VPC to deploy to
-	  vpc_id = "vpc-1234567"
+    # The VPC to deploy to
+    vpc_id = "vpc-1234567"
 
-	  # Applicable subnets of the VPC
-	  subnet_ids = ["subnet-123456", "subnet-123457"]
+    # Applicable subnets of the VPC
+    subnet_ids = ["subnet-123456", "subnet-123457"]
 
-	  # The corresponding availability zones of above subnets
-	  availability_zones = ["eu-central-1b", "eu-central-1a"]
+    # The corresponding availability zones of above subnets
+    availability_zones = ["eu-central-1b", "eu-central-1a"]
 
-	  # The SSH key pair for EC2 instances
-	  ssh_keypair = "cratedb-cluster"
+    # The SSH key pair for EC2 instances
+    ssh_keypair = "cratedb-cluster"
 
-	  # Enable SSH access to EC2 instances
-	  ssh_access = true
-	}
+    # Enable SSH access to EC2 instances
+    ssh_access = true
+  }
 
-	output "cratedb" {
-	  value     = module.cratedb-cluster
-	  sensitive = true
-	}
+  output "cratedb" {
+    value     = module.cratedb-cluster
+    sensitive = true
+  }
 
 The AWS-specific variables need to be adjusted according to your environment:
 
@@ -133,24 +133,24 @@ the resources it is going to create based on the configuration:
 
 .. code-block:: bash
 
-	terraform init
+  terraform init
 
 At this point, no resources got created yet. To proceed with executing the shown
 plan, apply it:
 
 .. code-block:: bash
 
-	terraform apply
+  terraform apply
 
 If the execution was successful, a message similar to the one below is shown:
 
 .. code-block:: bash
 
-	Apply complete! Resources: 22 added, 0 changed, 0 destroyed.
+  Apply complete! Resources: 22 added, 0 changed, 0 destroyed.
 
-	Outputs:
+  Outputs:
 
-	cratedb = <sensitive>
+  cratedb = <sensitive>
 
 Terraform internally tracks the state of each resource it manages, including
 certain outputs with details on the created Cluster. As those details include
@@ -159,7 +159,7 @@ To view the output, run:
 
 .. code-block:: bash
 
-	terraform output cratedb
+  terraform output cratedb
 
 The output variable ``cratedb_application_url`` points to the load balancer with
 the port of CrateDB's Admin UI. Opening that URL in your browser should show a
@@ -174,7 +174,7 @@ to destroy all associated resources:
 
 .. code-block:: bash
 
-	terraform destroy
+  terraform destroy
 
 .. CAUTION::
 
@@ -185,7 +185,7 @@ to destroy all associated resources:
 .. _crate-terraform: https://www.github.com/crate/crate-terraform
 .. _Terraform's installation guide: https://www.terraform.io/downloads.html
 .. _git's installation guide: https://git-scm.com/downloads
-.. _AWS provider: https://registry.terraform.io/providers/hashicorp/aws
+.. _AWS provider: https://registry.terraform.io/providers/hashicorp/aws/latest/docs#authentication
 .. _List of available AWS regions: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-available-regions
 .. _How to view VPC properties: https://docs.aws.amazon.com/vpc/latest/userguide/working-with-vpcs.html#view-vpc
 .. _How to view subnet properties: https://docs.aws.amazon.com/vpc/latest/userguide/working-with-vpcs.html#view-subnet
