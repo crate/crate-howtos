@@ -4,8 +4,9 @@
 Running CrateDB via Terraform
 =============================
 
-In :ref:`vm_setup`, we elaborated on how to leverage Azure's functionality to set
-up a CrateDB cluster.
+In :ref:`azure_vm_setup`, we elaborated on how to leverage Azure's functionality to
+set up a CrateDB cluster. Here, we will explore how to automate this kind of
+setup.
 
 `Terraform`_ is an infrastructure as code tool, often used as an abstraction
 layer on top of a cloud's management APIs. Instead of creating cloud resources
