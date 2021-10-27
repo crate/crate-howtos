@@ -149,7 +149,7 @@ Optional Filters
 ================
 
 Sometimes, however, you will want to have a more flexible setup. In this case,
-there are a few other settings that can be set.
+there are a few other configuration settings that can be adjusted.
 
 .. _filter-by-tags:
 
