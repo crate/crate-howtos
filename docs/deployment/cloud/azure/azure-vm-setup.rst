@@ -1,4 +1,4 @@
-.. _vm_setup:
+.. _azure_vm_setup:
 
 ============================
 Running CrateDB on Azure VMs
