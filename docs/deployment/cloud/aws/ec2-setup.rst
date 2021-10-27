@@ -156,7 +156,7 @@ there are a few other configuration settings that can be adjusted.
 Filter by Tags
 --------------
 
-The E2 discovery mechanism can additionally filter machines by instance tags.
+The EC2 discovery mechanism can additionally filter machines by instance tags.
 Tags are key-value pairs that can be assigned to an instance as metadata when
 it is launched.
 
