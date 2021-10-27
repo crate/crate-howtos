@@ -5,13 +5,13 @@ Running CrateDB via Terraform
 =============================
 
 In :ref:`ec2_setup`, we elaborated on how to leverage EC2's functionality to set
-up a CrateDB cluster.
+up a CrateDB cluster. Here, we will explore how to automate this kind of setup.
 
 `Terraform`_ is an infrastructure as code tool, often used as an abstraction
 layer on top of a cloud's management APIs. Instead of creating cloud resources
 manually, the target state is specified via configuration files which can also
-be checked into a version control system. This brings some advantages, such as
-but not limited to:
+be managed in a version control system. This brings some advantages, such as but
+not limited to:
 
 - Reproducibility of deployments, e.g., across different accounts or in case of
   disaster recovery
@@ -24,16 +24,21 @@ of various AWS resources to form a CrateDB cluster on AWS (such as EC2
 instances, load balancer, etc). This eliminates the need to manually compose all
 required resources and their interactions.
 
+.. SEEALSO::
+
+  Engage with us in the `community post`_ on Terraform deployments for any
+  questions or feedback!
+
 .. CAUTION::
 
   The provided configuration is meant to be used for development or testing
-  purposes and does not aim to fulfil all needs of a productive environment.
+  purposes and does not aim to fulfil all needs of a production environment.
 
 Prerequisites
 =============
 
-Before configuring the configuration to launch your CrateDB cluster, the
-following prerequisites should be fulfilled:
+Before creating the configuration to launch your CrateDB cluster, the following
+prerequisites should be fulfilled:
 
 1. The Terraform CLI is installed as per
    `Terraform's installation guide`_
@@ -44,8 +49,10 @@ following prerequisites should be fulfilled:
 
 Deployment configuration
 ========================
-To parametize the CrateDB Terraform configuration, create a new file ``main.tf``
-with the following content:
+
+The CrateDB Terraform configuration consists of a set of variables to customize
+your deployment. Create a new file ``main.tf`` with the following content and
+adjust variable values as needed:
 
 .. code-block::
 
@@ -115,7 +122,7 @@ The AWS-specific variables need to be adjusted according to your environment:
 |                        | across availability zones. Choose the ones you want to       |                                  |
 |                        | launch EC2 instances in.                                     |                                  |
 +------------------------+--------------------------------------------------------------+----------------------------------+
-| ``availability_zones`` | The availability zones of the above-selected subnets.        | `How to view subnet properties`_ |
+| ``availability_zones`` | The availability zones of the above subnets.                 | `How to view subnet properties`_ |
 |                        | The positions in the ``availability_zones`` array must match |                                  |
 |                        | with the corresponding element in ``subnet_ids``.            |                                  |
 |                        | In the example above, ``subnet-123456`` is in                |                                  |
@@ -143,7 +150,7 @@ AWS account:
 
   terraform apply
 
-If the execution was successful, a message similar to the one below is shown:
+Once the execution succeeded, a message similar to the one below is shown:
 
 .. code-block:: bash
 
@@ -191,3 +198,4 @@ to destroy all associated resources:
 .. _How to view VPC properties: https://docs.aws.amazon.com/vpc/latest/userguide/working-with-vpcs.html#view-vpc
 .. _How to view subnet properties: https://docs.aws.amazon.com/vpc/latest/userguide/working-with-vpcs.html#view-subnet
 .. _How to create EC2 key pairs: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html#having-ec2-create-your-key-pair
+.. _community post: https://community.crate.io/t/deploying-cratedb-to-the-cloud-via-terraform/849
