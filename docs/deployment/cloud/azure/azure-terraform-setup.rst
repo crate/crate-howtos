@@ -115,7 +115,7 @@ The Azure-specific variables need to be adjusted according to your environment:
 | ``subscription_id``      | The ID of the Azure subscription to use for creating the     | ``az account list``              |
 |                          | resource group in                                            |                                  |
 +---------------+----------+--------------------------------------------------------------+----------------------------------+
-| ``location``             | The geographical region in which to create the Azure         | ``az account list-locations``    |
+| ``location``             | The geographic region in which to create the Azure           | ``az account list-locations``    |
 |                          | resources                                                    |                                  |
 +---------------+----------+--------------------------------------------------------------+----------------------------------+
 | ``storage_account_type`` | Storage Account Type of the disk containing the CrateDB      | `List of Storage Account Types`_ |
