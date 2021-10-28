@@ -113,7 +113,7 @@ The AWS-specific variables need to be adjusted according to your environment:
 +------------------------+--------------------------------------------------------------+----------------------------------+
 | Variable               | Explanation                                                  | How to obtain                    |
 +========================+==============================================================+==================================+
-| ``region``             | The geographical region in which to create the AWS resources | `List of available AWS regions`_ |
+| ``region``             | The geographic region in which to create the AWS resources   | `List of available AWS regions`_ |
 +------------------------+--------------------------------------------------------------+----------------------------------+
 | ``vpc_id``             | The ID of the Virtual Private Cloud (VPC) in which the EC2   | `How to view VPC properties`_    |
 |                        | instances will be launched                                   |                                  |
