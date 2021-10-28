@@ -182,7 +182,7 @@ to destroy all associated resources:
   if needed.
 
 .. _Terraform: https://www.terraform.io
-.. _crate-terraform: https://www.github.com/crate/crate-terraform
+.. _crate-terraform: https://github.com/crate/crate-terraform
 .. _Terraform's installation guide: https://www.terraform.io/downloads.html
 .. _git's installation guide: https://git-scm.com/downloads
 .. _Azure provider: https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs
