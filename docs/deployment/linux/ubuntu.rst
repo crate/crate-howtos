@@ -4,41 +4,23 @@
 Run CrateDB on Ubuntu
 =====================
 
-CrateDB maintains packages for the following versions:
+CrateDB maintains packages for the following Ubuntu versions:
 
 - `Ubuntu 20.04 LTS`_ (Focal Fossa)
 - `Ubuntu 18.04.5 LTS`_ (Bionic Beaver)
 - `Ubuntu 16.04.7 LTS`_ (Xenial Xerus)
-- `Ubuntu 14.04.6`_ (Trusty Tahr)
 
 This guide will show you how to install, control, and configure a single-node
 CrateDB on a local Ubuntu system.
 
+.. rubric:: Table of contents
 
-Prerequisites
+.. contents::
+   :local:
+
+
+Configure Apt
 =============
-
-CrateDB requires a `Java virtual machine`_ (JVM) to run.
-
-CrateDB versions 4.2+ include a JVM and do not require a separate Java
-installation. You can skip to :ref:`install CrateDB`.
-
-Earlier CrateDB versions require Java 11 to be installed. To run CrateDB on
-Ubuntu releases older than 18.04, you need to install Java from a third-party
-repository. This can be done by adding the `OpenJDK`_ PPA (Personal Package
-Archive):
-
-.. code-block:: sh
-
-   sh$ sudo add-apt-repository ppa:openjdk-r/ppa
-   sh$ sudo apt update
-   sh$ sudo apt install -y openjdk-11-jre-headless
-
-
-.. _Install CrateDB:
-
-Install CrateDB
-===============
 
 You need to configure `Apt`_ (the package manager) to trust and to add the
 CrateDB repositories:
@@ -62,7 +44,6 @@ CrateDB repositories:
    the testing channel, replace ``stable`` with ``testing`` in the command
    above. You can read more about our `release workflow`_.
 
-
 Now update Apt:
 
 .. code-block:: sh
@@ -70,8 +51,12 @@ Now update Apt:
    sh$ sudo apt update
 
 You should see a success message. This indicates that the CrateDB release
-channel is correctly configured and the crate package has been registered
+channel is correctly configured and the ``crate`` package has been registered
 locally.
+
+
+Install CrateDB
+===============
 
 You can now install CrateDB:
 
@@ -80,8 +65,9 @@ You can now install CrateDB:
    sh$ sudo apt install crate
 
 After the installation is finished, the ``crate`` service should be
-up and running. You should be able to access it from your local machine by
-visiting::
+up-and-running.
+
+You should be able to access it by visiting::
 
   http://localhost:4200/
 
@@ -95,23 +81,13 @@ visiting::
 Control CrateDB
 ===============
 
-With `Ubuntu 16.04.7 LTS`_ and above, you can control the ``crate`` service
-with the `systemctl` utility:
+You can control the ``crate`` service with the `systemctl` utility:
 
 .. code-block:: sh
 
    sh$ sudo systemctl COMMAND crate
 
-
-With `Ubuntu 14.04.6`_, you should use the `service` command:
-
-.. code-block:: sh
-
-   sh$ sudo service crate COMMAND
-
-
-In both instances, replace ``COMMAND`` with ``start``, ``stop``, ``restart``,
-``status``, etc.
+Replace ``COMMAND`` with ``start``, ``stop``, ``restart``, ``status`` and so on.
 
 .. CAUTION::
 
@@ -175,9 +151,6 @@ your system, you can do a `basic tarball installation`_.
 .. _basic tarball installation: https://crate.io/docs/crate/tutorials/en/latest/install.html#install-adhoc
 .. _configuration files: https://crate.io/docs/crate/reference/en/latest/config/index.html
 .. _environment variables: https://crate.io/docs/crate/reference/en/latest/config/environment.html
-.. _first use: https://crate.io/docs/crate/tutorials/en/latest/first-use.html
-.. _Java virtual machine: https://en.wikipedia.org/wiki/Java_virtual_machine
-.. _OpenJDK: https://launchpad.net/~openjdk-r/+archive/ubuntu/ppa
 .. _release workflow: https://github.com/crate/crate/blob/master/devs/docs/release.rst
 .. _sources: https://en.wikipedia.org/wiki/Source_(command)
 .. _Ubuntu 14.04.6: https://wiki.ubuntu.com/TrustyTahr/ReleaseNotes
