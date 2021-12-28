@@ -6,25 +6,12 @@ Run CrateDB on Debian GNU/Linux
 
 CrateDB actively maintains packages for the following Debian versions:
 
+- `Bullseye`_ (11.x)
 - `Buster`_ (10.x)
 - `Stretch`_ (9.x)
-- `Jessie`_ (8.x) (legacy)
-- `Wheezy`_ (7.x) (legacy)
 
-.. CAUTION::
-
-    Packages for distributions marked as *legacy* are not actively maintained
-    and no longer receive updates.
-
-This document will walk you through the process of installing and configuring
-the CrateDB Debian package.
-
-.. NOTE::
-
-   This document targets production deployments.
-
-   If you're just getting started with CrateDB, we also provide a `one-step
-   Linux installer`_ .
+This guide will show you how to install, control, and configure a single-node
+CrateDB on a local Debian system.
 
 .. rubric:: Table of contents
 
@@ -35,52 +22,37 @@ the CrateDB Debian package.
 Configure Apt
 =============
 
-Firstly, you will need to upgrade `Apt`_ (the Debian package manager) with HTTPS
-support, like so:
+You need to configure `Apt`_ (the package manager) to trust and to add the
+CrateDB repositories:
 
 .. code-block:: sh
 
-   sh$ sudo apt-get install apt-transport-https
+   # Add HTTPS support
+   sh$ sudo apt install apt-transport-https
 
-After that, you will need to download the CrateDB GPG key:
-
-.. code-block:: sh
-
+   # Download the CrateDB GPG key
    sh$ wget https://cdn.crate.io/downloads/apt/DEB-GPG-KEY-crate
 
-And then, so that Apt trusts the CrateDB repository, add the key:
-
-.. code-block:: sh
-
+   # Add the key to Apt
    sh$ sudo apt-key add DEB-GPG-KEY-crate
 
-CrateDB provides a stable and a testing release channel. At this point, you
-should select which one you wish to use.
+   # Add CrateDB repositories to Apt
+   # `lsb_release -cs` returns the codename of your OS
+   echo "deb https://cdn.crate.io/downloads/apt/stable/ $(lsb_release -cs) main" |
+     sudo tee /etc/apt/sources.list.d/crate-stable.list
 
-Create an Apt configuration file, like so:
 
-.. code-block:: sh
+.. NOTE::
 
-   sh$ sudo touch /etc/apt/sources.list.d/crate-CHANNEL.list
+   CrateDB provides a *stable release* and a *testing release* channel. To use
+   the testing channel, replace ``stable`` with ``testing`` in the command
+   above. You can read more about our `release workflow`_.
 
-Here, replace ``CHANNEL`` with ``stable`` or ``testing``, depending on which
-release channel you plan to use.
-
-Then, edit it, and add the following:
-
-.. code-block:: text
-
-   deb https://cdn.crate.io/downloads/apt/CHANNEL/ CODENAME main
-
-Here, replace ``CHANNEL`` as above, and then, additionally, replace
-``CODENAME`` with the codename of your distribution (e.g., ``buster``,
-``stretch``, ``jessie``, or ``wheezy``)
-
-Once that is done, update Apt:
+Now update Apt:
 
 .. code-block:: sh
 
-   sh$ sudo apt-get update
+   sh$ sudo apt update
 
 You should see a success message. This indicates that the CrateDB release
 channel is correctly configured and the ``crate`` package has been registered
@@ -90,11 +62,11 @@ locally.
 Install CrateDB
 ===============
 
-With everything set up, you can install CrateDB, like so:
+You can now install CrateDB:
 
 .. code-block:: sh
 
-   sh$ sudo apt-get install crate
+   sh$ sudo apt install crate
 
 After the installation is finished, the ``crate`` service should be
 up-and-running.
@@ -103,22 +75,23 @@ You should be able to access it by visiting::
 
   http://localhost:4200/
 
-.. SEEALSO::
+.. CAUTION::
+   When you install via Apt, CrateDB automatically starts as a single-node
+   cluster and you won't be able to add additional nodes. In order to form a
+   multi-node cluster, you will need to remove the cluster state after
+   changing the configuration.
 
-   If you're new to CrateDB, check out our our `first use`_ documentation.
 
+Control CrateDB
+===============
 
-Controlling CrateDB
-===================
-
-With Debian Jessie (8.x) and above, you can control the ``crate`` service like
-so:
+You can control the ``crate`` service with the `systemctl` utility:
 
 .. code-block:: sh
 
     sh$ sudo systemctl COMMAND crate
 
-Here, replace ``COMMAND`` with ``start``, ``stop``, ``restart``, ``status`` and
+Replace ``COMMAND`` with ``start``, ``stop``, ``restart``, ``status`` and so on.
 so on.
 
 .. CAUTION::
@@ -128,8 +101,11 @@ so on.
     upgrade a running cluster.
 
 
-Configuration
-=============
+Configure CrateDB
+=================
+
+In order to configure CrateDB, take note of the configuration file
+location and the available environment variables.
 
 
 Configuration files
@@ -143,9 +119,7 @@ Environment
 -----------
 
 The CrateDB startup script `sources`_ `environment variables`_ from the
-``/etc/default/crate`` file.
-
-Here's one example:
+``/etc/default/crate`` file. Here is an example:
 
 .. code-block:: sh
 
@@ -180,12 +154,10 @@ your system, we recommend that you go with a `basic tarball installation`_.
 
 .. _Apt: https://wiki.debian.org/Apt
 .. _basic tarball installation: https://crate.io/docs/crate/tutorials/en/latest/install.html#install-adhoc
+.. _Bullseye: https://www.debian.org/releases/bullseye/
 .. _Buster: https://www.debian.org/releases/buster/
 .. _configuration files: https://crate.io/docs/crate/reference/en/latest/config/index.html
 .. _environment variables: https://crate.io/docs/crate/reference/en/latest/config/environment.html
-.. _first use: https://crate.io/docs/crate/tutorials/en/latest/first-use.html
-.. _Jessie: https://www.debian.org/releases/jessie/
-.. _one-step Linux installer: https://crate.io/docs/crate/tutorials/en/latest/install.html#install-adhoc
+.. _release workflow: https://github.com/crate/crate/blob/master/devs/docs/release.rst
 .. _sources: https://en.wikipedia.org/wiki/Source_(command)
 .. _Stretch: https://www.debian.org/releases/stretch/
-.. _Wheezy: https://www.debian.org/releases/wheezy/
