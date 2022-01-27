@@ -369,7 +369,7 @@ a new device and send a device-to-cloud (D2C) message for testing purposes.
 
 .. _WKT: https://en.wikipedia.org/wiki/Well-known_text
 .. _Visual Studio Code: https://code.visualstudio.com/
-.. _directly from VSCode: https://scotch.io/tutorials/getting-started-with-azure-functions-using-vs-code-zero-to-deploy
+.. _directly from VSCode: https://docs.microsoft.com/en-us/azure/azure-functions/functions-develop-vs-code
 .. _Azure CLI: https://docs.microsoft.com/en-us/azure/azure-functions/create-first-function-cli-csharp
 .. _node-postgres:  https://www.npmjs.com/package/pg
 .. _Azure Event Hubs bindings for Azure Functions documentation: https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-event-hubs-trigger?tabs=javascript
