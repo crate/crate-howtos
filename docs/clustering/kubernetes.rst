@@ -178,8 +178,8 @@ Recovery behavior
 CrateDB has two settings that depend on cluster size and determine how cluster
 `metadata`_ is recovered during startup:
 
-- `gateway.expected_nodes`_
-- `gateway.recover_after_nodes`_
+- `gateway.expected_data_nodes`_
+- `gateway.recover_after_data_nodes`_
 
 The values of these settings must be changed via Kubernetes. Unlike with
 clustering behavior reconfiguration, you cannot change these values using
@@ -188,7 +188,7 @@ CrateDB's `runtime configuration`_ capabilities.
 If you are using a controller configuration like the example given in the
 :ref:`Kubernetes deployment guide <cratedb-kubernetes>`, you can make this
 reconfiguration by altering the ``EXPECTED_NODES`` environment variable and the
-``recover_after_nodes`` command option.
+``recover_after_data_nodes`` command option.
 
 Changes to the Kubernetes controller configuration can then be deployed using
 ``kubectl replace`` as shown in the previous subsection, `Using Version
@@ -210,8 +210,8 @@ Control`_.
 .. _deleted and recreated: https://kubernetes.io/docs/concepts/cluster-administration/manage-deployment/#disruptive-updates
 .. _discovery.zen.minimum_master_nodes: https://crate.io/docs/crate/reference/en/3.3/config/cluster.html#discovery-zen-minimum-master-nodes
 .. _Docker: https://www.docker.com/
-.. _gateway.expected_nodes: https://crate.io/docs/crate/reference/en/latest/admin/system-information.html#recovery-expected-nodes
-.. _gateway.recover_after_nodes: https://crate.io/docs/crate/reference/en/latest/admin/system-information.html#recovery-after-nodes
+.. _gateway.expected_data_nodes: https://crate.io/docs/crate/reference/en/latest/admin/system-information.html#recovery-expected-data-nodes
+.. _gateway.recover_after_data_nodes: https://crate.io/docs/crate/reference/en/latest/admin/system-information.html#recovery-after-data-nodes
 .. _horizontally scalable: https://en.wikipedia.org/wiki/Scalability#Horizontal_(scale_out)_and_vertical_scaling_(scale_up)
 .. _imperative command: https://kubernetes.io/docs/concepts/overview/working-with-objects/object-management/#imperative-commands
 .. _kubectl: https://kubernetes.io/docs/reference/kubectl/overview/
