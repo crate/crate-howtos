@@ -129,9 +129,9 @@ Here's an example configuration snippet:
       labels:
         app: crate
     spec:
-      # A static IP address is assigned to this service. This IP address is
-      # only reachable from within the Kubernetes cluster.
-      type: ClusterIP
+      # A Headless Service is used for CrateDB node discovery.
+      # Returns the IP adresses of the associated CrateDB Pods.
+      clusterIP: None
       ports:
         # Port 4300 for inter-node communication.
       - port: 4300
