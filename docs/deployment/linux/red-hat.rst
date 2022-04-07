@@ -81,9 +81,7 @@ so on.
 After you run the appropriate command with the ``start`` argument, the
 ``crate`` service should be up-and-running.
 
-You should be able to access it by visiting::
-
-  http://localhost:4200/
+You should be able to access it by visiting http://localhost:4200/.
 
 .. SEEALSO::
 

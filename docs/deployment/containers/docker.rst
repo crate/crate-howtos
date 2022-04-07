@@ -132,11 +132,7 @@ You can have a look at the container's logs in tail mode like this:
 
     To exit the logs view, press ctrl+C.
 
-You can visit the admin UI in your browser with this URL:
-
-.. code-block:: text
-
-    http://localhost:4201/
+You can visit the Admin UI in your browser at http://localhost:4201/.
 
 Select the *Cluster* icon from the left-hand navigation, and you should see a
 page that lists a single node.
@@ -165,7 +161,7 @@ Notice here that:
   will participate in the election of the first master, this setting is unchanged.
 
 Now, if you go back to the admin UI you opened earlier, or visit the admin UI
-of the node you just created (located at ``http://localhost:4202/``) you
+of the node you just created (located at http://localhost:4202/) you
 should see two nodes.
 
 You can now add ``crate03`` like this::

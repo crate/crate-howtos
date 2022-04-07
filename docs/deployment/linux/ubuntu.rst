@@ -67,9 +67,7 @@ You can now install CrateDB:
 After the installation is finished, the ``crate`` service should be
 up-and-running.
 
-You should be able to access it by visiting::
-
-  http://localhost:4200/
+You should be able to access it by visiting http://localhost:4200/.
 
 .. CAUTION::
    When you install via Apt, CrateDB automatically starts as a single-node
