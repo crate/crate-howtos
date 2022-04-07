@@ -23,6 +23,7 @@ massive amounts of machine data in real-time.
    :maxdepth: 3
    :titlesonly:
 
+   getting-started/index
    deployment/index
    admin/index
    clustering/index
