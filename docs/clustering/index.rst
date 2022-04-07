@@ -17,3 +17,4 @@ This section of the documentation shows you how to cluster and scale CrateDB.
    multi-node-setup
    multi-zone-setup
    kubernetes
+   logical-replication-setup
