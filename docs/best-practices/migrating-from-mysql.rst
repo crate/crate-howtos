@@ -138,7 +138,7 @@ For example:
 .. _COPY FROM: https://crate.io/docs/crate/reference/sql/reference/copy_from.html
 .. _CrateDB Python package: https://pypi.org/project/crate/
 .. _CrateDB: https://crate.io/
-.. _csvkit: https://csvkit.readthedocs.io/en/540/index.html
-.. _csvsql: https://csvkit.readthedocs.io/en/540/scripts/csvsql.html
+.. _csvkit: https://csvkit.readthedocs.io/en/latest/
+.. _csvsql: https://csvkit.readthedocs.io/en/latest/scripts/csvsql.html
 .. _date/time types in MySQL: https://dev.mysql.com/doc/refman/8.0/en/date-and-time-types.html
 .. _MySQL: https://www.mysql.com/
