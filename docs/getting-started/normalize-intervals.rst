@@ -774,7 +774,7 @@ This visualization resolves both original issues:
 .. _Internet of Things: https://en.wikipedia.org/wiki/Internet_of_things
 .. _interpolate: https://en.wikipedia.org/wiki/Interpolation
 .. _IPython: https://ipython.org/
-.. _Jupyter Notebook basics: https://nbviewer.jupyter.org/github/jupyter/notebook/blob/master/docs/source/examples/Notebook/Notebook%20Basics.ipynb
+.. _Jupyter Notebook basics: https://jupyter-notebook.readthedocs.io/en/stable/examples/Notebook/Notebook%20Basics.html
 .. _Jupyter Notebook: https://jupyter.org/
 .. _location: https://www.latlong.net/
 .. _Matplotlib documentation: https://matplotlib.org/stable/
