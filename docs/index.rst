@@ -24,7 +24,6 @@ massive amounts of machine data in real-time.
    :titlesonly:
 
    getting-started/index
-   deployment/index
    admin/index
    clustering/index
    performance/index
