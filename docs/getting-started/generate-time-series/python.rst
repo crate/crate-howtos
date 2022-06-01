@@ -244,6 +244,6 @@ will open up a map view showing the current position of the ISS:
 .. _open notify: http://open-notify.org/
 .. _pip: https://pypi.org/project/pip/
 .. _Python: https://www.python.org/
-.. _requests: https://docs.python-requests.org/en/master/
+.. _requests: https://requests.readthedocs.io/en/latest/
 .. _standard Python interpreter: https://docs.python.org/3/tutorial/interpreter.html
 .. _WKT: https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry
