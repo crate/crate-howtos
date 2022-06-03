@@ -108,7 +108,7 @@ Then, :ref:`crate-python:connect`:
 
 Get a :ref:`cursor <crate-python:cursor>`:
 
-    >>>  cursor = connection.cursor()
+    >>> cursor = connection.cursor()
 
 Finally, :ref:`create a table <crate-reference:ddl-create-table>` suitable for writing
 ISS position coordinates.
