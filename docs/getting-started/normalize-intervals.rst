@@ -694,7 +694,7 @@ that performs a left :ref:`crate-reference:inner-joins`, as per the previous
               DATE_TRUNC('minute', CURRENT_TIMESTAMP),
               '1 minute'::INTERVAL
             ) AS series(time)
-            LEFT JOIN doc.iss ON DATE_TRUNC('1 minute'::INTERVAL, iss.timestamp, 0) = time
+            LEFT JOIN doc.iss ON DATE_TRUNC('minute', iss.timestamp) = time
             GROUP BY time
             ORDER BY time ASC
         '''
