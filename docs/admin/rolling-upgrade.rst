@@ -16,13 +16,20 @@ Introduction
 CrateDB provides an easy way to perform a rolling cluster upgrade with zero
 downtime.
 
+A rolling upgrade is possible from one version to the next feature version.
+Some examples:
+
+- You can do a rolling upgrade from 4.5.x to 4.6.0
+- You can do a rolling upgrade from 4.8.x to 5.0.0
+  (because 4.8 is the last feature release within the 4. series).
+- You cannot do a rolling upgrade from x.y.z to x.(y + 3).z unless
+  the release notes explicitly mention support.
+
 .. WARNING::
 
     Rolling upgrades are only possible if you are using a stable version of
-    CrateDB and are upgrading to a new patch version (see `versions`_).
-
-    If you are upgrading to a testing version or are upgrading to a new major
-    version or a new minor version, you must perform a full cluster restart.
+    CrateDB. If you are upgrading to a testing version you must perform a full
+    cluster restart.
 
     Check the `release notes`_ for the version you are upgrading to for any
     specific instructions that may override this.

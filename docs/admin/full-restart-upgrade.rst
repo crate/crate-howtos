@@ -16,7 +16,8 @@ Introduction
 
 The preferred way to upgrade a running CrateDB cluster is via the
 :ref:`rolling_upgrade` method. But this is not always an option (for example,
-when you are upgrading from one feature version to the next).
+when you are upgrading from one feature version to the next and minor versions
+difference is greater than 1).
 
 When a :ref:`rolling_upgrade` is not possible, a full restart upgrade must be
 done if you want to update CrateDB.
