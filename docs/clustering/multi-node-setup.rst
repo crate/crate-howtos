@@ -97,9 +97,9 @@ instructions.
 
 2. You should configure the :ref:`metadata gateway <metadata-gateway>` so that
    CrateDB knows how to recover its state safely. Ideally, for a three-node
-   cluster, set `gateway.expected_nodes`_ to **3** and set
-   `gateway.recover_after_nodes`_ to **3**. You can specify these settings in
-   the `configuration`_ file of the unpacked directory.
+   cluster, set `gateway.expected_data_nodes`_ to **3** and set
+   `gateway.recover_after_data_nodes`_ to **3**. You can specify these settings
+   in the `configuration`_ file of the unpacked directory.
 
    .. NOTE::
 
@@ -329,15 +329,16 @@ Metadata gateway
 
 When running a multi-node cluster, you must configure the `metadata gateway`_
 so that CrateDB knows how to recover its state. For a three-node cluster, set
-`gateway.expected_nodes`_ to **3** and `gateway.recover_after_nodes`_ to **3**.
+`gateway.expected_data_nodes`_ to **3** and `gateway.recover_after_data_nodes`_
+to **3**.
 
 You can specify both settings in your `configuration`_ file:
 
 .. code-block:: yaml
 
     gateway:
-      recover_after_nodes: 3
-      expected_nodes: 3
+      recover_after_data_nodes: 3
+      expected_data_nodes: 3
 
 Alternatively, you can configure this setting at startup with command-line
 options:
@@ -345,8 +346,8 @@ options:
 .. code-block:: console
 
     sh$ bin/crate \
-        -Cgateway.expected_nodes=3 \
-        -Cgateway.recover_after_nodes=3
+        -Cgateway.expected_data_nodes=3 \
+        -Cgateway.recover_after_data_nodes=3
 
 .. SEEALSO::
 
@@ -481,8 +482,8 @@ Edit the `transport.tcp.port`_ setting in your `configuration`_ file:
 .. _DNS: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery-via-dns
 .. _elects the master node: https://crate.io/docs/crate/reference/en/latest/concepts/shared-nothing.html#master-node-election
 .. _full cluster restarts: https://crate.io/docs/crate/howtos/en/latest/admin/full-restart-upgrade.html
-.. _gateway.expected_nodes: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#gateway-expected-nodes
-.. _gateway.recover_after_nodes: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#gateway-recover-after-nodes
+.. _gateway.expected_data_nodes: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#gateway-expected-data-nodes
+.. _gateway.recover_after_data_nodes: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#gateway-recover-after-data-nodes
 .. _hostname: https://en.wikipedia.org/wiki/Hostname
 .. _latest: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery
 .. _Metadata configuration settings: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#metadata
