@@ -159,9 +159,9 @@ load averages.
 .. code-block:: psql
 
     cr> CREATE TABLE iss (
-            timestamp TIMESTAMP GENERATED ALWAYS AS CURRENT_TIMESTAMP,
-            position GEO_POINT
-        );
+    ...     timestamp TIMESTAMP GENERATED ALWAYS AS CURRENT_TIMESTAMP,
+    ...     position GEO_POINT
+    ... );
 
     CREATE OK, 1 row affected  (0.726 sec)
 
