@@ -245,6 +245,12 @@ The currently supported sources are:
 
 3. `Microsoft Azure`_
 
+   .. WARNING::
+
+     Microsoft Azure discovery was deprecated in CrateDB
+     :ref:`5.0.0 <crate-reference:version_5.0.0>` and removed in
+     :ref:`5.1.0 <crate-reference:version_5.1.0>`.
+
    To enable Microsoft Azure discovery, configure the ``discovery.seed_providers``
    setting in your `configuration`_ file:
 
@@ -488,7 +494,7 @@ Edit the `transport.tcp.port`_ setting in your `configuration`_ file:
 .. _latest: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery
 .. _Metadata configuration settings: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#metadata
 .. _metadata gateway: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#metadata-gateway
-.. _Microsoft Azure: https://crate.io/docs/crate/reference/en/latest/config/cluster.html#discovery-on-microsoft-azure
+.. _Microsoft Azure: https://crate.io/docs/crate/reference/en/5.0/config/cluster.html#discovery-on-microsoft-azure
 .. _More information about port settings: https://crate.io/docs/crate/reference/en/latest/config/node.html#ports
 .. _network.publish_host: https://crate.io/docs/crate/reference/en/latest/config/node.html#network-publish-host
 .. _node.master: https://crate.io/docs/crate/reference/en/latest/config/node.html#node-master
