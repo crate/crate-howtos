@@ -95,11 +95,12 @@ instructions.
 
        sh$ tar -xzf crate-*.tar.gz
 
-2. You should configure the :ref:`metadata gateway <metadata-gateway>` so that
-   CrateDB knows how to recover its state safely. Ideally, for a three-node
-   cluster, set `gateway.expected_data_nodes`_ to **3** and set
-   `gateway.recover_after_data_nodes`_ to **3**. You can specify these settings
-   in the `configuration`_ file of the unpacked directory.
+2. It is common to configure the :ref:`metadata gateway <metadata-gateway>` so 
+   that the cluster waits for all data nodes to be online before starting the
+   recovery of the shards. In this case let's set 
+   `gateway.expected_data_nodes`_ to **3** and 
+   `gateway.recover_after_data_nodes`_ also to **3**. You can specify these 
+   settings in the `configuration`_ file of the unpacked directory.
 
    .. NOTE::
 
@@ -162,9 +163,9 @@ To run a CrateDB cluster across multiple hosts, you must manually configure the
 bootstrapping process by telling nodes how to:
 
   a. :ref:`Discover other nodes <node-discovery>`
-  b. :ref:`Elect a master node <master-node-election>`
+  b. :ref:`Elect a master node <master-node-election>` the first time
 
-You must also configure the :ref:`metadata gateway <metadata-gateway>` (as with
+You can also configure the :ref:`metadata gateway <metadata-gateway>` (as with
 auto-bootstrapping).
 
 
@@ -314,29 +315,26 @@ ensures that the cluster does not elect multiple masters in the event of a
 network partition (also known as a `split-brain`_ scenario).
 
 CrateDB (versions 4.x and above) will automatically determine the ideal `quorum
-size`_. If you are using CrateDB versions 3.x and below, you must manually set
-the quorum size using the `discovery.zen.minimum_master_nodes`_ setting.
-
-.. NOTE::
-
-    For a three-node cluster, CrateDB will set the quorum size to three.
-    Consequentially, you must declare all nodes to be master-eligible. Consult
-    the `quorum guide`_ for detailed information about quorum size
-    considerations.
-
-If you configure fewer master-eligible nodes than the ideal quorum size,
-CrateDB will issue a warning (visible in the logs and the `admin UI`_).
-
+size`_, but if you are using CrateDB versions 3.x and below, you must manually set
+the quorum size using the `discovery.zen.minimum_master_nodes`_ setting and for 
+a three-node cluster, you must declare all nodes to be master-eligible. 
 
 .. _metadata-gateway:
 
 Metadata gateway
 ^^^^^^^^^^^^^^^^
 
-When running a multi-node cluster, you must configure the `metadata gateway`_
-so that CrateDB knows how to recover its state. For a three-node cluster, set
-`gateway.expected_data_nodes`_ to **3** and `gateway.recover_after_data_nodes`_
-to **3**.
+When running a multi-node cluster, you can configure the `metadata gateway`_
+settings so that CrateDB delays recovery until a certain number of nodes is
+available.
+This is useful because if recovery is started when some nodes are down 
+CrateDB will proceed on the basis the nodes that are down may not be coming 
+back, and it will create new replicas and rebalance shards as necessary. 
+This is an expensive operation that, depending on the context, may be better 
+avoided if the nodes are only down for a short period of time.
+So, for instance, for a three-nodes cluster, you can decide to set
+`gateway.expected_data_nodes`_ to **3**, and 
+`gateway.recover_after_data_nodes`_ also to **3**.
 
 You can specify both settings in your `configuration`_ file:
 
@@ -346,7 +344,7 @@ You can specify both settings in your `configuration`_ file:
       recover_after_data_nodes: 3
       expected_data_nodes: 3
 
-Alternatively, you can configure this setting at startup with command-line
+Alternatively, you can configure these settings at startup with command-line
 options:
 
 .. code-block:: console
@@ -450,7 +448,7 @@ Edit the `transport.tcp.port`_ setting in your `configuration`_ file:
 
 .. TIP::
 
-    If you are running a node on Docker, you must configure CrateDB to publish the
+    If you are running a node on Docker, you can configure CrateDB to publish the
     container's external hostname and the external port number bound to the
     transport port. You can do that in your `configuration`_ file using the
     `network.publish_host`_ and `transport.publish_port`_ settings.
