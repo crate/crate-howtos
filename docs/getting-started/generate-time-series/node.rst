@@ -340,9 +340,9 @@ will open up a map view showing the current position of the ISS:
 
 .. _await: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await
 .. _axios: https://www.npmjs.com/package/axios
-.. _Client: https://node-postgres.com/api/client
+.. _Client: https://node-postgres.com/apis/client
 .. _connect: https://node-postgres.com/features/connecting
-.. _Connection Pool: https://node-postgres.com/api/pool
+.. _Connection Pool: https://node-postgres.com/apis/pool
 .. _detailed guide: https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Promises
 .. _ground point: https://en.wikipedia.org/wiki/Ground_track
 .. _input values: https://node-postgres.com/features/queries#Parameterized%20query
