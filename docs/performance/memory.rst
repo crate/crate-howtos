@@ -4,6 +4,10 @@
 Memory configuration
 ====================
 
+
+Introduction
+============
+
 CrateDB is a Java application running on top of a Java Virtual Machine (JVM).
 
 For optimal performance you must configure the amount of memory that is
@@ -15,6 +19,18 @@ The amount of memory that CrateDB can use for heap allocations is set using the
 `CRATE_HEAP_SIZE`_ environment variable.
 
 The right memory configuration depends on your workloads.
+
+
+Recommendation
+==============
+
+A good starting point for the heap space is 25% of the systems memory. However,
+it shouldn't be set below 1GB and not above 30.5GB, see the limits section
+below.
+
+
+Considerations
+==============
 
 Consider the following when determining the right value:
 
@@ -35,9 +51,6 @@ Consider the following when determining the right value:
 - CrateDB also uses `Memory mapped files`_ via `Lucene`_. This reduces the
   amount of heap space required and benefits from the file system cache.
 
-A good starting point for the heap space is 25% of the systems memory. However,
-it shouldn't be set below 1GB and not above 30.5GB, see the limits section
-below.
 
 .. rubric:: Table of contents
 
