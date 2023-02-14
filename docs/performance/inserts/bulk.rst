@@ -408,8 +408,8 @@ For exmaple::
 .. _ALTER TABLE ONLY: https://crate.io/docs/crate/reference/en/latest/sql/partitioned_tables.html#alter-table-only
 .. _alter the number of shards: https://crate.io/docs/crate/reference/en/latest/general/ddl/partitioned-tables.html#changing-the-number-of-shards
 .. _availability: https://en.wikipedia.org/wiki/High_availability
-.. _bulk_size: https://crate.io/docs/crate/reference/en/master/sql/statements/copy-from.html#bulk-size
-.. _cast: https://crate.io/docs/crate/reference/en/4.4/general/ddl/data-types.html#cast
+.. _bulk_size: https://crate.io/docs/crate/reference/en/latest/sql/statements/copy-from.html#bulk-size
+.. _cast: https://crate.io/docs/crate/reference/en/latest/general/ddl/data-types.html#cast
 .. _CLUSTERED clause: https://crate.io/docs/crate/reference/en/latest/sql/statements/create-table.html#clustered
 .. _COPY FROM: https://crate.io/docs/crate/reference/en/latest/sql/reference/copy_from.html
 .. _CrateDB Reference\: Alter a partitioned table: https://crate.io/docs/crate/reference/en/latest/sql/partitioned_tables.html#alter
@@ -417,15 +417,15 @@ For exmaple::
 .. _CrateDB Reference\: PARTITIONED BY: https://crate.io/docs/crate/reference/en/latest/sql/statements/create-table.html#partitioned-by
 .. _CrateDB Reference\: Partitioned tables: https://crate.io/docs/crate/reference/en/latest/sql/partitioned_tables.html
 .. _distributed database: https://crate.io/docs/crate/reference/en/latest/concepts/clustering.html
-.. _drop: https://crate.io/docs/crate/reference/en/4.4/sql/statements/drop-table.html
+.. _drop: https://crate.io/docs/crate/reference/en/latest/sql/statements/drop-table.html
 .. _gzip: https://www.gnu.org/software/gzip/
 .. _IOPS: https://en.wikipedia.org/wiki/IOPS
 .. _JSON lines: https://jsonlines.org/
-.. _native support for JSON data: https://crate.io/docs/crate/reference/en/master/general/ddl/data-types.html#json
-.. _partitions: https://crate.io/docs/crate/reference/en/master/general/ddl/partitioned-tables.html
-.. _primary key: https://crate.io/docs/crate/reference/en/master/general/ddl/constraints.html#primary-key
+.. _native support for JSON data: https://crate.io/docs/crate/reference/en/latest/general/ddl/data-types.html#json
+.. _partitions: https://crate.io/docs/crate/reference/en/latest/general/ddl/partitioned-tables.html
+.. _primary key: https://crate.io/docs/crate/reference/en/latest/general/ddl/constraints.html#primary-key
 .. _refresh_interval: https://crate.io/docs/crate/reference/en/latest/sql/reference/create_table.html#refresh-interval
 .. _refresh: https://crate.io/docs/crate/reference/en/latest/sql/refresh.html
-.. _replicas: https://crate.io/docs/crate/reference/en/master/general/ddl/replication.html
-.. _shards: https://crate.io/docs/crate/reference/en/master/general/ddl/sharding.html
+.. _replicas: https://crate.io/docs/crate/reference/en/latest/general/ddl/replication.html
+.. _shards: https://crate.io/docs/crate/reference/en/latest/general/ddl/sharding.html
 .. _Windows documentation: https://docs.microsoft.com/en-us/dotnet/standard/io/file-path-formats

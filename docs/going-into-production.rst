@@ -443,7 +443,7 @@ network traffic between nodes and clients. Check out the reference manual on
 .. _CRATE_HEAP_SIZE: https://crate.io/docs/crate/reference/en/latest/config/environment.html#crate-heap-size
 .. _CRATE_HOME: https://crate.io/docs/crate/reference/en/latest/config/environment.html#conf-env-crate-home
 .. _CRATE_JAVA_OPTS: https://crate.io/docs/crate/reference/en/latest/config/environment.html#conf-env-java-opts
-.. _data paths: https://crate.io/docs/crate/reference/en/4.4/config/node.html#paths
+.. _data paths: https://crate.io/docs/crate/reference/en/latest/config/node.html#paths
 .. _discovery: https://crate.io/docs/crate/reference/en/latest/concepts/shared-nothing.html#discovery
 .. _elect a master node: https://crate.io/docs/crate/reference/en/latest/concepts/shared-nothing.html#master-node-election
 .. _Filesystem Hierarchy Standard: https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard
