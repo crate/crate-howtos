@@ -10,7 +10,7 @@ practices.
 .. toctree::
    :maxdepth: 1
    
-   upgrade-general-guidelines
+   general-upgrade-guidelines
    rolling-upgrade
    full-restart-upgrade
    bootstrap-checks
