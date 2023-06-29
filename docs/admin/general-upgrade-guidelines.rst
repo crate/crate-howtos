@@ -2,24 +2,30 @@
 
 .. _general_upgrade_guidelines:
 
+
 ==========================
 General upgrade guidelines
 ==========================
 
-Before kicking off an upgrade, there is a set of best practices to ensure the best outcome. Below you may find the five fundamental steps to prepare for an upgrade.
+.. rubric:: Table of contents
+
+.. contents::
+   :local:
+
+
+Upgrade planning
+================
+Before kicking off an upgrade, there is a set of guidelines to ensure the best outcome. Below you may find the fundamental steps to prepare for an upgrade.
 
 .. NOTE::
 
    This is not an exhaustive list, so you should consider your organization's specific needs and incorporate any additional steps or considerations that are relevant to your environment.
 
-Upgrade planning
-================
-
 Acknowledge breaking changes
 -----------------------------
 
 Review the `release notes`_ and documentation for the target version to understand any potential impact on existing functionality. 
-In case of a minor version upgrade, you should consider the intermediate versions. For example, when upgrading from 5.1 to 5.3, besides reviewing 5.3 release notes, the recommendation is to check for version 5.2 as well.
+Ensure to review the intermediate versions' documentation also. For example, when upgrading from 4.8 to 5.3, besides reviewing 5.3 release notes, check for version 5.0, 5.1, and so on.
 
 Set up a test environment
 -------------------------
@@ -30,7 +36,7 @@ Create a test environment that closely resembles your production environment, in
 Back up and plan recovery
 -------------------------
 
-Perform a cluster-wide backup of your production CrateDB and ensure you have a reliable recovery mechanism in place. Read more in the `snapshots`_ documentation. Once the backup is complete, validate it to ensure its usability.
+Perform a cluster-wide backup of your production CrateDB and ensure you have a reliable recovery mechanism in place. Read more in the `snapshots`_ documentation.
 
 For the newly written records, you should consider using a mechanism to queue them (e.g. message queue), so these messages can be replayed if needed.
 
@@ -49,9 +55,9 @@ The rollback plan may vary depending on the specific infrastructure and upgrade 
 
 * **Assess impact** Identify if there are any potential risks to the system's stability, security, or performance.
 
-* **Restore from backup** Restore the recently created backup and replay the latest messages from the message queue to reestablish the CrateDB cluster data.
+* **Execute the rollback**  The rollback process may differ depending on the version jump. If upgrading from one patch release to another and there is no data corruption, only a performance issue, a simple in-place downgrade to the previous patch release is sufficient. For major/minor version jumps or in case of data corruption, restoring from a backup is required.
 
-* **Perform data validation** Once the backup has been restored, conduct a thorough data validation process to ensure the integrity of the CrateDB Cluster. Verify that all critical data is intact and accurate.
+* **Perform data validation** Conduct a thorough data validation process to ensure the integrity of the CrateDB Cluster. Verify that all critical data is intact and accurate. If needed, replay the messages from the message queue.
 
 * **Evaluate the failed upgrade attempt** Assess what went wrong during the upgrade process. Identify any misconfigurations, errors in scripts, or other factors that contributed to the failure. This analysis will help prevent similar issues in future upgrade attempts.
 
