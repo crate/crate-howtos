@@ -1,8 +1,8 @@
-.. _configuring-sharding-partitioning:
+.. _sharding-partitioning:
 
-=====================================
-Configuring sharding and partitioning
-=====================================
+===============================
+About Sharding and Partitioning
+===============================
 
 .. rubric:: Table of contents
 
@@ -12,8 +12,10 @@ Configuring sharding and partitioning
 
 Introduction
 ============
-Sharding and partitioning are techniques used to distribute data evenly across multiple nodes in a cluster, ensuring data scalability, availability, and performance. 
-This page provides an in-depth guide on how to configure sharding and partitioning in CrateDB, presenting best practices and examples.
+Sharding and partitioning are techniques used to distribute data evenly across
+multiple nodes in a cluster, ensuring data scalability, availability, and performance.
+This page provides an in-depth guide on how to configure sharding and partitioning in
+CrateDB, presenting best practices and examples.
 
 Sharding
 ========
@@ -75,8 +77,8 @@ Partitioning
 
 CrateDB also supports splitting up data across another dimension with 
 :ref:`partitioning <crate-reference:partitioned-tables>`. You can think of a
-partition as a set of shards. For each partition the number of shards defined 
-by ``CLUSTERED INTO x SHARDS`` are created, when a first row with a specific 
+partition as a set of shards. For each partition, the number of shards defined 
+by ``CLUSTERED INTO x SHARDS`` are created, when a first record with a specific 
 ``partition key`` is inserted.
 
 In the following example - which represents a very simple time-series use-case 
@@ -92,7 +94,7 @@ as the ``partition key``.
         part GENERATED ALWAYS AS date_trunc('month',ts)
     ) PARTITIONED BY(part);
 
-When inserting a first row with the following statement:
+When inserting a record with the following statement:
 
 .. code-block:: psql
 
@@ -107,7 +109,7 @@ and then querying for the total amount of shards for the table:
 
 We can see that the table is split into 4 shards.
 
-Adding another row to the table with a different partition key (i.e. different 
+Adding another record to the table with a different partition key (i.e. different 
 month):
 
 .. code-block:: psql
@@ -129,24 +131,30 @@ benchmarks across various strategies. The following steps provide a general guid
 - Identify the record size
 - Calculate the Throughput
 
-Then, to calculate the number of shards, you should consider that each shard size should be between 5 - 100 GB and each node can only hold up to 1000 shards.
+Then, to calculate the number of shards, you should consider that the size of each
+shard should roughly be between 5 - 100 GB, and that each node can only manage
+up to 1000 shards.
 
 Time-series example
 -------------------
 
-To illustrate the steps above, use it in an example. For instance, imagine you want to create a *partitioned table* on a *three-node cluster* 
-to store time-series data with the following assumptions:
+To illustrate the steps above, let's use them on behalf of an example. Imagine
+you want to create a *partitioned table* on a *three-node cluster* to store
+time-series data with the following assumptions:
 
 - Inserts: 1.000 records / s
 - Record size: 128 byte / record
 - Throughput: 125 KB / s or 10.3 GB / day
 
-Given the daily throughput is around 10 GB/day, the monthly throughput is 30 times that (~ 300 GB). The partition column can be day, week, month, quarter, etc. So, assuming a 
-monthly partition, the next step is to calculate the number of shards with the **shard size restriction** 
-(5 - 100 GB) and the **number of nodes** in the cluster in mind.
+Given the daily throughput is around 10 GB/day, the monthly throughput is 30 times
+that (~ 300 GB). The partition column can be day, week, month, quarter, etc. So,
+assuming a monthly partition, the next step is to calculate the number of shards
+with the **shard size restriction** (5 - 100 GB) and the **number of nodes** in
+the cluster in mind.
 
 With three shards, each shard will hold 100 GB (300 GB / 3), which is too
-close to the upper limit. With six shards, each shard will have 50 GB (300 GB / 6) which is closer to the middle of the recommended size range (5 - 100 GB).
+close to the upper limit. With six shards, each shard will manage 50 GB
+(300 GB / 6) of data, which is closer to the recommended size range (5 - 100 GB).
 
 .. code-block:: psql
 
@@ -157,10 +165,13 @@ close to the upper limit. With six shards, each shard will have 50 GB (300 GB / 
     ) CLUSTERED INTO 6 SHARDS 
     PARTITIONED BY(part);
 
-Assuming a weekly partition for the same example (7 × 10 GB / day = 70 GB / week), three shards per partition would work well resulting on ~24 GB per shard.
+Assuming a weekly partition for the same example (7 × 10 GB / day = 70 GB / week),
+three shards per partition would work well resulting in ~24 GB per shard.
 
-Above, we demonstrated how both monthly partitioning with 6 shards and weekly partitioning with 3 shards work for the use case.
-However, you should always consider the query patterns as well when choosing the partition interval.
+Above, we demonstrated how both monthly partitioning with 6 shards, and weekly
+partitioning with 3 shards work for the use case. In general, you should also
+consider to evaluate the query patterns of your use case, in order to find a
+good partitioning interval matching the characteristics of your data.
 
 
 
