@@ -13,4 +13,4 @@ A collection of CrateDB best practices and tips for common scenarios.
    migrating-from-mongodb
    systables
    crate-node
-   configuring-sharding-partitioning
+   sharding-partitioning
