@@ -55,23 +55,6 @@ By default, ingested data is distributed evenly across all available shards.
 Although you can influence that distribution by specifying a routing column, in 
 many cases it is best to keep the default settings to avoid any unbalanced distribution.
 
-.. danger::
-
-    **Over-sharding and over-partitioning**
-
-    Sharding can drastically improve the performance on large datasets. 
-    However, having too many small shards will most likely degrade performance. 
-    Over-sharding and over-partitioning are common flaws leading to an overall 
-    poor performance.
-
-    **As a rule of thumb, a single shard should hold somewhere between 5 - 100 
-    GB of data.**
-
-    To avoid oversharding, CrateDB by default limits the number of shards per 
-    node to 1000. Any operation that would exceed that limit, leads to an 
-    exception.
-
-
 Partitioning
 ============
 
@@ -119,7 +102,21 @@ month):
 We can see that there are now 8 shards for the table ``second_table`` in the 
 cluster.
 
+.. danger::
 
+    **Over-sharding and over-partitioning**
+
+    Sharding can drastically improve the performance on large datasets. 
+    However, having too many small shards will most likely degrade performance. 
+    Over-sharding and over-partitioning are common flaws leading to an overall 
+    poor performance.
+
+    **As a rule of thumb, a single shard should hold somewhere between 5 - 100 
+    GB of data.**
+
+    To avoid oversharding, CrateDB by default limits the number of shards per 
+    node to 1000. Any operation that would exceed that limit, leads to an 
+    exception.
 
 How to choose your sharding and partitioning strategy
 =====================================================
