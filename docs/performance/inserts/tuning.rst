@@ -100,6 +100,20 @@ gets flushed after every operation. Setting this to ``ASYNC`` will improve
 insert performance, but it also worsens durability. If a node crashes before a
 translog has been synced, those opperations will be lost.
 
+Overload Protection
+-------------------
+
+The `Overload Protection`_ settings control how many resources operations like 
+``INSERT INTO FROM QUERY`` or ``COPY`` can use.
+
+The default values serve as a starting point for an algorithm that dynamically 
+adapts the effective concurrency limit based on the round-trip time of requests. 
+Whenever one of these settings is updated, the previously calculated effective 
+concurrency is reset.
+
+Please update the settings accordingly, especially if you are benchmarking insert
+performance.
+
 Refresh interval
 ----------------
 
@@ -112,6 +126,20 @@ are refreshed. The default value is every 1000 milliseconds.
 If you know that your client application can tollerate a higher refresh
 interval, you can expect to see performance improvements if you increase this
 value.
+
+Calculating statistics
+----------------------
+
+After loading larger amounts of data into new or existing tables, it is recommended
+to re-calculate the statistics by executing the ``ANALYZE`` command. 
+The statistics will be used by the query optimizer to generate better execution plans. 
+
+The calculation of statistics happens periodically. The bandwidth used for collecting statistics
+is limited by applying throttling based on the maximum amount of bytes per second that can
+be read from data nodes.
+
+Please refer to the `ANALYZE`_ documentation for further information how to change the
+calculation interval, and how to configure throttling settings.
 
 Manual optimizing
 -----------------
@@ -132,9 +160,11 @@ even specific partitions) on your own schedule. If so, you can use the
 .. _fulltext indexes: https://crate.io/docs/crate/reference/en/latest/sql/fulltext.html
 .. _natural primary key: https://en.wikipedia.org/wiki/Natural_key
 .. _OPTIMIZE: https://crate.io/docs/crate/reference/en/latest/sql/reference/optimize.html
+.. _ANALYZE: https://cratedb.com/docs/crate/reference/en/latest/sql/statements/analyze.html
 .. _refresh_interval: https://crate.io/docs/crate/reference/en/latest/sql/reference/create_table.html#refresh-interval
 .. _Solid-State Drives: https://en.wikipedia.org/wiki/Solid-state_drive
 .. _surrogate primary key: https://en.wikipedia.org/wiki/Surrogate_key
 .. _system column: https://crate.io/docs/crate/reference/en/latest/sql/administration/system_columns.html
 .. _translog.durability: https://crate.io/docs/crate/reference/en/latest/sql/reference/create_table.html#translog-durability
 .. _turning column indexes off: https://crate.io/docs/crate/reference/en/latest/sql/ddl/indices_full_search.html#disable-indexing
+.. _Overload Protection: https://cratedb.com/docs/crate/reference/en/latest/config/cluster.html#overload-protection

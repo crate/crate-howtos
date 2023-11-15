@@ -290,6 +290,10 @@ To test :ref:`bulk operations <inserts_bulk_operations>`, you should:
 
 Try out different setups and re-run the test.
 
+Please note that ``INSERT INTO`` using a ``query`` and the ``COPY FROM`` statement 
+are using overload protection to ensure performance of other queries in parallel.
+Refer to the `Overload Protection`_ documentation on how to modify these parameters.
+
 At the end of this process, you will have a better understanding of the
 throughput of your cluster with different setups and under different loads.
 
@@ -307,3 +311,4 @@ throughput of your cluster with different setups and under different loads.
 .. _translog.durability: https://crate.io/docs/crate/reference/en/latest/sql/reference/create_table.html#translog-durability
 .. _UNNEST reference documentation: https://crate.io/docs/crate/reference/en/latest/sql/statements/insert.html?highlight=unnest#description
 .. _UNNEST: https://crate.io/docs/crate/reference/en/latest/sql/table_functions.html#unnest-array-array
+.. _Overload Protection: https://cratedb.com/docs/crate/reference/en/latest/config/cluster.html#overload-protection
