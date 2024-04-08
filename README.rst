@@ -1,3 +1,5 @@
+Contents of this repo are outdated and for archival purposes only. Updated version now lives in the cratedb-guide repository: https://github.com/crate/cratedb-guide
+
 =====================
 CrateDB How-To Guides
 =====================
